@@ -1,8 +1,9 @@
 import { readFile } from 'node:fs/promises'
+import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { parseInpresEarthquakes, parseInpresLocalDate } from './inpres.mjs'
 
-const fixture = await readFile(new URL('../fixtures/inpres-recent.html', import.meta.url), 'utf8')
+const fixture = await readFile(resolve(process.cwd(), 'scripts/fixtures/inpres-recent.html'), 'utf8')
 
 describe('parseInpresLocalDate', () => {
   it('normalizes the current INPRES date format with explicit UTC-3 offset', () => {
