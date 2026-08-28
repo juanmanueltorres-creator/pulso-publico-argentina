@@ -4,12 +4,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '37 3 * * *'
-  # One-time branch bootstrap. Removed after the first verified live refresh.
-  push:
-    branches:
-      - feat/v1-foundation
-    paths:
-      - .github/workflows/refresh-inpi.yml
 
 permissions:
   contents: write
