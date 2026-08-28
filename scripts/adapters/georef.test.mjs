@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { parseGeorefSeries } from './georef.mjs'
 
 describe('parseGeorefSeries', () => {
-  it('maps the latest apis_georef_005 datapoint to an available signal', () => {
+  it('maps a recent apis_georef_005 datapoint to an available signal', () => {
     const payload = {
       data: [['2026-08-24', 123456789]],
     }
@@ -29,6 +29,21 @@ describe('parseGeorefSeries', () => {
       method: {
         type: 'api',
       },
+    })
+  })
+
+  it('keeps an old official value but marks it historical and stale', () => {
+    const signal = parseGeorefSeries(
+      { data: [['2024-08-27', 264037620]] },
+      '2026-08-28T02:18:01.154Z',
+    )
+
+    expect(signal).toMatchObject({
+      value: 264037620,
+      periodLabel: 'Acumulado al 2024-08-27',
+      status: 'historical',
+      availability: 'stale',
+      observedAt: '2024-08-27T00:00:00.000Z',
     })
   })
 
