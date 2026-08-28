@@ -1,10 +1,60 @@
-# Pulso Público Argentina
+# 🇦🇷 Pulso Público Argentina
 
-Indicadores públicos de Argentina con fuentes, trazabilidad y metodología abierta. Datos simples, verificables y reutilizables.
+**Datos públicos para entender mejor qué está pasando en Argentina.**
 
-## V1
+Hay muchísima información pública disponible, pero muchas veces está repartida entre APIs, planillas, dashboards y sitios difíciles de leer.
 
-La primera versión usa una arquitectura estática y desacoplada:
+Pulso Público toma algunos de esos datos, conserva su fuente y su fecha, y los presenta de una forma que permita entender no sólo **cuánto**, sino también **qué significa y por qué importa**.
+
+👉 **[Ver Pulso Público Argentina](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/)**
+
+## ¿Para qué sirve?
+
+La idea es simple: que una persona no tenga que ser especialista para entender un dato público.
+
+Un estudiante puede ver cuánta energía renovable se generó y hacerse una idea de su escala. Un docente puede usar un dato científico en clase. Un periodista puede revisar la fuente original. Un desarrollador puede reutilizar el snapshot público. Y cualquier persona puede abrir **¿Cómo lo sabemos?** para ver de dónde salió cada número, cuándo fue observado y qué limitaciones tiene.
+
+Pulso Público no intenta convertir cualquier número en una buena noticia. Si un dato no alcanza para decir que algo mejoró, no lo dice. El objetivo es mostrar señales valiosas de forma clara, sin perder el contexto que permite interpretarlas.
+
+## ¿Qué muestra hoy?
+
+La V1 reúne cuatro señales distintas:
+
+- ⚡ **Energía renovable** — cuánto generaron las fuentes renovables según CAMMESA y cómo imaginar esa cantidad en una escala cotidiana.
+- 🔬 **Ciencia** — trabajos indexados por OpenAlex vinculados con instituciones argentinas, como una ventana a la capacidad científica del país.
+- 💡 **Actividad inventiva** — solicitudes de patentes de invención ingresadas al INPI durante el último mes completo disponible.
+- 🗺️ **Infraestructura digital pública** — uso acumulado de GeoRef / Datos Argentina, mostrando también cuando el último dato oficial disponible es antiguo.
+
+Cada tarjeta intenta responder tres preguntas:
+
+**¿Qué pasó? → ¿Qué significa? → ¿Cómo lo sabemos?**
+
+## Fuentes y trazabilidad
+
+Los datos vienen de fuentes públicas y abiertas. En esta primera versión usamos:
+
+- **CAMMESA** para energía renovable;
+- **OpenAlex** para producción científica vinculada con instituciones argentinas;
+- **INPI** para solicitudes de patentes de invención;
+- **Datos Argentina / GeoRef** para uso de la infraestructura geográfica pública.
+
+Cada señal conserva su valor, unidad, período, fuente, método, fechas relevantes y limitaciones.
+
+Una descarga hecha hoy no convierte automáticamente en actual un dato observado hace años. Un `0` en un mes todavía abierto no se trata como si significara que no pasó nada. Y un dato mensual no se presenta como si estuviera cambiando en tiempo real.
+
+Ese criterio es parte del producto: **el número importa, pero también importa saber qué representa y hasta dónde se puede confiar en él.**
+
+## Datos reutilizables
+
+La interfaz consume un snapshot JSON público y versionado:
+
+👉 **[Ver `signals.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/signals.json)**
+
+Esto permite que la misma información pueda reutilizarse más adelante en otras visualizaciones, proyectos educativos o plataformas sin depender de esta interfaz.
+
+## Cómo funciona
+
+Pulso Público es deliberadamente simple. No necesita un backend propio para mostrar la V1:
 
 ```text
 fuente pública
@@ -12,36 +62,12 @@ fuente pública
 → SignalEnvelope
 → public/data/signals.json
 → React / Vite
+→ GitHub Pages
 ```
 
-No hay backend propio, base de datos ni credenciales expuestas en el navegador.
+Los adapters consultan o descargan cada fuente, normalizan los datos y generan el mismo contrato de salida. GitHub Actions refresca las fuentes automáticamente y vuelve a publicar la web cuando cambia el snapshot.
 
-## Señales
-
-- **GeoRef / Datos Argentina** — integrada end-to-end mediante la API oficial de Series de Tiempo (`apis_georef_005`). El último valor publicado recuperado actualmente es histórico, por lo que se conserva pero se muestra como `historical` + `stale`.
-- **OpenAlex** — integrada end-to-end con el conteo `meta.count` de works del año actual que tienen al menos una afiliación institucional argentina. Se muestra como índice bibliográfico, nunca como censo total de la ciencia argentina.
-- **INPI** — integrada end-to-end mediante el endpoint JSON que usa el dashboard oficial de ingresos de patentes. La señal publica el último mes calendario completo y excluye automáticamente el mes en curso.
-- **CAMMESA** — integrada end-to-end mediante la base mensual oficial de Energía Renovables. El pipeline descarga el ZIP oficial, lee el XLSX con librerías estándar de Python y toma el `Total GWh` ya agregado por CAMMESA desde `Tabla Resumen Global`. Se muestra como `updated`, nunca como `live`.
-
-## Trazabilidad
-
-Cada señal conserva:
-
-- valor y unidad;
-- período explícito;
-- `observedAt`, `publishedAt` y `fetchedAt` cuando corresponda;
-- fuente;
-- método;
-- limitaciones;
-- estado y disponibilidad.
-
-Un fetch exitoso no vuelve actual a una observación vieja. Para la señal semanal de GeoRef, una observación con más de 14 días se clasifica como `historical` + `stale`.
-
-OpenAlex es distinto: el conteo se calcula al momento de consultar su índice, por lo que `observedAt` coincide con `fetchedAt`; aun así se rotula `updated`, no `live`, porque la indexación puede tener rezago y correcciones retroactivas.
-
-INPI publica datos mensuales y puede incluir el mes en curso con valores todavía parciales. Pulso Público sólo toma el último mes calendario completo: un `0` del mes abierto no se interpreta como ausencia de solicitudes.
-
-CAMMESA también es mensual. Pulso Público no recompone la generación sumando centrales o máquinas: conserva el total agregado que publica la propia fuente. El pipeline usa un enlace oficial estable de descarga, reintentos de red y falla de forma explícita si el archivo deja de contener el workbook, la hoja o la fila esperada.
+Los errores de una fuente no se reemplazan por números inventados. Si algo no se pudo obtener o quedó viejo, el estado se muestra como tal.
 
 ## Desarrollo
 
@@ -52,7 +78,7 @@ npm run test:run
 npm run build
 ```
 
-Refresh manual de las fuentes con CLI propio:
+Refresh manual de las fuentes disponibles por CLI:
 
 ```bash
 npm run refresh:georef
@@ -60,28 +86,12 @@ npm run refresh:openalex
 npm run refresh:inpi
 ```
 
-CAMMESA requiere además descargar y extraer el workbook oficial, por lo que su camino operativo principal es el workflow `Refresh CAMMESA` de GitHub Actions.
+CAMMESA utiliza la base mensual oficial en XLSX y su camino operativo principal es el workflow `Refresh CAMMESA` de GitHub Actions.
 
-GitHub Actions ejecuta tests/build. GeoRef y OpenAlex refrescan cada 12 horas; INPI y CAMMESA refrescan una vez por día porque sus fuentes son mensuales. Todos los workflows de datos comparten el concurrency group `refresh-signals` para no escribir `signals.json` en paralelo.
+GeoRef y OpenAlex se consultan cada 12 horas. INPI y CAMMESA se revisan una vez por día porque sus fuentes publican datos con una frecuencia mucho menor. Los refreshes comparten un mismo lock para evitar que dos procesos intenten escribir `signals.json` al mismo tiempo.
 
-## Estado verificado
+## Principio del proyecto
 
-### GeoRef
+**Un dato público sirve más cuando una persona puede entenderlo, revisarlo y volver a usarlo.**
 
-El refresh real recuperó **264.037.620 consultas acumuladas** con `observedAt = 2024-08-27`. La fuente respondió correctamente en 2026, pero Pulso Público no confunde fecha de consulta con fecha de observación: esa señal se publica como histórica y stale.
-
-### OpenAlex
-
-El primer refresh real recuperó **27.994 works** para `publication_year:2026` con `institutions.country_code:AR`. La semántica pública es: **works indexados por OpenAlex con al menos una afiliación institucional argentina · 2026**.
-
-### INPI
-
-El endpoint estructurado usado por el dashboard oficial devolvió registros mensuales con los campos `Mes`, `Modelo de Utilidad` y `Patente de Invencion`. El primer refresh real publicó **323 solicitudes de patentes de invención ingresadas · Julio 2026**, el último mes calendario completo disponible. Agosto 2026 aparecía con valor `0`, pero fue excluido por ser un período todavía abierto.
-
-### CAMMESA
-
-La investigación de fuente descartó para V1 el feed embebido de `Renovables Hoy` porque no resultó suficientemente confiable desde runners automatizados. Se eligió la base mensual oficial como camino robusto.
-
-El primer refresh end-to-end descargó **`Energía Renovables - Base de Datos 2026-07`** y publicó **1.791,245147 GWh de energía renovable generada · Julio 2026**. El valor proviene de `Tabla Resumen Global → Total GWh`; Pulso Público no lo recalcula. La señal queda `updated` + `available` y declara explícitamente que no representa generación en tiempo real.
-
-Con estas cuatro fuentes, el snapshot V1 ya demuestra cuatro situaciones distintas de evidencia pública: API oficial con dato histórico, índice abierto actualizado, endpoint estructurado de dashboard oficial y archivo XLSX oficial mensual.
+Pulso Público Argentina busca construir justamente esa pequeña capa entre la fuente original y la persona que quiere saber qué está pasando.
