@@ -1,10 +1,6 @@
 const PAGE_URL = 'https://datos.inpi.gob.ar/Home/Ingresos_Patentes'
 const SCRIPT_URL = 'https://datos.inpi.gob.ar/Scripts/Home/Estadisticas/Ingresos_Patentes.js'
 
-function uniq(values) {
-  return [...new Set(values)]
-}
-
 async function fetchText(url, accept) {
   const response = await fetch(url, {
     headers: {
@@ -20,39 +16,13 @@ async function fetchText(url, accept) {
 }
 
 async function main() {
-  const html = await fetchText(PAGE_URL, 'text/html,application/xhtml+xml')
-  console.log(`html-bytes=${Buffer.byteLength(html, 'utf8')}`)
-
-  const scripts = uniq(
-    [...html.matchAll(/<script[^>]+src=["']([^"']+)["']/gi)].map((match) => match[1]),
-  )
-  console.log('--- script srcs ---')
-  for (const src of scripts) console.log(src)
-
+  await fetchText(PAGE_URL, 'text/html,application/xhtml+xml')
   const js = await fetchText(SCRIPT_URL, 'text/javascript,application/javascript,*/*')
-  console.log(`js-bytes=${Buffer.byteLength(js, 'utf8')}`)
+  const lines = js.split(/\r?\n/)
 
-  console.log('--- JS lines mentioning csv/export/download/ajax/url ---')
-  for (const [index, line] of js.split(/\r?\n/).entries()) {
-    if (/csv|export|download|ajax|url\s*:|\.get\(|\.post\(|fetch\(/i.test(line)) {
-      console.log(`${index + 1}: ${line.replace(/\s+/g, ' ').trim().slice(0, 900)}`)
-    }
-  }
-
-  console.log('--- URL-like quoted values ---')
-  const candidates = uniq(
-    [...js.matchAll(/["'`]([^"'`\n]{1,300})["'`]/g)]
-      .map((match) => match[1])
-      .filter((value) => /^\/?[A-Za-z0-9_.~!$&'()*+,;=:@%/?-]+$/.test(value))
-      .filter((value) => /home|patent|ingreso|csv|export|data|estad/i.test(value)),
-  )
-  for (const candidate of candidates.slice(0, 160)) console.log(candidate)
-
-  console.log('--- button handlers ---')
-  for (const [index, line] of js.split(/\r?\n/).entries()) {
-    if (/#ano|#mes|id.?ano|id.?mes|\.on\(.?click|\.click\(/i.test(line)) {
-      console.log(`${index + 1}: ${line.replace(/\s+/g, ' ').trim().slice(0, 900)}`)
-    }
+  console.log('--- first 125 lines of official dashboard JS ---')
+  for (let index = 0; index < Math.min(lines.length, 125); index += 1) {
+    console.log(`${index + 1}: ${lines[index].replace(/\s+/g, ' ').trim().slice(0, 1200)}`)
   }
 }
 
