@@ -46,6 +46,21 @@ describe('loadSignals', () => {
     expect(result.signals[0].id).toBe('georef-usage')
   })
 
+  it('loads the snapshot below the Vite base path', async () => {
+    let requestedUrl = ''
+    const fetcher = async (input: RequestInfo | URL) => {
+      requestedUrl = String(input)
+      return new Response(JSON.stringify(validSnapshot), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      })
+    }
+
+    await loadSignals(fetcher as typeof fetch, '/pulso-publico-argentina/')
+
+    expect(requestedUrl).toBe('/pulso-publico-argentina/data/signals.json')
+  })
+
   it('throws when the public snapshot request fails', async () => {
     const fetcher = async () => new Response('nope', { status: 503 })
 
