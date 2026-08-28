@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "test": "vitest",
     "test:run": "vitest run",
+    "refresh:georef": "node scripts/refresh-georef.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
