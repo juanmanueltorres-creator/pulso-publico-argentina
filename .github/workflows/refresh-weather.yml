@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   refresh:
-    if: github.event_name != 'push' || github.event.head_commit.message != 'data: refresh weather context'
+    if: "${{ github.event_name != 'push' || github.event.head_commit.message != 'data: refresh weather context' }}"
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
