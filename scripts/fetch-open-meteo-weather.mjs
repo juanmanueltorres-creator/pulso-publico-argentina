@@ -217,7 +217,12 @@ function requireFetchOptions(options = {}) {
 
 function isTransientProviderError(error) {
   const status = error?.status
-  return status === 429 || (Number.isInteger(status) && status >= 500 && status <= 599)
+  if (status === 429 || (Number.isInteger(status) && status >= 500 && status <= 599)) {
+    return true
+  }
+  if (status !== undefined && status !== null) return false
+
+  return error instanceof TypeError || error?.name === 'AbortError' || error?.name === 'TimeoutError'
 }
 
 async function fetchBatchWithRetry(batch, fetchImpl, checkedAt, options) {
