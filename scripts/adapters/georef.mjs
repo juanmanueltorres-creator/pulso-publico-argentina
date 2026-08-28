@@ -1,4 +1,6 @@
 const GEOREF_SOURCE_URL = 'https://www.datos.gob.ar/dataset/jgm_8/archivo/jgm_8.24'
+const STALE_AFTER_DAYS = 14
+const DAY_MS = 24 * 60 * 60 * 1000
 
 function toObservedAt(rawDate) {
   if (typeof rawDate !== 'string') {
@@ -18,6 +20,23 @@ function toObservedAt(rawDate) {
   return { date, observedAt: observedAt.toISOString() }
 }
 
+function classifyFreshness(observedAt, fetchedAt) {
+  const observed = new Date(observedAt)
+  const fetched = new Date(fetchedAt)
+
+  if (Number.isNaN(fetched.getTime())) {
+    throw new Error('GeoRef fetchedAt must be a valid ISO date')
+  }
+
+  const ageDays = (fetched.getTime() - observed.getTime()) / DAY_MS
+  const stale = ageDays > STALE_AFTER_DAYS
+
+  return {
+    status: stale ? 'historical' : 'updated',
+    availability: stale ? 'stale' : 'available',
+  }
+}
+
 export function parseGeorefSeries(payload, fetchedAt = new Date().toISOString()) {
   const latest = payload?.data?.[0]
 
@@ -31,6 +50,7 @@ export function parseGeorefSeries(payload, fetchedAt = new Date().toISOString())
   }
 
   const { date, observedAt } = toObservedAt(rawDate)
+  const freshness = classifyFreshness(observedAt, fetchedAt)
 
   return {
     schemaVersion: '1.0',
@@ -40,8 +60,8 @@ export function parseGeorefSeries(payload, fetchedAt = new Date().toISOString())
     value,
     unit: 'consultas',
     periodLabel: `Acumulado al ${date}`,
-    status: 'updated',
-    availability: 'available',
+    status: freshness.status,
+    availability: freshness.availability,
     observedAt,
     publishedAt: null,
     fetchedAt,
@@ -56,6 +76,7 @@ export function parseGeorefSeries(payload, fetchedAt = new Date().toISOString())
     },
     limitations: [
       'El recurso declara frecuencia de actualización semanal; no representa actividad en tiempo real.',
+      `Pulso Público marca la señal como stale/historical cuando la observación supera ${STALE_AFTER_DAYS} días de antigüedad.`,
       'Es un acumulado histórico de consultas y no equivale a usuarios únicos ni a consultas del período actual.',
     ],
   }
