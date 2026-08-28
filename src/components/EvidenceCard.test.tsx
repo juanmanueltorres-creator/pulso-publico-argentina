@@ -74,6 +74,23 @@ describe('EvidenceCard', () => {
     }
   })
 
+  it('explains the value, its national relevance, current update status and uncertainty in human language', () => {
+    render(<EvidenceCard evidence={villaguayEvidence()} />)
+
+    expect(screen.getByRole('heading', { name: /qué quiere decir \+24%/i })).toBeInTheDocument()
+    expect(screen.getByText(/muchos años juntos/i)).toBeInTheDocument()
+    expect(screen.getByText(/no quiere decir que la próxima cosecha vaya a rendir 24% más/i)).toBeInTheDocument()
+
+    expect(screen.getByRole('heading', { name: /por qué importa fuera de Villaguay/i })).toBeInTheDocument()
+    expect(screen.getByText(/no sirve para toda Argentina/i)).toBeInTheDocument()
+    expect(screen.getByText(/más fuerte, más débil o no aparecer/i)).toBeInTheDocument()
+
+    expect(screen.getByRole('heading', { name: /esto cambia solo/i })).toBeInTheDocument()
+    expect(screen.getByText(/hoy no/i)).toBeInTheDocument()
+    expect(screen.getByText(/no cambia automáticamente ni permite elegir otra zona todavía/i)).toBeInTheDocument()
+    expect(screen.getByText(/qué tan sólida es estadísticamente la señal de Villaguay/i)).toBeInTheDocument()
+  })
+
   it('keeps provenance, method, missing context and limitations visible and traceable', () => {
     render(<EvidenceCard evidence={villaguayEvidence()} />)
 
