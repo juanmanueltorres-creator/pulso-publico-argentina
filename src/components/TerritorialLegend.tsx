@@ -120,13 +120,13 @@ export function TerritorialLegend({ mode, weatherVariable = 'temperature' }: Ter
           </>
         ) : (
           <>
-            <span>La dirección textual (N, SSO, etc.) indica de dónde sopla el viento.</span>
+            <span>La dirección textual indica la dirección desde la que sopla el viento; es decir, de dónde sopla.</span>
             <WindArrowExample />
             <WeatherScale
               ariaLabel="Escala visual de velocidad del viento"
               gradient="linear-gradient(90deg, #7aa6b8 0%, #64c7c0 35%, #f2c14e 67%, #ef8354 100%)"
               labels={['0 km/h', '30 km/h', '60 km/h']}
-              direction="menor velocidad ← color → mayor velocidad"
+              direction="menor ← velocidad del viento → mayor"
             />
             <span>La longitud visual de cada vector es constante y no representa velocidad.</span>
             <span>El color representa velocidad modelada; velocidad y ráfagas exactas se leen en el detalle.</span>
