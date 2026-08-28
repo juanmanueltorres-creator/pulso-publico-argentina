@@ -1,8 +1,16 @@
 import { describe, expect, it } from 'vitest'
 import evidenceSnapshot from '../../public/data/evidence.json'
-import villaguayGeometry from '../../public/data/evidence/territories/villaguay.geojson'
+import villaguayGeometryRaw from '../../public/data/evidence/territories/villaguay.geojson?raw'
 import villaguaySource from '../../public/data/evidence/territories/villaguay.source.json'
 import { validateEvidenceSnapshot } from './validateEvidenceSnapshot'
+
+const villaguayGeometry = JSON.parse(villaguayGeometryRaw) as {
+  type: string
+  features: Array<{
+    properties: { adminCode: string }
+    geometry: { type: string; coordinates: unknown }
+  }>
+}
 
 function allCoordinatesFinite(value: unknown): boolean {
   if (typeof value === 'number') return Number.isFinite(value)
