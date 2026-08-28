@@ -1,18 +1,15 @@
-const BUNDLE = 'https://cdsrenovables.cammesa.com/renovableschart/main.a5124ecd4411e075.js'
+const DOWNLOAD_PAGE = 'https://cammesaweb.cammesa.com/download/energia-renovables-base-de-datos/'
 
-async function fetchText(url) {
-  const response = await fetch(url, {
+async function fetchWithTimeout(url, options = {}) {
+  return fetch(url, {
+    ...options,
     headers: {
-      accept: 'application/javascript,text/javascript,*/*;q=0.8',
+      accept: '*/*',
       'user-agent': 'pulso-publico-argentina-source-spike/0.1',
+      ...(options.headers ?? {}),
     },
     signal: AbortSignal.timeout(15_000),
   })
-
-  const text = await response.text()
-  console.log(`fetch ${url} -> ${response.status} ${response.headers.get('content-type')} bytes=${Buffer.byteLength(text, 'utf8')}`)
-  if (!response.ok) throw new Error(`${url} failed with HTTP ${response.status}`)
-  return text
 }
 
 function uniq(values) {
@@ -20,24 +17,42 @@ function uniq(values) {
 }
 
 async function main() {
-  const js = await fetchText(BUNDLE)
+  const pageResponse = await fetchWithTimeout(DOWNLOAD_PAGE, {
+    headers: { accept: 'text/html,application/xhtml+xml' },
+  })
+  const html = await pageResponse.text()
+  console.log(`page -> ${pageResponse.status} ${pageResponse.headers.get('content-type')} bytes=${Buffer.byteLength(html, 'utf8')}`)
+  if (!pageResponse.ok) throw new Error(`download page failed with HTTP ${pageResponse.status}`)
 
-  const strings = uniq(
-    [...js.matchAll(/["'`]([^"'`\\\n]{2,500})["'`]/g)]
-      .map((match) => match[1])
-      .filter((value) => /http|api|service|chart|data|renov|gener|demanda|potencia|total|source|histo/i.test(value)),
+  const hrefs = uniq(
+    [...html.matchAll(/href=["']([^"']+)["']/gi)]
+      .map((match) => match[1].replaceAll('&amp;', '&'))
+      .filter((href) => /wpdmdl=|\.xlsx?|download/i.test(href)),
   )
 
-  console.log('--- relevant string literals ---')
-  for (const value of strings.slice(0, 300)) console.log(value)
+  console.log('--- download candidates ---')
+  for (const href of hrefs.slice(0, 80)) console.log(href)
 
-  console.log('--- URL/path candidates ---')
-  const paths = uniq(
-    [...js.matchAll(/(?:https?:\/\/[^"'`\s)]+|\/[A-Za-z0-9_.~-]+(?:\/[A-Za-z0-9_.?=&%~-]+){1,8})/g)]
-      .map((match) => match[0])
-      .filter((value) => /api|service|chart|data|renov|gener|demanda|histo/i.test(value)),
-  )
-  for (const value of paths.slice(0, 200)) console.log(value)
+  const ids = uniq([...html.matchAll(/wpdmdl=(\d+)/gi)].map((match) => match[1]))
+  console.log(`wpdmdl ids=${ids.join(',')}`)
+
+  if (ids.length === 0) throw new Error('No CAMMESA download id found in official page')
+
+  for (const id of ids.slice(0, 5)) {
+    const url = `https://cammesaweb.cammesa.com/?wpdmdl=${id}`
+    const response = await fetchWithTimeout(url, { redirect: 'manual' })
+    console.log(`download ${id} -> ${response.status} type=${response.headers.get('content-type')} length=${response.headers.get('content-length')} location=${response.headers.get('location')}`)
+
+    if (response.status >= 300 && response.status < 400 && response.headers.get('location')) {
+      const target = new URL(response.headers.get('location'), url).href
+      const targetResponse = await fetchWithTimeout(target)
+      const buffer = Buffer.from(await targetResponse.arrayBuffer())
+      console.log(`target ${target} -> ${targetResponse.status} type=${targetResponse.headers.get('content-type')} bytes=${buffer.length} magic=${buffer.subarray(0, 8).toString('hex')}`)
+    } else if (response.ok) {
+      const buffer = Buffer.from(await response.arrayBuffer())
+      console.log(`body -> bytes=${buffer.length} magic=${buffer.subarray(0, 8).toString('hex')}`)
+    }
+  }
 }
 
 main().catch((error) => {
