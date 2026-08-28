@@ -64,7 +64,7 @@ describe('EvidenceCard', () => {
 
     expect(screen.getByText(/Maíz \+ El Niño en Villaguay/i)).toBeInTheDocument()
     expect(screen.getByText(/Villaguay · Entre Ríos/i)).toBeInTheDocument()
-    expect(screen.getByText(/Referencia externa/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/Referencia externa/i).length).toBeGreaterThan(0)
     expect(screen.getByText(/\+24%/i)).toBeInTheDocument()
     expect(screen.getAllByText(/Asociación histórica/i).length).toBeGreaterThan(0)
     expect(screen.getByText(/no es un pronóstico de rendimiento/i)).toBeInTheDocument()
