@@ -37,6 +37,30 @@ describe('validateSnapshot', () => {
     expect(snapshot.signals[0].value).toBeNull()
   })
 
+  it('accepts xlsx as a source method', () => {
+    const snapshot = validateSnapshot({
+      schemaVersion: '1.0',
+      generatedAt: '2026-08-28T00:00:00Z',
+      signals: [
+        {
+          ...unavailableSignal,
+          id: 'cammesa-renewables',
+          value: 1791.245147,
+          unit: 'GWh',
+          availability: 'available',
+          periodLabel: 'Julio 2026 · último dato publicado',
+          observedAt: '2026-07-01T00:00:00.000Z',
+          method: {
+            type: 'xlsx',
+            note: 'Total GWh publicado por CAMMESA en Tabla Resumen Global.',
+          },
+        },
+      ],
+    })
+
+    expect(snapshot.signals[0].method.type).toBe('xlsx')
+  })
+
   it('rejects available signals with null values', () => {
     expect(() =>
       validateSnapshot({
