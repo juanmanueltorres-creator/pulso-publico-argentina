@@ -8,28 +8,38 @@ function displayValue(value: number | null, unit: string): string {
   return `${sign}${VALUE_FORMATTER.format(value)}${unit}`
 }
 
+function publicAssetHref(path: string): string {
+  const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`
+  return `${base}${path.replace(/^\//, '')}`
+}
+
 interface EvidenceCardProps {
   evidence: TerritorialEvidence
 }
 
 export function EvidenceCard({ evidence }: EvidenceCardProps) {
+  const resultLabel = evidence.provenance.resultKind === 'external-reference' ? 'Referencia externa' : 'Resultado reproducido'
+  const methodId = `evidence-method-${evidence.id}`
+
   return (
     <article className="evidence-card">
-      <header className="evidence-card__header">
-        <div className="evidence-card__topline">
-          <span className="evidence-card__badge">EXTERNO</span>
-          <span className="evidence-card__subject">
-            {evidence.subject.variable} · {evidence.subject.condition}
-          </span>
-        </div>
+      <div className="evidence-card__top-rail" data-testid="evidence-top-rail">
+        <span>{resultLabel}</span>
+        <span>
+          {evidence.subject.variable} · {evidence.subject.condition}
+        </span>
+      </div>
 
+      <header className="evidence-card__header">
         <p className="evidence-card__territory">
           {evidence.territory.adminName} · {evidence.territory.province}
+          <span> · {evidence.territory.adminCode}</span>
         </p>
         <h3>{evidence.claim.title}</h3>
         <strong className="evidence-card__value" data-testid="evidence-value">
           {displayValue(evidence.result.value, evidence.result.unit)}
         </strong>
+        <p className="evidence-card__value-label">{resultLabel}</p>
       </header>
 
       <div className="evidence-card__grid">
@@ -102,7 +112,7 @@ export function EvidenceCard({ evidence }: EvidenceCardProps) {
             </ul>
           </div>
 
-          <div className="evidence-card__method">
+          <div className="evidence-card__method" id={methodId}>
             <h5>Cadena de procesamiento declarada</h5>
             <ol>
               {evidence.method.processingSteps.map((step) => (
@@ -125,6 +135,18 @@ export function EvidenceCard({ evidence }: EvidenceCardProps) {
           </div>
         </section>
       </div>
+
+      <nav className="evidence-card__actions" aria-label="Accesos de evidencia">
+        <a href={evidence.provenance.sourceUrl} target="_blank" rel="noreferrer">
+          <span aria-hidden="true">↗</span> Fuente
+        </a>
+        <a href={`#${methodId}`}>
+          <span aria-hidden="true">↓</span> Método
+        </a>
+        <a href={publicAssetHref(evidence.territory.geometryRef)} target="_blank" rel="noreferrer">
+          <span aria-hidden="true">◇</span> Territorio
+        </a>
+      </nav>
     </article>
   )
 }
