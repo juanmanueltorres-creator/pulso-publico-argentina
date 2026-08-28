@@ -30,16 +30,78 @@ jobs:
             'https://cammesaweb.cammesa.com/erenovables/?wpdmdl=37500' \
             --output /tmp/cammesa-renovables.zip
 
-          echo '--- downloaded file ---'
-          file /tmp/cammesa-renovables.zip
-          ls -lh /tmp/cammesa-renovables.zip
-
-          echo '--- archive entries ---'
-          unzip -l /tmp/cammesa-renovables.zip
-
-      - name: Inspect archive text files
-        shell: bash
-        run: |
           mkdir -p /tmp/cammesa-renovables
           unzip -o /tmp/cammesa-renovables.zip -d /tmp/cammesa-renovables
-          find /tmp/cammesa-renovables -maxdepth 2 -type f -printf '%p\n'
+          find /tmp/cammesa-renovables -maxdepth 1 -type f -printf '%p\n'
+
+      - name: Inspect XLSX sheets and first rows
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          import xml.etree.ElementTree as ET
+          import re
+
+          path = next(Path('/tmp/cammesa-renovables').glob('*.xlsx'))
+          ns = {
+              'm': 'http://schemas.openxmlformats.org/spreadsheetml/2006/main',
+              'r': 'http://schemas.openxmlformats.org/officeDocument/2006/relationships',
+              'pr': 'http://schemas.openxmlformats.org/package/2006/relationships',
+          }
+
+          def col_number(ref):
+              letters = re.match(r'([A-Z]+)', ref).group(1)
+              value = 0
+              for ch in letters:
+                  value = value * 26 + ord(ch) - 64
+              return value
+
+          with ZipFile(path) as zf:
+              shared = []
+              if 'xl/sharedStrings.xml' in zf.namelist():
+                  root = ET.fromstring(zf.read('xl/sharedStrings.xml'))
+                  for si in root.findall('m:si', ns):
+                      shared.append(''.join(t.text or '' for t in si.iterfind('.//m:t', ns)))
+
+              workbook = ET.fromstring(zf.read('xl/workbook.xml'))
+              rels = ET.fromstring(zf.read('xl/_rels/workbook.xml.rels'))
+              rel_targets = {
+                  rel.attrib['Id']: rel.attrib['Target']
+                  for rel in rels.findall('pr:Relationship', ns)
+              }
+
+              print(f'workbook={path.name}')
+              print('--- sheets ---')
+              sheets = []
+              for sheet in workbook.find('m:sheets', ns):
+                  name = sheet.attrib['name']
+                  rid = sheet.attrib['{http://schemas.openxmlformats.org/officeDocument/2006/relationships}id']
+                  target = rel_targets[rid]
+                  sheet_path = target if target.startswith('xl/') else 'xl/' + target.lstrip('/')
+                  sheets.append((name, sheet_path))
+                  print(f'{name} -> {sheet_path}')
+
+              for name, sheet_path in sheets:
+                  print(f'--- first rows: {name} ---')
+                  root = ET.fromstring(zf.read(sheet_path))
+                  rows = root.findall('.//m:sheetData/m:row', ns)[:18]
+                  for row in rows:
+                      values = {}
+                      for cell in row.findall('m:c', ns):
+                          ref = cell.attrib.get('r', '')
+                          typ = cell.attrib.get('t')
+                          v = cell.find('m:v', ns)
+                          inline = cell.find('m:is', ns)
+                          if typ == 's' and v is not None:
+                              value = shared[int(v.text)]
+                          elif typ == 'inlineStr' and inline is not None:
+                              value = ''.join(t.text or '' for t in inline.iterfind('.//m:t', ns))
+                          else:
+                              value = v.text if v is not None else ''
+                          values[col_number(ref)] = value
+                      if values:
+                          max_col = min(max(values), 24)
+                          rendered = [values.get(i, '') for i in range(1, max_col + 1)]
+                          print(f"row {row.attrib.get('r')}: {rendered}")
+          PY
