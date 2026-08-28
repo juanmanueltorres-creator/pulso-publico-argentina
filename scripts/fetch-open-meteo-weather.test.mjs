@@ -136,6 +136,76 @@ describe('Open-Meteo ECMWF adapter', () => {
     expect(sleepImpl).toHaveBeenCalledWith(1_000)
   })
 
+  it('retries a transient network fetch failure and then succeeds', async () => {
+    let call = 0
+    const fetcher = vi.fn(async (url) => {
+      call += 1
+      if (call === 1) throw new TypeError('fetch failed')
+      return responseForRequest(url)
+    })
+    const sleepImpl = vi.fn(async () => undefined)
+
+    const result = await fetchOpenMeteoWeather(points.slice(0, 1), fetcher, checkedAt, 1, {
+      batchDelayMs: 0,
+      sleepImpl,
+      maxRetries: 2,
+      retryDelayMs: 1_234,
+    })
+
+    expect(result).toHaveLength(1)
+    expect(fetcher).toHaveBeenCalledTimes(2)
+    expect(sleepImpl).toHaveBeenCalledTimes(1)
+    expect(sleepImpl).toHaveBeenCalledWith(1_234)
+  })
+
+  it.each(['AbortError', 'TimeoutError'])(
+    'retries transient %s transport failures',
+    async (name) => {
+      let call = 0
+      const fetcher = vi.fn(async (url) => {
+        call += 1
+        if (call === 1) {
+          const error = new Error(`${name} while fetching`)
+          error.name = name
+          throw error
+        }
+        return responseForRequest(url)
+      })
+      const sleepImpl = vi.fn(async () => undefined)
+
+      await expect(
+        fetchOpenMeteoWeather(points.slice(0, 1), fetcher, checkedAt, 1, {
+          batchDelayMs: 0,
+          sleepImpl,
+          maxRetries: 1,
+          retryDelayMs: 321,
+        }),
+      ).resolves.toHaveLength(1)
+
+      expect(fetcher).toHaveBeenCalledTimes(2)
+      expect(sleepImpl).toHaveBeenCalledWith(321)
+    },
+  )
+
+  it('does not retry semantic response validation failures', async () => {
+    const invalid = payloadFor(-31.49, -64.01)
+    delete invalid.hourly.wind_gusts_10m
+    const fetcher = vi.fn(async () => new Response(JSON.stringify(invalid), { status: 200 }))
+    const sleepImpl = vi.fn(async () => undefined)
+
+    await expect(
+      fetchOpenMeteoWeather(points.slice(0, 1), fetcher, checkedAt, 1, {
+        batchDelayMs: 0,
+        sleepImpl,
+        maxRetries: 2,
+        retryDelayMs: 100,
+      }),
+    ).rejects.toThrow(/wind_gusts_10m/i)
+
+    expect(fetcher).toHaveBeenCalledTimes(1)
+    expect(sleepImpl).not.toHaveBeenCalled()
+  })
+
   it('fails closed after exhausting retries for a persistent 429', async () => {
     const fetcher = vi.fn(async () => new Response('slow down', { status: 429 }))
     const sleepImpl = vi.fn(async () => undefined)
