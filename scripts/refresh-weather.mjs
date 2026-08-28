@@ -9,13 +9,13 @@ const GEOMETRY_PATH = resolve('public/data/argentina-provinces.geojson')
 const fetchWithTimeout = (url, options = {}) =>
   fetch(url, {
     ...options,
-    signal: AbortSignal.timeout(20_000),
+    signal: AbortSignal.timeout(10_000),
   })
 
 const WEATHER_FETCH_OPTIONS = {
   batchDelayMs: 12_000,
   maxRetries: 2,
-  retryDelayMs: 60_000,
+  retryDelayMs: 10_000,
 }
 
 async function readPreviousSnapshot() {
