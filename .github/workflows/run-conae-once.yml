@@ -22,43 +22,57 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Inspect CONAE catalog form
+      - name: Inspect CONAE catalog postback
         shell: bash
         run: |
           set -euo pipefail
           url='https://catalogos5.conae.gov.ar/catalogofocos/default.aspx'
-          getent hosts catalogos5.conae.gov.ar || true
           curl --connect-timeout 10 --max-time 30 --silent --show-error --location \
             --cookie-jar /tmp/conae-cookies.txt \
             --output /tmp/conae-catalog.html \
-            --write-out 'curl_http=%{http_code} remote_ip=%{remote_ip} connect=%{time_connect}s total=%{time_total}s\n' \
             "$url"
-          wc -c /tmp/conae-catalog.html
           python3 - <<'PY'
           from html.parser import HTMLParser
+          import re
 
-          class FormParser(HTMLParser):
+          class Parser(HTMLParser):
               def __init__(self):
                   super().__init__()
-                  self.forms=[]
-                  self.fields=[]
-                  self.scripts=[]
+                  self.select = None
+                  self.options = {}
+                  self.btn = None
               def handle_starttag(self, tag, attrs):
-                  a=dict(attrs)
-                  if tag == 'form':
-                      self.forms.append({k:a.get(k) for k in ('id','name','method','action')})
-                  elif tag in ('input','select','button'):
-                      self.fields.append({k:a.get(k) for k in ('id','name','type','value')})
-                  elif tag == 'script' and a.get('src'):
-                      self.scripts.append(a['src'])
+                  a = dict(attrs)
+                  if tag == 'select':
+                      self.select = a.get('name') or a.get('id')
+                      self.options.setdefault(self.select, [])
+                  elif tag == 'option' and self.select:
+                      self.options[self.select].append((a.get('value'), 'selected' in a))
+                  elif tag == 'input' and a.get('id') == 'btnBuscar':
+                      self.btn = a
+              def handle_endtag(self, tag):
+                  if tag == 'select':
+                      self.select = None
 
-          text=open('/tmp/conae-catalog.html', encoding='utf-8', errors='replace').read()
-          p=FormParser(); p.feed(text)
-          print('forms=', p.forms)
-          print('fields=')
-          for field in p.fields:
-              print(field)
-          print('scripts=')
-          for src in p.scripts:
-              print(src)
+          text = open('/tmp/conae-catalog.html', encoding='utf-8', errors='replace').read()
+          p = Parser(); p.feed(text)
+          print('btnBuscar=', p.btn)
+          for name in ('ddSatelites','ddConfianzas','ddProvincias','ddDepartamentos','ddTotalizacion','ddAgrupamiento'):
+              print(name, p.options.get(name))
+          print('relevant snippets=')
+          patterns = [
+              r'.{0,220}btnBuscar.{0,500}',
+              r'.{0,220}__doPostBack.{0,500}',
+              r'.{0,220}WebForm_DoPostBackWithOptions.{0,500}',
+              r'.{0,220}(?:\.csv|CSV|descarg|download).{0,500}',
+          ]
+          seen = set()
+          for pattern in patterns:
+              for match in re.finditer(pattern, text, flags=re.I|re.S):
+                  snippet = re.sub(r'\s+', ' ', match.group(0)).strip()
+                  if '__VIEWSTATE' in snippet:
+                      continue
+                  if snippet not in seen:
+                      seen.add(snippet)
+                      print(snippet[:900])
           PY
