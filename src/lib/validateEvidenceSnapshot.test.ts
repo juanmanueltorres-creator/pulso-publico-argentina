@@ -109,7 +109,8 @@ describe('validateEvidenceSnapshot', () => {
     expect(() => validateEvidenceSnapshot(nonFinite)).toThrow(/finite/i)
 
     const invalidSignificance = validSnapshot()
-    invalidSignificance.evidences[0].result.statisticalSignificance = 'yes'
+    const result = invalidSignificance.evidences[0].result as Record<string, unknown>
+    result.statisticalSignificance = 'yes'
     expect(() => validateEvidenceSnapshot(invalidSignificance)).toThrow(/statisticalSignificance/i)
   })
 
