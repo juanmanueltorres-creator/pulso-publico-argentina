@@ -1,0 +1,18 @@
+{
+  "adminCode": "30113",
+  "adminName": "Villaguay",
+  "province": "Entre Ríos",
+  "countryCode": "AR",
+  "crs": "EPSG:4326",
+  "identitySource": "GeoRef / INDEC official department code 30113",
+  "identityReference": "https://www.argentina.gob.ar/georef/referencia-completa-de-la-api",
+  "geometryUpstream": "Instituto Geográfico Nacional (IGN) departmental cartography",
+  "geometryDistribution": "IGN information distributed by CONAE, preserved in the public mgaitan/departamentos_argentina mirror",
+  "geometryReference": "https://github.com/mgaitan/departamentos_argentina/blob/master/departamentos-entre_rios.topojson",
+  "simplification": "Coarse topology-preserving territorial reference built from the Villaguay TopoJSON boundary arcs using their decoded junction/endpoints; intermediate vertices are intentionally omitted.",
+  "limitations": [
+    "Geometría simplificada para referencia territorial; no es cartografía catastral ni debe utilizarse para deslindes o precisión parcelaria.",
+    "La identidad administrativa se fija por código oficial 30113 y no por coincidencia de nombre.",
+    "Una versión posterior puede reemplazar esta geometría por una descarga directa y versionada del WFS/API oficial sin modificar la identidad de la evidencia."
+  ]
+}
