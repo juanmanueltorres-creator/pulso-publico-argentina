@@ -120,7 +120,6 @@ export function SignalCard({ signal }: SignalCardProps) {
       )}
 
       <div className="signal-card__plain-language">
-        <p className="signal-card__plain-label">En criollo</p>
         <p className="signal-card__plain-summary">{explanation.summary}</p>
         {explanation.reference && (
           <p className="signal-card__plain-reference">
