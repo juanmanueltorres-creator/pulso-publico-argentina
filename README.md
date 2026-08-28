@@ -57,3 +57,5 @@ GitHub Actions ejecuta tests/build y refresca GeoRef cada 12 horas, además de p
 ## Estado verificado de GeoRef
 
 El refresh real recuperó **264.037.620 consultas acumuladas** con `observedAt = 2024-08-27`. La fuente respondió correctamente en 2026, pero Pulso Público no confunde fecha de consulta con fecha de observación: esa señal se publica como histórica y stale.
+
+El siguiente source slice previsto es **OpenAlex**; INPI y CAMMESA quedan detrás de su verificación de fuente estructurada.
