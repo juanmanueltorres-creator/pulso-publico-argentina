@@ -17,7 +17,7 @@ const CATEGORIES: SignalCategory[] = [
 const STATUSES: SignalStatus[] = ['live', 'updated', 'estimated', 'historical']
 const AVAILABILITIES: SignalAvailability[] = ['available', 'stale', 'unavailable']
 const SOURCE_KINDS: SignalSourceKind[] = ['official', 'open-index']
-const METHOD_TYPES: SignalMethodType[] = ['api', 'csv', 'scrape', 'calculation']
+const METHOD_TYPES: SignalMethodType[] = ['api', 'csv', 'xlsx', 'scrape', 'calculation']
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
