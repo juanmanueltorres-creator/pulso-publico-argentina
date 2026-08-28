@@ -18,6 +18,8 @@ const VALUE_MAPPING = {
   precipitation: 'precipitationMm',
 }
 
+const defaultSleep = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds))
+
 function requireCheckedAt(checkedAt) {
   const date = new Date(checkedAt)
   if (Number.isNaN(date.getTime())) {
@@ -140,13 +142,34 @@ function normalizeLocation(point, payload) {
   }
 }
 
+function retryAfterMilliseconds(response) {
+  const raw = response?.headers?.get?.('retry-after')
+  if (!raw) return null
+
+  const seconds = Number(raw)
+  if (Number.isFinite(seconds) && seconds >= 0) {
+    return seconds * 1000
+  }
+
+  const date = Date.parse(raw)
+  if (!Number.isFinite(date)) return null
+  return Math.max(0, date - Date.now())
+}
+
+function requestError(response) {
+  const error = new Error(`Open-Meteo request failed with HTTP ${response?.status ?? 'unknown'}`)
+  error.status = response?.status ?? null
+  error.retryAfterMs = retryAfterMilliseconds(response)
+  return error
+}
+
 export async function fetchOpenMeteoBatch(points, fetchImpl = fetch, checkedAt = new Date().toISOString()) {
   const validatedPoints = requireGridPoints(points)
   const url = buildOpenMeteoUrl(validatedPoints, checkedAt)
   const response = await fetchImpl(url)
 
   if (!response?.ok) {
-    throw new Error(`Open-Meteo request failed with HTTP ${response?.status ?? 'unknown'}`)
+    throw requestError(response)
   }
 
   const payload = await response.json()
@@ -170,11 +193,57 @@ export async function fetchOpenMeteoBatch(points, fetchImpl = fetch, checkedAt =
   return validatedPoints.map((point, index) => normalizeLocation(point, locations[index]))
 }
 
+function requireFetchOptions(options = {}) {
+  const batchDelayMs = options.batchDelayMs ?? 0
+  const maxRetries = options.maxRetries ?? 0
+  const retryDelayMs = options.retryDelayMs ?? 60_000
+  const sleepImpl = options.sleepImpl ?? defaultSleep
+
+  if (!Number.isFinite(batchDelayMs) || batchDelayMs < 0) {
+    throw new Error('weather batch delay must be a non-negative finite number')
+  }
+  if (!Number.isInteger(maxRetries) || maxRetries < 0) {
+    throw new Error('weather max retries must be a non-negative integer')
+  }
+  if (!Number.isFinite(retryDelayMs) || retryDelayMs < 0) {
+    throw new Error('weather retry delay must be a non-negative finite number')
+  }
+  if (typeof sleepImpl !== 'function') {
+    throw new Error('weather sleep implementation must be a function')
+  }
+
+  return { batchDelayMs, maxRetries, retryDelayMs, sleepImpl }
+}
+
+function isTransientProviderError(error) {
+  const status = error?.status
+  return status === 429 || (Number.isInteger(status) && status >= 500 && status <= 599)
+}
+
+async function fetchBatchWithRetry(batch, fetchImpl, checkedAt, options) {
+  let retryCount = 0
+
+  while (true) {
+    try {
+      return await fetchOpenMeteoBatch(batch, fetchImpl, checkedAt)
+    } catch (error) {
+      if (!isTransientProviderError(error) || retryCount >= options.maxRetries) {
+        throw error
+      }
+
+      const delay = error.retryAfterMs ?? options.retryDelayMs * (2 ** retryCount)
+      await options.sleepImpl(delay)
+      retryCount += 1
+    }
+  }
+}
+
 export async function fetchOpenMeteoWeather(
   points,
   fetchImpl = fetch,
   checkedAt = new Date().toISOString(),
   batchSize = 100,
+  options = {},
 ) {
   if (!Number.isInteger(batchSize) || batchSize <= 0) {
     throw new Error('weather batch size must be a positive integer')
@@ -186,12 +255,18 @@ export async function fetchOpenMeteoWeather(
 
   requireCheckedAt(checkedAt)
   requireGridPoints(points)
+  const fetchOptions = requireFetchOptions(options)
 
   const locations = []
   for (let start = 0; start < points.length; start += batchSize) {
     const batch = points.slice(start, start + batchSize)
-    const normalized = await fetchOpenMeteoBatch(batch, fetchImpl, checkedAt)
+    const normalized = await fetchBatchWithRetry(batch, fetchImpl, checkedAt, fetchOptions)
     locations.push(...normalized)
+
+    const hasNextBatch = start + batchSize < points.length
+    if (hasNextBatch && fetchOptions.batchDelayMs > 0) {
+      await fetchOptions.sleepImpl(fetchOptions.batchDelayMs)
+    }
   }
 
   return locations
