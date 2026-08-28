@@ -47,47 +47,47 @@ export function App({ loadSnapshot = loadSignals }: AppProps) {
         </p>
       </header>
 
-      {error ? (
-        <section className="state-panel" role="alert">
-          <p className="state-panel__title">No pudimos leer el snapshot público.</p>
-          <p>La interfaz no reemplaza un fallo de fuente por cero. Probá nuevamente más tarde.</p>
-        </section>
-      ) : snapshot === null ? (
-        <section className="state-panel" aria-live="polite">
-          <p className="state-panel__title">Leyendo señales públicas…</p>
-        </section>
-      ) : (
-        <>
-          <section className="product-section product-section--national" aria-label="Pulso Nacional">
-            <SectionHeading
-              eyebrow="SEÑALES DEL PAÍS"
-              title="Pulso Nacional"
-              description="Indicadores públicos que ayudan a leer actividad, producción y uso de infraestructura sin perder la fuente detrás del número."
-            />
+      <section className="product-section product-section--national" aria-label="Pulso Nacional">
+        <SectionHeading
+          eyebrow="SEÑALES DEL PAÍS"
+          title="Pulso Nacional"
+          description="Indicadores públicos que ayudan a leer actividad, producción y uso de infraestructura sin perder la fuente detrás del número."
+        />
 
-            <div className="signal-grid" aria-label="Indicadores públicos nacionales">
-              {snapshot.signals.map((signal) => (
-                <SignalCard key={signal.id} signal={signal} />
-              ))}
-            </div>
+        {error ? (
+          <section className="state-panel" role="alert">
+            <p className="state-panel__title">No pudimos leer el snapshot público.</p>
+            <p>La interfaz no reemplaza un fallo de fuente por cero. Pulso Territorial puede seguir disponible.</p>
           </section>
-
-          <section className="product-section product-section--territorial" aria-label="Pulso Territorial">
-            <SectionHeading
-              eyebrow="TIEMPO + COORDENADA"
-              title="Pulso Territorial"
-              description="La misma trazabilidad, ahora aplicada a señales que ocurren en un lugar concreto del territorio argentino."
-            />
-
-            <TerritorialSection />
+        ) : snapshot === null ? (
+          <section className="state-panel" aria-live="polite">
+            <p className="state-panel__title">Leyendo señales públicas…</p>
           </section>
+        ) : (
+          <div className="signal-grid" aria-label="Indicadores públicos nacionales">
+            {snapshot.signals.map((signal) => (
+              <SignalCard key={signal.id} signal={signal} />
+            ))}
+          </div>
+        )}
+      </section>
 
-          <footer className="snapshot-footer">
-            <span>Contrato público · v{snapshot.schemaVersion}</span>
-            <span>Snapshot: {new Date(snapshot.generatedAt).toLocaleString('es-AR')}</span>
-          </footer>
-        </>
-      )}
+      <section className="product-section product-section--territorial" aria-label="Pulso Territorial">
+        <SectionHeading
+          eyebrow="TIEMPO + COORDENADA"
+          title="Pulso Territorial"
+          description="La misma trazabilidad, ahora aplicada a señales que ocurren en un lugar concreto del territorio argentino."
+        />
+
+        <TerritorialSection />
+      </section>
+
+      {snapshot ? (
+        <footer className="snapshot-footer">
+          <span>Contrato público · v{snapshot.schemaVersion}</span>
+          <span>Snapshot: {new Date(snapshot.generatedAt).toLocaleString('es-AR')}</span>
+        </footer>
+      ) : null}
     </main>
   )
 }
