@@ -101,6 +101,10 @@ This first slice must provide:
 
 Use `https://apis.datos.gob.ar/series/api/series` with id `apis_georef_005`, retrieving the most recent value.
 
+**Verified behavior (2026-08-27):** the adapter and scheduled refresh work end-to-end against the official API. The first live refresh recovered `264037620` accumulated queries with observation date `2024-08-27`. Because the resource declares weekly frequency but the observation is old, Pulso Público preserves the official value and exposes it as `status: historical` and `availability: stale`.
+
+Freshness rule for this signal: an observation older than 14 days is `historical + stale`. `fetchedAt` never upgrades an old `observedAt` to current.
+
 ### OpenAlex
 
 Use works filtering by `institutions.country_code:AR` and current publication year. The copy must say that this is an OpenAlex-indexed count, not a census of Argentine science.
@@ -112,6 +116,10 @@ Inspect the stable CSV download behind the official patent statistics page befor
 ### CAMMESA
 
 Inspect the data path behind `Renovables Hoy`. If the live iframe does not expose a stable structured source, use the official monthly renewable dataset and label it `updated`.
+
+## Automation
+
+GeoRef refresh runs every 12 hours and can also be triggered manually. The refresh workflow has `contents: write` because it commits only the generated public snapshot. No source credential is required for GeoRef.
 
 ## Out of scope for V1
 
