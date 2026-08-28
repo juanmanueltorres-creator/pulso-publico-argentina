@@ -21,7 +21,7 @@ No hay backend propio, base de datos ni credenciales expuestas en el navegador.
 - **GeoRef / Datos Argentina** — integrada end-to-end mediante la API oficial de Series de Tiempo (`apis_georef_005`). El último valor publicado recuperado actualmente es histórico, por lo que se conserva pero se muestra como `historical` + `stale`.
 - **OpenAlex** — integrada end-to-end con el conteo `meta.count` de works del año actual que tienen al menos una afiliación institucional argentina. Se muestra como índice bibliográfico, nunca como censo total de la ciencia argentina.
 - **INPI** — integrada end-to-end mediante el endpoint JSON que usa el dashboard oficial de ingresos de patentes. La señal publica el último mes calendario completo y excluye automáticamente el mes en curso.
-- **CAMMESA** — pendiente de confirmar una fuente estructurada estable; no se promete `live` mientras eso no esté verificado.
+- **CAMMESA** — integrada end-to-end mediante la base mensual oficial de Energía Renovables. El pipeline descarga el ZIP oficial, lee el XLSX con librerías estándar de Python y toma el `Total GWh` ya agregado por CAMMESA desde `Tabla Resumen Global`. Se muestra como `updated`, nunca como `live`.
 
 ## Trazabilidad
 
@@ -41,6 +41,8 @@ OpenAlex es distinto: el conteo se calcula al momento de consultar su índice, p
 
 INPI publica datos mensuales y puede incluir el mes en curso con valores todavía parciales. Pulso Público sólo toma el último mes calendario completo: un `0` del mes abierto no se interpreta como ausencia de solicitudes.
 
+CAMMESA también es mensual. Pulso Público no recompone la generación sumando centrales o máquinas: conserva el total agregado que publica la propia fuente. El pipeline usa un enlace oficial estable de descarga, reintentos de red y falla de forma explícita si el archivo deja de contener el workbook, la hoja o la fila esperada.
+
 ## Desarrollo
 
 ```bash
@@ -50,7 +52,7 @@ npm run test:run
 npm run build
 ```
 
-Refresh manual de las fuentes implementadas:
+Refresh manual de las fuentes con CLI propio:
 
 ```bash
 npm run refresh:georef
@@ -58,7 +60,9 @@ npm run refresh:openalex
 npm run refresh:inpi
 ```
 
-GitHub Actions ejecuta tests/build. GeoRef y OpenAlex refrescan cada 12 horas; INPI refresca una vez por día porque la fuente es mensual. Los workflows comparten el concurrency group `refresh-signals` para no escribir `signals.json` en paralelo.
+CAMMESA requiere además descargar y extraer el workbook oficial, por lo que su camino operativo principal es el workflow `Refresh CAMMESA` de GitHub Actions.
+
+GitHub Actions ejecuta tests/build. GeoRef y OpenAlex refrescan cada 12 horas; INPI y CAMMESA refrescan una vez por día porque sus fuentes son mensuales. Todos los workflows de datos comparten el concurrency group `refresh-signals` para no escribir `signals.json` en paralelo.
 
 ## Estado verificado
 
@@ -74,4 +78,10 @@ El primer refresh real recuperó **27.994 works** para `publication_year:2026` c
 
 El endpoint estructurado usado por el dashboard oficial devolvió registros mensuales con los campos `Mes`, `Modelo de Utilidad` y `Patente de Invencion`. El primer refresh real publicó **323 solicitudes de patentes de invención ingresadas · Julio 2026**, el último mes calendario completo disponible. Agosto 2026 aparecía con valor `0`, pero fue excluido por ser un período todavía abierto.
 
-El próximo source slice es **CAMMESA**. Primero se inspeccionará la ruta estructurada detrás de Renovables Hoy; si resulta frágil, se priorizará la base mensual oficial.
+### CAMMESA
+
+La investigación de fuente descartó para V1 el feed embebido de `Renovables Hoy` porque no resultó suficientemente confiable desde runners automatizados. Se eligió la base mensual oficial como camino robusto.
+
+El primer refresh end-to-end descargó **`Energía Renovables - Base de Datos 2026-07`** y publicó **1.791,245147 GWh de energía renovable generada · Julio 2026**. El valor proviene de `Tabla Resumen Global → Total GWh`; Pulso Público no lo recalcula. La señal queda `updated` + `available` y declara explícitamente que no representa generación en tiempo real.
+
+Con estas cuatro fuentes, el snapshot V1 ya demuestra cuatro situaciones distintas de evidencia pública: API oficial con dato histórico, índice abierto actualizado, endpoint estructurado de dashboard oficial y archivo XLSX oficial mensual.
