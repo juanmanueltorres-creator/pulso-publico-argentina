@@ -25,5 +25,5 @@ jobs:
         with:
           node-version: 20
 
-      - name: Inspect INPI dashboard JavaScript
+      - name: Inspect INPI AJAX parameters
         run: node scripts/spike-inpi-source.mjs
