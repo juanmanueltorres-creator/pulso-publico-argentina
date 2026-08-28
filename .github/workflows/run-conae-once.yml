@@ -22,38 +22,41 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Inspect public CONAE result endpoints
+      - name: Probe public CONAE map payload
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
+          from urllib.parse import urlencode
           from urllib.request import Request, urlopen
           import re
 
-          url = ('https://catalogos5.conae.gov.ar/catalogofocos/search_date.aspx?'
-                 'dateStart=2026-08-27&dateEnd=2026-08-28&satelite=NOAA20&Confianza=0&'
-                 'Coordenadas=-21.7_-73.7_-55.2_-53.5&tipoA=dib&prov=&dpto=&formato=csv&'
-                 'tipoTot=det&idTot=&nAgrup=agrupSin')
-          req = Request(url, headers={'User-Agent':'PulsoPublicoArgentina/0.1 (+https://github.com/juanmanueltorres-creator/pulso-publico-argentina)'})
-          with urlopen(req, timeout=60) as r:
-              html = r.read().decode('utf-8', errors='replace')
-              print('status=', r.status, 'bytes=', len(html))
+          BASE = 'https://catalogos5.conae.gov.ar/catalogofocos/'
+          HEADERS = {'User-Agent':'PulsoPublicoArgentina/0.1 (+https://github.com/juanmanueltorres-creator/pulso-publico-argentina)'}
 
-          print('candidate endpoints=')
-          patterns = [
-              r'["\']([^"\']+\.aspx(?:\?[^"\']*)?)["\']',
-              r'["\']([^"\']+\.(?:json|geojson|kml)(?:\?[^"\']*)?)["\']',
-              r'(?:xhr\.open|\.ajax|fetch\s*\().{0,450}',
-              r'.{0,300}(?:mapa|foco|marker|feature|latitud|longitud|latitude|longitude).{0,500}',
-          ]
-          seen=set()
-          for pattern in patterns:
-              for m in re.finditer(pattern, html, flags=re.I|re.S):
-                  value = m.group(1) if m.lastindex else m.group(0)
-                  value = re.sub(r'\s+', ' ', value).strip()
-                  if '__VIEWSTATE' in value or len(value) > 1000:
-                      continue
-                  if value not in seen:
-                      seen.add(value)
-                      print(value[:950])
+          for satellite in ('NOAA20', 'SNPP'):
+              params = urlencode({
+                  'dateStart':'2026-08-27', 'dateEnd':'2026-08-28',
+                  'satelite':satellite, 'Confianza':'0',
+                  'Coordenadas':'-21.7_-73.7_-55.2_-53.5', 'tipoA':'dib',
+                  'prov':'', 'dpto':'', 'formato':'csv', 'tipoTot':'det',
+                  'idTot':'', 'nAgrup':'agrupSin',
+              })
+              search_url = BASE + 'search_date.aspx?' + params
+              with urlopen(Request(search_url, headers=HEADERS), timeout=60) as r:
+                  html = r.read().decode('utf-8', errors='replace')
+              m = re.search(r'formData\.append\("p",\s*"([^"]+)"\)', html)
+              if not m:
+                  raise SystemExit(f'{satellite}: public map token not found')
+              token = m.group(1)
+              body = urlencode({'datosMapa':'1', 'p':token}).encode()
+              req = Request(BASE + 'descarga.aspx', data=body, headers={**HEADERS, 'Content-Type':'application/x-www-form-urlencoded'})
+              with urlopen(req, timeout=60) as r:
+                  payload = r.read().decode('iso-8859-1', errors='replace')
+                  print(satellite, 'status=', r.status, 'content_type=', r.headers.get('Content-Type'))
+              rows = [row.strip() for row in payload.replace('\r\n','\n').split('\n') if row.strip()]
+              print(satellite, 'rows=', len(rows))
+              for row in rows[:3]:
+                  parts = row.split(',')
+                  print(satellite, 'sample_fields=', len(parts), 'sample=', parts[:5])
           PY
