@@ -6,30 +6,30 @@
 
 ## 1. Goal
 
-Evolve Pulso Público from a four-signal public-data monitor into a coherent national + territorial product without turning V2 into a patch on top of V1.
+Evolve Pulso Público from a four-signal public-data monitor into one coherent national + territorial product without turning V2 into a patch on top of V1.
 
-V2 keeps the existing scalar public-signal contract intact, gives the whole product a unified black-map editorial identity, and adds a new territorial subsystem based on official Argentine sources:
+V2 keeps the existing scalar public-signal contract intact, gives the whole product a unified black-map editorial identity, and adds a territorial subsystem based on official Argentine sources:
 
 - earthquakes from INPRES;
 - thermal hotspots from CONAE;
 - one interactive dark map of Argentina;
-- transparent provenance, freshness and limitations for every territorial dataset.
+- explicit provenance, freshness and limitations for each territorial dataset.
 
-The product thesis becomes:
+Primary product line:
 
 > **Qué está pasando. Dónde. Y cómo lo sabemos.**
 
-The existing thesis remains a supporting principle:
+Supporting principle retained from V1:
 
 > **Datos que se mueven. Fuentes que se pueden revisar.**
 
-V2 must preserve the core V1 rule: a public-data failure must never be silently converted into zero, false currentness or invented precision.
+A source failure must never be silently converted into zero, false currentness or invented precision.
 
-## 2. Product information architecture
+## 2. Product structure
 
-V2 is a full visual evolution of the same product at the same public URL. It is not a `/v2` side app and not a second product.
+V2 replaces the visual experience at the existing Pulso Público URL. It is not a `/v2` side app and not a second product.
 
-The page is organized into two primary sections:
+The page has two primary sections.
 
 ### Pulso Nacional
 
@@ -40,24 +40,16 @@ The four existing V1 signals remain first-class content:
 3. Innovation — INPI.
 4. Public digital infrastructure — GeoRef.
 
-They continue to use `SignalEnvelope 1.0` and `public/data/signals.json`.
+They continue to use `SignalEnvelope 1.0` and `public/data/signals.json` unchanged.
 
 ### Pulso Territorial
 
-A new section introduces spatial events over a single map of Argentina:
+A new section adds spatial events over one map of Argentina:
 
-- `Sismos` — last 7 days.
+- `Sismos` — last 7 days;
 - `Focos de calor` — last 24 hours.
 
-The conceptual flow remains consistent across both sections:
-
-```text
-qué pasó
-  -> qué significa
-  -> cómo lo sabemos
-```
-
-The map adds the missing spatial question:
+The editorial flow is:
 
 ```text
 qué pasó
@@ -68,33 +60,34 @@ qué pasó
 
 ## 3. Visual identity
 
-V2 redesigns the complete page so Pulso Nacional and Pulso Territorial belong to one system.
+V2 redesigns the complete page so Pulso Nacional and Pulso Territorial clearly belong to one system.
 
-The visual family is shared with GeoPlatform / Anti IA without copying either product literally:
+The visual family is related to GeoPlatform / Anti IA without copying either product literally:
 
 - near-black main background;
 - charcoal panels and map land masses;
 - bone/off-white primary text;
 - amber/gold editorial accent;
-- very thin borders and low-noise UI chrome;
-- restrained glow only where it communicates selection or signal emphasis;
+- thin borders and restrained UI chrome;
+- subtle glow only for selection/emphasis;
 - mono micro-labels for source/state/technical metadata;
 - generous spacing and editorial hierarchy;
-- no generic white dashboard styling;
-- no pastel startup aesthetic;
-- no decorative color that implies danger when the underlying variable does not.
+- no generic white dashboard aesthetic;
+- no decorative red that implies danger when the data does not.
 
-The existing V1 green-led palette is no longer the primary identity. Existing number-entry animation can remain, but it must continue to run once per mount/value change, settle to the exact source value and respect `prefers-reduced-motion`.
+The current V1 green-led palette stops being the dominant identity.
+
+The existing number-entry animation may remain, but it must continue to run once per mount/value change, settle to the exact source value and respect `prefers-reduced-motion`.
 
 ### Hero
 
-Primary headline remains `Pulso Público`.
+Primary title: `Pulso Público`.
 
 Primary explanatory line:
 
 > **Qué está pasando. Dónde. Y cómo lo sabemos.**
 
-The original line `Datos que se mueven. Fuentes que se pueden revisar.` remains visible as a secondary principle rather than the main headline.
+`Datos que se mueven. Fuentes que se pueden revisar.` remains visible as a secondary principle.
 
 ## 4. Page layout
 
@@ -118,15 +111,15 @@ selected-event context
 sources / methodology / reusable data
 ```
 
-Pulso Nacional uses the same card content model as V1 but adopts the V2 identity. The cards must not look like a legacy section sitting above a newer map.
+Pulso Nacional keeps the information model of the existing cards but adopts the new identity. The four V1 cards must not read as legacy UI sitting above a separate V2 product.
 
-Pulso Territorial uses one map instance. Switching between modes changes the event layer, count, legend and selected-event semantics while preserving the geographic viewport.
+Pulso Territorial uses one map instance. Switching mode changes the event layer, count, legend and selected-event semantics while preserving the current geographic viewport.
 
-On desktop, a selected event may use a map/context split around 70/30 when space allows. On mobile, the Argentina map remains large and vertical, with the selected-event card rendered below the map rather than over it.
+On desktop, a selected event may use a map/context split around 70/30 when space allows. On mobile, the Argentina map remains large and vertical and the selected-event card renders below the map rather than over it.
 
 ## 5. Architecture
 
-V1 scalar signals and V2 territorial events are different domain primitives and must remain separate.
+Scalar signals and territorial events are separate domain primitives.
 
 ```text
 CAMMESA ─────┐
@@ -141,13 +134,13 @@ INPRES ─────────> EarthquakeEvent ─────> public/data
 CONAE VIIRS ───> ThermalHotspotEvent ──> public/data/hotspots.json
 ```
 
-The browser does not call INPRES or CONAE directly. Acquisition and normalization run outside the browser, and the static React app consumes only repository-published snapshots.
+The browser never calls INPRES or CONAE directly. Acquisition and normalization run in scripts/workflows; the static React app consumes repository-published snapshots.
 
-`SignalEnvelope 1.0` remains backward compatible and unchanged. Coordinates, magnitude, FRP or sensor fields must not be added as optional fields to the scalar contract.
+`SignalEnvelope 1.0` remains backward compatible and unchanged. Coordinates, magnitude, FRP and sensor fields are not added as optional scalar-signal fields.
 
 ## 6. Territorial contracts
 
-V2 introduces a separate discriminated territorial model.
+V2 introduces a discriminated territorial model.
 
 ```ts
 export type TerritorialKind = 'earthquake' | 'thermal-hotspot'
@@ -187,6 +180,7 @@ export interface TerritorialSnapshot<TEvent> {
   schemaVersion: '1.0'
   kind: TerritorialKind
   generatedAt: string
+  sourceCheckedAt: string
   window: {
     hours: number
   }
@@ -212,45 +206,45 @@ Initial windows:
 - earthquakes: `168` hours;
 - thermal hotspots: `24` hours.
 
-Initial territorial freshness policy: a successful snapshot becomes stale after 180 minutes without replacement. This is intentionally longer than the hourly refresh cadence to tolerate a small number of missed runs without falsely claiming currentness.
+Initial stale threshold: `240` minutes from `sourceCheckedAt`.
 
-A fresh snapshot with `events: []` means the source query succeeded and produced zero qualifying events. A failed source fetch or parser failure must never write `events: []` over the previous good snapshot.
+`sourceCheckedAt` means the last successful source fetch/parse/filter check represented by the published snapshot. `generatedAt` means when that snapshot file was generated for publication. Event occurrence time remains independent from both.
+
+A fresh snapshot with `events: []` means the source check succeeded and produced zero qualifying events. A network/source/parser failure never writes an empty array over the previous good snapshot.
 
 ## 7. Stable event identity
 
-Source row order must never be used as event identity.
+Source row order is never used as event identity.
 
-For earthquakes, use an official event identifier if INPRES exposes a stable one in the acquired record. If no stable source identifier is available, derive the event id deterministically from normalized source fields:
+For earthquakes, use an official stable event id if INPRES exposes one in the acquired record. Otherwise derive a deterministic id from normalized source fields:
 
 ```text
 occurredAt + latitude + longitude + depthKm + magnitude
 ```
 
-For thermal hotspots, use an official feature identifier when stable across refreshes. If the WFS feature id is not suitable, derive the id from the normalized observation fields needed to distinguish one satellite detection from another, including timestamp, coordinates, sensor/satellite and other stable source fields available in the feature.
+For hotspots, use a stable WFS feature id when suitable. Otherwise derive an id from the normalized observation fields required to distinguish one satellite detection from another, including timestamp, coordinates and sensor/satellite fields available in the source feature.
 
-IDs are implementation details for deduplication and React selection; they must not be presented as scientific identifiers unless they originate from the source.
+Derived ids are implementation identifiers for deduplication/selection, not scientific identifiers.
 
 ## 8. Earthquake source — INPRES
 
 Primary source: official INPRES recent-earthquake publication.
 
-Source boundary for V2: the official INPRES recent-events table/page. No undocumented third-party earthquake feed may replace INPRES for the primary V2 dataset.
-
-Acquisition path:
+V2 uses the official recent-events table/page as its source boundary. No third-party earthquake feed replaces INPRES as the primary dataset.
 
 ```text
 INPRES official publication
-  -> source adapter
+  -> adapter
   -> parse and normalize
-  -> validate coordinates/time/magnitude/depth
-  -> retain events inside Argentina
-  -> retain last 7 days
+  -> validate time/coordinates/magnitude/depth
+  -> exact Argentina spatial filter
+  -> last-7-days filter
   -> earthquakes.json
 ```
 
-The adapter must fail closed if the expected source structure changes in a way that makes fields ambiguous. It must not guess column meaning.
+The adapter fails closed if source structure changes make field meaning ambiguous. It must not guess column meaning.
 
-Fields used when published by INPRES:
+Fields are preserved when published by INPRES:
 
 - occurrence date/time;
 - latitude;
@@ -260,144 +254,140 @@ Fields used when published by INPRES:
 - place/province text;
 - macroseismic intensity text.
 
-Magnitude is a direct event property. Depth is secondary context. Neither magnitude nor depth alone may be translated into a damage or danger label.
+Magnitude is a direct event property. Depth is context. Neither magnitude nor depth alone is converted into a damage/danger label.
 
 ### Geographic scope
 
-Pulso Público V2 represents events whose epicentres fall within Argentina. Because a recent-events source may also list nearby events in Chile or other neighbouring territory, the normalized coordinates are checked against the same Argentina boundary used by the map rather than relying only on a rectangular bounding box.
+Pulso V2 counts earthquakes whose epicentres fall within Argentina. Nearby Chilean or other foreign events can be relevant to Argentine users but are excluded from the `Argentina` count when the epicentre falls outside the national polygon.
 
-This means an event outside the national polygon can be operationally relevant to Argentina but still be excluded from the V2 `Argentina` count. That limitation is documented.
+That limitation is visible in methodology.
 
 ## 9. Thermal-hotspot source — CONAE
 
 Primary source: CONAE public OGC geoservices, VIIRS last-24-hours thermal-hotspot layer `GeoServiciosCONAE:FocosDeCalorVIIRS` as advertised by the official CONAE geoservices catalog.
 
-Acquisition path:
-
 ```text
 CONAE WFS / VIIRS 24 h
-  -> source adapter
+  -> adapter
   -> structured feature parse
-  -> coarse Argentina bbox filter where useful
-  -> exact point-in-polygon Argentina filter
+  -> coarse Argentina bbox where useful
+  -> exact Argentina point-in-polygon filter
   -> normalize source attributes
   -> hotspots.json
 ```
 
-The adapter must verify that the expected layer is present in the WFS service capabilities before relying on it. A source/schema mismatch fails closed and does not overwrite the previous good snapshot.
+The adapter verifies the expected layer against WFS capabilities before relying on it. A schema/layer mismatch fails closed and preserves the previous good snapshot.
 
 ### Semantics
 
 A thermal hotspot is a satellite-detected thermal anomaly. It is not automatically a confirmed wildfire.
 
-UI and metadata must use language such as:
+Allowed product language includes:
 
 - `foco de calor`;
 - `anomalía térmica`;
 - `detección`.
 
-They must not relabel detections as:
+V2 does not relabel detections as:
 
 - `incendios activos`;
 - `incendios confirmados`;
 - `probabilidad de incendio`.
 
-CONAE confidence describes confidence in the thermal-anomaly detection, not probability that a wildfire exists on the ground.
+CONAE confidence expresses confidence in the thermal-anomaly detection, not probability that a wildfire exists on the ground.
 
 ### Confidence and FRP
 
-V2 initial emphasis is driven primarily by the source confidence class when present.
+Initial V2 marker emphasis is driven by source confidence when available:
 
-FRP is preserved and displayed as a physical source property when available. V2 does not invent a universal FRP risk threshold and does not reuse a threshold documented for another sensor/product unless the methodology is explicitly validated for the selected VIIRS feed.
+- low/unknown: subdued;
+- nominal: normal;
+- high: stronger contrast.
 
-Persistence and spatial grouping are useful future derived features, but they are not required for the initial V2 release.
+FRP is preserved and shown as a physical source property in event detail when available. **Initial V2 does not use FRP to assign danger, risk, marker size or marker color.** A future release may add a source-defensible FRP encoding only after its methodology is explicitly validated for the selected VIIRS feed.
+
+Persistence and repeated-detection analysis are not required for initial V2.
 
 ## 10. Spatial boundary
 
-Both territorial adapters use a checked-in simplified Argentina/provinces GeoJSON derived from an official IGN administrative-boundary source.
+Both territorial adapters use the same checked-in simplified Argentina/provinces GeoJSON derived from an official IGN administrative-boundary source.
 
-The geometry is used for:
+The geometry serves three purposes:
 
-1. rendering the black map without a commercial/runtime basemap;
-2. exact point-in-polygon filtering after any coarse bounding-box query;
-3. keeping source scope and visual scope consistent.
+1. render the black map without a commercial/runtime basemap;
+2. perform exact point-in-polygon filtering after any coarse bbox query;
+3. keep source scope and visual scope consistent.
 
-The repository must document the geometry source and attribution. Simplification may reduce vertex count for browser performance but must not materially alter the national outline for event inclusion at the working scale.
+The repository documents geometry source and attribution. Simplification may reduce vertex count for browser performance but must preserve the national outline adequately for event inclusion at the working scale.
 
-A rectangular Argentina bbox is never accepted as the final country filter because it includes parts of neighbouring countries.
+A rectangular Argentina bbox is never the final country filter because it includes neighbouring territory.
 
-## 11. Black-map implementation
+## 11. Black map
 
-Recommended map engine: MapLibre GL JS with local GeoJSON sources and a minimal custom style. V2 does not require a commercial map provider or runtime tile service.
+Recommended engine: MapLibre GL JS with local GeoJSON sources and a minimal custom style. V2 does not require a commercial map provider or runtime tile service.
 
-The map should read as an interactive cartographic plate rather than a generic street map:
+The map reads as an interactive cartographic plate rather than a generic street map:
 
 - black/charcoal background;
-- Argentina land polygon slightly separated from the background;
+- Argentina land polygon slightly separated from background;
 - subtle provincial boundaries;
 - no roads, POIs or dense city labels;
 - minimal controls;
-- event layers as the visual focus.
+- event layers are the visual focus.
 
-The map initially fits the complete Argentine territory, including Tierra del Fuego.
+Initial viewport fits Argentina including Tierra del Fuego.
 
 Default territorial mode: `Sismos`.
 
-Switching `Sismos` / `Focos de calor` preserves the current viewport. The map instance is not destroyed and recreated merely to change mode.
+Switching `Sismos` / `Focos de calor` preserves viewport and reuses the same map instance.
 
-## 12. Earthquake map encoding
+## 12. Earthquake encoding
 
-All qualifying earthquakes in the seven-day snapshot are shown.
+All qualifying seven-day earthquakes are shown.
 
-Primary visual encoding:
+Primary encoding:
 
-- marker radius represents magnitude using a bounded visual scale;
-- higher magnitude produces a larger marker, but size is capped to avoid obscuring large map areas;
-- neutral bone/amber tones are used rather than automatic danger red;
-- the largest events can receive a restrained halo for prominence;
-- selection increases contrast and lowers surrounding-event emphasis slightly.
+- bounded marker radius = magnitude;
+- larger magnitude -> larger marker, capped to avoid covering large areas;
+- neutral bone/amber tones rather than danger red;
+- restrained halo may emphasize the largest events;
+- selection raises contrast and slightly lowers surrounding-event emphasis.
 
-No V2 label says that a larger marker means greater expected damage.
+No label equates a larger marker with expected damage.
 
-Selected-event detail includes, when available:
+Selected earthquake detail includes, when available:
 
 - magnitude;
 - depth;
 - occurrence date/time;
 - place/province;
 - intensity text;
-- human explanation of what magnitude/depth mean;
-- `¿Cómo lo sabemos?` source/provenance disclosure.
+- plain-language explanation;
+- `¿Cómo lo sabemos?` provenance.
 
-## 13. Thermal-hotspot map encoding
+## 13. Thermal-hotspot encoding
 
-All qualifying last-24-hours detections remain available to the map. Low-confidence points are not silently deleted merely to make the map look cleaner.
+All qualifying last-24-hours detections remain available to the map. Low-confidence detections are not silently deleted merely to simplify the picture.
 
-Visual hierarchy:
+At national zoom, hotspot points use MapLibre source clustering so dense areas remain readable.
 
-- low/unknown confidence: very subdued;
-- nominal confidence: normal visibility;
-- high confidence: stronger contrast;
-- FRP may influence detail copy and can influence marker emphasis only after an explicit, source-defensible mapping is implemented;
-- no marker style means `confirmed fire`.
+A cluster means `grouped detections`, not one large fire. Cluster counts are counts of detections.
 
-At national zoom, hotspots use MapLibre source clustering so dense areas do not become unreadable.
-
-A cluster means `grouped detections`, not one large fire. Cluster counts represent detections in the cluster.
-
-Selected detection detail includes, when available:
+Selected hotspot detail includes, when available:
 
 - confidence;
 - FRP in MW;
 - sensor;
 - satellite;
-- occurrence/acquisition time;
-- explanation that the record is a thermal anomaly rather than a confirmed fire;
-- `¿Cómo lo sabemos?` source/provenance disclosure.
+- acquisition/occurrence time;
+- explicit thermal-anomaly caveat;
+- `¿Cómo lo sabemos?` provenance.
+
+No marker style means `confirmed fire`.
 
 ## 14. Counters and derived summaries
 
-Territorial headline counts are derived from the events currently loaded from the matching snapshot rather than stored as an unrelated second source of truth.
+Territorial headline counts are derived from the exact events loaded from the matching snapshot. No unrelated count endpoint is maintained as a second source of truth.
 
 Examples:
 
@@ -415,13 +405,13 @@ hotspots.events.filter(event => event.confidence === 'high').length
   -> "27 con confianza alta"
 ```
 
-The initial V2 UI should prefer `con confianza alta` over vague wording such as `más peligrosos` or a synthetic risk score.
+Initial V2 prefers `con confianza alta` over vague wording such as `más peligrosos` or `señales más graves`.
 
-No hidden `riskScore` is introduced in V2.
+No hidden `riskScore` exists in V2.
 
 ## 15. Interaction model
 
-The map has one active mode at a time:
+The map has one active mode:
 
 ```text
 [Sismos] [Focos de calor]
@@ -436,17 +426,17 @@ Mode change updates:
 - explanatory copy;
 - selected-event schema.
 
-Viewport remains stable between modes.
+Viewport remains stable across mode changes.
 
-A first click/tap selects an event. Selection does not trigger an aggressive automatic zoom. Users can zoom/pan separately.
+A first click/tap selects an event without aggressive automatic zoom. Zoom and pan remain separate user actions.
 
-Desktop may show the selected event in a side panel. Mobile shows the detail panel below the map.
+Desktop may render selected-event context beside the map. Mobile renders it below the map.
 
-Transitions between layers are restrained opacity transitions around 200–300 ms and must respect reduced-motion preferences.
+Layer changes use restrained opacity transitions around 200–300 ms and respect reduced-motion preferences.
 
 ## 16. Legend and explanatory copy
 
-The legend remains compact and mode-specific.
+Mode-specific legend:
 
 Sismos:
 
@@ -456,79 +446,89 @@ Focos:
 
 > `Más marcado = mayor confianza de detección`
 
-A `Cómo leer este mapa` disclosure explains encodings and limitations in plain Spanish.
+A `Cómo leer este mapa` disclosure explains encodings/limitations in plain Spanish.
 
-The thermal-hotspot legend must include a concise caveat equivalent to:
+Thermal-hotspot copy always includes an equivalent of:
 
 > Una detección térmica no implica un incendio confirmado.
 
-## 17. Freshness, failure and unavailable states
+## 17. Freshness and failure semantics
 
 Territorial snapshots are independently loadable and independently fallible.
 
 Rules:
 
-1. A successful source refresh writes a new normalized snapshot even when there are zero qualifying events.
-2. A source/network/parser failure does not overwrite the last good snapshot.
-3. The workflow fails visibly when acquisition/validation fails.
-4. The UI derives `stale` when the last good snapshot exceeds its declared `staleAfterMinutes`.
-5. A missing/unreadable snapshot is `unavailable` for that territorial mode.
-6. Failure of one territorial source must not prevent Pulso Nacional or the other territorial mode from rendering.
-7. `fetched/generated now` never makes an old event appear newly observed; event occurrence time remains distinct from snapshot generation time.
+1. A successful source check may publish a zero-event snapshot.
+2. A network/source/parser/validation failure never overwrites the previous good snapshot.
+3. The failing workflow is visibly failed.
+4. The UI derives `stale` from `sourceCheckedAt`, not from the newest event time.
+5. A snapshot is stale after its declared `staleAfterMinutes`.
+6. A missing/unreadable snapshot is `unavailable` for that territorial mode.
+7. One source failing does not hide Pulso Nacional or the other territorial mode.
+8. A recent source check never changes an old event's `occurredAt`.
 
-The UI may continue to display a stale last-good dataset, but it must label that state and show the last successful update time.
+A stale last-good dataset may remain visible, but the UI labels it stale and shows the last represented successful source check.
 
-## 18. Automation
+## 18. Automation and freshness heartbeat
 
-INPRES and CONAE refresh independently once per hour.
+INPRES and CONAE source checks run independently once per hour.
 
-Recommended schedule offsets:
+Recommended offsets:
 
-- INPRES: minute 07 of each hour;
-- CONAE: minute 37 of each hour.
+- INPRES: minute 07;
+- CONAE: minute 37.
 
-The workflows share a territorial write concurrency group so two GitHub Actions jobs do not race to commit different generated files to `main` at the same moment.
+The workflows share a territorial write concurrency group to avoid simultaneous Git pushes to `main`.
 
-Each refresh:
+Each source check:
 
-1. fetches source data with bounded timeout/retry behavior;
+1. fetches with bounded timeout/retry behavior;
 2. parses and validates source-specific fields;
-3. applies the temporal window;
+3. applies temporal filtering;
 4. applies Argentina point-in-polygon filtering;
 5. normalizes and deterministically sorts events;
-6. compares the generated semantic snapshot with the existing snapshot;
-7. commits only when normalized data materially changed.
+6. compares the semantic event payload with the published snapshot;
+7. publishes immediately when event content materially changes.
 
-Operational timestamp churn alone must not create a commit every hour when no material event data changed. When event data does change, the committed successful snapshot receives the corresponding new generation/fetch metadata.
+To reconcile trustworthy freshness with commit noise, each snapshot also has a **freshness heartbeat**:
 
-The existing Pages deployment watches `public/**`, so territorial snapshot commits are expected to trigger a production redeploy. Final implementation verification must confirm this behavior on the actual final commit rather than assuming it from configuration.
+- source checks still run hourly;
+- unchanged event content does not create an hourly commit;
+- if the source remains healthy and the published `sourceCheckedAt` reaches 180 minutes old, the next successful check publishes a heartbeat-only snapshot update;
+- stale threshold is 240 minutes.
+
+Therefore a healthy unchanged source remains demonstrably fresh without producing 24 no-op commits per source per day, while a source that stops succeeding becomes stale after at most four hours from the last represented successful check.
+
+Heartbeat-only publication updates `sourceCheckedAt`/`generatedAt` but does not alter event identity or occurrence timestamps.
+
+The existing Pages deployment watches `public/**`, so territorial snapshot commits are expected to trigger production redeploy. Final implementation verification must confirm this on the actual final commit rather than assuming configuration is sufficient.
 
 ## 19. Accessibility
 
-V2 retains the existing accessibility principles and extends them to the map:
+V2 retains V1 accessibility and extends it to the map:
 
 - keyboard-visible focus;
 - reduced-motion support;
-- selected-event information available outside the graphical marker alone;
+- selected-event information exists outside the graphical marker alone;
 - color is not the only encoding for magnitude/confidence;
-- buttons/toggles have programmatic active state;
-- map canvas has an accessible label/description;
-- counts and source state remain readable without interacting with individual points;
-- technical values in detail panels remain available as text.
+- mode controls expose programmatic active state;
+- map canvas/container has an accessible label/description;
+- headline counts and source state are readable without clicking points;
+- technical detail values are text, not only visual symbols.
 
-The map is an enhancement to the data, not the only way to access critical event information.
+The map enhances the data; it is not the sole route to critical event information.
 
 ## 20. Implementation strategy
 
-Use vertical end-to-end slices rather than building all acquisition first or all UI first.
+Use vertical end-to-end slices.
 
 ### Slice 1 — Identity and territorial foundation
 
-- redesign the whole V1 page into the V2 visual system;
-- introduce `Pulso Nacional` and `Pulso Territorial` hierarchy;
-- preserve the four existing scalar signals and their behavior;
+- redesign the full V1 page into the V2 visual system;
+- introduce `Pulso Nacional` / `Pulso Territorial` hierarchy;
+- preserve all four scalar signals and behavior;
 - add MapLibre and local Argentina/province geometry;
-- add territorial TypeScript contracts, runtime validators and loaders;
+- add territorial contracts, runtime validators and loaders;
 - build the black-map shell with deterministic fixtures;
 - verify responsive/mobile layout and accessibility basics.
 
@@ -540,7 +540,7 @@ This slice remains on the feature branch and is not deployed as a partial V2 pro
 INPRES
   -> adapter
   -> validation
-  -> country/time filtering
+  -> spatial/time filtering
   -> earthquakes.json
   -> loader
   -> map markers
@@ -553,7 +553,7 @@ INPRES
 CONAE WFS
   -> adapter
   -> validation
-  -> Argentina point-in-polygon filter
+  -> spatial/time filtering
   -> hotspots.json
   -> loader
   -> clustering/confidence encoding
@@ -562,13 +562,13 @@ CONAE WFS
 
 ### Slice 4 — Integration and hardening
 
-- mode switching while preserving viewport;
+- mode switching with preserved viewport;
 - independent loading/error/stale states;
 - legends and `Cómo leer este mapa` copy;
 - mobile selected-event behavior;
 - reduced motion;
 - full-page visual consistency;
-- workflow/deploy verification;
+- refresh heartbeat/deploy verification;
 - regression coverage for V1 scalar signals.
 
 ## 21. Testing strategy
@@ -582,22 +582,23 @@ Implementation follows test-driven development for new behavior.
 - malformed coordinates rejected;
 - malformed timestamps rejected;
 - event-specific required fields enforced;
+- `sourceCheckedAt` and freshness metadata validated;
 - `SignalEnvelope 1.0` remains backward compatible.
 
 ### INPRES adapter tests
 
-Use checked-in representative source fixtures rather than live network calls in unit tests.
+Use checked-in representative source fixtures, not live network calls, for unit tests.
 
 Test:
 
 - field extraction;
 - timestamp normalization;
-- numeric magnitude/depth parsing;
+- magnitude/depth parsing;
 - stable ids;
 - seven-day filtering;
-- foreign event exclusion;
+- foreign event exclusion by polygon;
 - malformed source structure fails closed;
-- source failure never produces a synthetic zero-event snapshot.
+- source failure cannot produce a synthetic zero-event snapshot.
 
 ### CONAE adapter tests
 
@@ -611,92 +612,99 @@ Test:
 - nullable FRP;
 - sensor/satellite preservation;
 - 24-hour filtering;
-- point-in-polygon Argentina filtering;
-- a Chile/Uruguay/Paraguay point inside the coarse Argentina bbox is excluded;
+- Argentina point-in-polygon filtering;
+- a Chile/Uruguay/Paraguay point inside the coarse bbox is excluded;
 - malformed WFS/schema fails closed.
+
+### Freshness tests
+
+- material event change publishes immediately;
+- unchanged healthy source does not create hourly timestamp-only writes;
+- heartbeat publishes when represented `sourceCheckedAt` reaches 180 minutes;
+- UI becomes stale after 240 minutes;
+- failure preserves last-good data.
 
 ### UI tests
 
-Test:
-
-- Pulso Nacional still renders all four scalar signals;
-- Sismos is the default territorial mode;
+- Pulso Nacional renders all four scalar signals;
+- Sismos is default territorial mode;
 - mode toggle changes count/legend/content;
-- viewport state is preserved across mode changes at the component contract level;
-- selecting an earthquake shows magnitude/depth/provenance;
-- selecting a hotspot shows confidence/FRP/sensor caveat;
-- hotspot copy does not call a detection a confirmed fire;
-- stale/unavailable one-source states do not hide working sections;
+- viewport state is preserved across mode changes at component-contract level;
+- earthquake selection exposes magnitude/depth/provenance;
+- hotspot selection exposes confidence/FRP/sensor and caveat;
+- hotspot copy never calls a detection a confirmed fire;
+- one-source stale/unavailable state does not hide working sections;
 - reduced-motion behavior remains respected.
 
-### Verification
+### Final verification
 
 Before claiming V2 complete:
 
-- all unit/component tests pass on final HEAD;
+- all tests pass on final HEAD;
 - TypeScript passes;
 - production build passes;
-- `git diff --check` equivalent validation passes where available;
-- scheduled adapter scripts are exercised against the real current sources;
+- diff/whitespace validation passes where available;
+- adapters are exercised against the real current INPRES/CONAE sources;
 - generated snapshots pass runtime validation;
-- production Pages deploy succeeds for the exact final HEAD;
-- deployed site and public JSON files are checked after deploy;
-- desktop and mobile visual validation confirms V1/V2 identity coherence.
+- production Pages deploy succeeds for exact final HEAD;
+- deployed UI and public JSON files are checked after deploy;
+- desktop/mobile visual validation confirms Pulso Nacional and Pulso Territorial share one identity.
 
 ## 22. Definition of done
 
-V2 is complete only when all of the following are true:
+V2 is complete only when all conditions below are true.
 
 ### Product
 
 - one public Pulso Público URL shows the V2 experience;
-- the whole site shares the black/bone/amber identity;
+- the full site shares the black/bone/amber identity;
 - Pulso Nacional retains all four real V1 signals;
 - Pulso Territorial contains one functional Argentina black map;
-- `Sismos` and `Focos de calor` are both backed by real official-source snapshots;
+- `Sismos` and `Focos de calor` are backed by real official-source snapshots;
 - desktop and mobile interactions are usable.
 
 ### Semantics
 
 - magnitude is not presented as predicted damage;
-- depth is contextual, not a standalone danger rating;
+- depth is context, not a standalone danger rating;
 - thermal hotspots are not presented as confirmed fires;
 - CONAE confidence is not presented as wildfire probability;
+- FRP is not converted into an unvalidated danger scale;
 - no opaque risk score exists;
 - source-derived and Pulso-derived values are distinguishable.
 
 ### Data
 
-- `signals.json` remains compatible with V1;
+- `signals.json` remains V1 compatible;
 - `earthquakes.json` and `hotspots.json` are public reusable snapshots;
-- event counts correspond to the events loaded for the active mode;
+- counts correspond to loaded events in the active mode;
 - source failure never becomes zero;
 - stale data is visibly stale;
 - foreign points are not included merely because they fall inside an Argentina bbox.
 
 ### Operations
 
-- INPRES and CONAE refresh independently;
-- writes are serialized safely;
-- workflows do not create meaningless commits when event content is unchanged;
+- INPRES and CONAE checks run independently;
+- repository writes are serialized safely;
+- material data changes publish promptly;
+- healthy unchanged sources publish bounded freshness heartbeats rather than hourly no-op commits;
 - a failure in one source does not take down the rest of the product;
 - Pages redeploys when territorial public data changes.
 
 ### QA
 
-- adapters, validators, spatial filters, loaders and critical map interactions are tested;
-- final CI/build/deploy checks are green on the exact final HEAD;
-- final visual review confirms that Pulso Nacional does not look like a V1 patch above a separate V2 map.
+- adapters, validators, spatial filters, freshness logic, loaders and critical map interactions are tested;
+- final CI/build/deploy checks are green on exact final HEAD;
+- final visual review confirms Pulso Nacional does not look like a V1 patch above a separate V2 map.
 
 ## 23. Explicitly out of scope for V2
 
-The following are intentionally deferred:
+Deferred to V2.x/V3:
 
 - wildfire probability or damage prediction;
 - synthetic fire-risk score;
-- persistence scoring;
-- temporal hotspot tracking across multiple acquisitions;
-- custom spatial clustering semantics beyond map display clustering;
+- hotspot persistence scoring/tracking;
+- custom spatial event semantics beyond display clustering;
 - GOES 10-minute layer;
 - NASA FIRMS cross-source validation;
 - weather/wind overlays;
@@ -704,21 +712,19 @@ The following are intentionally deferred:
 - heatmaps;
 - animated temporal playback;
 - satellite imagery;
-- complex filters by province/date/magnitude/confidence;
+- complex province/date/magnitude/confidence filters;
 - user accounts, backend or database;
 - AI runtime;
 - direct GeoPlatform integration.
 
-These are V2.x/V3 candidates only after the V2 territorial acquisition/map contract is proven.
-
 ## 24. Design rationale
 
-V2 deliberately protects three boundaries:
+V2 protects three boundaries:
 
 1. **Scalar signal vs spatial event** — do not overload `SignalEnvelope`.
 2. **Detection vs conclusion** — a thermal anomaly is evidence, not a confirmed wildfire.
-3. **Product evolution vs feature patch** — V2 redesigns the full Pulso experience so national and territorial signals read as one product.
+3. **Product evolution vs feature patch** — redesign the whole Pulso experience so national and territorial signals read as one product.
 
-The target outcome is not a dashboard with more counters. It is a public, reusable territorial publication where a person can move from a national number to an event on the map and still answer:
+The target is not simply a dashboard with more counters. It is a public, reusable territorial publication where a person can move from a national indicator to an event on the map and still answer:
 
 > **Qué pasó. Dónde. Qué significa. Cómo lo sabemos.**
