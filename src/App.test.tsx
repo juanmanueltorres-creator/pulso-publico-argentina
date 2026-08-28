@@ -1,7 +1,11 @@
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { App } from './App'
 import type { SignalEnvelope, SignalSnapshot } from './types/signal'
+
+vi.mock('./components/TerritorialMap', () => ({
+  TerritorialMap: () => <div data-testid="territorial-map" />,
+}))
 
 function unavailableSignal(
   id: string,
@@ -56,6 +60,8 @@ describe('App', () => {
     expect(screen.getByText('Datos que se mueven. Fuentes que se pueden revisar.')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Pulso Nacional' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Pulso Territorial' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /sismos/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /focos de calor/i })).toBeInTheDocument()
   })
 
   it('renders the four signal families from the snapshot', async () => {
