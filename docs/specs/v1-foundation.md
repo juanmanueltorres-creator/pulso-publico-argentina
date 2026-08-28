@@ -120,19 +120,41 @@ The signal value is `meta.count`. The public copy must say that this is an OpenA
 
 Because this count is evaluated when the API is queried and OpenAlex does not provide a separate observation timestamp for the aggregate, `observedAt` equals `fetchedAt` for this signal.
 
-### INPI — next candidate
+### INPI — implemented
 
-Inspect the stable CSV download behind the official patent statistics page before implementing HTML scraping.
+The official patent dashboard uses the structured JSON endpoint:
 
-### CAMMESA
+```text
+GET https://datos.inpi.gob.ar/Home/getEstadisticasCSV
+  ?tipoTramite=Patentes
+  &mes=1
+  &ano=0
+```
+
+The monthly response exposes `Mes`, `Modelo de Utilidad` and `Patente de Invencion`. The V1 signal is **not** patents granted: it is **solicitudes de patentes de invención ingresadas**.
+
+The adapter selects the most recent **completed calendar month** relative to `fetchedAt`. The current month is excluded even when the endpoint already includes a row for it, because that value may be partial. A numeric `0` remains valid when it belongs to a closed month.
+
+**Verified behavior (2026-08-27/28):** the source returned July 2026 with `323` patent-invention filings and August 2026 with `0`. Because August was still in progress, the first end-to-end refresh correctly published:
+
+```text
+value: 323
+periodLabel: Julio 2026 · último mes completo
+status: updated
+availability: available
+```
+
+The endpoint is used by the official dashboard but is not documented as a public stable API, so that limitation remains visible in the signal metadata.
+
+### CAMMESA — next
 
 Inspect the data path behind `Renovables Hoy`. If the live iframe does not expose a stable structured source, use the official monthly renewable dataset and label it `updated`.
 
 ## Automation
 
-GeoRef and OpenAlex each refresh every 12 hours and can also be triggered manually. Their schedules are offset and both workflows share the `refresh-signals` concurrency group so they cannot write the public snapshot concurrently.
+GeoRef and OpenAlex each refresh every 12 hours and can also be triggered manually. INPI refreshes once per day because its source is monthly. All source workflows share the `refresh-signals` concurrency group so they cannot write the public snapshot concurrently.
 
-Each refresh workflow has `contents: write` only because it commits the generated public snapshot. Neither implemented source requires a credential.
+Each refresh workflow has `contents: write` only because it commits the generated public snapshot. None of the three implemented sources requires a credential.
 
 ## Out of scope for V1
 
