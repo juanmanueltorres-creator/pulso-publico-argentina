@@ -1,16 +1,20 @@
 import { useEffect, useRef } from 'react'
 import {
   Map as MapLibreMap,
+  setWorkerUrl,
   type GeoJSONSource,
   type MapLayerMouseEvent,
   type StyleSpecification,
 } from 'maplibre-gl'
+import mapLibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import { eventsToFeatureCollection } from '../lib/territorialMapData'
 import type {
   EarthquakeEvent,
   TerritorialKind,
   ThermalHotspotEvent,
 } from '../types/territorial'
+
+setWorkerUrl(mapLibreWorkerUrl)
 
 const ARGENTINA_VIEW_BOUNDS: [[number, number], [number, number]] = [
   [-73.7, -55.3],
