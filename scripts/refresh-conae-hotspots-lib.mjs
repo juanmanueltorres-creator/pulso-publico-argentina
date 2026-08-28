@@ -1,10 +1,10 @@
-import { fetchConaeHotspots } from './fetch-conae-hotspots.mjs'
+import { fetchConaeCatalogHotspots } from './fetch-conae-hotspots.mjs'
 import { pointInFeatureCollection } from './lib/geo.mjs'
 import { prepareTerritorialPublication } from './lib/territorial-snapshot.mjs'
 
 const WINDOW_HOURS = 24
 const FUTURE_TOLERANCE_MS = 5 * 60 * 1000
-const CONAE_CATALOG_URL = 'https://catalogos.conae.gov.ar/catalogo/catalogoGeoServiciosOGC.html'
+const CONAE_CATALOG_URL = 'https://catalogos5.conae.gov.ar/catalogofocos/'
 
 export function selectConaeHotspots(events, argentinaGeometry, checkedAt) {
   if (!Array.isArray(events)) {
@@ -39,7 +39,7 @@ export async function refreshConaeHotspotSnapshot(
   fetchImpl = fetch,
   checkedAt = new Date().toISOString(),
 ) {
-  const events = await fetchConaeHotspots(fetchImpl)
+  const events = await fetchConaeCatalogHotspots(fetchImpl, checkedAt)
   const selected = selectConaeHotspots(events, argentinaGeometry, checkedAt)
 
   const candidate = {
@@ -55,13 +55,14 @@ export async function refreshConaeHotspotSnapshot(
       kind: 'official',
     },
     method: {
-      type: 'wfs',
-      note: 'Capa oficial VIIRS de focos de calor de las últimas 24 horas publicada por CONAE mediante WFS.',
+      type: 'scrape',
+      note: 'Visor público oficial de focos de calor de CONAE: consulta detallada NOAA-20 y SNPP, prefiltrada por bbox y luego filtrada por la geometría argentina de IGN.',
     },
     limitations: [
       'Un foco de calor es una anomalía térmica satelital y no implica un incendio confirmado.',
-      'La confianza de detección describe la señal térmica y no equivale a probabilidad de incendio.',
-      'Pulso Público conserva FRP como potencia radiativa en MW y no la convierte en una escala de peligro.',
+      'La confianza de detección no equivale a probabilidad de incendio; las categorías visuales de Pulso siguen los cortes de confianza usados por el mapa público de CONAE.',
+      'La ruta pública usada para visualizar detecciones en el mapa público no expone FRP, por lo que frpMw se conserva como null en este snapshot.',
+      'El payload del mapa público no rotula explícitamente la zona horaria; Pulso interpreta esas marcas temporales como UTC para normalizarlas y declara esta limitación.',
     ],
     events: selected,
   }
