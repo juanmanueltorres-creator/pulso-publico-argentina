@@ -91,8 +91,39 @@
   background: var(--accent-strong);
 }
 
-.territorial-legend__mark--hotspot {
-  background: var(--accent);
+.territorial-legend__tone-scale {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.7rem;
+  padding: 0.18rem 0.45rem;
+  border: 1px solid rgba(211, 164, 98, 0.18);
+  border-radius: 999px;
+  background: rgba(211, 164, 98, 0.035);
+}
+
+.territorial-legend__tone-tier {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
+}
+
+.territorial-legend__mark--hotspot-low {
+  background: #4a3924;
+  box-shadow: 0 0 0 1px #765b38;
+}
+
+.territorial-legend__mark--hotspot-medium {
+  background: #b77a32;
+  box-shadow: 0 0 0 1px #e2a653;
+}
+
+.territorial-legend__mark--hotspot-high {
+  background: #ffd27a;
+  box-shadow:
+    0 0 0 1px #fff0c4,
+    0 0 0.55rem rgba(255, 210, 122, 0.55);
 }
 
 .territorial-layout {
