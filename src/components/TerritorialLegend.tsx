@@ -7,17 +7,21 @@ interface TerritorialLegendProps {
 export function TerritorialLegend({ mode }: TerritorialLegendProps) {
   if (mode === 'earthquake') {
     return (
-      <div className="territorial-legend" aria-label="Leyenda de sismos">
+      <div className="territorial-legend" aria-label="Leyenda de sismos" tabIndex={0}>
+        <strong>Cómo leer este mapa</strong>
         <span className="territorial-legend__mark territorial-legend__mark--earthquake" aria-hidden="true" />
-        <span>El tamaño representa magnitud. La profundidad aparece en el detalle.</span>
+        <span>Tamaño = magnitud</span>
+        <span>La profundidad y la intensidad aparecen en el detalle.</span>
       </div>
     )
   }
 
   return (
-    <div className="territorial-legend" aria-label="Leyenda de focos de calor">
+    <div className="territorial-legend" aria-label="Leyenda de focos de calor" tabIndex={0}>
+      <strong>Cómo leer este mapa</strong>
       <span className="territorial-legend__mark territorial-legend__mark--hotspot" aria-hidden="true" />
-      <span>Se muestran todas las detecciones; confianza y FRP aportan contexto, no confirmación de incendio.</span>
+      <span>Tamaño y color = confianza de detección</span>
+      <span>FRP aporta contexto en el detalle; no representa peligro ni confirma un incendio.</span>
     </div>
   )
 }

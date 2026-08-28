@@ -5,6 +5,11 @@ type TerritorialEvent = EarthquakeEvent | ThermalHotspotEvent
 
 interface TerritorialDetailProps {
   event: TerritorialEvent | null
+  source?: {
+    name: string
+    url: string
+  }
+  limitations?: string[]
 }
 
 const NUMBER_FORMATTER = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 1 })
@@ -19,7 +24,14 @@ function displayTime(value: string): string {
   }).format(date)
 }
 
-export function TerritorialDetail({ event }: TerritorialDetailProps) {
+function confidenceLabel(value: ThermalHotspotEvent['confidence']): string {
+  if (value === 'high') return 'alta'
+  if (value === 'nominal') return 'nominal'
+  if (value === 'low') return 'baja'
+  return 'no informada'
+}
+
+export function TerritorialDetail({ event, source, limitations = [] }: TerritorialDetailProps) {
   if (!event) {
     return (
       <aside className="territorial-detail territorial-detail--empty" aria-live="polite">
@@ -55,12 +67,16 @@ export function TerritorialDetail({ event }: TerritorialDetailProps) {
               <dt>Referencia</dt>
               <dd>{event.place ?? event.province ?? 'No informada'}</dd>
             </div>
+            <div>
+              <dt>Intensidad</dt>
+              <dd>{event.intensityText ?? 'No informada'}</dd>
+            </div>
           </>
         ) : (
           <>
             <div>
               <dt>Confianza</dt>
-              <dd>{event.confidence}</dd>
+              <dd>{confidenceLabel(event.confidence)}</dd>
             </div>
             <div>
               <dt>FRP</dt>
@@ -70,9 +86,30 @@ export function TerritorialDetail({ event }: TerritorialDetailProps) {
               <dt>Sensor</dt>
               <dd>{event.sensor ?? 'No informado'}</dd>
             </div>
+            <div>
+              <dt>Satélite</dt>
+              <dd>{event.satellite ?? 'No informado'}</dd>
+            </div>
           </>
         )}
+        {source ? (
+          <div>
+            <dt>Fuente</dt>
+            <dd>
+              <a href={source.url} target="_blank" rel="noreferrer">
+                {source.name}
+              </a>
+            </dd>
+          </div>
+        ) : null}
       </dl>
+      {limitations.length > 0 ? (
+        <div className="territorial-detail__limitations">
+          {limitations.map((limitation) => (
+            <p key={limitation}>Limitación: {limitation}</p>
+          ))}
+        </div>
+      ) : null}
     </aside>
   )
 }

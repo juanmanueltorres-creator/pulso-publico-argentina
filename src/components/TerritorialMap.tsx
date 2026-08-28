@@ -170,13 +170,15 @@ function createBlackMapStyle(): StyleSpecification {
             '#9f9a8f',
           ],
           'circle-radius': [
-            'interpolate',
-            ['linear'],
-            ['coalesce', ['get', 'frpMw'], 0],
-            0,
-            3,
-            100,
-            8,
+            'match',
+            ['get', 'confidence'],
+            'high',
+            7,
+            'nominal',
+            5,
+            'low',
+            3.5,
+            4,
           ],
           'circle-opacity': 0.78,
           'circle-stroke-color': '#050706',
@@ -260,7 +262,8 @@ export function TerritorialMap({
     <div
       ref={containerRef}
       className="territorial-map"
-      aria-label="Mapa territorial de Argentina"
+      role="region"
+      aria-label="Mapa de señales territoriales de Argentina"
       data-selected-id={selectedId ?? undefined}
     />
   )
