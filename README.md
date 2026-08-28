@@ -1,141 +1,55 @@
 # Pulso Público Argentina
 
-**Datos que se mueven. Fuentes que se pueden revisar.**
+Indicadores públicos de Argentina con fuentes, trazabilidad y metodología abierta. Datos simples, verificables y reutilizables.
 
-Pulso Público Argentina es un experimento abierto para mostrar indicadores públicos argentinos sin separar la cifra de su procedencia. Cada señal conserva fuente, fecha, método, estado y limitaciones.
+## V1
 
-La interfaz toma la idea de los contadores móviles, pero evita presentar una estimación o un dato viejo como si fuera una observación en vivo.
-
-## Estado
-
-V1 está en construcción.
-
-El contrato y la interfaz inicial declaran cuatro familias de señales:
-
-| Categoría | Fuente candidata | Estado V1 |
-| --- | --- | --- |
-| ⚡ Energía | CAMMESA | fuente declarada; obtención estructurada por confirmar |
-| 🔬 Ciencia | OpenAlex | API candidata; adapter siguiente |
-| 💡 Innovación | INPI Argentina | CSV oficial por verificar antes de scraping |
-| 🗺️ Infraestructura digital pública | Datos Argentina / GeoRef | API candidata; adapter siguiente |
-
-Mientras una fuente no esté integrada y verificada, la UI muestra **Sin dato**. Un error nunca se convierte en `0`.
-
-## Estados de una señal
-
-- `live` — observación realmente actual o casi actual.
-- `updated` — último dato publicado por la fuente.
-- `estimated` — cálculo derivado y rotulado explícitamente.
-- `historical` — snapshot histórico que no pretende actualidad.
-
-La disponibilidad se modela por separado como `available`, `stale` o `unavailable`.
-
-## Arquitectura V1
+La primera versión usa una arquitectura estática y desacoplada:
 
 ```text
-fuentes públicas
-      ↓
-adapters / scripts
-      ↓
-normalización
-      ↓
-public/data/signals.json
-      ↓
-React + Vite
+fuente pública
+→ adapter
+→ SignalEnvelope
+→ public/data/signals.json
+→ React / Vite
 ```
 
-La aplicación web **no consulta directamente** CAMMESA, INPI, OpenAlex o Datos Argentina. Consume un snapshot público estable. Eso permite que el mismo JSON pueda reutilizarse después desde otra interfaz, incluida GeoPlatform.
+No hay backend propio, base de datos ni credenciales expuestas en el navegador.
 
-No hay backend propio, base de datos, autenticación ni IA runtime en V1.
+## Señales
 
-## Contrato público
+- **GeoRef / Datos Argentina** — integrada end-to-end mediante la API oficial de Series de Tiempo (`apis_georef_005`). El último valor publicado recuperado actualmente es histórico, por lo que se conserva pero se muestra como `historical` + `stale`.
+- **OpenAlex** — próxima integración estructurada.
+- **INPI** — pendiente de confirmar descarga CSV estable antes de implementar.
+- **CAMMESA** — pendiente de confirmar una fuente estructurada estable; no se promete `live` mientras eso no esté verificado.
 
-Cada señal usa `SignalEnvelope` v1.0 con, como mínimo:
+## Trazabilidad
 
-```text
-id
-category
-title
-value
-unit
-periodLabel
-status
-availability
-observedAt
-publishedAt
-fetchedAt
-source
-method
-limitations
-```
+Cada señal conserva:
 
-`value` puede ser `null` únicamente cuando la fuente está `unavailable`.
-
-El snapshot completo vive en:
-
-```text
-/public/data/signals.json
-```
-
-## ¿Cómo lo sabemos?
-
-Cada card puede desplegar sus metadatos de procedencia:
-
+- valor y unidad;
+- período explícito;
+- `observedAt`, `publishedAt` y `fetchedAt` cuando corresponda;
 - fuente;
-- estado del dato;
-- fecha observada;
-- fecha de consulta;
-- método de obtención/transformación;
-- limitaciones conocidas.
+- método;
+- limitaciones;
+- estado y disponibilidad.
 
-La intención es que la procedencia sea parte de la experiencia y no una nota al pie.
+Un fetch exitoso no vuelve actual a una observación vieja. Para la señal semanal de GeoRef, una observación con más de 14 días se clasifica como `historical` + `stale`.
 
 ## Desarrollo
-
-Requiere Node.js 20+.
 
 ```bash
 npm install
 npm run dev
-```
-
-Tests:
-
-```bash
 npm run test:run
-```
-
-Build:
-
-```bash
 npm run build
 ```
 
-GitHub Actions ejecuta test + build en pushes y pull requests.
+Refresh manual de GeoRef:
 
-## Próximos adapters
-
-Primero:
-
-1. GeoRef / Datos Argentina.
-2. OpenAlex.
-3. INPI, sólo después de confirmar la descarga CSV oficial estable.
-4. CAMMESA, privilegiando una fuente estructurada oficial antes que scraping frágil de la visualización en vivo.
-
-Más adelante, **sismos e incendios** son candidatos fuertes porque agregan tiempo + coordenada y pueden convertirse en señales territoriales reutilizables por mapas y GeoPlatform Explorer.
-
-## Principio de integración con GeoPlatform
-
-Pulso Público debe poder vivir solo. GeoPlatform será un consumidor posterior, no una dependencia.
-
-La primera integración prevista es deliberadamente pequeña:
-
-```ts
-fetch('.../data/signals.json')
+```bash
+npm run refresh:georef
 ```
 
-Sin tocar FastAPI, Supabase, autenticación ni endpoints existentes.
-
-## Licencia
-
-MIT para el código de este repositorio. Los datos conservan las condiciones y atribución de sus fuentes originales; publicar un snapshot aquí no cambia la licencia del dato fuente.
+GitHub Actions ejecuta tests/build y refresca GeoRef cada 12 horas, además de permitir ejecución manual.
