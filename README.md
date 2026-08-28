@@ -2,7 +2,7 @@
 
 **Qué está pasando. Dónde. Y cómo lo sabemos.**
 
-Pulso Público Argentina toma señales públicas dispersas entre APIs, planillas, catálogos y sitios oficiales, conserva su procedencia y las publica en una interfaz simple para poder entender no sólo **cuánto**, sino también **dónde ocurrió, cuándo fue observado y qué límites tiene el dato**.
+Pulso Público Argentina toma señales públicas dispersas entre APIs, planillas, catálogos y sitios oficiales, conserva su procedencia y las publica en una interfaz simple para poder entender no sólo **cuánto**, sino también **dónde ocurrió, cuándo fue observado, cómo fue construido y qué límites tiene el dato**.
 
 La regla central del proyecto es sencilla:
 
@@ -10,9 +10,7 @@ La regla central del proyecto es sencilla:
 
 👉 **[Ver Pulso Público Argentina](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/)**
 
-> La V2 territorial se desarrolla en `feat/v2-territorial-design`. La URL pública continúa mostrando `main` hasta que exista una decisión explícita de merge y despliegue.
-
-## Dos pulsos, una misma publicación
+## Tres pulsos, una misma publicación
 
 ### Pulso Nacional
 
@@ -36,6 +34,28 @@ El límite nacional utilizado para filtrar eventos se deriva de geometría ofici
 
 El mapa mantiene una sola instancia MapLibre para `Sismos` y `Focos de calor`, preserva el viewport al cambiar de modo y permite seleccionar eventos para leer sus detalles fuera del canvas.
 
+### Pulso Evidencia
+
+La V3 agrega una tercera familia independiente para resultados analíticos o relaciones territoriales que no deben fingir ser eventos recientes ni simples contadores.
+
+Su contrato público es `EvidenceSnapshot 1.0` y cada `TerritorialEvidence` separa explícitamente:
+
+```text
+claim
+→ territory
+→ result
+→ provenance
+→ method
+→ limitations
+→ missingContext
+```
+
+El primer caso es **Maíz + El Niño · Villaguay, Entre Ríos**, identificado por el código territorial oficial `30113`.
+
+Pulso conserva una referencia externa de AgroENSO cercana a **+24%** para Villaguay durante fases El Niño. Ese valor se publica como `external-reference`: **no fue calculado ni reproducido por Pulso**. La significancia estadística individual permanece sin afirmar (`null`) mientras no exista una verificación pública explícita para ese departamento.
+
+**Una asociación histórica no es un pronóstico de rendimiento.** Para interpretar una campaña o un lote concreto todavía hacen falta, entre otros factores, agua útil, suelo, napa, posición en el paisaje, fecha de siembra, estado del cultivo y meteorología reciente.
+
 ## Cómo interpretar las señales territoriales
 
 ### Sismos
@@ -48,7 +68,9 @@ El tamaño visual representa **magnitud**. La profundidad, provincia o referenci
 
 Una detección VIIRS representa una **anomalía térmica detectada por satélite**.
 
-**Una anomalía térmica no confirma por sí sola un incendio.** La confianza publicada se interpreta como confianza de detección, no como probabilidad de incendio forestal. FRP se conserva como contexto cuando está disponible, pero V2 no lo transforma en peligro, riesgo, tamaño del marcador ni score sintético.
+**Una anomalía térmica no confirma por sí sola un incendio.** La confianza publicada se interpreta como confianza de detección, no como probabilidad de incendio forestal. FRP se conserva como contexto cuando está disponible, pero Pulso no lo transforma en peligro, riesgo ni score sintético.
+
+En clusters de focos, el tamaño representa cantidad de detecciones y el tono representa la proporción de detecciones con confianza alta. Los umbrales visuales son categorías de legibilidad, no umbrales oficiales de riesgo.
 
 ## Frescura y fallos de fuente
 
@@ -64,6 +86,8 @@ INPRES y CONAE tienen pipelines independientes.
 
 La interfaz trata los estados de INPRES y CONAE por separado: una fuente temporalmente no disponible no borra ni falsea la otra.
 
+`Pulso Evidencia` también carga su snapshot de forma independiente. Si `/data/evidence.json` falla o no valida, la sección falla cerrada sin fabricar `0`, una evidencia vacía o una conclusión sustituta; Pulso Nacional y Pulso Territorial pueden seguir funcionando.
+
 ## Datos reutilizables
 
 Pulso Público publica contratos estáticos que pueden consumir otros clientes sin depender de la interfaz React.
@@ -74,13 +98,30 @@ Pulso Público publica contratos estáticos que pueden consumir otros clientes s
 
 ### Pulso Territorial
 
-Estos outputs quedan disponibles en GitHub Pages cuando V2 sea autorizada, mergeada y desplegada desde `main`:
-
 - [`earthquakes.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/earthquakes.json)
 - [`hotspots.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/hotspots.json)
 - [`argentina-provinces.geojson`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/argentina-provinces.geojson)
 
 Los snapshots territoriales incluyen `schemaVersion`, `kind`, `generatedAt`, `sourceCheckedAt`, ventana temporal, política de frescura, fuente oficial, método, limitaciones y eventos normalizados.
+
+### Pulso Evidencia
+
+- [`evidence.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/evidence.json)
+- [`villaguay.geojson`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/evidence/territories/villaguay.geojson)
+- [`villaguay.source.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/evidence/territories/villaguay.source.json)
+
+La geometría de Villaguay es una simplificación explícitamente documentada para referencia territorial. La identidad administrativa se conserva mediante el código `30113`; no se usa el nombre del departamento como clave de join.
+
+## Referencia externa vs reproducción
+
+`TerritorialEvidence.provenance.resultKind` distingue dos situaciones:
+
+- `external-reference`: Pulso conserva y presenta un resultado publicado por otra fuente, con su procedencia y sus límites;
+- `reproduced`: reservado para un resultado que Pulso haya reconstruido mediante un pipeline propio verificable.
+
+V3.0 utiliza exclusivamente la primera opción para AgroENSO. No se atribuye a Pulso el cálculo de `+24%`.
+
+La primera candidata para V3.1 es una reproducción verificable basada en **MAGyP + NOAA ONI**, comparada contra AgroENSO sin sobrescribir la referencia externa original.
 
 ## Arquitectura
 
@@ -92,17 +133,33 @@ CAMMESA / OpenAlex / INPI / GeoRef
           signals.json
 
 INPRES → EarthquakeEvent → earthquakes.json -----\
-                                                   → black map → React / Vite → GitHub Pages
+                                                   → black map
 CONAE  → ThermalHotspotEvent → hotspots.json -----/
                          ↑
                  geometría IGN
+
+AgroENSO / fuentes declaradas
+              ↓
+       TerritorialEvidence
+              ↓
+          evidence.json
+              ↓
+  Qué sabemos / Qué significa /
+  Qué falta / Cómo lo sabemos
+
+              ↓
+        React / Vite
+              ↓
+        GitHub Pages
 ```
 
-El navegador no consulta directamente a INPRES, CONAE ni IGN. Los adapters consultan las fuentes fuera del cliente, validan y normalizan la información y publican snapshots versionados en el repositorio. La aplicación consume exclusivamente esos archivos públicos.
+El navegador no consulta directamente a INPRES, CONAE ni IGN para construir los snapshots territoriales. Los adapters consultan las fuentes fuera del cliente, validan y normalizan la información y publican snapshots versionados en el repositorio. La aplicación consume esos archivos públicos.
+
+En V3.0, AgroENSO se consume como **referencia pública trazable**, no mediante scraping de su interfaz y no como API implícita.
 
 ## Fuentes y trazabilidad
 
-Las fuentes actuales son:
+Las fuentes actuales incluyen:
 
 - **CAMMESA** — energía renovable;
 - **OpenAlex** — índice bibliográfico;
@@ -110,20 +167,24 @@ Las fuentes actuales son:
 - **Datos Argentina / GeoRef** — infraestructura geográfica pública;
 - **INPRES** — sismos recientes;
 - **CONAE** — detecciones térmicas VIIRS;
-- **IGN** — geometría oficial utilizada para el filtrado territorial.
+- **IGN** — geometría oficial utilizada para el filtrado territorial;
+- **AgroENSO** — referencia analítica histórica del primer caso de Pulso Evidencia;
+- **MAGyP** — rendimientos agrícolas departamentales declarados por AgroENSO;
+- **NOAA CPC / ONI** — clasificación histórica ENSO declarada por AgroENSO.
 
-Cada señal intenta hacer visible la cadena mínima:
+Cada señal o evidencia intenta hacer visible una cadena mínima:
 
 ```text
-dato
+dato o afirmación
 → fuente
-→ tiempo
+→ territorio / tiempo
 → método
 → limitaciones
+→ contexto faltante
 → interpretación posible
 ```
 
-Pulso Público no reemplaza a las fuentes oficiales ni convierte las señales en diagnósticos automáticos.
+Pulso Público no reemplaza a las fuentes oficiales ni convierte señales o asociaciones históricas en diagnósticos automáticos.
 
 ## Desarrollo
 
@@ -165,22 +226,24 @@ npm run test:run
 npm run build
 ```
 
-Los tests de CI son deterministas y no dependen de que INPRES o CONAE estén disponibles en ese instante. Los proveedores reales se validan mediante smoke checks separados; una falla real se investiga y nunca se maquilla como una publicación vacía exitosa.
+Los tests de CI son deterministas y no dependen de que INPRES, CONAE o AgroENSO estén disponibles en ese instante. Los snapshots públicos checked-in se validan como contratos; una falla real se investiga y nunca se maquilla como una publicación vacía exitosa.
 
-## Alcance deliberadamente fuera de V2
+## Alcance deliberadamente fuera de V3.0
 
-V2 no incorpora:
+V3.0 no incorpora:
 
-- score de riesgo de incendio;
-- uso de FRP como peligro;
-- GOES o FIRMS como cross-check;
+- reproducción estadística completa de AgroENSO;
+- pronóstico de rendimiento por campaña o lote;
+- score sintético de riesgo, confianza o confiabilidad;
+- mapa o selector agrícola completo;
+- GOES o FIRMS como cross-check de focos térmicos;
 - overlays meteorológicos o de combustible;
 - playback temporal;
-- backend propio;
+- backend propio para Pulso Evidencia;
 - runtime de IA;
 - integración directa con GeoPlatform.
 
-Esas capacidades sólo tienen sentido después de validar esta frontera pública pequeña y trazable.
+Esas capacidades sólo tienen sentido después de validar esta frontera pública pequeña, trazable y reutilizable.
 
 ## Principio del proyecto
 

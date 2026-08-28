@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-08-28T19:38:00Z",
+  "evidences": [
+    {
+      "id": "agroenso-maize-nino-villaguay",
+      "claim": {
+        "type": "historical-association",
+        "title": "Maíz + El Niño en Villaguay",
+        "statement": "AgroENSO reporta una asociación histórica positiva entre las fases El Niño y el rendimiento departamental de maíz en Villaguay, Entre Ríos."
+      },
+      "territory": {
+        "countryCode": "AR",
+        "province": "Entre Ríos",
+        "adminLevel": "department",
+        "adminName": "Villaguay",
+        "adminCode": "30113",
+        "geometryRef": "/data/evidence/territories/villaguay.geojson"
+      },
+      "subject": {
+        "domain": "agriculture",
+        "variable": "Maíz",
+        "condition": "El Niño"
+      },
+      "result": {
+        "value": 24,
+        "unit": "%",
+        "interpretation": "Referencia externa aproximada: una publicación oficial sobre AgroENSO informa un pico cercano a +24% para Villaguay en fases El Niño.",
+        "statisticalSignificance": null
+      },
+      "temporalContext": {
+        "coverage": "1990/91–2025/26",
+        "observedAt": null,
+        "freshness": "historical"
+      },
+      "provenance": {
+        "resultKind": "external-reference",
+        "analysisName": "AgroENSO",
+        "authors": [
+          "Juan Pablo Monzon",
+          "Fernando Aramburu-Merlos",
+          "Jorge Luis Mercau"
+        ],
+        "sourceUrl": "https://www.argentina.gob.ar/noticias/presentan-una-herramienta-para-evaluar-el-impacto-de-el-nino-en-los-cultivos",
+        "inputs": [
+          {
+            "role": "Rendimientos agrícolas departamentales",
+            "sourceName": "MAGyP · Estimaciones Agrícolas",
+            "sourceUrl": "https://datos.magyp.gob.ar/dataset/estimaciones-agricolas"
+          },
+          {
+            "role": "Clasificación histórica de fases ENSO",
+            "sourceName": "NOAA CPC · Oceanic Niño Index (ONI)",
+            "sourceUrl": "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso/oni/v6/"
+          },
+          {
+            "role": "Identidad y cartografía administrativa",
+            "sourceName": "IGN / GeoRef",
+            "sourceUrl": "https://www.argentina.gob.ar/georef/referencia-completa-de-la-api"
+          }
+        ]
+      },
+      "method": {
+        "summary": "Pulso publica una referencia trazable al análisis histórico de AgroENSO. V3.0 no recalcula ni reproduce el resultado estadístico.",
+        "processingSteps": [
+          "AgroENSO usa rendimientos agrícolas oficiales del MAGyP a escala departamental para 1990/91–2025/26.",
+          "AgroENSO clasifica las campañas con el Oceanic Niño Index (ONI) de NOAA y documenta el uso del trimestre OND para la relación ENSO–rendimiento.",
+          "AgroENSO une cartografía oficial del IGN con los datos por código INDEC, no por nombre.",
+          "Pulso conserva el valor de Villaguay publicado por la referencia oficial como resultado externo y no lo presenta como cálculo propio."
+        ]
+      },
+      "limitations": [
+        "Es una asociación histórica; no es un pronóstico de rendimiento para una campaña futura.",
+        "El +24% es una referencia externa publicada y no fue calculado por Pulso.",
+        "La escala es departamental y no representa por sí sola las condiciones de un lote individual.",
+        "La significancia estadística individual de Villaguay se mantiene sin afirmar en Pulso mientras no se verifique de forma explícita para ese departamento."
+      ],
+      "missingContext": [
+        "Agua útil actual",
+        "Tipo y condición del suelo",
+        "Profundidad y dinámica de la napa",
+        "Posición del lote en el paisaje",
+        "Fecha de siembra",
+        "Estado actual del cultivo",
+        "Meteorología reciente"
+      ]
+    }
+  ]
+}
