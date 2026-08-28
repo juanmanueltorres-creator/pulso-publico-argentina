@@ -3,6 +3,7 @@ import type { WeatherPoint, WeatherSnapshot, WeatherVariable } from '../types/we
 import type { HotspotWeatherContext } from './weatherContext'
 
 const WIND_VECTOR_ANGULAR_DEGREES = 0.12
+const WIND_VECTOR_HEAD_ANGULAR_DEGREES = 0.035
 
 function featureCollection(features: object[]) {
   return {
@@ -74,10 +75,11 @@ function destinationCoordinate(
   latitude: number,
   longitude: number,
   bearingDegrees: number,
+  angularDegrees = WIND_VECTOR_ANGULAR_DEGREES,
 ): [number, number] {
   const radians = (value: number) => (value * Math.PI) / 180
   const degrees = (value: number) => (value * 180) / Math.PI
-  const angularDistance = radians(WIND_VECTOR_ANGULAR_DEGREES)
+  const angularDistance = radians(angularDegrees)
   const bearing = radians(bearingDegrees)
   const lat1 = radians(latitude)
   const lon1 = radians(longitude)
@@ -111,10 +113,24 @@ export function weatherWindVectorsToFeatureCollection(
       point.queryCoordinate.longitude,
       point.queryCoordinate.latitude,
     ]
+    const flowDirectionDeg = (windDirectionDeg + 180) % 360
     const endpoint = destinationCoordinate(
       point.queryCoordinate.latitude,
       point.queryCoordinate.longitude,
-      windDirectionDeg,
+      flowDirectionDeg,
+    )
+    const [endpointLongitude, endpointLatitude] = endpoint
+    const headLeft = destinationCoordinate(
+      endpointLatitude,
+      endpointLongitude,
+      (flowDirectionDeg + 150) % 360,
+      WIND_VECTOR_HEAD_ANGULAR_DEGREES,
+    )
+    const headRight = destinationCoordinate(
+      endpointLatitude,
+      endpointLongitude,
+      (flowDirectionDeg + 210) % 360,
+      WIND_VECTOR_HEAD_ANGULAR_DEGREES,
     )
 
     return [
@@ -122,8 +138,12 @@ export function weatherWindVectorsToFeatureCollection(
         type: 'Feature',
         id: point.id,
         geometry: {
-          type: 'LineString',
-          coordinates: [origin, endpoint],
+          type: 'MultiLineString',
+          coordinates: [
+            [origin, endpoint],
+            [endpoint, headLeft],
+            [endpoint, headRight],
+          ],
         },
         properties: {
           id: point.id,
@@ -131,8 +151,9 @@ export function weatherWindVectorsToFeatureCollection(
           frameTimestamp: frameTimestamp ?? null,
           windSpeedKmh,
           windDirectionDeg,
+          flowDirectionDeg,
           windGustKmh: finiteOrNull(point.values.windGustKmh[frameIndex]),
-          directionSemantics: 'from',
+          directionSemantics: 'arrow-to-flow',
         },
       },
     ]
