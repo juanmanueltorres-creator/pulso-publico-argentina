@@ -95,9 +95,9 @@ This first slice must provide:
 - CI for tests and build.
 - No backend, DB, auth, maps, AI runtime or GeoPlatform changes.
 
-## Follow-up source slices
+## Source slices
 
-### GeoRef
+### GeoRef — implemented
 
 Use `https://apis.datos.gob.ar/series/api/series` with id `apis_georef_005`, retrieving the most recent value.
 
@@ -105,7 +105,7 @@ Use `https://apis.datos.gob.ar/series/api/series` with id `apis_georef_005`, ret
 
 Freshness rule for this signal: an observation older than 14 days is `historical + stale`. `fetchedAt` never upgrades an old `observedAt` to current.
 
-### OpenAlex
+### OpenAlex — next
 
 Use works filtering by `institutions.country_code:AR` and current publication year. The copy must say that this is an OpenAlex-indexed count, not a census of Argentine science.
 
