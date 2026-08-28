@@ -1,0 +1,75 @@
+name: Refresh CAMMESA
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '7 4 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-signals
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Download official CAMMESA monthly archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/cammesa-renovables /tmp/cammesa-renovables.zip
+          mkdir -p /tmp/cammesa-renovables
+
+          curl --fail --location \
+            --retry 5 --retry-delay 2 --retry-all-errors \
+            --connect-timeout 10 --max-time 90 \
+            --user-agent 'pulso-publico-argentina/0.1 (+https://github.com/juanmanueltorres-creator/pulso-publico-argentina)' \
+            'https://cammesaweb.cammesa.com/erenovables/?wpdmdl=37500' \
+            --output /tmp/cammesa-renovables.zip
+
+          unzip -o /tmp/cammesa-renovables.zip -d /tmp/cammesa-renovables
+          workbook="$(find /tmp/cammesa-renovables -maxdepth 1 -type f -name '*.xlsx' -print -quit)"
+          if [ -z "$workbook" ]; then
+            echo 'CAMMESA archive did not contain an XLSX workbook.' >&2
+            exit 1
+          fi
+
+          printf '%s\n' "$workbook" > /tmp/cammesa-workbook-path
+
+      - name: Extract official monthly renewable total
+        shell: bash
+        run: |
+          set -euo pipefail
+          workbook="$(cat /tmp/cammesa-workbook-path)"
+          python3 scripts/cammesa_xlsx.py "$workbook" > /tmp/cammesa-summary.json
+          cat /tmp/cammesa-summary.json
+
+      - name: Refresh CAMMESA snapshot
+        run: node scripts/refresh-cammesa.mjs public/data/signals.json /tmp/cammesa-summary.json
+
+      - name: Commit refreshed snapshot
+        shell: bash
+        run: |
+          if git diff --quiet -- public/data/signals.json; then
+            echo 'CAMMESA snapshot unchanged.'
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/data/signals.json
+          git commit -m 'data: refresh CAMMESA signal'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
