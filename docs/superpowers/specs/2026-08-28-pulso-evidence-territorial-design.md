@@ -1,7 +1,7 @@
 # Pulso Público V3 — Evidencia Territorial
 
 **Fecha:** 2026-08-28  
-**Estado:** diseño aprobado en conversación; implementación pendiente de revisión escrita  
+**Estado:** diseño aprobado; implementación en `feat/pulso-evidence-v3` pendiente de merge y despliegue  
 **Rama:** `feat/pulso-evidence-v3`
 
 ## 1. Propósito
@@ -170,15 +170,19 @@ El valor numérico y la significancia sólo se publican si se verifican contra u
 
 V3 no incorpora todavía un mapa agrícola nacional ni todos los departamentos del país.
 
-Se publicará únicamente la geometría necesaria para el caso inicial:
+Se publica únicamente la geometría necesaria para el caso inicial:
 
 ```text
 /public/data/evidence/territories/villaguay.geojson
 ```
 
-Debe provenir de una fuente territorial oficial o de una API pública oficial que preserve el código administrativo. El archivo tendrá metadatos de fuente verificables y no se construirá a partir de un join por nombre.
+La **identidad territorial** se fija con el código oficial GeoRef/INDEC `30113`, nunca mediante coincidencia de nombre.
 
-`territory.geometryRef` apuntará al recurso público versionado dentro de Pulso.
+Para V3.0, las coordenadas publicadas son una simplificación gruesa de referencia territorial construida a partir del TopoJSON público `mgaitan/departamentos_argentina`, cuyo README atribuye la cartografía de origen al Instituto Geográfico Nacional y su distribución a CONAE. Esta derivación queda documentada en `villaguay.source.json`, incluyendo fuente upstream declarada, mirror utilizado, método de simplificación, CRS `EPSG:4326` y la limitación explícita de que **no es cartografía catastral ni apta para precisión parcelaria**.
+
+La API GeoRef oficial dispone actualmente de descargas GeoJSON completas de departamentos basadas en datos IGN. Una iteración posterior puede sustituir el derivado intermedio por una descarga oficial directa y versionada sin modificar `adminCode`, `evidence.id` ni el significado de la evidencia.
+
+`territory.geometryRef` apunta al recurso público versionado dentro de Pulso.
 
 ## 7. Publicación de datos
 
@@ -234,6 +238,8 @@ Renderiza `missingContext`, por ejemplo agua útil, suelo, napa, fecha de siembr
 
 La UI no usa semáforos de riesgo, puntuaciones sintéticas ni lenguaje predictivo.
 
+La refinación visual aprobada toma la identidad editorial del ecosistema del proyecto: negro profundo, hueso, oro envejecido, tipografía serif selectiva y metadata monoespaciada. En mobile, la evidencia usa una rail superior compacta para tipo/tema y una rail inferior local a la tarjeta con accesos `Fuente`, `Método` y `Territorio`. Esa rail no es navegación global ni sticky de aplicación.
+
 ## 9. Componentes y archivos previstos
 
 El diseño busca mantener unidades pequeñas y aisladas.
@@ -250,6 +256,7 @@ src/components/EvidenceCard.tsx
 src/components/EvidenceCard.test.tsx
 public/data/evidence.json
 public/data/evidence/territories/villaguay.geojson
+public/data/evidence/territories/villaguay.source.json
 src/App.tsx
 src/App.test.tsx
 src/styles.css
@@ -317,7 +324,8 @@ La evidencia Villaguay debe mostrar:
 - `Asociación histórica` o redacción equivalente;
 - advertencia explícita de que no es un pronóstico de rendimiento;
 - bloques `Qué sabemos`, `Qué falta` y `Cómo lo sabemos`;
-- ausencia de lenguaje de riesgo o score sintético.
+- ausencia de lenguaje de riesgo o score sintético;
+- rails mobile locales a la tarjeta sin introducir navegación global nueva.
 
 ### Integración
 
@@ -354,7 +362,7 @@ La iteración está terminada sólo cuando:
 1. V1 y V2 conservan sus contratos públicos sin cambios incompatibles.
 2. Existe `EvidenceSnapshot 1.0` validado y publicado en `/data/evidence.json`.
 3. Existe una única evidencia inicial para maíz + El Niño + Villaguay.
-4. El territorio usa un código administrativo oficial y geometría trazable.
+4. El territorio usa un código administrativo oficial y una geometría con procedencia y limitaciones explícitamente documentadas.
 5. El resultado está marcado `external-reference` y nunca se atribuye a Pulso.
 6. Si un valor o significancia no puede verificarse, se publica `null` y la UI lo expresa honestamente.
 7. La nueva sección distingue claramente `Qué sabemos`, `Qué falta` y `Cómo lo sabemos`.
