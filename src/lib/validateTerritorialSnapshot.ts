@@ -138,7 +138,7 @@ function validateCommonSnapshot(input: unknown, expectedKind: TerritorialKind) {
   if (!Array.isArray(input.events)) throw new Error('events must be an array')
 
   return {
-    input,
+    events: input.events,
     generatedAt: requireTimestamp(input, 'generatedAt'),
     sourceCheckedAt: requireTimestamp(input, 'sourceCheckedAt'),
     windowHours,
@@ -171,8 +171,8 @@ export function validateTerritorialSnapshot(
   const common = validateCommonSnapshot(input, expectedKind)
   const events =
     expectedKind === 'earthquake'
-      ? common.input.events.map(validateEarthquakeEvent)
-      : common.input.events.map(validateHotspotEvent)
+      ? common.events.map(validateEarthquakeEvent)
+      : common.events.map(validateHotspotEvent)
 
   return {
     schemaVersion: '1.0',
