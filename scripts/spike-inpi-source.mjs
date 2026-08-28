@@ -1,29 +1,52 @@
-const PAGE_URL = 'https://datos.inpi.gob.ar/Home/Ingresos_Patentes'
-const SCRIPT_URL = 'https://datos.inpi.gob.ar/Scripts/Home/Estadisticas/Ingresos_Patentes.js'
+const BASE_URL = 'https://datos.inpi.gob.ar'
 
-async function fetchText(url, accept) {
+async function fetchJson(path, params) {
+  const url = new URL(path, BASE_URL)
+  for (const [key, value] of Object.entries(params)) url.searchParams.set(key, String(value))
+
   const response = await fetch(url, {
     headers: {
-      accept,
+      accept: 'application/json,text/javascript,*/*;q=0.1',
       'user-agent': 'pulso-publico-argentina-source-spike/0.1',
+      'x-requested-with': 'XMLHttpRequest',
+      referer: `${BASE_URL}/Home/Ingresos_Patentes`,
     },
     signal: AbortSignal.timeout(15_000),
   })
 
   console.log(`fetch ${url} -> ${response.status} ${response.headers.get('content-type')}`)
   if (!response.ok) throw new Error(`${url} failed with HTTP ${response.status}`)
-  return response.text()
+  return response.json()
+}
+
+function inspect(label, data) {
+  console.log(`--- ${label} ---`)
+  console.log(`array=${Array.isArray(data)} length=${Array.isArray(data) ? data.length : 'n/a'}`)
+  if (!Array.isArray(data) || data.length === 0) {
+    console.log(JSON.stringify(data).slice(0, 1200))
+    return
+  }
+
+  console.log(`keys=${Object.keys(data[0]).join(',')}`)
+  console.log(`first=${JSON.stringify(data[0])}`)
+  console.log(`penultimate=${JSON.stringify(data.at(-2))}`)
+  console.log(`last=${JSON.stringify(data.at(-1))}`)
 }
 
 async function main() {
-  await fetchText(PAGE_URL, 'text/html,application/xhtml+xml')
-  const js = await fetchText(SCRIPT_URL, 'text/javascript,application/javascript,*/*')
-  const lines = js.split(/\r?\n/)
+  const monthly = await fetchJson('/Home/getEstadisticasCSV', {
+    tipoTramite: 'Patentes',
+    mes: 1,
+    ano: 0,
+  })
+  inspect('monthly patent filings', monthly)
 
-  console.log('--- first 125 lines of official dashboard JS ---')
-  for (let index = 0; index < Math.min(lines.length, 125); index += 1) {
-    console.log(`${index + 1}: ${lines[index].replace(/\s+/g, ' ').trim().slice(0, 1200)}`)
-  }
+  const annual = await fetchJson('/Home/getEstadisticasCSV', {
+    tipoTramite: 'Patentes',
+    mes: 0,
+    ano: 1,
+  })
+  inspect('annual patent filings', annual)
 }
 
 main().catch((error) => {
