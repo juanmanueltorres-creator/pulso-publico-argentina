@@ -3,5 +3,10 @@
   "service": "WFS",
   "layer": "ign:provincia",
   "crs": "EPSG:4326",
-  "url": "https://wms.ign.gob.ar/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeNames=ign:provincia&outputFormat=application%2Fjson&srsName=EPSG%3A4326"
+  "url": "https://wms.ign.gob.ar/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeNames=ign:provincia&outputFormat=application%2Fjson&srsName=EPSG%3A4326",
+  "derivation": {
+    "method": "Douglas-Peucker ring simplification",
+    "toleranceDegrees": 0.001,
+    "purpose": "Reduce the official IGN geometry for browser rendering and repository storage while preserving the 24 province features."
+  }
 }
