@@ -14,49 +14,56 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  inspect:
+  refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Probe public CONAE map payload
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Refresh CONAE snapshot
+        run: npm run refresh:conae
+
+      - name: Audit generated snapshot
         shell: bash
         run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          from urllib.parse import urlencode
-          from urllib.request import Request, urlopen
-          import re
+          node --input-type=module <<'NODE'
+          import { readFile } from 'node:fs/promises'
+          const snapshot = JSON.parse(await readFile('public/data/hotspots.json', 'utf8'))
+          const byConfidence = Object.groupBy(snapshot.events, (event) => event.confidence)
+          const bySatellite = Object.groupBy(snapshot.events, (event) => event.satellite ?? 'unknown')
+          const summary = (groups) => Object.fromEntries(
+            Object.entries(groups).map(([key, events]) => [key, events.length]),
+          )
+          console.log('kind=', snapshot.kind)
+          console.log('events=', snapshot.events.length)
+          console.log('confidence=', JSON.stringify(summary(byConfidence)))
+          console.log('satellites=', JSON.stringify(summary(bySatellite)))
+          console.log('all_frp_null=', snapshot.events.every((event) => event.frpMw === null))
+          console.log('source=', snapshot.source.url)
+          console.log('method=', snapshot.method.type)
+          console.log('window_hours=', snapshot.window.hours)
+          NODE
 
-          BASE = 'https://catalogos5.conae.gov.ar/catalogofocos/'
-          HEADERS = {'User-Agent':'PulsoPublicoArgentina/0.1 (+https://github.com/juanmanueltorres-creator/pulso-publico-argentina)'}
+      - name: Commit snapshot
+        shell: bash
+        run: |
+          if [ -z "$(git status --porcelain -- public/data/hotspots.json)" ]; then
+            echo 'CONAE snapshot unchanged.'
+            exit 0
+          fi
 
-          for satellite in ('NOAA20', 'SNPP'):
-              params = urlencode({
-                  'dateStart':'2026-08-27', 'dateEnd':'2026-08-28',
-                  'satelite':satellite, 'Confianza':'0',
-                  'Coordenadas':'-21.7_-73.7_-55.2_-53.5', 'tipoA':'dib',
-                  'prov':'', 'dpto':'', 'formato':'csv', 'tipoTot':'det',
-                  'idTot':'', 'nAgrup':'agrupSin',
-              })
-              search_url = BASE + 'search_date.aspx?' + params
-              with urlopen(Request(search_url, headers=HEADERS), timeout=60) as r:
-                  html = r.read().decode('utf-8', errors='replace')
-              m = re.search(r'formData\.append\("p",\s*"([^"]+)"\)', html)
-              if not m:
-                  raise SystemExit(f'{satellite}: public map token not found')
-              token = m.group(1)
-              body = urlencode({'datosMapa':'1', 'p':token}).encode()
-              req = Request(BASE + 'descarga.aspx', data=body, headers={**HEADERS, 'Content-Type':'application/x-www-form-urlencoded'})
-              with urlopen(req, timeout=60) as r:
-                  payload = r.read().decode('iso-8859-1', errors='replace')
-                  print(satellite, 'status=', r.status, 'content_type=', r.headers.get('Content-Type'))
-              rows = [row.strip() for row in payload.replace('\r\n','\n').split('\n') if row.strip()]
-              print(satellite, 'rows=', len(rows))
-              for row in rows[:3]:
-                  parts = row.split(',')
-                  print(satellite, 'sample_fields=', len(parts), 'sample=', parts[:5])
-          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/data/hotspots.json
+          git commit -m 'data: seed CONAE hotspots'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
