@@ -4,12 +4,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '17 */12 * * *'
-  # One-time branch verification after freshness hardening. Removed once green.
-  push:
-    branches:
-      - feat/v1-foundation
-    paths:
-      - .github/workflows/refresh-georef.yml
 
 permissions:
   contents: write
