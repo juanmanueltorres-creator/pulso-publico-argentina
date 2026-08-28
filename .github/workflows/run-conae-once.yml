@@ -22,73 +22,38 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Inspect CONAE CSV result
+      - name: Inspect public CONAE result endpoints
         shell: bash
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          from html.parser import HTMLParser
-          from http.cookiejar import CookieJar
-          from urllib.parse import urlencode
-          from urllib.request import build_opener, HTTPCookieProcessor, Request
+          from urllib.request import Request, urlopen
           import re
 
-          URL = 'https://catalogos5.conae.gov.ar/catalogofocos/default.aspx'
-
-          class Parser(HTMLParser):
-              def __init__(self):
-                  super().__init__(); self.hidden = {}; self.links=[]; self.inputs=[]; self._link=None
-              def handle_starttag(self, tag, attrs):
-                  a = dict(attrs)
-                  if tag == 'input':
-                      if a.get('type') == 'hidden' and a.get('name'):
-                          self.hidden[a['name']] = a.get('value', '')
-                      self.inputs.append(a)
-                  elif tag == 'a':
-                      self._link = {'href': a.get('href'), 'text': ''}
-              def handle_data(self, data):
-                  if self._link is not None:
-                      self._link['text'] += data
-              def handle_endtag(self, tag):
-                  if tag == 'a' and self._link is not None:
-                      self.links.append(self._link); self._link=None
-
-          jar = CookieJar()
-          opener = build_opener(HTTPCookieProcessor(jar))
-          headers = {'User-Agent': 'PulsoPublicoArgentina/0.1 (+https://github.com/juanmanueltorres-creator/pulso-publico-argentina)'}
-          with opener.open(Request(URL, headers=headers), timeout=30) as r:
+          url = ('https://catalogos5.conae.gov.ar/catalogofocos/search_date.aspx?'
+                 'dateStart=2026-08-27&dateEnd=2026-08-28&satelite=NOAA20&Confianza=0&'
+                 'Coordenadas=-21.7_-73.7_-55.2_-53.5&tipoA=dib&prov=&dpto=&formato=csv&'
+                 'tipoTot=det&idTot=&nAgrup=agrupSin')
+          req = Request(url, headers={'User-Agent':'PulsoPublicoArgentina/0.1 (+https://github.com/juanmanueltorres-creator/pulso-publico-argentina)'})
+          with urlopen(req, timeout=60) as r:
               html = r.read().decode('utf-8', errors='replace')
-          p = Parser(); p.feed(html)
-          required = ['__VIEWSTATE','__VIEWSTATEGENERATOR','__EVENTVALIDATION']
-          data = {
-              **{k: p.hidden[k] for k in required},
-              '__EVENTTARGET': 'btnBuscar', '__EVENTARGUMENT': '',
-              'optCat': 'focos', 'ddSatelites': 'NOAA20',
-              'txtFechaMin': '27/08/2026', 'txtFechaMax': '28/08/2026',
-              'ddConfianzas': '0', 'optArea': 'dib',
-              'latSupIzq': '-21.7', 'longSupIzq': '-73.7',
-              'latInfDer': '-55.2', 'longInfDer': '-53.5',
-              'optFormato': 'csv', 'optTot': 'det',
-          }
-          req = Request(URL, data=urlencode(data).encode(), headers={**headers, 'Content-Type':'application/x-www-form-urlencoded'})
-          with opener.open(req, timeout=60) as r:
-              body = r.read().decode('utf-8', errors='replace')
-              print('result_url=', r.geturl())
-              print('result_bytes=', len(body))
+              print('status=', r.status, 'bytes=', len(html))
 
-          q = Parser(); q.feed(body)
-          print('links=')
-          for link in q.links:
-              href = link.get('href') or ''
-              text = ' '.join(link.get('text','').split())
-              if any(k in (href + ' ' + text).lower() for k in ('csv','descarg','download','archivo','file')):
-                  print({'href': href, 'text': text})
-          print('inputs=')
-          for a in q.inputs:
-              if any(k in str(a).lower() for k in ('csv','descarg','download','archivo','file','volver')):
-                  print(a)
-          print('snippets=')
-          for pattern in (r'.{0,250}\.csv.{0,500}', r'.{0,250}descarg.{0,500}', r'.{0,250}download.{0,500}', r'.{0,250}archivo.{0,500}'):
-              for m in re.finditer(pattern, body, flags=re.I|re.S):
-                  print(re.sub(r'\s+', ' ', m.group(0)).strip()[:900])
+          print('candidate endpoints=')
+          patterns = [
+              r'["\']([^"\']+\.aspx(?:\?[^"\']*)?)["\']',
+              r'["\']([^"\']+\.(?:json|geojson|kml)(?:\?[^"\']*)?)["\']',
+              r'(?:xhr\.open|\.ajax|fetch\s*\().{0,450}',
+              r'.{0,300}(?:mapa|foco|marker|feature|latitud|longitud|latitude|longitude).{0,500}',
+          ]
+          seen=set()
+          for pattern in patterns:
+              for m in re.finditer(pattern, html, flags=re.I|re.S):
+                  value = m.group(1) if m.lastindex else m.group(0)
+                  value = re.sub(r'\s+', ' ', value).strip()
+                  if '__VIEWSTATE' in value or len(value) > 1000:
+                      continue
+                  if value not in seen:
+                      seen.add(value)
+                      print(value[:950])
           PY
