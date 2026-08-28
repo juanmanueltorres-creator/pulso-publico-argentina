@@ -1,0 +1,48 @@
+name: Run CONAE Once
+
+on:
+  push:
+    branches: ['feat/v2-territorial-design']
+    paths:
+      - '.github/workflows/run-conae-once.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-territorial
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Refresh CONAE snapshot
+        run: npm run refresh:conae
+
+      - name: Commit snapshot
+        shell: bash
+        run: |
+          if [ -z "$(git status --porcelain -- public/data/hotspots.json)" ]; then
+            echo 'CONAE snapshot unchanged.'
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/data/hotspots.json
+          git commit -m 'data: seed CONAE hotspots'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
