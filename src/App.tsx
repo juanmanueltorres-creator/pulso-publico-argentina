@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { SectionHeading } from './components/SectionHeading'
 import { SignalCard } from './components/SignalCard'
+import { TerritorialSection } from './components/TerritorialSection'
 import { loadSignals } from './lib/loadSignals'
 import type { SignalSnapshot } from './types/signal'
 
@@ -78,12 +79,7 @@ export function App({ loadSnapshot = loadSignals }: AppProps) {
               description="La misma trazabilidad, ahora aplicada a señales que ocurren en un lugar concreto del territorio argentino."
             />
 
-            <div className="territorial-shell" aria-label="Pulso Territorial en preparación">
-              <p className="territorial-shell__label">MAPA NACIONAL</p>
-              <p className="territorial-shell__copy">
-                Esta capa sólo mostrará eventos con fuente, fecha y coordenadas verificables. No publicamos puntos ni conteos sin respaldo.
-              </p>
-            </div>
+            <TerritorialSection />
           </section>
 
           <footer className="snapshot-footer">
