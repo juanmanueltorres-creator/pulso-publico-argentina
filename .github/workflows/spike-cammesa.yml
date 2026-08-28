@@ -25,5 +25,5 @@ jobs:
         with:
           node-version: 20
 
-      - name: Probe CAMMESA official API and renewable iframe
+      - name: Inspect CAMMESA renewable bundle endpoints
         run: node scripts/spike-cammesa-source.mjs
