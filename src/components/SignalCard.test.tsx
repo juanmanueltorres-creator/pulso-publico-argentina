@@ -42,7 +42,10 @@ describe('SignalCard', () => {
 
     await user.click(screen.getByRole('button', { name: /cómo lo sabemos/i }))
 
-    expect(screen.getByText('CAMMESA')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'CAMMESA' })).toHaveAttribute(
+      'href',
+      'https://cammesaweb.cammesa.com/inicio-renovables/',
+    )
     expect(screen.getAllByText(/No se publica un valor hasta verificar la fuente/).length).toBeGreaterThan(0)
     expect(screen.getByText(/Método/i)).toBeInTheDocument()
   })
