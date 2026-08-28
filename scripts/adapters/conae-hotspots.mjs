@@ -35,6 +35,17 @@ export function normalizeHotspotConfidence(raw) {
   return 'unknown'
 }
 
+export function normalizeCatalogConfidencePercent(raw) {
+  const confidence = Number(raw)
+  if (!Number.isFinite(confidence) || confidence < 0 || confidence > 100) {
+    throw new Error('CONAE catalog hotspot confidence must be a percentage from 0 to 100')
+  }
+
+  if (confidence >= 70) return 'high'
+  if (confidence >= 35) return 'nominal'
+  return 'low'
+}
+
 function parseSeparateTimestamp(dateValue, timeValue) {
   const dateText = normalizedText(dateValue)
   const timeText = normalizedText(timeValue)
@@ -86,6 +97,21 @@ function parseSeparateTimestamp(dateValue, timeValue) {
   return timestamp.toISOString()
 }
 
+function parseCatalogTimestamp(value) {
+  const text = normalizedText(value)
+  const match = text?.match(/^(\d{4}-\d{2}-\d{2})\s*-\s*(\d{2}:\d{2}:\d{2})$/)
+  if (!match) {
+    throw new Error(`CONAE catalog hotspot has an invalid acquisition timestamp: ${text ?? 'missing'}`)
+  }
+
+  const timestamp = parseSeparateTimestamp(match[1], match[2])
+  if (!timestamp) {
+    throw new Error(`CONAE catalog hotspot has an invalid acquisition timestamp: ${text}`)
+  }
+
+  return timestamp
+}
+
 function parseAcquisitionTimestamp(index) {
   const combined = normalizedText(
     propertyValue(index, ['FechaHora', 'fecha_hora', 'datetime', 'timestamp']),
@@ -121,6 +147,64 @@ function parseOptionalNumber(value, label) {
 function fallbackHotspotId(event) {
   const key = [event.occurredAt, event.latitude, event.longitude, event.frpMw ?? '', event.satellite ?? ''].join('|')
   return `conae-${createHash('sha256').update(key).digest('hex').slice(0, 16)}`
+}
+
+function catalogHotspotId(event) {
+  const key = [event.occurredAt, event.latitude, event.longitude, event.satellite ?? ''].join('|')
+  return `conae-${createHash('sha256').update(key).digest('hex').slice(0, 16)}`
+}
+
+function parseCatalogCoordinate(raw, axis) {
+  const value = Number(raw)
+  const valid = axis === 'latitude'
+    ? Number.isFinite(value) && value >= -90 && value <= 90
+    : Number.isFinite(value) && value >= -180 && value <= 180
+
+  if (!valid) {
+    throw new Error(`CONAE catalog hotspot ${axis} coordinate is invalid`)
+  }
+
+  return value
+}
+
+export function parseConaeMapPayload(payload) {
+  if (typeof payload !== 'string') {
+    throw new Error('CONAE public map payload must be text')
+  }
+
+  const rows = payload
+    .replace(/\r\n/g, '\n')
+    .split('\n')
+    .map((row) => row.trim())
+    .filter(Boolean)
+
+  return rows.map((row) => {
+    const fields = row.split(',').map((field) => field.trim())
+    if (fields.length !== 5) {
+      throw new Error('CONAE public map row must contain exactly five fields')
+    }
+
+    const [latitudeRaw, longitudeRaw, timestampRaw, satelliteRaw, confidenceRaw] = fields
+    const satellite = normalizedText(satelliteRaw)
+    if (!['NOAA20', 'SNPP'].includes(satellite)) {
+      throw new Error(`CONAE catalog hotspot satellite is unsupported: ${satellite ?? 'missing'}`)
+    }
+
+    const event = {
+      id: '',
+      kind: 'thermal-hotspot',
+      occurredAt: parseCatalogTimestamp(timestampRaw),
+      latitude: parseCatalogCoordinate(latitudeRaw, 'latitude'),
+      longitude: parseCatalogCoordinate(longitudeRaw, 'longitude'),
+      confidence: normalizeCatalogConfidencePercent(confidenceRaw),
+      frpMw: null,
+      sensor: 'VIIRS',
+      satellite,
+    }
+
+    event.id = catalogHotspotId(event)
+    return event
+  })
 }
 
 export function parseConaeHotspots(featureCollection) {
