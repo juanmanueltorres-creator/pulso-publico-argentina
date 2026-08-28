@@ -25,5 +25,5 @@ jobs:
         with:
           node-version: 20
 
-      - name: Inspect CAMMESA renewable bundle endpoints
+      - name: Locate CAMMESA monthly renewable workbook
         run: node scripts/spike-cammesa-source.mjs
