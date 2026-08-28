@@ -1,4 +1,4 @@
-import { fetchInpiSignal } from './fetch-inpi.mjs'
+import { fetchInpiPatentFilings } from './fetch-inpi.mjs'
 
 const INPI_SIGNAL_ID = 'inpi-patents'
 
@@ -30,6 +30,6 @@ export async function refreshInpiSnapshot(
   fetchImpl = fetch,
   fetchedAt = new Date().toISOString(),
 ) {
-  const inpiSignal = await fetchInpiSignal(fetchImpl, fetchedAt)
+  const inpiSignal = await fetchInpiPatentFilings(fetchImpl, fetchedAt)
   return replaceInpiSignal(snapshot, inpiSignal)
 }
