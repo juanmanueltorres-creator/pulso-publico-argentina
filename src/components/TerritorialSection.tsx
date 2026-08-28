@@ -13,6 +13,11 @@ import { TerritorialMap } from './TerritorialMap'
 type EarthquakeLoader = () => Promise<TerritorialSnapshot<EarthquakeEvent>>
 type HotspotLoader = () => Promise<TerritorialSnapshot<ThermalHotspotEvent>>
 
+type SnapshotFreshness = Pick<
+  TerritorialSnapshot<EarthquakeEvent>,
+  'sourceCheckedAt' | 'freshness'
+>
+
 interface TerritorialSectionProps {
   loadEarthquakes?: EarthquakeLoader
   loadHotspots?: HotspotLoader
@@ -29,10 +34,7 @@ function periodLabel(hours: number): string {
   return `últimas ${hours} h`
 }
 
-function isSnapshotStale<TEvent extends EarthquakeEvent | ThermalHotspotEvent>(
-  snapshot: TerritorialSnapshot<TEvent>,
-  now: Date,
-): boolean {
+function isSnapshotStale(snapshot: SnapshotFreshness, now: Date): boolean {
   const checkedAt = new Date(snapshot.sourceCheckedAt).getTime()
   if (Number.isNaN(checkedAt)) return true
   return now.getTime() - checkedAt >= snapshot.freshness.staleAfterMinutes * 60_000
