@@ -12,7 +12,7 @@ export function weatherSnapshotFixture() {
     sourceCheckedAt: '2026-08-28T00:30:00.000Z',
     dataThrough: timestamps[23],
     window: { hours: 24 as const, stepHours: 1 as const },
-    freshness: { staleAfterMinutes: 180 },
+    freshness: { staleAfterMinutes: 480 },
     grid: { spacingDegrees: 0.5 as const, pointCount: 2 },
     timestamps,
     source: {
