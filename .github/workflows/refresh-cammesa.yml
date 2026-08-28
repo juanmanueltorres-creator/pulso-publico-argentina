@@ -4,10 +4,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '7 4 * * *'
-  # Bootstrap only: lets this branch execute one live verification before merge.
-  push:
-    branches: ['feat/v1-foundation']
-    paths: ['.github/workflows/refresh-cammesa.yml']
 
 permissions:
   contents: write
