@@ -5,6 +5,8 @@ export function weatherSnapshotFixture() {
 
   const series = (start: number, step = 1): Array<number | null> =>
     timestamps.map((_, index) => start + index * step)
+  const precipitationSeries = (valueAtSixHourStep = 0.4): Array<number | null> =>
+    timestamps.map((_, index) => (index % 6 === 0 ? valueAtSixHourStep : 0))
 
   return {
     schemaVersion: '1.0' as const,
@@ -39,7 +41,7 @@ export function weatherSnapshotFixture() {
           windSpeedKmh: series(10, 0.5),
           windDirectionDeg: series(180, 2),
           windGustKmh: series(15, 0.6),
-          precipitationMm: timestamps.map((_, index) => (index % 6 === 0 ? 0.4 : 0)),
+          precipitationMm: precipitationSeries(),
         },
       },
       {
@@ -52,7 +54,7 @@ export function weatherSnapshotFixture() {
           windSpeedKmh: series(8, 0.4),
           windDirectionDeg: series(160, 2),
           windGustKmh: series(13, 0.5),
-          precipitationMm: timestamps.map(() => 0),
+          precipitationMm: precipitationSeries(0),
         },
       },
     ],
