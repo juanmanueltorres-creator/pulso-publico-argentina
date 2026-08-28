@@ -20,7 +20,7 @@ No hay backend propio, base de datos ni credenciales expuestas en el navegador.
 
 - **GeoRef / Datos Argentina** — integrada end-to-end mediante la API oficial de Series de Tiempo (`apis_georef_005`). El último valor publicado recuperado actualmente es histórico, por lo que se conserva pero se muestra como `historical` + `stale`.
 - **OpenAlex** — integrada end-to-end con el conteo `meta.count` de works del año actual que tienen al menos una afiliación institucional argentina. Se muestra como índice bibliográfico, nunca como censo total de la ciencia argentina.
-- **INPI** — pendiente de confirmar descarga CSV estable antes de implementar.
+- **INPI** — integrada end-to-end mediante el endpoint JSON que usa el dashboard oficial de ingresos de patentes. La señal publica el último mes calendario completo y excluye automáticamente el mes en curso.
 - **CAMMESA** — pendiente de confirmar una fuente estructurada estable; no se promete `live` mientras eso no esté verificado.
 
 ## Trazabilidad
@@ -39,6 +39,8 @@ Un fetch exitoso no vuelve actual a una observación vieja. Para la señal seman
 
 OpenAlex es distinto: el conteo se calcula al momento de consultar su índice, por lo que `observedAt` coincide con `fetchedAt`; aun así se rotula `updated`, no `live`, porque la indexación puede tener rezago y correcciones retroactivas.
 
+INPI publica datos mensuales y puede incluir el mes en curso con valores todavía parciales. Pulso Público sólo toma el último mes calendario completo: un `0` del mes abierto no se interpreta como ausencia de solicitudes.
+
 ## Desarrollo
 
 ```bash
@@ -53,9 +55,10 @@ Refresh manual de las fuentes implementadas:
 ```bash
 npm run refresh:georef
 npm run refresh:openalex
+npm run refresh:inpi
 ```
 
-GitHub Actions ejecuta tests/build y refresca GeoRef y OpenAlex cada 12 horas. Los workflows comparten el concurrency group `refresh-signals` para no escribir `signals.json` en paralelo.
+GitHub Actions ejecuta tests/build. GeoRef y OpenAlex refrescan cada 12 horas; INPI refresca una vez por día porque la fuente es mensual. Los workflows comparten el concurrency group `refresh-signals` para no escribir `signals.json` en paralelo.
 
 ## Estado verificado
 
@@ -67,4 +70,8 @@ El refresh real recuperó **264.037.620 consultas acumuladas** con `observedAt =
 
 El primer refresh real recuperó **27.994 works** para `publication_year:2026` con `institutions.country_code:AR`. La semántica pública es: **works indexados por OpenAlex con al menos una afiliación institucional argentina · 2026**.
 
-Los próximos source slices son **INPI** y **CAMMESA**, ambos condicionados a verificar primero una fuente estructurada estable.
+### INPI
+
+El endpoint estructurado usado por el dashboard oficial devolvió registros mensuales con los campos `Mes`, `Modelo de Utilidad` y `Patente de Invencion`. El primer refresh real publicó **323 solicitudes de patentes de invención ingresadas · Julio 2026**, el último mes calendario completo disponible. Agosto 2026 aparecía con valor `0`, pero fue excluido por ser un período todavía abierto.
+
+El próximo source slice es **CAMMESA**. Primero se inspeccionará la ruta estructurada detrás de Renovables Hoy; si resulta frágil, se priorizará la base mensual oficial.
