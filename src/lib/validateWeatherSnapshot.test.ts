@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import weatherSnapshotArtifact from '../../public/data/weather.json'
 import { weatherSnapshotFixture } from '../test/weatherFixtures'
 import { validateWeatherSnapshot } from './validateWeatherSnapshot'
 
@@ -10,6 +11,22 @@ describe('validateWeatherSnapshot', () => {
   it('accepts one aligned 24-frame snapshot', () => {
     const fixture = weatherSnapshotFixture()
     expect(validateWeatherSnapshot(fixture)).toEqual(fixture)
+  })
+
+  it('validates the published national weather artifact', () => {
+    const snapshot = validateWeatherSnapshot(weatherSnapshotArtifact)
+
+    expect(snapshot.timestamps).toHaveLength(24)
+    expect(snapshot.grid.spacingDegrees).toBe(0.5)
+    expect(snapshot.grid.pointCount).toBe(snapshot.points.length)
+    expect(snapshot.grid.pointCount).toBeGreaterThan(1000)
+    expect(snapshot.freshness.staleAfterMinutes).toBe(480)
+    expect(snapshot.source).toMatchObject({
+      provider: 'Open-Meteo',
+      dataset: 'ECMWF IFS HRES 9 km',
+      kind: 'numerical-weather-model',
+      upstream: 'ECMWF',
+    })
   })
 
   it('preserves null instead of coercing it to zero', () => {
