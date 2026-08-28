@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-08-28T00:00:00Z",
+  "generatedAt": "2026-08-28T02:18:01.154Z",
   "signals": [
     {
       "schemaVersion": "1.0",
@@ -88,14 +88,14 @@
       "id": "georef-api-usage",
       "category": "public-infrastructure",
       "title": "Consultas históricas a GeoRef",
-      "value": null,
+      "value": 264037620,
       "unit": "consultas",
-      "periodLabel": "Serie oficial apis_georef_005",
+      "periodLabel": "Acumulado al 2024-08-27",
       "status": "updated",
-      "availability": "unavailable",
-      "observedAt": null,
+      "availability": "available",
+      "observedAt": "2024-08-27T00:00:00.000Z",
       "publishedAt": null,
-      "fetchedAt": "2026-08-28T00:00:00Z",
+      "fetchedAt": "2026-08-28T02:18:01.154Z",
       "source": {
         "name": "Datos Argentina · GeoRef",
         "url": "https://www.datos.gob.ar/dataset/jgm_8/archivo/jgm_8.24",
@@ -103,11 +103,11 @@
       },
       "method": {
         "type": "api",
-        "note": "Se integrará la serie apis_georef_005 mediante la API oficial de Series de Tiempo."
+        "note": "Último valor publicado de la serie oficial apis_georef_005, solicitado con sort=desc y limit=1."
       },
       "limitations": [
-        "El recurso declara frecuencia de actualización semanal.",
-        "La fecha de la observación debe provenir de la serie, no de la metadata HTML del recurso."
+        "El recurso declara frecuencia de actualización semanal; no representa actividad en tiempo real.",
+        "Es un acumulado histórico de consultas y no equivale a usuarios únicos ni a consultas del período actual."
       ]
     }
   ]
