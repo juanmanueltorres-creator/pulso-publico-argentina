@@ -48,6 +48,16 @@ describe('App', () => {
     expect(screen.getByText(/leyendo señales públicas/i)).toBeInTheDocument()
   })
 
+  it('renders the V2 identity and national/territorial hierarchy', async () => {
+    render(<App loadSnapshot={async () => snapshot} />)
+
+    expect(await screen.findByRole('heading', { name: 'Pulso Público' })).toBeInTheDocument()
+    expect(screen.getByText('Qué está pasando. Dónde. Y cómo lo sabemos.')).toBeInTheDocument()
+    expect(screen.getByText('Datos que se mueven. Fuentes que se pueden revisar.')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Pulso Nacional' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Pulso Territorial' })).toBeInTheDocument()
+  })
+
   it('renders the four signal families from the snapshot', async () => {
     render(<App loadSnapshot={async () => snapshot} />)
 
