@@ -8,11 +8,23 @@ import {
 } from 'maplibre-gl'
 import mapLibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import { eventsToFeatureCollection } from '../lib/territorialMapData'
+import type { HotspotWeatherContext } from '../lib/weatherContext'
+import {
+  selectedHotspotToFeatureCollection,
+  weatherFrameToFeatureCollection,
+  weatherLinkToFeatureCollection,
+  weatherNeighborsToFeatureCollection,
+  weatherWindVectorsToFeatureCollection,
+} from '../lib/weatherMapData'
 import type {
   EarthquakeEvent,
-  TerritorialKind,
   ThermalHotspotEvent,
 } from '../types/territorial'
+import type {
+  TerritorialViewMode,
+  WeatherSnapshot,
+  WeatherVariable,
+} from '../types/weather'
 
 setWorkerUrl(mapLibreWorkerUrl)
 
@@ -29,38 +41,147 @@ const HOTSPOT_LAYERS = [
   'hotspot-points',
 ] as const
 
+const WEATHER_CONTEXT_LAYERS = [
+  'weather-neighbor-points',
+  'weather-primary-point',
+  'weather-context-link',
+] as const
+
 interface TerritorialMapProps {
-  mode: TerritorialKind
+  mode: TerritorialViewMode
+  weatherVariable?: WeatherVariable
   earthquakes: EarthquakeEvent[]
   hotspots: ThermalHotspotEvent[]
-  selectedId: string | null
+  weather?: WeatherSnapshot | null
+  weatherFrameIndex?: number
+  hotspotContext?: HotspotWeatherContext | null
+  selectedHotspot?: ThermalHotspotEvent | null
+  selectedWeatherPointId?: string | null
+  /** Temporary compatibility bridge until TerritorialSection is migrated in Task 10. */
+  selectedId?: string | null
   onSelect: (event: EarthquakeEvent | ThermalHotspotEvent) => void
+  onSelectWeather?: (pointId: string) => void
+}
+
+const EMPTY_FEATURE_COLLECTION = {
+  type: 'FeatureCollection',
+  features: [],
+} as const
+
+const noopSelectWeather = () => undefined
+
+function sourceData(value: object): Parameters<GeoJSONSource['setData']>[0] {
+  return value as Parameters<GeoJSONSource['setData']>[0]
 }
 
 function eventData(events: EarthquakeEvent[] | ThermalHotspotEvent[]): Parameters<GeoJSONSource['setData']>[0] {
-  return eventsToFeatureCollection(events) as Parameters<GeoJSONSource['setData']>[0]
+  return sourceData(eventsToFeatureCollection(events))
 }
 
 function syncSources(
   map: MapLibreMap,
   earthquakes: EarthquakeEvent[],
   hotspots: ThermalHotspotEvent[],
+  weather: WeatherSnapshot | null,
+  weatherFrameIndex: number,
+  weatherVariable: WeatherVariable,
+  hotspotContext: HotspotWeatherContext | null,
+  selectedHotspot: ThermalHotspotEvent | null,
 ) {
   const earthquakeSource = map.getSource('earthquakes') as GeoJSONSource | undefined
   const hotspotSource = map.getSource('hotspots') as GeoJSONSource | undefined
+  const weatherGridSource = map.getSource('weather-grid') as GeoJSONSource | undefined
+  const weatherWindSource = map.getSource('weather-wind-vectors') as GeoJSONSource | undefined
+  const weatherNeighborsSource = map.getSource('weather-neighbors') as GeoJSONSource | undefined
+  const weatherLinkSource = map.getSource('weather-link') as GeoJSONSource | undefined
+  const selectedHotspotSource = map.getSource('selected-hotspot-reference') as GeoJSONSource | undefined
 
   earthquakeSource?.setData(eventData(earthquakes))
   hotspotSource?.setData(eventData(hotspots))
+
+  const hasUsableFrame =
+    weather !== null &&
+    weatherFrameIndex >= 0 &&
+    weatherFrameIndex < weather.timestamps.length
+
+  weatherGridSource?.setData(
+    sourceData(
+      hasUsableFrame
+        ? weatherFrameToFeatureCollection(weather, weatherFrameIndex, weatherVariable)
+        : EMPTY_FEATURE_COLLECTION,
+    ),
+  )
+  weatherWindSource?.setData(
+    sourceData(
+      hasUsableFrame
+        ? weatherWindVectorsToFeatureCollection(weather, weatherFrameIndex)
+        : EMPTY_FEATURE_COLLECTION,
+    ),
+  )
+  weatherNeighborsSource?.setData(
+    sourceData(
+      hotspotContext
+        ? weatherNeighborsToFeatureCollection(hotspotContext, hotspotContext.frameIndex)
+        : EMPTY_FEATURE_COLLECTION,
+    ),
+  )
+  weatherLinkSource?.setData(
+    sourceData(
+      hotspotContext && selectedHotspot
+        ? weatherLinkToFeatureCollection(selectedHotspot, hotspotContext)
+        : EMPTY_FEATURE_COLLECTION,
+    ),
+  )
+  selectedHotspotSource?.setData(sourceData(selectedHotspotToFeatureCollection(selectedHotspot)))
 }
 
-function syncVisibility(map: MapLibreMap, mode: TerritorialKind) {
+function syncVisibility(
+  map: MapLibreMap,
+  mode: TerritorialViewMode,
+  weatherVariable: WeatherVariable,
+  hasHotspotContext: boolean,
+  hasSelectedHotspot: boolean,
+) {
   const earthquakesVisible = mode === 'earthquake' ? 'visible' : 'none'
   const hotspotsVisible = mode === 'thermal-hotspot' ? 'visible' : 'none'
+  const weatherMode = mode === 'weather'
+  const contextVisible = hasHotspotContext && mode !== 'earthquake' ? 'visible' : 'none'
 
   map.setLayoutProperty('earthquake-points', 'visibility', earthquakesVisible)
   for (const layer of HOTSPOT_LAYERS) {
     map.setLayoutProperty(layer, 'visibility', hotspotsVisible)
   }
+
+  map.setLayoutProperty(
+    'weather-temperature-points',
+    'visibility',
+    weatherMode && weatherVariable === 'temperature' ? 'visible' : 'none',
+  )
+  map.setLayoutProperty(
+    'weather-humidity-points',
+    'visibility',
+    weatherMode && weatherVariable === 'humidity' ? 'visible' : 'none',
+  )
+  map.setLayoutProperty(
+    'weather-wind-origins',
+    'visibility',
+    weatherMode && weatherVariable === 'wind' ? 'visible' : 'none',
+  )
+  map.setLayoutProperty(
+    'weather-wind-vectors',
+    'visibility',
+    weatherMode && weatherVariable === 'wind' ? 'visible' : 'none',
+  )
+
+  for (const layer of WEATHER_CONTEXT_LAYERS) {
+    map.setLayoutProperty(layer, 'visibility', contextVisible)
+  }
+
+  map.setLayoutProperty(
+    'selected-hotspot-reference',
+    'visibility',
+    weatherMode && hasSelectedHotspot ? 'visible' : 'none',
+  )
 }
 
 async function expandHotspotCluster(map: MapLibreMap, event: MapLayerMouseEvent) {
@@ -104,6 +225,26 @@ function createBlackMapStyle(): StyleSpecification {
         clusterProperties: {
           high_count: ['+', ['case', ['==', ['get', 'confidence'], 'high'], 1, 0]],
         },
+      },
+      'weather-grid': {
+        type: 'geojson',
+        data: EMPTY_FEATURE_COLLECTION,
+      },
+      'weather-wind-vectors': {
+        type: 'geojson',
+        data: EMPTY_FEATURE_COLLECTION,
+      },
+      'weather-neighbors': {
+        type: 'geojson',
+        data: EMPTY_FEATURE_COLLECTION,
+      },
+      'weather-link': {
+        type: 'geojson',
+        data: EMPTY_FEATURE_COLLECTION,
+      },
+      'selected-hotspot-reference': {
+        type: 'geojson',
+        data: EMPTY_FEATURE_COLLECTION,
       },
     },
     layers: [
@@ -289,29 +430,173 @@ function createBlackMapStyle(): StyleSpecification {
           'circle-stroke-width': 1,
         },
       },
+      {
+        id: 'weather-temperature-points',
+        type: 'circle',
+        source: 'weather-grid',
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-color': [
+            'interpolate',
+            ['linear'],
+            ['get', 'weatherValue'],
+            -20,
+            '#35434b',
+            0,
+            '#60757a',
+            20,
+            '#a99970',
+            40,
+            '#ead39a',
+          ],
+          'circle-radius': 3.6,
+          'circle-opacity': 0.8,
+          'circle-stroke-color': '#080a09',
+          'circle-stroke-width': 0.6,
+        },
+      },
+      {
+        id: 'weather-humidity-points',
+        type: 'circle',
+        source: 'weather-grid',
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-color': [
+            'interpolate',
+            ['linear'],
+            ['get', 'weatherValue'],
+            0,
+            '#51483b',
+            50,
+            '#71817a',
+            100,
+            '#bdd1c7',
+          ],
+          'circle-radius': 3.6,
+          'circle-opacity': 0.8,
+          'circle-stroke-color': '#080a09',
+          'circle-stroke-width': 0.6,
+        },
+      },
+      {
+        id: 'weather-wind-origins',
+        type: 'circle',
+        source: 'weather-grid',
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-color': '#d8c9a6',
+          'circle-radius': 2.4,
+          'circle-opacity': 0.76,
+          'circle-stroke-color': '#080a09',
+          'circle-stroke-width': 0.5,
+        },
+      },
+      {
+        id: 'weather-wind-vectors',
+        type: 'line',
+        source: 'weather-wind-vectors',
+        layout: { visibility: 'none' },
+        paint: {
+          'line-color': '#c8bea8',
+          'line-width': 1.15,
+          'line-opacity': 0.72,
+        },
+      },
+      {
+        id: 'weather-neighbor-points',
+        type: 'circle',
+        source: 'weather-neighbors',
+        filter: ['!=', ['get', 'isPrimary'], true],
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-color': '#837b6c',
+          'circle-radius': 3.2,
+          'circle-opacity': 0.62,
+          'circle-stroke-color': '#181713',
+          'circle-stroke-width': 0.8,
+        },
+      },
+      {
+        id: 'weather-primary-point',
+        type: 'circle',
+        source: 'weather-neighbors',
+        filter: ['==', ['get', 'isPrimary'], true],
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-color': '#f0c986',
+          'circle-radius': 5,
+          'circle-opacity': 0.94,
+          'circle-stroke-color': '#050706',
+          'circle-stroke-width': 1.1,
+        },
+      },
+      {
+        id: 'weather-context-link',
+        type: 'line',
+        source: 'weather-link',
+        layout: { visibility: 'none' },
+        paint: {
+          'line-color': '#9b9079',
+          'line-width': 1,
+          'line-opacity': 0.46,
+          'line-dasharray': [2, 2],
+        },
+      },
+      {
+        id: 'selected-hotspot-reference',
+        type: 'circle',
+        source: 'selected-hotspot-reference',
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-color': '#ffd27a',
+          'circle-radius': 5.5,
+          'circle-opacity': 0.96,
+          'circle-stroke-color': '#fff0c4',
+          'circle-stroke-width': 1.2,
+        },
+      },
     ],
   } as unknown as StyleSpecification
 }
 
 export function TerritorialMap({
   mode,
+  weatherVariable = 'temperature',
   earthquakes,
   hotspots,
-  selectedId,
+  weather = null,
+  weatherFrameIndex = -1,
+  hotspotContext = null,
+  selectedHotspot = null,
+  selectedWeatherPointId = null,
+  selectedId = null,
   onSelect,
+  onSelectWeather = noopSelectWeather,
 }: TerritorialMapProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MapLibreMap | null>(null)
   const loadedRef = useRef(false)
   const modeRef = useRef(mode)
+  const weatherVariableRef = useRef(weatherVariable)
   const earthquakesRef = useRef(earthquakes)
   const hotspotsRef = useRef(hotspots)
+  const weatherRef = useRef(weather)
+  const weatherFrameIndexRef = useRef(weatherFrameIndex)
+  const hotspotContextRef = useRef(hotspotContext)
+  const selectedHotspotRef = useRef(selectedHotspot)
   const onSelectRef = useRef(onSelect)
+  const onSelectWeatherRef = useRef(onSelectWeather)
 
   modeRef.current = mode
+  weatherVariableRef.current = weatherVariable
   earthquakesRef.current = earthquakes
   hotspotsRef.current = hotspots
+  weatherRef.current = weather
+  weatherFrameIndexRef.current = weatherFrameIndex
+  hotspotContextRef.current = hotspotContext
+  selectedHotspotRef.current = selectedHotspot
   onSelectRef.current = onSelect
+  onSelectWeatherRef.current = onSelectWeather
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
@@ -327,8 +612,23 @@ export function TerritorialMap({
 
     map.on('load', () => {
       loadedRef.current = true
-      syncSources(map, earthquakesRef.current, hotspotsRef.current)
-      syncVisibility(map, modeRef.current)
+      syncSources(
+        map,
+        earthquakesRef.current,
+        hotspotsRef.current,
+        weatherRef.current,
+        weatherFrameIndexRef.current,
+        weatherVariableRef.current,
+        hotspotContextRef.current,
+        selectedHotspotRef.current,
+      )
+      syncVisibility(
+        map,
+        modeRef.current,
+        weatherVariableRef.current,
+        hotspotContextRef.current !== null,
+        selectedHotspotRef.current !== null,
+      )
     })
 
     map.on('click', 'earthquake-points', (event: MapLayerMouseEvent) => {
@@ -348,6 +648,16 @@ export function TerritorialMap({
       const selected = hotspotsRef.current.find((item) => item.id === id)
       if (selected) onSelectRef.current(selected)
     })
+
+    const handleWeatherPointClick = (event: MapLayerMouseEvent) => {
+      const feature = event.features?.[0]
+      const id = String(feature?.properties?.id ?? feature?.id ?? '')
+      if (!id || !weatherRef.current?.points.some((point) => point.id === id)) return
+      onSelectWeatherRef.current(id)
+    }
+    map.on('click', 'weather-temperature-points', handleWeatherPointClick)
+    map.on('click', 'weather-humidity-points', handleWeatherPointClick)
+    map.on('click', 'weather-wind-origins', handleWeatherPointClick)
 
     map.on('click', (event) => {
       if (modeRef.current !== 'thermal-hotspot') return
@@ -370,14 +680,37 @@ export function TerritorialMap({
   useEffect(() => {
     const map = mapRef.current
     if (!map || !loadedRef.current) return
-    syncSources(map, earthquakes, hotspots)
-  }, [earthquakes, hotspots])
+    syncSources(
+      map,
+      earthquakes,
+      hotspots,
+      weather,
+      weatherFrameIndex,
+      weatherVariable,
+      hotspotContext,
+      selectedHotspot,
+    )
+  }, [
+    earthquakes,
+    hotspots,
+    weather,
+    weatherFrameIndex,
+    weatherVariable,
+    hotspotContext,
+    selectedHotspot,
+  ])
 
   useEffect(() => {
     const map = mapRef.current
     if (!map || !loadedRef.current) return
-    syncVisibility(map, mode)
-  }, [mode])
+    syncVisibility(
+      map,
+      mode,
+      weatherVariable,
+      hotspotContext !== null,
+      selectedHotspot !== null,
+    )
+  }, [mode, weatherVariable, hotspotContext, selectedHotspot])
 
   return (
     <div
@@ -385,7 +718,8 @@ export function TerritorialMap({
       className="territorial-map"
       role="region"
       aria-label="Mapa de señales territoriales de Argentina"
-      data-selected-id={selectedId ?? undefined}
+      data-selected-id={selectedId ?? selectedHotspot?.id ?? undefined}
+      data-selected-weather-point-id={selectedWeatherPointId ?? undefined}
     />
   )
 }
