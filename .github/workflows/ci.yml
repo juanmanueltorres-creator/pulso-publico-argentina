@@ -17,6 +17,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Test CAMMESA XLSX extractor
+        run: python3 scripts/cammesa_xlsx_test.py
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
