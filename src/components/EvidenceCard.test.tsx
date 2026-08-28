@@ -66,7 +66,7 @@ describe('EvidenceCard', () => {
     expect(screen.getByText(/Villaguay · Entre Ríos/i)).toBeInTheDocument()
     expect(screen.getByText(/Referencia externa/i)).toBeInTheDocument()
     expect(screen.getByText(/\+24%/i)).toBeInTheDocument()
-    expect(screen.getByText(/Asociación histórica/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/Asociación histórica/i).length).toBeGreaterThan(0)
     expect(screen.getByText(/no es un pronóstico de rendimiento/i)).toBeInTheDocument()
 
     for (const heading of ['Qué sabemos', 'Qué significa', 'Qué falta', 'Cómo lo sabemos']) {
