@@ -1,73 +1,129 @@
 # 🇦🇷 Pulso Público Argentina
 
-**Datos públicos para entender mejor qué está pasando en Argentina.**
+**Qué está pasando. Dónde. Y cómo lo sabemos.**
 
-Hay muchísima información pública disponible, pero muchas veces está repartida entre APIs, planillas, dashboards y sitios difíciles de leer.
+Pulso Público Argentina toma señales públicas dispersas entre APIs, planillas, catálogos y sitios oficiales, conserva su procedencia y las publica en una interfaz simple para poder entender no sólo **cuánto**, sino también **dónde ocurrió, cuándo fue observado y qué límites tiene el dato**.
 
-Pulso Público toma algunos de esos datos, conserva su fuente y su fecha, y los presenta de una forma que permita entender no sólo **cuánto**, sino también **qué significa y por qué importa**.
+La regla central del proyecto es sencilla:
+
+> **Un dato nunca debe parecer más preciso, reciente o autoritativo que la fuente que lo sostiene.**
 
 👉 **[Ver Pulso Público Argentina](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/)**
 
-## ¿Para qué sirve?
+> La V2 territorial se desarrolla en `feat/v2-territorial-design`. La URL pública continúa mostrando `main` hasta que exista una decisión explícita de merge y despliegue.
 
-La idea es simple: que una persona no tenga que ser especialista para entender un dato público.
+## Dos pulsos, una misma publicación
 
-Un estudiante puede ver cuánta energía renovable se generó y hacerse una idea de su escala. Un docente puede usar un dato científico en clase. Un periodista puede revisar la fuente original. Un desarrollador puede reutilizar el snapshot público. Y cualquier persona puede abrir **¿Cómo lo sabemos?** para ver de dónde salió cada número, cuándo fue observado y qué limitaciones tiene.
+### Pulso Nacional
 
-Pulso Público no intenta convertir cualquier número en una buena noticia. Si un dato no alcanza para decir que algo mejoró, no lo dice. El objetivo es mostrar señales valiosas de forma clara, sin perder el contexto que permite interpretarlas.
+Conserva las cuatro señales escalares de V1 y el contrato `SignalEnvelope 1.0`:
 
-## ¿Qué muestra hoy?
+- ⚡ **CAMMESA** — energía renovable generada, usando la base mensual oficial.
+- 🔬 **OpenAlex** — trabajos indexados del año con al menos una afiliación institucional argentina.
+- 💡 **INPI** — solicitudes de patentes de invención ingresadas durante el último mes calendario completo disponible.
+- 🗺️ **GeoRef / Datos Argentina** — consultas históricas acumuladas a la infraestructura pública GeoRef.
 
-La V1 reúne cuatro señales distintas:
+Cada tarjeta conserva valor, unidad, período, estado, disponibilidad, fechas relevantes, fuente, método y limitaciones. Una consulta hecha hoy no vuelve actual una observación vieja y una fuente fallida nunca se convierte en un `0` inventado.
 
-- ⚡ **Energía renovable** — cuánto generaron las fuentes renovables según CAMMESA y cómo imaginar esa cantidad en una escala cotidiana.
-- 🔬 **Ciencia** — trabajos indexados por OpenAlex vinculados con instituciones argentinas, como una ventana a la capacidad científica del país.
-- 💡 **Actividad inventiva** — solicitudes de patentes de invención ingresadas al INPI durante el último mes completo disponible.
-- 🗺️ **Infraestructura digital pública** — uso acumulado de GeoRef / Datos Argentina, mostrando también cuando el último dato oficial disponible es antiguo.
+### Pulso Territorial
 
-Cada tarjeta intenta responder tres preguntas:
+La V2 agrega señales que tienen **valor + tiempo + coordenada** y las representa sobre un único mapa de Argentina:
 
-**¿Qué pasó? → ¿Qué significa? → ¿Cómo lo sabemos?**
+- 🌎 **INPRES — sismos registrados durante los últimos 7 días (168 h)**.
+- 🔥 **CONAE — detecciones térmicas VIIRS durante las últimas 24 h**.
 
-## Fuentes y trazabilidad
+El límite nacional utilizado para filtrar eventos se deriva de geometría oficial de **IGN** y la pertenencia a Argentina se determina mediante point-in-polygon sobre esa geometría, no sólo mediante un bounding box.
 
-Los datos vienen de fuentes públicas y abiertas. En esta primera versión usamos:
+El mapa mantiene una sola instancia MapLibre para `Sismos` y `Focos de calor`, preserva el viewport al cambiar de modo y permite seleccionar eventos para leer sus detalles fuera del canvas.
 
-- **CAMMESA** para energía renovable;
-- **OpenAlex** para producción científica vinculada con instituciones argentinas;
-- **INPI** para solicitudes de patentes de invención;
-- **Datos Argentina / GeoRef** para uso de la infraestructura geográfica pública.
+## Cómo interpretar las señales territoriales
 
-Cada señal conserva su valor, unidad, período, fuente, método, fechas relevantes y limitaciones.
+### Sismos
 
-Una descarga hecha hoy no convierte automáticamente en actual un dato observado hace años. Un `0` en un mes todavía abierto no se trata como si significara que no pasó nada. Y un dato mensual no se presenta como si estuviera cambiando en tiempo real.
+El tamaño visual representa **magnitud**. La profundidad, provincia o referencia e intensidad —cuando la fuente la publica— aparecen como contexto en el detalle.
 
-Ese criterio es parte del producto: **el número importa, pero también importa saber qué representa y hasta dónde se puede confiar en él.**
+**Magnitud no es una predicción de daños.** Un evento de determinada magnitud no permite inferir por sí solo impacto, riesgo o consecuencias en superficie.
+
+### Focos de calor
+
+Una detección VIIRS representa una **anomalía térmica detectada por satélite**.
+
+**Una anomalía térmica no confirma por sí sola un incendio.** La confianza publicada se interpreta como confianza de detección, no como probabilidad de incendio forestal. FRP se conserva como contexto cuando está disponible, pero V2 no lo transforma en peligro, riesgo, tamaño del marcador ni score sintético.
+
+## Frescura y fallos de fuente
+
+INPRES y CONAE tienen pipelines independientes.
+
+- ventana INPRES: **168 horas**;
+- ventana CONAE: **24 horas**;
+- revisión prevista de cada fuente territorial: **cada hora**;
+- heartbeat de publicación cuando no cambian los eventos: **180 minutos**;
+- un snapshot pasa a estado stale a los **240 minutos** desde `sourceCheckedAt`;
+- una falla HTTP, de red, parser o validación **no sobrescribe** el último snapshot sano con un array vacío;
+- una consulta exitosa sí puede publicar legítimamente `events: []` cuando la fuente realmente devuelve cero eventos dentro de la ventana.
+
+La interfaz trata los estados de INPRES y CONAE por separado: una fuente temporalmente no disponible no borra ni falsea la otra.
 
 ## Datos reutilizables
 
-La interfaz consume un snapshot JSON público y versionado:
+Pulso Público publica contratos estáticos que pueden consumir otros clientes sin depender de la interfaz React.
 
-👉 **[Ver `signals.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/signals.json)**
+### Pulso Nacional
 
-Esto permite que la misma información pueda reutilizarse más adelante en otras visualizaciones, proyectos educativos o plataformas sin depender de esta interfaz.
+- [`signals.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/signals.json)
 
-## Cómo funciona
+### Pulso Territorial
 
-Pulso Público es deliberadamente simple. No necesita un backend propio para mostrar la V1:
+Estos outputs quedan disponibles en GitHub Pages cuando V2 sea autorizada, mergeada y desplegada desde `main`:
+
+- [`earthquakes.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/earthquakes.json)
+- [`hotspots.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/hotspots.json)
+- [`argentina-provinces.geojson`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/argentina-provinces.geojson)
+
+Los snapshots territoriales incluyen `schemaVersion`, `kind`, `generatedAt`, `sourceCheckedAt`, ventana temporal, política de frescura, fuente oficial, método, limitaciones y eventos normalizados.
+
+## Arquitectura
 
 ```text
-fuente pública
-→ adapter
-→ SignalEnvelope
-→ public/data/signals.json
-→ React / Vite
-→ GitHub Pages
+CAMMESA / OpenAlex / INPI / GeoRef
+              ↓
+        SignalEnvelope 1.0
+              ↓
+          signals.json
+
+INPRES → EarthquakeEvent → earthquakes.json -----\
+                                                   → black map → React / Vite → GitHub Pages
+CONAE  → ThermalHotspotEvent → hotspots.json -----/
+                         ↑
+                 geometría IGN
 ```
 
-Los adapters consultan o descargan cada fuente, normalizan los datos y generan el mismo contrato de salida. GitHub Actions refresca las fuentes automáticamente y vuelve a publicar la web cuando cambia el snapshot.
+El navegador no consulta directamente a INPRES, CONAE ni IGN. Los adapters consultan las fuentes fuera del cliente, validan y normalizan la información y publican snapshots versionados en el repositorio. La aplicación consume exclusivamente esos archivos públicos.
 
-Los errores de una fuente no se reemplazan por números inventados. Si algo no se pudo obtener o quedó viejo, el estado se muestra como tal.
+## Fuentes y trazabilidad
+
+Las fuentes actuales son:
+
+- **CAMMESA** — energía renovable;
+- **OpenAlex** — índice bibliográfico;
+- **INPI** — actividad inventiva;
+- **Datos Argentina / GeoRef** — infraestructura geográfica pública;
+- **INPRES** — sismos recientes;
+- **CONAE** — detecciones térmicas VIIRS;
+- **IGN** — geometría oficial utilizada para el filtrado territorial.
+
+Cada señal intenta hacer visible la cadena mínima:
+
+```text
+dato
+→ fuente
+→ tiempo
+→ método
+→ limitaciones
+→ interpretación posible
+```
+
+Pulso Público no reemplaza a las fuentes oficiales ni convierte las señales en diagnósticos automáticos.
 
 ## Desarrollo
 
@@ -78,20 +134,56 @@ npm run test:run
 npm run build
 ```
 
-Refresh manual de las fuentes disponibles por CLI:
+Refresh manual de fuentes:
 
 ```bash
 npm run refresh:georef
 npm run refresh:openalex
 npm run refresh:inpi
+npm run refresh:inpres
+npm run refresh:conae
 ```
 
-CAMMESA utiliza la base mensual oficial en XLSX y su camino operativo principal es el workflow `Refresh CAMMESA` de GitHub Actions.
+Actualización de la geometría oficial de Argentina:
 
-GeoRef y OpenAlex se consultan cada 12 horas. INPI y CAMMESA se revisan una vez por día porque sus fuentes publican datos con una frecuencia mucho menor. Los refreshes comparten un mismo lock para evitar que dos procesos intenten escribir `signals.json` al mismo tiempo.
+```bash
+npm run data:argentina-boundary
+```
+
+CAMMESA utiliza la base mensual oficial en XLSX y su camino operativo principal continúa siendo el workflow `Refresh CAMMESA` de GitHub Actions.
+
+Los pipelines nacionales y territoriales conservan sus propias frecuencias según la cadencia de la fuente. Los refreshes que escriben un mismo snapshot utilizan grupos de concurrencia para evitar escrituras simultáneas.
+
+## Verificación
+
+CI usa Node 24 y ejecuta:
+
+```text
+python3 scripts/cammesa_xlsx_test.py
+npm install --no-audit --no-fund
+npm run test:run
+npm run build
+```
+
+Los tests de CI son deterministas y no dependen de que INPRES o CONAE estén disponibles en ese instante. Los proveedores reales se validan mediante smoke checks separados; una falla real se investiga y nunca se maquilla como una publicación vacía exitosa.
+
+## Alcance deliberadamente fuera de V2
+
+V2 no incorpora:
+
+- score de riesgo de incendio;
+- uso de FRP como peligro;
+- GOES o FIRMS como cross-check;
+- overlays meteorológicos o de combustible;
+- playback temporal;
+- backend propio;
+- runtime de IA;
+- integración directa con GeoPlatform.
+
+Esas capacidades sólo tienen sentido después de validar esta frontera pública pequeña y trazable.
 
 ## Principio del proyecto
 
-**Un dato público sirve más cuando una persona puede entenderlo, revisarlo y volver a usarlo.**
+**Un dato público sirve más cuando una persona puede entenderlo, ubicarlo, revisarlo y volver a usarlo.**
 
-Pulso Público Argentina busca construir justamente esa pequeña capa entre la fuente original y la persona que quiere saber qué está pasando.
+Pulso Público Argentina intenta construir esa pequeña capa entre la fuente original y la persona que quiere saber qué está pasando, dónde y cómo lo sabemos.
