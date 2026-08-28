@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-08-28T02:20:46.038Z",
+  "generatedAt": "2026-08-28T02:37:51.882Z",
   "signals": [
     {
       "schemaVersion": "1.0",
@@ -34,26 +34,28 @@
       "id": "openalex-argentina-works",
       "category": "science",
       "title": "Producción científica indexada",
-      "value": null,
+      "value": 27994,
       "unit": "works",
       "periodLabel": "2026 · afiliación institucional argentina",
       "status": "updated",
-      "availability": "unavailable",
-      "observedAt": null,
+      "availability": "available",
+      "observedAt": "2026-08-28T02:37:51.882Z",
       "publishedAt": null,
-      "fetchedAt": "2026-08-28T00:00:00Z",
+      "fetchedAt": "2026-08-28T02:37:51.882Z",
       "source": {
         "name": "OpenAlex",
-        "url": "https://developers.openalex.org/api-reference/works/list-works",
+        "url": "https://api.openalex.org/works?filter=institutions.country_code:AR,publication_year:2026",
         "kind": "open-index"
       },
       "method": {
         "type": "api",
-        "note": "Se integrará el conteo de works del año actual con al menos una institución country_code=AR."
+        "note": "Conteo meta.count de works con filtro institutions.country_code:AR,publication_year:2026."
       },
       "limitations": [
-        "OpenAlex es un índice bibliográfico, no un censo total de la ciencia argentina.",
-        "Los conteos pueden cambiar por ingestión y correcciones retroactivas."
+        "OpenAlex es un índice bibliográfico, no un censo total de la producción científica argentina.",
+        "El conteo incluye works con al menos una afiliación institucional argentina y puede incluir afiliaciones de otros países.",
+        "Los conteos pueden cambiar por ingestión, curación y correcciones retroactivas del índice.",
+        "El año en curso es parcial hasta que termina el período y la indexación puede tener rezago."
       ]
     },
     {
