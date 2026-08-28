@@ -1,8 +1,6 @@
 name: Refresh Weather
 
 on:
-  push:
-    branches: ['feat/pulso-weather-context-v3-1']
   workflow_dispatch:
   schedule:
     - cron: '17 */6 * * *'
@@ -16,7 +14,6 @@ concurrency:
 
 jobs:
   refresh:
-    if: "${{ github.event_name != 'push' || github.event.head_commit.message != 'data: refresh weather context' }}"
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
