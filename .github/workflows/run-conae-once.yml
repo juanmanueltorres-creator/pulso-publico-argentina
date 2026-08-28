@@ -30,6 +30,27 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
+      - name: Diagnose CONAE WFS connectivity
+        shell: bash
+        run: |
+          set +e
+          getent hosts geoservicios.conae.gov.ar || true
+          curl --connect-timeout 10 --max-time 20 --silent --show-error \
+            --output /tmp/conae-capabilities.xml \
+            --write-out 'curl_http=%{http_code} remote_ip=%{remote_ip} ssl_verify=%{ssl_verify_result} connect=%{time_connect}s total=%{time_total}s\n' \
+            'https://geoservicios.conae.gov.ar/geoserver/GeoServiciosCONAE/wfs?service=WFS&version=2.0.0&request=GetCapabilities'
+          status=$?
+          echo "curl_exit=${status}"
+          if [ -f /tmp/conae-capabilities.xml ]; then
+            wc -c /tmp/conae-capabilities.xml
+            if grep -q 'GeoServiciosCONAE:FocosDeCalorVIIRS' /tmp/conae-capabilities.xml; then
+              echo 'viirs_layer=present'
+            else
+              echo 'viirs_layer=absent'
+            fi
+          fi
+          exit 0
+
       - name: Refresh CONAE snapshot
         run: npm run refresh:conae
 
