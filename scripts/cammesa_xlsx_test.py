@@ -1,4 +1,3 @@
-import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -45,6 +44,20 @@ SHEET_XML = '''<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 </worksheet>
 '''
 
+NO_TOTAL_SHEET_XML = '''<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+  <sheetData>
+    <row r="4">
+      <c r="B4" t="inlineStr"><is><t>FUENTE DE ENERGÍA</t></is></c>
+      <c r="C4"><v>2025</v></c>
+      <c r="D4"><v>46023</v></c>
+      <c r="E4"><v>46054</v></c>
+      <c r="F4"><v>46204</v></c>
+    </row>
+  </sheetData>
+</worksheet>
+'''
+
 EMPTY_SHEET_XML = '''<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData/></worksheet>
 '''
@@ -74,7 +87,7 @@ class CammesaXlsxTest(unittest.TestCase):
     def test_fails_closed_without_total_gwh_row(self):
         with tempfile.TemporaryDirectory() as directory:
             workbook = Path(directory) / 'cammesa.xlsx'
-            write_fixture(workbook, EMPTY_SHEET_XML)
+            write_fixture(workbook, NO_TOTAL_SHEET_XML)
 
             with self.assertRaisesRegex(ValueError, 'Total GWh'):
                 extract_cammesa_summary(workbook)
