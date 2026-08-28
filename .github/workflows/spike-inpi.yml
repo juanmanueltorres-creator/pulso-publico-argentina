@@ -25,5 +25,5 @@ jobs:
         with:
           node-version: 20
 
-      - name: Inspect INPI public statistics page
+      - name: Inspect INPI dashboard JavaScript
         run: node scripts/spike-inpi-source.mjs
