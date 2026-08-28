@@ -38,6 +38,38 @@
   box-shadow: inset 0 0 0 1px rgba(211, 164, 98, 0.35);
 }
 
+.territorial-weather-variables {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: -0.35rem;
+}
+
+.territorial-weather-variable {
+  min-height: 2rem;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.015);
+  color: var(--muted);
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.territorial-weather-variable:hover {
+  color: var(--text);
+  border-color: var(--line-strong);
+}
+
+.territorial-weather-variable[aria-pressed='true'] {
+  border-color: rgba(211, 164, 98, 0.4);
+  background: rgba(211, 164, 98, 0.075);
+  color: var(--accent-strong);
+}
+
 .territorial-summary {
   display: flex;
   flex-wrap: wrap;
@@ -61,6 +93,15 @@
   font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
   font-size: 0.66rem;
   line-height: 1.5;
+}
+
+.territorial-summary a,
+.territorial-detail a,
+.weather-detail a,
+.hotspot-weather-context a {
+  color: var(--accent-strong);
+  text-decoration-color: rgba(211, 164, 98, 0.42);
+  text-underline-offset: 0.16em;
 }
 
 .territorial-summary__caution {
@@ -163,7 +204,8 @@
   opacity: 0.55;
 }
 
-.territorial-detail {
+.territorial-detail,
+.weather-detail {
   min-height: 12rem;
   padding: 1.15rem;
   border-top: 1px solid var(--line);
@@ -177,7 +219,9 @@
   align-content: end;
 }
 
-.territorial-detail__eyebrow {
+.territorial-detail__eyebrow,
+.weather-detail__eyebrow,
+.hotspot-weather-context__eyebrow {
   margin: 0;
   color: var(--accent);
   font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
@@ -186,7 +230,8 @@
   letter-spacing: 0.12em;
 }
 
-.territorial-detail h3 {
+.territorial-detail h3,
+.weather-detail h3 {
   margin: 0.65rem 0 0;
   color: var(--text);
   font-size: 1.05rem;
@@ -194,14 +239,17 @@
 }
 
 .territorial-detail--empty > p:last-child,
-.territorial-detail__explanation {
+.territorial-detail__explanation,
+.weather-detail__semantic-note {
   margin: 0.7rem 0 0;
   color: var(--muted);
   font-size: 0.78rem;
   line-height: 1.65;
 }
 
-.territorial-detail dl {
+.territorial-detail dl,
+.weather-detail dl,
+.hotspot-weather-context dl {
   display: grid;
   gap: 0.55rem;
   margin: 1rem 0 0;
@@ -209,13 +257,17 @@
   border-top: 1px solid var(--line);
 }
 
-.territorial-detail dl > div {
+.territorial-detail dl > div,
+.weather-detail dl > div,
+.hotspot-weather-context dl > div {
   display: grid;
   grid-template-columns: 6rem minmax(0, 1fr);
   gap: 0.65rem;
 }
 
-.territorial-detail dt {
+.territorial-detail dt,
+.weather-detail dt,
+.hotspot-weather-context dt {
   color: var(--soft);
   font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
   font-size: 0.62rem;
@@ -223,11 +275,47 @@
   text-transform: uppercase;
 }
 
-.territorial-detail dd {
+.territorial-detail dd,
+.weather-detail dd,
+.hotspot-weather-context dd {
   margin: 0;
   color: #d9d3c8;
   font-size: 0.75rem;
   line-height: 1.5;
+}
+
+.hotspot-weather-context {
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(211, 164, 98, 0.24);
+}
+
+.hotspot-weather-context h4 {
+  margin: 0.5rem 0 0;
+  color: var(--text);
+  font-size: 0.86rem;
+}
+
+.hotspot-weather-context > p:not(.hotspot-weather-context__eyebrow),
+.hotspot-weather-context__unavailable {
+  margin: 0.65rem 0 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.hotspot-weather-context__caveat {
+  color: var(--warning) !important;
+}
+
+.hotspot-weather-context__source {
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.62rem !important;
+}
+
+.hotspot-weather-context__unavailable {
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(211, 164, 98, 0.18);
 }
 
 @media (min-width: 58rem) {
@@ -239,7 +327,8 @@
     min-height: 34rem;
   }
 
-  .territorial-detail {
+  .territorial-detail,
+  .weather-detail {
     min-height: 34rem;
     padding: 1.35rem;
     border-top: 0;
@@ -248,7 +337,8 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .territorial-mode {
-    transition: color 140ms ease, background-color 140ms ease, box-shadow 140ms ease;
+  .territorial-mode,
+  .territorial-weather-variable {
+    transition: color 140ms ease, background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
   }
 }
