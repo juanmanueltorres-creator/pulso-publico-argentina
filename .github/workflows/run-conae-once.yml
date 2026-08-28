@@ -22,57 +22,65 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Inspect CONAE catalog postback
+      - name: Probe CONAE CSV export
         shell: bash
         run: |
           set -euo pipefail
-          url='https://catalogos5.conae.gov.ar/catalogofocos/default.aspx'
-          curl --connect-timeout 10 --max-time 30 --silent --show-error --location \
-            --cookie-jar /tmp/conae-cookies.txt \
-            --output /tmp/conae-catalog.html \
-            "$url"
           python3 - <<'PY'
           from html.parser import HTMLParser
-          import re
+          from http.cookiejar import CookieJar
+          from urllib.parse import urlencode
+          from urllib.request import build_opener, HTTPCookieProcessor, Request
 
-          class Parser(HTMLParser):
+          URL = 'https://catalogos5.conae.gov.ar/catalogofocos/default.aspx'
+
+          class HiddenParser(HTMLParser):
               def __init__(self):
-                  super().__init__()
-                  self.select = None
-                  self.options = {}
-                  self.btn = None
+                  super().__init__(); self.hidden = {}
               def handle_starttag(self, tag, attrs):
+                  if tag != 'input': return
                   a = dict(attrs)
-                  if tag == 'select':
-                      self.select = a.get('name') or a.get('id')
-                      self.options.setdefault(self.select, [])
-                  elif tag == 'option' and self.select:
-                      self.options[self.select].append((a.get('value'), 'selected' in a))
-                  elif tag == 'input' and a.get('id') == 'btnBuscar':
-                      self.btn = a
-              def handle_endtag(self, tag):
-                  if tag == 'select':
-                      self.select = None
+                  if a.get('type') == 'hidden' and a.get('name'):
+                      self.hidden[a['name']] = a.get('value', '')
 
-          text = open('/tmp/conae-catalog.html', encoding='utf-8', errors='replace').read()
-          p = Parser(); p.feed(text)
-          print('btnBuscar=', p.btn)
-          for name in ('ddSatelites','ddConfianzas','ddProvincias','ddDepartamentos','ddTotalizacion','ddAgrupamiento'):
-              print(name, p.options.get(name))
-          print('relevant snippets=')
-          patterns = [
-              r'.{0,220}btnBuscar.{0,500}',
-              r'.{0,220}__doPostBack.{0,500}',
-              r'.{0,220}WebForm_DoPostBackWithOptions.{0,500}',
-              r'.{0,220}(?:\.csv|CSV|descarg|download).{0,500}',
-          ]
-          seen = set()
-          for pattern in patterns:
-              for match in re.finditer(pattern, text, flags=re.I|re.S):
-                  snippet = re.sub(r'\s+', ' ', match.group(0)).strip()
-                  if '__VIEWSTATE' in snippet:
-                      continue
-                  if snippet not in seen:
-                      seen.add(snippet)
-                      print(snippet[:900])
+          jar = CookieJar()
+          opener = build_opener(HTTPCookieProcessor(jar))
+          headers = {'User-Agent': 'PulsoPublicoArgentina/0.1 (+https://github.com/juanmanueltorres-creator/pulso-publico-argentina)'}
+          with opener.open(Request(URL, headers=headers), timeout=30) as r:
+              html = r.read().decode('utf-8', errors='replace')
+              print('get_status=', r.status, 'bytes=', len(html))
+
+          p = HiddenParser(); p.feed(html)
+          required = ['__VIEWSTATE','__VIEWSTATEGENERATOR','__EVENTVALIDATION']
+          for key in required:
+              if key not in p.hidden:
+                  raise SystemExit(f'missing hidden field: {key}')
+
+          data = {
+              **{k: p.hidden[k] for k in required},
+              '__EVENTTARGET': 'btnBuscar',
+              '__EVENTARGUMENT': '',
+              'optCat': 'focos',
+              'ddSatelites': 'NOAA20',
+              'txtFechaMin': '27/08/2026',
+              'txtFechaMax': '28/08/2026',
+              'ddConfianzas': '0',
+              'optArea': 'dib',
+              'latSupIzq': '-21.7',
+              'longSupIzq': '-73.7',
+              'latInfDer': '-55.2',
+              'longInfDer': '-53.5',
+              'optFormato': 'csv',
+              'optTot': 'det',
+          }
+          req = Request(URL, data=urlencode(data).encode(), headers={**headers, 'Content-Type':'application/x-www-form-urlencoded'})
+          with opener.open(req, timeout=60) as r:
+              body = r.read()
+              print('post_status=', r.status)
+              print('content_type=', r.headers.get('Content-Type'))
+              print('content_disposition=', r.headers.get('Content-Disposition'))
+              print('final_url=', r.geturl())
+              print('bytes=', len(body))
+              text = body[:1200].decode('utf-8', errors='replace').replace('\r',' ')
+              print('preview=', ' '.join(text.split())[:1000])
           PY
