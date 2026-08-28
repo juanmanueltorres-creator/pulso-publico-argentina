@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-08-28T00:00:00Z",
+  "signals": [
+    {
+      "schemaVersion": "1.0",
+      "id": "cammesa-renewables",
+      "category": "energy",
+      "title": "Generación renovable",
+      "value": null,
+      "unit": "MW",
+      "periodLabel": "Fuente pendiente de integración",
+      "status": "updated",
+      "availability": "unavailable",
+      "observedAt": null,
+      "publishedAt": null,
+      "fetchedAt": "2026-08-28T00:00:00Z",
+      "source": {
+        "name": "CAMMESA",
+        "url": "https://cammesaweb.cammesa.com/inicio-renovables/",
+        "kind": "official"
+      },
+      "method": {
+        "type": "csv",
+        "note": "No se publica un valor hasta confirmar la ruta estructurada más estable; se priorizará fuente oficial mensual si el feed en vivo es frágil."
+      },
+      "limitations": [
+        "La página de Renovables Hoy usa una visualización embebida; todavía no se confirmó un endpoint estable para automatización.",
+        "Un dato mensual se mostrará como actualizado, nunca como en vivo."
+      ]
+    },
+    {
+      "schemaVersion": "1.0",
+      "id": "openalex-argentina-works",
+      "category": "science",
+      "title": "Producción científica indexada",
+      "value": null,
+      "unit": "works",
+      "periodLabel": "2026 · afiliación institucional argentina",
+      "status": "updated",
+      "availability": "unavailable",
+      "observedAt": null,
+      "publishedAt": null,
+      "fetchedAt": "2026-08-28T00:00:00Z",
+      "source": {
+        "name": "OpenAlex",
+        "url": "https://developers.openalex.org/api-reference/works/list-works",
+        "kind": "open-index"
+      },
+      "method": {
+        "type": "api",
+        "note": "Se integrará el conteo de works del año actual con al menos una institución country_code=AR."
+      },
+      "limitations": [
+        "OpenAlex es un índice bibliográfico, no un censo total de la ciencia argentina.",
+        "Los conteos pueden cambiar por ingestión y correcciones retroactivas."
+      ]
+    },
+    {
+      "schemaVersion": "1.0",
+      "id": "inpi-patents",
+      "category": "innovation",
+      "title": "Actividad de patentes",
+      "value": null,
+      "unit": "solicitudes",
+      "periodLabel": "Último período oficial disponible",
+      "status": "updated",
+      "availability": "unavailable",
+      "observedAt": null,
+      "publishedAt": null,
+      "fetchedAt": "2026-08-28T00:00:00Z",
+      "source": {
+        "name": "INPI Argentina",
+        "url": "https://datos.inpi.gob.ar/Home/Ingresos_Patentes",
+        "kind": "official"
+      },
+      "method": {
+        "type": "csv",
+        "note": "Primero se verificará la URL real de descarga CSV mensual/anual antes de considerar scraping HTML."
+      },
+      "limitations": [
+        "Solicitudes ingresadas, expedientes resueltos y patentes concedidas son métricas distintas.",
+        "La V1 publicará una sola semántica explícita cuando la descarga haya sido validada."
+      ]
+    },
+    {
+      "schemaVersion": "1.0",
+      "id": "georef-api-usage",
+      "category": "public-infrastructure",
+      "title": "Consultas históricas a GeoRef",
+      "value": null,
+      "unit": "consultas",
+      "periodLabel": "Serie oficial apis_georef_005",
+      "status": "updated",
+      "availability": "unavailable",
+      "observedAt": null,
+      "publishedAt": null,
+      "fetchedAt": "2026-08-28T00:00:00Z",
+      "source": {
+        "name": "Datos Argentina · GeoRef",
+        "url": "https://www.datos.gob.ar/dataset/jgm_8/archivo/jgm_8.24",
+        "kind": "official"
+      },
+      "method": {
+        "type": "api",
+        "note": "Se integrará la serie apis_georef_005 mediante la API oficial de Series de Tiempo."
+      },
+      "limitations": [
+        "El recurso declara frecuencia de actualización semanal.",
+        "La fecha de la observación debe provenir de la serie, no de la metadata HTML del recurso."
+      ]
+    }
+  ]
+}
