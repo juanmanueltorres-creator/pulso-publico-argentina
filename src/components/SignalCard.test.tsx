@@ -69,12 +69,13 @@ describe('SignalCard', () => {
     expect(screen.getByText(/Método/i)).toBeInTheDocument()
   })
 
-  it('shows a plain-language explanation next to the technical metric', () => {
+  it('shows the human explanation naturally, without an editorial label', () => {
     render(<SignalCard signal={cammesaSignal} />)
 
-    expect(screen.getByText('En criollo')).toBeInTheDocument()
+    expect(screen.queryByText('En criollo')).not.toBeInTheDocument()
     expect(screen.getByText(/1,79 TWh/)).toBeInTheDocument()
     expect(screen.getByText(/7,2 millones de hogares/)).toBeInTheDocument()
+    expect(screen.getByText(/escala real que ya tienen las renovables/i)).toBeInTheDocument()
     expect(screen.getByText(/estimación/i)).toBeInTheDocument()
   })
 
