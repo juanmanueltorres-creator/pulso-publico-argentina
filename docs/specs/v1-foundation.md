@@ -20,7 +20,7 @@ A counter must never look more precise or current than its source allows.
 ## Data states
 
 - `live`: observed now or near-real-time.
-- `updated`: latest published source value.
+- `updated`: latest published/source-query value that does not claim real-time source ingestion.
 - `estimated`: explicit derivation/calculation.
 - `historical`: historical snapshot that does not claim currentness.
 
@@ -105,11 +105,22 @@ Use `https://apis.datos.gob.ar/series/api/series` with id `apis_georef_005`, ret
 
 Freshness rule for this signal: an observation older than 14 days is `historical + stale`. `fetchedAt` never upgrades an old `observedAt` to current.
 
-### OpenAlex — next
+### OpenAlex — implemented
 
-Use works filtering by `institutions.country_code:AR` and current publication year. The copy must say that this is an OpenAlex-indexed count, not a census of Argentine science.
+Use the `/works` endpoint with:
 
-### INPI
+```text
+filter=institutions.country_code:AR,publication_year:<current-year>
+per_page=1
+```
+
+The signal value is `meta.count`. The public copy must say that this is an OpenAlex-indexed count with at least one Argentine institutional affiliation, not a census of Argentine science.
+
+**Verified behavior (2026-08-27):** the first end-to-end refresh returned `27994` works for 2026. The query succeeded without an API key. The signal is `updated + available`, not `live`, because OpenAlex ingestion and curation can lag or revise counts retroactively.
+
+Because this count is evaluated when the API is queried and OpenAlex does not provide a separate observation timestamp for the aggregate, `observedAt` equals `fetchedAt` for this signal.
+
+### INPI — next candidate
 
 Inspect the stable CSV download behind the official patent statistics page before implementing HTML scraping.
 
@@ -119,7 +130,9 @@ Inspect the data path behind `Renovables Hoy`. If the live iframe does not expos
 
 ## Automation
 
-GeoRef refresh runs every 12 hours and can also be triggered manually. The refresh workflow has `contents: write` because it commits only the generated public snapshot. No source credential is required for GeoRef.
+GeoRef and OpenAlex each refresh every 12 hours and can also be triggered manually. Their schedules are offset and both workflows share the `refresh-signals` concurrency group so they cannot write the public snapshot concurrently.
+
+Each refresh workflow has `contents: write` only because it commits the generated public snapshot. Neither implemented source requires a credential.
 
 ## Out of scope for V1
 
