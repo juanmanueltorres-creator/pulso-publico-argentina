@@ -12,6 +12,7 @@
     "refresh:openalex": "node scripts/refresh-openalex.mjs",
     "refresh:inpi": "node scripts/refresh-inpi.mjs",
     "refresh:inpres": "node scripts/refresh-inpres.mjs",
+    "refresh:conae": "node scripts/refresh-conae-hotspots.mjs",
     "data:argentina-boundary": "node scripts/fetch-argentina-geometry.mjs",
     "preview": "vite preview"
   },
