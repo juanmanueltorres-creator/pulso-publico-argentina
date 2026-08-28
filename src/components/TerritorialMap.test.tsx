@@ -1,13 +1,15 @@
 import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { weatherSnapshotFixture } from '../test/weatherFixtures'
 import { earthquakeEvents, hotspotEvents } from '../test/territorialFixtures'
+import type { HotspotWeatherContext } from '../lib/weatherContext'
 import { TerritorialMap } from './TerritorialMap'
 
 const mapMocks = vi.hoisted(() => ({
   construct: vi.fn(),
   setWorkerUrl: vi.fn(),
   setLayoutProperty: vi.fn(),
-  setData: vi.fn(),
+  sourceSetData: vi.fn(),
   getClusterExpansionZoom: vi.fn(),
   easeTo: vi.fn(),
   remove: vi.fn(),
@@ -18,8 +20,8 @@ const mapMocks = vi.hoisted(() => ({
 
 vi.mock('maplibre-gl', () => {
   class MockMap {
-    constructor() {
-      mapMocks.construct()
+    constructor(options: unknown) {
+      mapMocks.construct(options)
     }
 
     on(event: string, layerOrHandler: unknown, maybeHandler?: unknown) {
@@ -33,13 +35,12 @@ vi.mock('maplibre-gl', () => {
     }
 
     getSource(id: string) {
-      if (id === 'hotspots') {
-        return {
-          setData: mapMocks.setData,
-          getClusterExpansionZoom: mapMocks.getClusterExpansionZoom,
-        }
+      return {
+        setData: (data: unknown) => mapMocks.sourceSetData(id, data),
+        ...(id === 'hotspots'
+          ? { getClusterExpansionZoom: mapMocks.getClusterExpansionZoom }
+          : {}),
       }
-      return { setData: mapMocks.setData }
     }
 
     setLayoutProperty(...args: unknown[]) {
@@ -74,11 +75,43 @@ vi.mock('maplibre-gl', () => {
   }
 })
 
+function weatherContext(): HotspotWeatherContext {
+  const weather = weatherSnapshotFixture()
+  return {
+    hotspotId: hotspotEvents[0].id,
+    frameIndex: 23,
+    frameTimestamp: weather.timestamps[23],
+    timeDifferenceMinutes: 17,
+    primary: { point: weather.points[0], distanceKm: 18.4 },
+    neighbors: [
+      { point: weather.points[0], distanceKm: 18.4 },
+      { point: weather.points[1], distanceKm: 42.7 },
+    ],
+  }
+}
+
+function weatherProps(overrides: Record<string, unknown> = {}) {
+  return {
+    mode: 'weather' as const,
+    weatherVariable: 'temperature' as const,
+    earthquakes: earthquakeEvents,
+    hotspots: hotspotEvents,
+    weather: weatherSnapshotFixture(),
+    weatherFrameIndex: 23,
+    hotspotContext: weatherContext(),
+    selectedHotspot: hotspotEvents[0],
+    selectedWeatherPointId: null,
+    onSelect: vi.fn(),
+    onSelectWeather: vi.fn(),
+    ...overrides,
+  }
+}
+
 describe('TerritorialMap', () => {
   beforeEach(() => {
     mapMocks.construct.mockClear()
     mapMocks.setLayoutProperty.mockClear()
-    mapMocks.setData.mockClear()
+    mapMocks.sourceSetData.mockClear()
     mapMocks.getClusterExpansionZoom.mockReset()
     mapMocks.getClusterExpansionZoom.mockResolvedValue(8)
     mapMocks.easeTo.mockClear()
@@ -93,15 +126,45 @@ describe('TerritorialMap', () => {
     expect(mapMocks.setWorkerUrl).toHaveBeenCalledWith(expect.stringContaining('worker'))
   })
 
-  it('keeps one MapLibre instance while mode visibility changes and exposes an accessible map region', () => {
+  it('creates the five persistent weather sources and restrained weather layers once', () => {
+    render(<TerritorialMap {...weatherProps()} />)
+
+    const options = mapMocks.construct.mock.calls[0]?.[0] as any
+    expect(options.style.sources).toEqual(
+      expect.objectContaining({
+        'weather-grid': expect.objectContaining({ type: 'geojson' }),
+        'weather-wind-vectors': expect.objectContaining({ type: 'geojson' }),
+        'weather-neighbors': expect.objectContaining({ type: 'geojson' }),
+        'weather-link': expect.objectContaining({ type: 'geojson' }),
+        'selected-hotspot-reference': expect.objectContaining({ type: 'geojson' }),
+      }),
+    )
+    expect(options.style.layers.map((layer: any) => layer.id)).toEqual(
+      expect.arrayContaining([
+        'weather-temperature-points',
+        'weather-humidity-points',
+        'weather-wind-origins',
+        'weather-wind-vectors',
+        'weather-neighbor-points',
+        'weather-primary-point',
+        'weather-context-link',
+        'selected-hotspot-reference',
+      ]),
+    )
+  })
+
+  it('keeps one MapLibre instance across hotspot → weather → hotspot without moving the camera', () => {
     const onSelect = vi.fn()
+    const onSelectWeather = vi.fn()
     const { rerender } = render(
       <TerritorialMap
-        mode="earthquake"
-        earthquakes={earthquakeEvents}
-        hotspots={hotspotEvents}
-        selectedId={null}
-        onSelect={onSelect}
+        {...weatherProps({
+          mode: 'thermal-hotspot',
+          hotspotContext: null,
+          selectedHotspot: null,
+          onSelect,
+          onSelectWeather,
+        })}
       />,
     )
 
@@ -110,18 +173,116 @@ describe('TerritorialMap', () => {
 
     rerender(
       <TerritorialMap
-        mode="thermal-hotspot"
-        earthquakes={earthquakeEvents}
-        hotspots={hotspotEvents}
-        selectedId={null}
-        onSelect={onSelect}
+        {...weatherProps({
+          mode: 'weather',
+          weatherVariable: 'temperature',
+          onSelect,
+          onSelectWeather,
+        })}
+      />,
+    )
+    rerender(
+      <TerritorialMap
+        {...weatherProps({
+          mode: 'thermal-hotspot',
+          hotspotContext: null,
+          selectedHotspot: null,
+          onSelect,
+          onSelectWeather,
+        })}
       />,
     )
 
     expect(mapMocks.construct).toHaveBeenCalledTimes(1)
-    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('earthquake-points', 'visibility', 'none')
+    expect(mapMocks.flyTo).not.toHaveBeenCalled()
+    expect(mapMocks.fitBounds).not.toHaveBeenCalled()
+  })
+
+  it('keeps the full weather layer hidden in hotspot mode and shows context overlays only when context exists', () => {
+    const props = weatherProps({
+      mode: 'thermal-hotspot',
+      hotspotContext: null,
+      selectedHotspot: hotspotEvents[0],
+    })
+    const { rerender } = render(<TerritorialMap {...props} />)
+
     expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('hotspot-points', 'visibility', 'visible')
-    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('hotspot-clusters', 'visibility', 'visible')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-temperature-points', 'visibility', 'none')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-humidity-points', 'visibility', 'none')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-wind-origins', 'visibility', 'none')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-wind-vectors', 'visibility', 'none')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-neighbor-points', 'visibility', 'none')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-context-link', 'visibility', 'none')
+
+    mapMocks.setLayoutProperty.mockClear()
+    rerender(<TerritorialMap {...weatherProps({ mode: 'thermal-hotspot' })} />)
+
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-neighbor-points', 'visibility', 'visible')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-primary-point', 'visibility', 'visible')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-context-link', 'visibility', 'visible')
+  })
+
+  it('shows only the active weather variable and the selected hotspot reference in weather mode', () => {
+    const { rerender } = render(<TerritorialMap {...weatherProps({ weatherVariable: 'temperature' })} />)
+
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('earthquake-points', 'visibility', 'none')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('hotspot-points', 'visibility', 'none')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-temperature-points', 'visibility', 'visible')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-humidity-points', 'visibility', 'none')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-wind-origins', 'visibility', 'none')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('selected-hotspot-reference', 'visibility', 'visible')
+
+    mapMocks.setLayoutProperty.mockClear()
+    rerender(<TerritorialMap {...weatherProps({ weatherVariable: 'wind' })} />)
+
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-temperature-points', 'visibility', 'none')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-wind-origins', 'visibility', 'visible')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-wind-vectors', 'visibility', 'visible')
+  })
+
+  it('syncs only the active weather frame plus bounded context sources', () => {
+    render(<TerritorialMap {...weatherProps()} />)
+
+    expect(mapMocks.sourceSetData).toHaveBeenCalledWith(
+      'weather-grid',
+      expect.objectContaining({
+        type: 'FeatureCollection',
+        features: expect.arrayContaining([
+          expect.objectContaining({ properties: expect.objectContaining({ frameIndex: 23 }) }),
+        ]),
+      }),
+    )
+    expect(mapMocks.sourceSetData).toHaveBeenCalledWith(
+      'weather-neighbors',
+      expect.objectContaining({ type: 'FeatureCollection', features: expect.any(Array) }),
+    )
+    expect(mapMocks.sourceSetData).toHaveBeenCalledWith(
+      'weather-link',
+      expect.objectContaining({ type: 'FeatureCollection', features: [expect.any(Object)] }),
+    )
+    expect(mapMocks.sourceSetData).toHaveBeenCalledWith(
+      'selected-hotspot-reference',
+      expect.objectContaining({ type: 'FeatureCollection', features: [expect.any(Object)] }),
+    )
+  })
+
+  it('selects weather points through the visible weather point path without clearing the hotspot selection', () => {
+    const onSelect = vi.fn()
+    const onSelectWeather = vi.fn()
+    const weather = weatherSnapshotFixture()
+
+    render(<TerritorialMap {...weatherProps({ weather, onSelect, onSelectWeather })} />)
+
+    mapMocks.clickHandlers.get('weather-temperature-points')?.({
+      features: [{ properties: { id: weather.points[0].id } }],
+    })
+
+    expect(onSelectWeather).toHaveBeenCalledWith(weather.points[0].id)
+    expect(onSelect).not.toHaveBeenCalled()
+    expect(mapMocks.sourceSetData).toHaveBeenCalledWith(
+      'selected-hotspot-reference',
+      expect.objectContaining({ features: [expect.any(Object)] }),
+    )
   })
 
   it('expands hotspot clusters on click so individual detections can be selected', async () => {

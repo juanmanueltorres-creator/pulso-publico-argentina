@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { explainEarthquake, explainHotspot } from '../lib/explainTerritorial'
 import type { EarthquakeEvent, ThermalHotspotEvent } from '../types/territorial'
 
@@ -10,6 +11,7 @@ interface TerritorialDetailProps {
     url: string
   }
   limitations?: string[]
+  afterDetails?: ReactNode
 }
 
 const NUMBER_FORMATTER = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 1 })
@@ -31,7 +33,12 @@ function confidenceLabel(value: ThermalHotspotEvent['confidence']): string {
   return 'no informada'
 }
 
-export function TerritorialDetail({ event, source, limitations = [] }: TerritorialDetailProps) {
+export function TerritorialDetail({
+  event,
+  source,
+  limitations = [],
+  afterDetails,
+}: TerritorialDetailProps) {
   if (!event) {
     return (
       <aside className="territorial-detail territorial-detail--empty" aria-live="polite">
@@ -110,6 +117,7 @@ export function TerritorialDetail({ event, source, limitations = [] }: Territori
           ))}
         </div>
       ) : null}
+      {afterDetails}
     </aside>
   )
 }

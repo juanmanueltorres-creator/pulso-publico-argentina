@@ -30,9 +30,13 @@ La V2 agrega señales que tienen **valor + tiempo + coordenada** y las represent
 - 🌎 **INPRES — sismos registrados durante los últimos 7 días (168 h)**.
 - 🔥 **CONAE — detecciones térmicas VIIRS durante las últimas 24 h**.
 
-El límite nacional utilizado para filtrar eventos se deriva de geometría oficial de **IGN** y la pertenencia a Argentina se determina mediante point-in-polygon sobre esa geometría, no sólo mediante un bounding box.
+V3.1 suma una tercera lectura al mismo mapa, sin convertirla en una señal oficial ni mezclar contratos:
 
-El mapa mantiene una sola instancia MapLibre para `Sismos` y `Focos de calor`, preserva el viewport al cambiar de modo y permite seleccionar eventos para leer sus detalles fuera del canvas.
+- 🌬️ **Meteorología — contexto horario modelado Open-Meteo / ECMWF IFS HRES sobre una malla Pulso de 0,5°**.
+
+El límite nacional utilizado para filtrar eventos y construir la malla se deriva de geometría oficial de **IGN** y la pertenencia a Argentina se determina mediante point-in-polygon sobre esa geometría, no sólo mediante un bounding box.
+
+El mapa mantiene una sola instancia MapLibre para `Sismos`, `Focos de calor` y `Meteorología`, preserva el viewport al cambiar de modo y permite seleccionar eventos o puntos modelados para leer sus detalles fuera del canvas.
 
 ### Pulso Evidencia
 
@@ -72,19 +76,34 @@ Una detección VIIRS representa una **anomalía térmica detectada por satélite
 
 En clusters de focos, el tamaño representa cantidad de detecciones y el tono representa la proporción de detecciones con confianza alta. Los umbrales visuales son categorías de legibilidad, no umbrales oficiales de riesgo.
 
+Cuando hay meteorología disponible, el detalle de un foco puede mostrar el punto de malla modelado más cercano, su distancia y la diferencia temporal con la detección. Esa coincidencia aporta **contexto**, no causalidad: no demuestra qué produjo la anomalía térmica ni confirma por sí sola un incendio.
+
+### Meteorología
+
+Meteorología publica **temperatura, humedad relativa, viento, ráfagas y precipitación modeladas** para 24 horas comunes a toda la malla. La interfaz permite leer temperatura, viento o humedad sobre el mismo mapa sin recrear el viewport.
+
+Los vectores de viento indican la **dirección desde la que sopla** el viento. Su longitud visual es constante y no codifica velocidad; la velocidad y las ráfagas se conservan como valores de detalle.
+
+**Meteorología: Open-Meteo Historical Forecast · ECMWF IFS HRES 9 km · CC BY 4.0.**
+
+**Los valores son contexto meteorológico modelado sobre una malla Pulso de 0,5°; no son estaciones ni mediciones exactas en cada foco.**
+
 ## Frescura y fallos de fuente
 
-INPRES y CONAE tienen pipelines independientes.
+INPRES, CONAE y Meteorología tienen pipelines independientes.
 
 - ventana INPRES: **168 horas**;
 - ventana CONAE: **24 horas**;
-- revisión prevista de cada fuente territorial: **cada hora**;
-- heartbeat de publicación cuando no cambian los eventos: **180 minutos**;
-- un snapshot pasa a estado stale a los **240 minutos** desde `sourceCheckedAt`;
-- una falla HTTP, de red, parser o validación **no sobrescribe** el último snapshot sano con un array vacío;
-- una consulta exitosa sí puede publicar legítimamente `events: []` cuando la fuente realmente devuelve cero eventos dentro de la ventana.
+- ventana meteorológica publicada: **24 frames horarios comunes**;
+- revisión prevista de INPRES y CONAE: **cada hora**;
+- heartbeat territorial cuando no cambian eventos: **180 minutos**;
+- snapshots INPRES/CONAE pasan a stale a los **240 minutos** desde `sourceCheckedAt`;
+- refresh meteorológico: **cada 6 horas**;
+- snapshot meteorológico pasa a stale a los **480 minutos** desde `sourceCheckedAt`;
+- una falla HTTP, de red, parser o validación **no sobrescribe** el último snapshot sano con datos parciales o ceros fabricados;
+- una consulta exitosa de INPRES/CONAE sí puede publicar legítimamente `events: []` cuando la fuente realmente devuelve cero eventos dentro de la ventana.
 
-La interfaz trata los estados de INPRES y CONAE por separado: una fuente temporalmente no disponible no borra ni falsea la otra.
+La interfaz trata los estados de INPRES, CONAE y Meteorología por separado: una fuente temporalmente no disponible no borra ni falsea las otras. En particular, una falla meteorológica no elimina una detección CONAE ni la convierte en una lectura meteorológica de valor `0`.
 
 `Pulso Evidencia` también carga su snapshot de forma independiente. Si `/data/evidence.json` falla o no valida, la sección falla cerrada sin fabricar `0`, una evidencia vacía o una conclusión sustituta; Pulso Nacional y Pulso Territorial pueden seguir funcionando.
 
@@ -100,9 +119,12 @@ Pulso Público publica contratos estáticos que pueden consumir otros clientes s
 
 - [`earthquakes.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/earthquakes.json)
 - [`hotspots.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/hotspots.json)
+- [`weather.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/weather.json)
 - [`argentina-provinces.geojson`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/argentina-provinces.geojson)
 
-Los snapshots territoriales incluyen `schemaVersion`, `kind`, `generatedAt`, `sourceCheckedAt`, ventana temporal, política de frescura, fuente oficial, método, limitaciones y eventos normalizados.
+Los snapshots de sismos y focos incluyen `schemaVersion`, `kind`, `generatedAt`, `sourceCheckedAt`, ventana temporal, política de frescura, fuente oficial, método, limitaciones y eventos normalizados.
+
+`weather.json` usa un contrato independiente `WeatherSnapshot 1.0`: conserva procedencia modelada, `dataThrough`, frescura, resolución temporal, malla, timestamps y las seis series meteorológicas por punto. No se fuerza dentro de `TerritorialSnapshot` ni se etiqueta como fuente oficial argentina.
 
 ### Pulso Evidencia
 
@@ -121,7 +143,7 @@ La geometría de Villaguay es una simplificación explícitamente documentada pa
 
 V3.0 utiliza exclusivamente la primera opción para AgroENSO. No se atribuye a Pulso el cálculo de `+24%`.
 
-La primera candidata para V3.1 es una reproducción verificable basada en **MAGyP + NOAA ONI**, comparada contra AgroENSO sin sobrescribir la referencia externa original.
+Una futura reproducción verificable puede basarse en **MAGyP + NOAA ONI**, comparada contra AgroENSO sin sobrescribir la referencia externa original.
 
 ## Arquitectura
 
@@ -132,9 +154,11 @@ CAMMESA / OpenAlex / INPI / GeoRef
               ↓
           signals.json
 
-INPRES → EarthquakeEvent → earthquakes.json -----\
-                                                   → black map
-CONAE  → ThermalHotspotEvent → hotspots.json -----/
+INPRES → EarthquakeEvent → earthquakes.json --------\
+                                                      \
+CONAE  → ThermalHotspotEvent → hotspots.json ----------→ black map
+                                                      /
+Open-Meteo / ECMWF → WeatherSnapshot → weather.json -/
                          ↑
                  geometría IGN
 
@@ -153,7 +177,7 @@ AgroENSO / fuentes declaradas
         GitHub Pages
 ```
 
-El navegador no consulta directamente a INPRES, CONAE ni IGN para construir los snapshots territoriales. Los adapters consultan las fuentes fuera del cliente, validan y normalizan la información y publican snapshots versionados en el repositorio. La aplicación consume esos archivos públicos.
+El navegador no consulta directamente a INPRES, CONAE, IGN ni Open-Meteo para construir estos snapshots. Los adapters consultan las fuentes fuera del cliente, validan y normalizan la información y publican archivos versionados en el repositorio. La aplicación consume esos archivos públicos.
 
 En V3.0, AgroENSO se consume como **referencia pública trazable**, no mediante scraping de su interfaz y no como API implícita.
 
@@ -168,6 +192,7 @@ Las fuentes actuales incluyen:
 - **INPRES** — sismos recientes;
 - **CONAE** — detecciones térmicas VIIRS;
 - **IGN** — geometría oficial utilizada para el filtrado territorial;
+- **Open-Meteo / ECMWF IFS HRES** — contexto meteorológico modelado, no observación de estación;
 - **AgroENSO** — referencia analítica histórica del primer caso de Pulso Evidencia;
 - **MAGyP** — rendimientos agrícolas departamentales declarados por AgroENSO;
 - **NOAA CPC / ONI** — clasificación histórica ENSO declarada por AgroENSO.
@@ -184,7 +209,7 @@ dato o afirmación
 → interpretación posible
 ```
 
-Pulso Público no reemplaza a las fuentes oficiales ni convierte señales o asociaciones históricas en diagnósticos automáticos.
+Pulso Público no reemplaza a las fuentes oficiales ni convierte señales, contexto meteorológico o asociaciones históricas en diagnósticos automáticos.
 
 ## Desarrollo
 
@@ -203,6 +228,7 @@ npm run refresh:openalex
 npm run refresh:inpi
 npm run refresh:inpres
 npm run refresh:conae
+npm run refresh:weather
 ```
 
 Actualización de la geometría oficial de Argentina:
@@ -226,19 +252,20 @@ npm run test:run
 npm run build
 ```
 
-Los tests de CI son deterministas y no dependen de que INPRES, CONAE o AgroENSO estén disponibles en ese instante. Los snapshots públicos checked-in se validan como contratos; una falla real se investiga y nunca se maquilla como una publicación vacía exitosa.
+Los tests de CI son deterministas y no dependen de que INPRES, CONAE, Open-Meteo o AgroENSO estén disponibles en ese instante. Los snapshots públicos checked-in se validan como contratos; una falla real se investiga y nunca se maquilla como una publicación vacía exitosa.
 
-## Alcance deliberadamente fuera de V3.0
+## Alcance deliberadamente fuera de V3.1
 
-V3.0 no incorpora:
+V3.1 no incorpora:
 
 - reproducción estadística completa de AgroENSO;
 - pronóstico de rendimiento por campaña o lote;
 - score sintético de riesgo, confianza o confiabilidad;
 - mapa o selector agrícola completo;
 - GOES o FIRMS como cross-check de focos térmicos;
-- overlays meteorológicos o de combustible;
-- playback temporal;
+- atribución causal entre meteorología y focos térmicos;
+- predicción de propagación de incendios;
+- playback o animación temporal;
 - backend propio para Pulso Evidencia;
 - runtime de IA;
 - integración directa con GeoPlatform.

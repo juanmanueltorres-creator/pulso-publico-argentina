@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { weatherSnapshotFixture } from '../test/weatherFixtures'
 import { earthquakeEvents, hotspotEvents } from '../test/territorialFixtures'
 import { TerritorialMap } from './TerritorialMap'
 
@@ -67,8 +68,9 @@ describe('TerritorialMap hotspot production click path', () => {
     mapMocks.queryRenderedFeatures.mockReset()
   })
 
-  it('queries the rendered hotspot point at the click position and selects its exact event', () => {
+  it('preserves the global rendered-hotspot fallback after weather props are introduced', () => {
     const onSelect = vi.fn()
+    const onSelectWeather = vi.fn()
     const point = { x: 120, y: 80 }
     mapMocks.queryRenderedFeatures.mockReturnValue([
       {
@@ -84,10 +86,16 @@ describe('TerritorialMap hotspot production click path', () => {
     render(
       <TerritorialMap
         mode="thermal-hotspot"
+        weatherVariable="temperature"
         earthquakes={earthquakeEvents}
         hotspots={hotspotEvents}
-        selectedId={null}
+        weather={weatherSnapshotFixture()}
+        weatherFrameIndex={23}
+        hotspotContext={null}
+        selectedHotspot={hotspotEvents[0]}
+        selectedWeatherPointId={null}
         onSelect={onSelect}
+        onSelectWeather={onSelectWeather}
       />,
     )
 
@@ -98,5 +106,6 @@ describe('TerritorialMap hotspot production click path', () => {
       layers: ['hotspot-points'],
     })
     expect(onSelect).toHaveBeenCalledWith(hotspotEvents[0])
+    expect(onSelectWeather).not.toHaveBeenCalled()
   })
 })

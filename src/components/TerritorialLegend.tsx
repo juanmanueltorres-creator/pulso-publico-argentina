@@ -1,10 +1,11 @@
-import type { TerritorialKind } from '../types/territorial'
+import type { TerritorialViewMode, WeatherVariable } from '../types/weather'
 
 interface TerritorialLegendProps {
-  mode: TerritorialKind
+  mode: TerritorialViewMode
+  weatherVariable?: WeatherVariable
 }
 
-export function TerritorialLegend({ mode }: TerritorialLegendProps) {
+export function TerritorialLegend({ mode, weatherVariable = 'temperature' }: TerritorialLegendProps) {
   if (mode === 'earthquake') {
     return (
       <div className="territorial-legend" aria-label="Leyenda de sismos" tabIndex={0}>
@@ -13,6 +14,27 @@ export function TerritorialLegend({ mode }: TerritorialLegendProps) {
         <span>Tamaño = magnitud</span>
         <span>Escala visual reforzada desde M4+; el tamaño no representa daño previsto.</span>
         <span>La profundidad y la intensidad aparecen en el detalle.</span>
+      </div>
+    )
+  }
+
+  if (mode === 'weather') {
+    return (
+      <div className="territorial-legend" aria-label="Leyenda meteorológica" tabIndex={0}>
+        <strong>Cómo leer este mapa</strong>
+        <span>Modelo meteorológico ECMWF distribuido mediante Open-Meteo.</span>
+        <span>Contexto modelado sobre la malla Pulso; no estación de superficie.</span>
+        {weatherVariable === 'temperature' ? (
+          <span>Temperatura modelada para la hora activa; el tono sólo ordena valores térmicos.</span>
+        ) : weatherVariable === 'humidity' ? (
+          <span>Humedad relativa modelada para la hora activa; el tono sólo ordena porcentajes.</span>
+        ) : (
+          <>
+            <span>Dirección desde la que sopla el viento en la hora activa.</span>
+            <span>La longitud visual de cada vector es constante y no representa velocidad.</span>
+            <span>La velocidad y las ráfagas se leen en el detalle del punto.</span>
+          </>
+        )}
       </div>
     )
   }
