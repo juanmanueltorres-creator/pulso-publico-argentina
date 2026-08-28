@@ -7,6 +7,10 @@ vi.mock('./components/TerritorialMap', () => ({
   TerritorialMap: () => <div data-testid="territorial-map" />,
 }))
 
+vi.mock('./lib/loadEvidence', () => ({
+  loadEvidence: () => new Promise(() => undefined),
+}))
+
 function unavailableSignal(
   id: string,
   category: SignalEnvelope['category'],
@@ -52,16 +56,20 @@ describe('App', () => {
     expect(screen.getByText(/leyendo señales públicas/i)).toBeInTheDocument()
   })
 
-  it('renders the V2 identity and national/territorial hierarchy', async () => {
-    render(<App loadSnapshot={async () => snapshot} />)
+  it('renders the V3 identity and national/territorial/evidence hierarchy in order', async () => {
+    const { container } = render(<App loadSnapshot={async () => snapshot} />)
 
     expect(await screen.findByRole('heading', { name: 'Pulso Público' })).toBeInTheDocument()
     expect(screen.getByText('Qué está pasando. Dónde. Y cómo lo sabemos.')).toBeInTheDocument()
     expect(screen.getByText('Datos que se mueven. Fuentes que se pueden revisar.')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Pulso Nacional' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Pulso Territorial' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Pulso Evidencia' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /sismos/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /focos de calor/i })).toBeInTheDocument()
+
+    const sections = [...container.querySelectorAll('.product-section')].map((section) => section.getAttribute('aria-label'))
+    expect(sections).toEqual(['Pulso Nacional', 'Pulso Territorial', 'Pulso Evidencia'])
   })
 
   it('renders the four signal families from the snapshot', async () => {
@@ -73,11 +81,12 @@ describe('App', () => {
     expect(screen.getByRole('heading', { name: 'Consultas históricas a GeoRef' })).toBeInTheDocument()
   })
 
-  it('keeps Pulso Territorial visible when the national snapshot cannot be loaded', async () => {
+  it('keeps Territorial and Evidence mounted when the national snapshot cannot be loaded', async () => {
     render(<App loadSnapshot={async () => Promise.reject(new Error('network'))} />)
 
     expect(await screen.findByText(/no pudimos leer el snapshot público/i)).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Pulso Territorial' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Pulso Evidencia' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /sismos/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /focos de calor/i })).toBeInTheDocument()
   })
