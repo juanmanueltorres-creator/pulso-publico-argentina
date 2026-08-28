@@ -28,7 +28,7 @@ function signal(overrides: Partial<SignalEnvelope>): SignalEnvelope {
 }
 
 describe('explainSignal', () => {
-  it('translates CAMMESA GWh into TWh and an explicitly estimated household scale', () => {
+  it('explains CAMMESA in human terms and why the scale matters', () => {
     const explanation = explainSignal(
       signal({
         id: 'cammesa-renewables',
@@ -42,11 +42,11 @@ describe('explainSignal', () => {
     expect(explanation.summary).toContain('1,79 TWh')
     expect(explanation.summary).toContain('julio de 2026')
     expect(explanation.reference).toContain('7,2 millones de hogares')
-    expect(explanation.reference).toContain('250 kWh')
+    expect(explanation.reference).toContain('muestra la escala real que ya tienen las renovables')
     expect(explanation.isEstimate).toBe(true)
   })
 
-  it('explains OpenAlex without presenting the index as a census of Argentine science', () => {
+  it('frames OpenAlex as evidence of Argentine scientific capacity without calling it a census', () => {
     const explanation = explainSignal(
       signal({
         id: 'openalex-argentina-works',
@@ -59,11 +59,12 @@ describe('explainSignal', () => {
     )
 
     expect(explanation.summary).toContain('27.994 trabajos')
-    expect(explanation.summary).toContain('al menos una afiliación institucional argentina')
-    expect(explanation.reference).toContain('No significa')
+    expect(explanation.summary).toContain('instituciones argentinas')
+    expect(explanation.reference).toContain('muestra capacidad científica argentina')
+    expect(explanation.reference).toContain('no es un censo completo')
   })
 
-  it('turns the monthly INPI count into an intuitive daily pace while preserving semantics', () => {
+  it('frames INPI as activity around new developments while preserving application semantics', () => {
     const explanation = explainSignal(
       signal({
         id: 'inpi-patents',
@@ -76,10 +77,11 @@ describe('explainSignal', () => {
 
     expect(explanation.summary).toContain('323 solicitudes')
     expect(explanation.reference).toContain('algo más de 10 por día')
-    expect(explanation.reference).toContain('no son patentes concedidas')
+    expect(explanation.reference).toContain('personas y organizaciones intentando proteger desarrollos nuevos')
+    expect(explanation.reference).toContain('no significa que ya sean patentes concedidas')
   })
 
-  it('makes GeoRef staleness impossible to miss in the plain-language copy', () => {
+  it('explains why GeoRef usage matters without hiding that the observation is stale', () => {
     const explanation = explainSignal(
       signal({
         id: 'georef-api-usage',
@@ -94,7 +96,7 @@ describe('explainSignal', () => {
     )
 
     expect(explanation.summary).toContain('264 millones de consultas')
-    expect(explanation.reference).toContain('2024')
-    expect(explanation.reference).toContain('no describe el uso actual')
+    expect(explanation.reference).toContain('infraestructura digital pública')
+    expect(explanation.reference).toContain('último dato oficial es de 2024')
   })
 })
