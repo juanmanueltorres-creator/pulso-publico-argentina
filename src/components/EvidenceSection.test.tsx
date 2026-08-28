@@ -75,7 +75,7 @@ describe('EvidenceSection', () => {
     render(<EvidenceSection loadSnapshot={async () => snapshot} />)
 
     expect(await screen.findByRole('heading', { name: 'Maíz + El Niño en Villaguay' })).toBeInTheDocument()
-    expect(screen.getByText(/Referencia externa/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/Referencia externa/i).length).toBeGreaterThan(0)
     expect(screen.getByText(/Qué relaciones conocemos, dónde aplican y cómo fueron construidas/i)).toBeInTheDocument()
   })
 
