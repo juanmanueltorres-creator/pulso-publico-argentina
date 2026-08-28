@@ -5,6 +5,7 @@ import { TerritorialMap } from './TerritorialMap'
 
 const mapMocks = vi.hoisted(() => ({
   construct: vi.fn(),
+  setWorkerUrl: vi.fn(),
   setLayoutProperty: vi.fn(),
   setData: vi.fn(),
   remove: vi.fn(),
@@ -56,6 +57,7 @@ vi.mock('maplibre-gl', () => {
   return {
     default: { Map: MockMap },
     Map: MockMap,
+    setWorkerUrl: mapMocks.setWorkerUrl,
   }
 })
 
@@ -68,6 +70,11 @@ describe('TerritorialMap', () => {
     mapMocks.flyTo.mockClear()
     mapMocks.fitBounds.mockClear()
     mapMocks.clickHandlers.clear()
+  })
+
+  it('configures an explicit MapLibre worker URL for bundled production builds', () => {
+    expect(mapMocks.setWorkerUrl).toHaveBeenCalledTimes(1)
+    expect(mapMocks.setWorkerUrl).toHaveBeenCalledWith(expect.stringContaining('worker'))
   })
 
   it('keeps one MapLibre instance while mode visibility changes and exposes an accessible map region', () => {
