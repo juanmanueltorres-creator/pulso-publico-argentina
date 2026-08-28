@@ -111,7 +111,7 @@ export function buildWeatherSnapshot(locations, checkedAt = new Date().toISOStri
     sourceCheckedAt: checkedAt,
     dataThrough: timestamps.at(-1),
     window: { hours: 24, stepHours: 1 },
-    freshness: { staleAfterMinutes: 180 },
+    freshness: { staleAfterMinutes: 480 },
     grid: { spacingDegrees: 0.5, pointCount: points.length },
     timestamps,
     source: {
@@ -155,13 +155,14 @@ export async function refreshWeatherSnapshot(
   argentinaGeometry,
   fetchImpl = fetch,
   checkedAt = new Date().toISOString(),
+  fetchOptions = {},
 ) {
   const grid = generateWeatherGrid(argentinaGeometry, 0.5)
   if (grid.length === 0) {
     throw new Error('Argentina weather grid must contain at least one point')
   }
 
-  const locations = await fetchOpenMeteoWeather(grid, fetchImpl, checkedAt)
+  const locations = await fetchOpenMeteoWeather(grid, fetchImpl, checkedAt, 100, fetchOptions)
   if (locations.length !== grid.length) {
     throw new Error(`weather provider result count mismatch: expected ${grid.length}, received ${locations.length}`)
   }
