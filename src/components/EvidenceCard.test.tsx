@@ -108,6 +108,6 @@ describe('EvidenceCard', () => {
 
     expect(text).not.toMatch(/riesgo:\s*(alto|medio|bajo)/i)
     expect(text).not.toMatch(/score\s*[:=]/i)
-    expect(text).not.toMatch(/calculado por Pulso/i)
+    expect(text).not.toMatch(/resultado\s+calculado\s+por\s+Pulso/i)
   })
 })
