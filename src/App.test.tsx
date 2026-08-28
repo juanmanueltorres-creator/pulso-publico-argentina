@@ -73,9 +73,12 @@ describe('App', () => {
     expect(screen.getByRole('heading', { name: 'Consultas históricas a GeoRef' })).toBeInTheDocument()
   })
 
-  it('shows a clear error state when the snapshot cannot be loaded', async () => {
+  it('keeps Pulso Territorial visible when the national snapshot cannot be loaded', async () => {
     render(<App loadSnapshot={async () => Promise.reject(new Error('network'))} />)
 
     expect(await screen.findByText(/no pudimos leer el snapshot público/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Pulso Territorial' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /sismos/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /focos de calor/i })).toBeInTheDocument()
   })
 })
