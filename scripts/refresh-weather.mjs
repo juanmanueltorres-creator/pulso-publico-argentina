@@ -12,6 +12,12 @@ const fetchWithTimeout = (url, options = {}) =>
     signal: AbortSignal.timeout(20_000),
   })
 
+const WEATHER_FETCH_OPTIONS = {
+  batchDelayMs: 12_000,
+  maxRetries: 2,
+  retryDelayMs: 60_000,
+}
+
 async function readPreviousSnapshot() {
   try {
     return JSON.parse(await readFile(SNAPSHOT_PATH, 'utf8'))
@@ -33,6 +39,7 @@ async function main() {
     argentinaGeometry,
     fetchWithTimeout,
     checkedAt,
+    WEATHER_FETCH_OPTIONS,
   )
 
   if (!result.publish) {
