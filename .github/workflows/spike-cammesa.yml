@@ -25,5 +25,5 @@ jobs:
         with:
           node-version: 20
 
-      - name: Inspect CAMMESA live source
+      - name: Probe CAMMESA official API and renewable iframe
         run: node scripts/spike-cammesa-source.mjs
