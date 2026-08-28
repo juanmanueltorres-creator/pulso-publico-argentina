@@ -74,6 +74,7 @@ a:focus-visible {
 .availability,
 .snapshot-footer,
 .signal-card__source,
+.signal-card__plain-label,
 .signal-card__details dt {
   font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
 }
@@ -193,6 +194,7 @@ a:focus-visible {
   line-height: 1;
   letter-spacing: -0.055em;
   font-weight: 650;
+  font-variant-numeric: tabular-nums lining-nums;
 }
 
 .signal-card__metric span {
@@ -232,6 +234,45 @@ a:focus-visible {
 
 .availability--stale {
   color: var(--danger);
+}
+
+.signal-card__plain-language {
+  position: relative;
+  z-index: 1;
+  margin-top: 1rem;
+  padding: 0.78rem 0.9rem;
+  border-left: 2px solid rgba(155, 217, 166, 0.38);
+  border-radius: 0 0.7rem 0.7rem 0;
+  background: rgba(155, 217, 166, 0.035);
+}
+
+.signal-card__plain-label {
+  margin: 0 0 0.35rem;
+  color: var(--accent);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.signal-card__plain-summary {
+  margin: 0;
+  color: #d7e1d9;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.signal-card__plain-reference {
+  margin: 0.42rem 0 0;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+.signal-card__plain-reference span {
+  color: var(--warning);
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.64rem;
 }
 
 .signal-card__toggle {
