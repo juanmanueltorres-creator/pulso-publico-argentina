@@ -11,9 +11,13 @@
     "refresh:georef": "node scripts/refresh-georef.mjs",
     "refresh:openalex": "node scripts/refresh-openalex.mjs",
     "refresh:inpi": "node scripts/refresh-inpi.mjs",
+    "refresh:inpres": "node scripts/refresh-inpres.mjs",
+    "refresh:conae": "node scripts/refresh-conae-hotspots.mjs",
+    "data:argentina-boundary": "node scripts/fetch-argentina-geometry.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
+    "maplibre-gl": "^6.6.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
@@ -24,6 +28,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "cheerio": "^1.2.0",
     "jsdom": "^26.0.0",
     "typescript": "~5.7.2",
     "vite": "^6.1.0",

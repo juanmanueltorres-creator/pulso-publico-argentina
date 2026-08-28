@@ -1,0 +1,222 @@
+.territorial-experience {
+  display: grid;
+  gap: 1rem;
+}
+
+.territorial-toolbar {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.2rem;
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  background: #080a09;
+}
+
+.territorial-mode {
+  min-height: 2.45rem;
+  padding: 0.55rem 0.85rem;
+  border: 0;
+  border-radius: 0.22rem;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.67rem;
+  font-weight: 600;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+.territorial-mode:hover {
+  color: var(--text);
+}
+
+.territorial-mode[aria-pressed='true'] {
+  background: rgba(211, 164, 98, 0.1);
+  color: var(--accent-strong);
+  box-shadow: inset 0 0 0 1px rgba(211, 164, 98, 0.35);
+}
+
+.territorial-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.45rem 0.8rem;
+  min-height: 3.2rem;
+  padding: 0.8rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.territorial-summary strong {
+  color: var(--text);
+  font-size: clamp(1.3rem, 3vw, 1.85rem);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.territorial-summary span {
+  color: var(--muted);
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.66rem;
+  line-height: 1.5;
+}
+
+.territorial-summary__caution {
+  flex-basis: 100%;
+  color: var(--warning) !important;
+}
+
+.territorial-legend {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--soft);
+  font-size: 0.7rem;
+  line-height: 1.55;
+}
+
+.territorial-legend__mark {
+  flex: 0 0 auto;
+  width: 0.65rem;
+  height: 0.65rem;
+  border: 1px solid #050706;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--line-strong);
+}
+
+.territorial-legend__mark--earthquake {
+  background: var(--accent-strong);
+}
+
+.territorial-legend__mark--hotspot {
+  background: var(--accent);
+}
+
+.territorial-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 0.45rem;
+  background: var(--panel);
+}
+
+.territorial-map {
+  position: relative;
+  min-height: 25rem;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(211, 164, 98, 0.055), transparent 18rem),
+    #050706;
+}
+
+.territorial-map .maplibregl-map,
+.territorial-map .maplibregl-canvas-container,
+.territorial-map .maplibregl-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.territorial-map .maplibregl-canvas {
+  display: block;
+  outline: none;
+}
+
+.territorial-map .maplibregl-ctrl-bottom-left,
+.territorial-map .maplibregl-ctrl-bottom-right {
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.55rem;
+  opacity: 0.55;
+}
+
+.territorial-detail {
+  min-height: 12rem;
+  padding: 1.15rem;
+  border-top: 1px solid var(--line);
+  background:
+    linear-gradient(145deg, rgba(240, 201, 134, 0.025), transparent 50%),
+    var(--panel-raised);
+}
+
+.territorial-detail--empty {
+  display: grid;
+  align-content: end;
+}
+
+.territorial-detail__eyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.territorial-detail h3 {
+  margin: 0.65rem 0 0;
+  color: var(--text);
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+}
+
+.territorial-detail--empty > p:last-child,
+.territorial-detail__explanation {
+  margin: 0.7rem 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.65;
+}
+
+.territorial-detail dl {
+  display: grid;
+  gap: 0.55rem;
+  margin: 1rem 0 0;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
+}
+
+.territorial-detail dl > div {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: 0.65rem;
+}
+
+.territorial-detail dt {
+  color: var(--soft);
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.territorial-detail dd {
+  margin: 0;
+  color: #d9d3c8;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 58rem) {
+  .territorial-layout {
+    grid-template-columns: minmax(0, 2fr) minmax(16rem, 0.72fr);
+  }
+
+  .territorial-map {
+    min-height: 34rem;
+  }
+
+  .territorial-detail {
+    min-height: 34rem;
+    padding: 1.35rem;
+    border-top: 0;
+    border-left: 1px solid var(--line);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .territorial-mode {
+    transition: color 140ms ease, background-color 140ms ease, box-shadow 140ms ease;
+  }
+}

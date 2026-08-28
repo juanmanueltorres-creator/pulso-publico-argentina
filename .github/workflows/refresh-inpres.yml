@@ -1,0 +1,47 @@
+name: Refresh INPRES
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '7 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-territorial
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Refresh INPRES snapshot
+        run: npm run refresh:inpres
+
+      - name: Commit refreshed snapshot
+        shell: bash
+        run: |
+          if [ -z "$(git status --porcelain -- public/data/earthquakes.json)" ]; then
+            echo 'INPRES snapshot unchanged.'
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/data/earthquakes.json
+          git commit -m 'data: refresh INPRES earthquakes'
+          git push origin "HEAD:${GITHUB_REF_NAME}"

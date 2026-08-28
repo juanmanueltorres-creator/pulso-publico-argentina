@@ -1,7 +1,11 @@
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { App } from './App'
 import type { SignalEnvelope, SignalSnapshot } from './types/signal'
+
+vi.mock('./components/TerritorialMap', () => ({
+  TerritorialMap: () => <div data-testid="territorial-map" />,
+}))
 
 function unavailableSignal(
   id: string,
@@ -48,6 +52,18 @@ describe('App', () => {
     expect(screen.getByText(/leyendo señales públicas/i)).toBeInTheDocument()
   })
 
+  it('renders the V2 identity and national/territorial hierarchy', async () => {
+    render(<App loadSnapshot={async () => snapshot} />)
+
+    expect(await screen.findByRole('heading', { name: 'Pulso Público' })).toBeInTheDocument()
+    expect(screen.getByText('Qué está pasando. Dónde. Y cómo lo sabemos.')).toBeInTheDocument()
+    expect(screen.getByText('Datos que se mueven. Fuentes que se pueden revisar.')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Pulso Nacional' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Pulso Territorial' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /sismos/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /focos de calor/i })).toBeInTheDocument()
+  })
+
   it('renders the four signal families from the snapshot', async () => {
     render(<App loadSnapshot={async () => snapshot} />)
 
@@ -57,9 +73,12 @@ describe('App', () => {
     expect(screen.getByRole('heading', { name: 'Consultas históricas a GeoRef' })).toBeInTheDocument()
   })
 
-  it('shows a clear error state when the snapshot cannot be loaded', async () => {
+  it('keeps Pulso Territorial visible when the national snapshot cannot be loaded', async () => {
     render(<App loadSnapshot={async () => Promise.reject(new Error('network'))} />)
 
     expect(await screen.findByText(/no pudimos leer el snapshot público/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Pulso Territorial' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /sismos/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /focos de calor/i })).toBeInTheDocument()
   })
 })

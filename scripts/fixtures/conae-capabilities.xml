@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WFS_Capabilities>
+  <FeatureTypeList>
+    <FeatureType>
+      <Name>GeoServiciosCONAE:FocosDeCalorVIIRS</Name>
+    </FeatureType>
+  </FeatureTypeList>
+</WFS_Capabilities>

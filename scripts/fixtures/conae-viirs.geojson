@@ -1,0 +1,43 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "viirs.1",
+      "geometry": { "type": "Point", "coordinates": [-62.2, -30.1] },
+      "properties": {
+        "Fecha": "2026-08-28",
+        "Hora": "03:10:00",
+        "FP_Confidence": "Alta",
+        "FP_Power": 18.5,
+        "Satelite": "NOAA20",
+        "Instrumento": "VIIRS"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "viirs.2",
+      "geometry": { "type": "Point", "coordinates": [-70.5, -31.5] },
+      "properties": {
+        "Fecha": "2026-08-28",
+        "Hora": "03:20:00",
+        "FP_Confidence": 8,
+        "FP_Power": null,
+        "Satelite": "SNPP",
+        "Instrumento": "VIIRS"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "viirs.3",
+      "geometry": { "type": "Point", "coordinates": [-63.0, -31.0] },
+      "properties": {
+        "FechaHora": "2026-08-26T02:00:00Z",
+        "FP_Confidence": 7,
+        "FP_Power": "",
+        "Satelite": "SNPP",
+        "Instrumento": "VIIRS"
+      }
+    }
+  ]
+}
