@@ -1,32 +1,33 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-08-28T02:59:04.408Z",
+  "generatedAt": "2026-08-28T03:33:21.232Z",
   "signals": [
     {
       "schemaVersion": "1.0",
       "id": "cammesa-renewables",
       "category": "energy",
-      "title": "Generación renovable",
-      "value": null,
-      "unit": "MW",
-      "periodLabel": "Fuente pendiente de integración",
+      "title": "Energía renovable generada",
+      "value": 1791.2451470000005,
+      "unit": "GWh",
+      "periodLabel": "Julio 2026 · último dato publicado",
       "status": "updated",
-      "availability": "unavailable",
-      "observedAt": null,
+      "availability": "available",
+      "observedAt": "2026-07-01T00:00:00.000Z",
       "publishedAt": null,
-      "fetchedAt": "2026-08-28T00:00:00Z",
+      "fetchedAt": "2026-08-28T03:33:21.232Z",
       "source": {
         "name": "CAMMESA",
-        "url": "https://cammesaweb.cammesa.com/inicio-renovables/",
+        "url": "https://cammesaweb.cammesa.com/erenovables/",
         "kind": "official"
       },
       "method": {
-        "type": "csv",
-        "note": "No se publica un valor hasta confirmar la ruta estructurada más estable; se priorizará fuente oficial mensual si el feed en vivo es frágil."
+        "type": "xlsx",
+        "note": "Valor Total GWh de la hoja Tabla Resumen Global de la base mensual oficial Energía Renovables de CAMMESA."
       },
       "limitations": [
-        "La página de Renovables Hoy usa una visualización embebida; todavía no se confirmó un endpoint estable para automatización.",
-        "Un dato mensual se mostrará como actualizado, nunca como en vivo."
+        "Es un dato mensual publicado por CAMMESA y no representa generación renovable en tiempo real.",
+        "Pulso Público usa el total agregado publicado por CAMMESA; no recalcula el valor sumando centrales o máquinas.",
+        "La publicación mensual puede tener rezago respecto del mes observado y los históricos pueden recibir correcciones posteriores."
       ]
     },
     {
