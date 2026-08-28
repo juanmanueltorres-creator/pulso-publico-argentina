@@ -57,7 +57,7 @@ export function App({ loadSnapshot = loadSignals }: AppProps) {
         </section>
       ) : (
         <>
-          <section className="product-section product-section--national" aria-labelledby="pulso-nacional-title">
+          <section className="product-section product-section--national" aria-label="Pulso Nacional">
             <SectionHeading
               eyebrow="SEÑALES DEL PAÍS"
               title="Pulso Nacional"
@@ -71,7 +71,7 @@ export function App({ loadSnapshot = loadSignals }: AppProps) {
             </div>
           </section>
 
-          <section className="product-section product-section--territorial" aria-labelledby="pulso-territorial-title">
+          <section className="product-section product-section--territorial" aria-label="Pulso Territorial">
             <SectionHeading
               eyebrow="TIEMPO + COORDENADA"
               title="Pulso Territorial"
