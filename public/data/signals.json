@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-08-28T02:37:51.882Z",
+  "generatedAt": "2026-08-28T02:59:04.408Z",
   "signals": [
     {
       "schemaVersion": "1.0",
@@ -62,27 +62,29 @@
       "schemaVersion": "1.0",
       "id": "inpi-patents",
       "category": "innovation",
-      "title": "Actividad de patentes",
-      "value": null,
+      "title": "Solicitudes de patentes de invención ingresadas",
+      "value": 323,
       "unit": "solicitudes",
-      "periodLabel": "Último período oficial disponible",
+      "periodLabel": "Julio 2026 · último mes completo",
       "status": "updated",
-      "availability": "unavailable",
-      "observedAt": null,
+      "availability": "available",
+      "observedAt": "2026-07-01T00:00:00.000Z",
       "publishedAt": null,
-      "fetchedAt": "2026-08-28T00:00:00Z",
+      "fetchedAt": "2026-08-28T02:59:04.408Z",
       "source": {
         "name": "INPI Argentina",
         "url": "https://datos.inpi.gob.ar/Home/Ingresos_Patentes",
         "kind": "official"
       },
       "method": {
-        "type": "csv",
-        "note": "Primero se verificará la URL real de descarga CSV mensual/anual antes de considerar scraping HTML."
+        "type": "api",
+        "note": "Último mes calendario completo del endpoint JSON getEstadisticasCSV utilizado por el dashboard oficial, con tipoTramite=Patentes, mes=1 y ano=0."
       },
       "limitations": [
-        "Solicitudes ingresadas, expedientes resueltos y patentes concedidas son métricas distintas.",
-        "La V1 publicará una sola semántica explícita cuando la descarga haya sido validada."
+        "El mes calendario en curso se excluye automáticamente porque puede estar incompleto; un cero sólo se publica si pertenece a un mes ya cerrado.",
+        "El endpoint JSON es utilizado por el dashboard oficial del INPI pero no está documentado como API pública estable y puede cambiar.",
+        "La métrica representa ingresos de solicitudes de patentes de invención; no equivale a patentes concedidas, expedientes resueltos ni modelos de utilidad.",
+        "Los valores históricos pueden recibir correcciones o actualizaciones posteriores por parte de la fuente."
       ]
     },
     {
