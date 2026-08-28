@@ -9,6 +9,7 @@
     "test": "vitest",
     "test:run": "vitest run",
     "refresh:georef": "node scripts/refresh-georef.mjs",
+    "refresh:openalex": "node scripts/refresh-openalex.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
