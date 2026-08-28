@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { pointInFeatureCollection, validateArgentinaFeatureCollection } from './geo.mjs'
+import {
+  pointInFeatureCollection,
+  simplifyFeatureCollection,
+  validateArgentinaFeatureCollection,
+} from './geo.mjs'
 
 const polygon = {
   type: 'FeatureCollection',
@@ -64,5 +68,49 @@ describe('pointInFeatureCollection', () => {
         features: [{ type: 'Feature', properties: {}, geometry: null }],
       }),
     ).toThrow(/geometry/i)
+  })
+})
+
+describe('simplifyFeatureCollection', () => {
+  it('reduces dense rings while preserving closed Polygon and MultiPolygon geometry', () => {
+    const denseRing = [
+      [0, 0],
+      [0.2, 0.001],
+      [0.4, -0.001],
+      [0.6, 0.001],
+      [0.8, -0.001],
+      [1, 0],
+      [1, 1],
+      [0, 1],
+      [0, 0],
+    ]
+    const dense = {
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          properties: { name: 'polygon' },
+          geometry: { type: 'Polygon', coordinates: [denseRing] },
+        },
+        {
+          type: 'Feature',
+          properties: { name: 'multi' },
+          geometry: { type: 'MultiPolygon', coordinates: [[denseRing]] },
+        },
+      ],
+    }
+
+    const simplified = simplifyFeatureCollection(dense, 0.01)
+    const polygonRing = simplified.features[0].geometry.coordinates[0]
+    const multiRing = simplified.features[1].geometry.coordinates[0][0]
+
+    expect(simplified.features).toHaveLength(2)
+    expect(simplified.features[0].geometry.type).toBe('Polygon')
+    expect(simplified.features[1].geometry.type).toBe('MultiPolygon')
+    expect(polygonRing.length).toBeLessThan(denseRing.length)
+    expect(multiRing.length).toBeLessThan(denseRing.length)
+    expect(polygonRing[0]).toEqual(polygonRing.at(-1))
+    expect(multiRing[0]).toEqual(multiRing.at(-1))
+    expect(pointInFeatureCollection([0.5, 0.5], simplified)).toBe(true)
   })
 })
