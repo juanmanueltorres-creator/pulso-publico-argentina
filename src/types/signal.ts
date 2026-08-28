@@ -10,7 +10,7 @@ export type SignalAvailability = 'available' | 'stale' | 'unavailable'
 
 export type SignalSourceKind = 'official' | 'open-index'
 
-export type SignalMethodType = 'api' | 'csv' | 'scrape' | 'calculation'
+export type SignalMethodType = 'api' | 'csv' | 'xlsx' | 'scrape' | 'calculation'
 
 export interface SignalEnvelope {
   schemaVersion: '1.0'
