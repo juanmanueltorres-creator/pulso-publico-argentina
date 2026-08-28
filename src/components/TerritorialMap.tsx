@@ -260,7 +260,19 @@ export function TerritorialMap({
     map.on('click', 'hotspot-cluster-count', handleHotspotClusterClick)
 
     map.on('click', 'hotspot-points', (event: MapLayerMouseEvent) => {
-      const id = String(event.features?.[0]?.properties?.id ?? '')
+      const feature = event.features?.[0]
+      const id = String(feature?.properties?.id ?? feature?.id ?? '')
+      const selected = hotspotsRef.current.find((item) => item.id === id)
+      if (selected) onSelectRef.current(selected)
+    })
+
+    map.on('click', (event) => {
+      if (modeRef.current !== 'thermal-hotspot') return
+
+      const feature = map.queryRenderedFeatures(event.point, {
+        layers: ['hotspot-points'],
+      })[0]
+      const id = String(feature?.properties?.id ?? feature?.id ?? '')
       const selected = hotspotsRef.current.find((item) => item.id === id)
       if (selected) onSelectRef.current(selected)
     })
