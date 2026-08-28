@@ -18,13 +18,11 @@ function monthAndYear(value: string | null): string | null {
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return null
 
-  const formatted = new Intl.DateTimeFormat('es-AR', {
+  return new Intl.DateTimeFormat('es-AR', {
     month: 'long',
     year: 'numeric',
     timeZone: 'UTC',
   }).format(date)
-
-  return formatted.replace(' de ', ' de ')
 }
 
 function fullDate(value: string | null): string | null {
@@ -50,7 +48,7 @@ function daysInObservedMonth(value: string | null): number | null {
 export function explainSignal(signal: SignalEnvelope): SignalExplanation {
   if (signal.value === null) {
     return {
-      summary: 'Todavía no hay un valor verificado para traducir.',
+      summary: 'Todavía no hay un valor verificado para explicar.',
       reference: 'Cuando la fuente esté disponible, Pulso Público mostrará el dato sin reemplazarlo por cero.',
       isEstimate: false,
     }
@@ -62,8 +60,8 @@ export function explainSignal(signal: SignalEnvelope): SignalExplanation {
     const householdsMillions = signal.value / 250
 
     return {
-      summary: `En ${period.replace(' de ', ' de ')}, las renovables generaron ${NUMBER.format(twh)} TWh de electricidad.`,
-      reference: `Para imaginar la escala: sería aproximadamente el consumo mensual de ${ONE_DECIMAL.format(householdsMillions)} millones de hogares si usamos 250 kWh por hogar como referencia.`,
+      summary: `En ${period}, las renovables generaron ${NUMBER.format(twh)} TWh de electricidad.`,
+      reference: `Para imaginar la escala: equivale aproximadamente al consumo mensual de ${ONE_DECIMAL.format(householdsMillions)} millones de hogares si usamos 250 kWh por hogar. Eso muestra la escala real que ya tienen las renovables dentro del sistema eléctrico.`,
       isEstimate: true,
     }
   }
@@ -72,8 +70,8 @@ export function explainSignal(signal: SignalEnvelope): SignalExplanation {
     const year = signal.periodLabel.match(/\b20\d{2}\b/)?.[0] ?? 'el período publicado'
 
     return {
-      summary: `OpenAlex indexa ${INTEGER.format(signal.value)} trabajos de ${year} con al menos una afiliación institucional argentina.`,
-      reference: 'No significa que todos sean trabajos exclusivamente argentinos ni que OpenAlex sea un censo completo de la ciencia del país.',
+      summary: `OpenAlex registra ${INTEGER.format(signal.value)} trabajos de ${year} vinculados con al menos una de las instituciones argentinas que aparecen en su índice.`,
+      reference: 'Eso muestra capacidad científica argentina: universidades e institutos del país participan en decenas de miles de trabajos visibles en un índice científico internacional. No significa que todos sean exclusivamente argentinos y OpenAlex no es un censo completo.',
       isEstimate: false,
     }
   }
@@ -87,8 +85,8 @@ export function explainSignal(signal: SignalEnvelope): SignalExplanation {
       summary: `En el último mes completo ingresaron ${INTEGER.format(signal.value)} solicitudes de patentes de invención.`,
       reference:
         pace === null
-          ? 'Son solicitudes ingresadas: no son patentes concedidas.'
-          : `Para dimensionarlo: son algo más de ${INTEGER.format(pace)} por día calendario. Son solicitudes ingresadas; no son patentes concedidas.`,
+          ? 'Son personas y organizaciones intentando proteger desarrollos nuevos. Es una señal de actividad inventiva, pero no significa que ya sean patentes concedidas.'
+          : `Son algo más de ${INTEGER.format(pace)} por día calendario: personas y organizaciones intentando proteger desarrollos nuevos. Es una señal de actividad inventiva, pero no significa que ya sean patentes concedidas.`,
       isEstimate: pace !== null,
     }
   }
@@ -96,10 +94,11 @@ export function explainSignal(signal: SignalEnvelope): SignalExplanation {
   if (signal.id === 'georef-api-usage') {
     const observed = fullDate(signal.observedAt) ?? 'la última fecha publicada'
     const millions = Math.round(signal.value / 1_000_000)
+    const observedYear = signal.observedAt?.slice(0, 4) ?? 'una fecha anterior'
 
     return {
       summary: `Hasta el ${observed}, GeoRef acumulaba unos ${INTEGER.format(millions)} millones de consultas.`,
-      reference: `El último dato oficial disponible quedó en ${signal.observedAt?.slice(0, 4) ?? 'una fecha anterior'}, así que no describe el uso actual del servicio.`,
+      reference: `Ese volumen muestra que una infraestructura digital pública puede ser utilizada a gran escala. Ojo: el último dato oficial es de ${observedYear}, así que no describe el uso actual del servicio.`,
       isEstimate: false,
     }
   }
