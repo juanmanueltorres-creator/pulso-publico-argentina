@@ -120,7 +120,7 @@ describe('buildWeatherSnapshot', () => {
       sourceCheckedAt: checkedAt,
       dataThrough: '2026-08-28T20:00:00.000Z',
       window: { hours: 24, stepHours: 1 },
-      freshness: { staleAfterMinutes: 180 },
+      freshness: { staleAfterMinutes: 480 },
       grid: { spacingDegrees: 0.5, pointCount: 2 },
       source: {
         provider: 'Open-Meteo',
