@@ -1,4 +1,5 @@
 import { readFile } from 'node:fs/promises'
+import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { generateWeatherGrid } from './weather-grid.mjs'
 
@@ -85,7 +86,7 @@ describe('generateWeatherGrid', () => {
 
   it('produces a bounded national grid from the versioned Argentina geometry', async () => {
     const geometry = JSON.parse(
-      await readFile(new URL('../../public/data/argentina-provinces.geojson', import.meta.url), 'utf8'),
+      await readFile(resolve('public/data/argentina-provinces.geojson'), 'utf8'),
     )
 
     const points = generateWeatherGrid(geometry)
