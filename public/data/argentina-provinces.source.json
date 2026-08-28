@@ -1,0 +1,7 @@
+{
+  "source": "Instituto Geográfico Nacional",
+  "service": "WFS",
+  "layer": "ign:provincia",
+  "crs": "EPSG:4326",
+  "url": "https://wms.ign.gob.ar/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeNames=ign:provincia&outputFormat=application%2Fjson&srsName=EPSG%3A4326"
+}
