@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { EvidenceSection } from './components/EvidenceSection'
 import { SectionHeading } from './components/SectionHeading'
 import { SignalCard } from './components/SignalCard'
 import { TerritorialSection } from './components/TerritorialSection'
@@ -81,6 +82,8 @@ export function App({ loadSnapshot = loadSignals }: AppProps) {
 
         <TerritorialSection />
       </section>
+
+      <EvidenceSection />
 
       {snapshot ? (
         <footer className="snapshot-footer">
