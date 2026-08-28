@@ -1,0 +1,49 @@
+name: Acquire Argentina Geometry
+
+on:
+  push:
+    branches: ['feat/v2-territorial-design']
+    paths:
+      - '.github/workflows/acquire-argentina-geometry.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: acquire-argentina-geometry
+  cancel-in-progress: false
+
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Fetch official IGN province geometry
+        run: npm run data:argentina-boundary
+
+      - name: Validate generated geometry
+        run: |
+          node --input-type=module -e "import fs from 'node:fs'; const data=JSON.parse(fs.readFileSync('public/data/argentina-provinces.geojson','utf8')); if(data.type!=='FeatureCollection'||data.features.length!==24) process.exit(1); console.log('FeatureCollection', data.features.length)"
+
+      - name: Commit official geometry
+        shell: bash
+        run: |
+          if git diff --quiet -- public/data/argentina-provinces.geojson; then
+            echo 'Argentina geometry unchanged.'
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/data/argentina-provinces.geojson
+          git commit -m 'data: add official Argentina geometry'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
