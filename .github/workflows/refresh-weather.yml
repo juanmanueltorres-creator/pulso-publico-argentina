@@ -1,0 +1,50 @@
+name: Refresh Weather
+
+on:
+  push:
+    branches: ['feat/pulso-weather-context-v3-1']
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-weather
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: github.event_name != 'push' || github.event.head_commit.message != 'data: refresh weather context'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Refresh weather snapshot
+        run: npm run refresh:weather
+
+      - name: Commit refreshed snapshot
+        shell: bash
+        run: |
+          if [ -z "$(git status --porcelain -- public/data/weather.json)" ]; then
+            echo 'Weather snapshot unchanged.'
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/data/weather.json
+          git commit -m 'data: refresh weather context'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
