@@ -1,4 +1,5 @@
-import { useId, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
+import { explainSignal } from '../lib/explainSignal'
 import type { SignalEnvelope } from '../types/signal'
 
 const CATEGORY_ICON: Record<SignalEnvelope['category'], string> = {
@@ -15,6 +16,8 @@ const STATUS_LABEL: Record<SignalEnvelope['status'], string> = {
   historical: 'HISTÓRICO',
 }
 
+const VALUE_FORMATTER = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 2 })
+
 function displayDate(value: string | null): string {
   if (!value) return 'No informado'
   const date = new Date(value)
@@ -26,9 +29,58 @@ function displayDate(value: string | null): string {
   }).format(date)
 }
 
-function displayValue(signal: SignalEnvelope): string {
-  if (signal.value === null) return 'Sin dato'
-  return new Intl.NumberFormat('es-AR', { maximumFractionDigits: 2 }).format(signal.value)
+function displayValue(value: number | null): string {
+  if (value === null) return 'Sin dato'
+  return VALUE_FORMATTER.format(value)
+}
+
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== 'undefined' &&
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  )
+}
+
+function useAnimatedValue(value: number | null): number | null {
+  const [animatedValue, setAnimatedValue] = useState<number | null>(() => {
+    if (value === null) return null
+    return prefersReducedMotion() ? value : 0
+  })
+
+  useEffect(() => {
+    if (value === null) {
+      setAnimatedValue(null)
+      return
+    }
+
+    if (prefersReducedMotion()) {
+      setAnimatedValue(value)
+      return
+    }
+
+    setAnimatedValue(0)
+    const steps = 30
+    const intervalMs = 30
+    let step = 0
+
+    const interval = window.setInterval(() => {
+      step += 1
+      const progress = Math.min(step / steps, 1)
+      const easedProgress = 1 - (1 - progress) ** 3
+
+      setAnimatedValue(value * easedProgress)
+
+      if (step >= steps) {
+        window.clearInterval(interval)
+        setAnimatedValue(value)
+      }
+    }, intervalMs)
+
+    return () => window.clearInterval(interval)
+  }, [value])
+
+  return animatedValue
 }
 
 interface SignalCardProps {
@@ -38,6 +90,8 @@ interface SignalCardProps {
 export function SignalCard({ signal }: SignalCardProps) {
   const [expanded, setExpanded] = useState(false)
   const detailId = useId()
+  const animatedValue = useAnimatedValue(signal.value)
+  const explanation = explainSignal(signal)
 
   return (
     <article className="signal-card">
@@ -50,8 +104,8 @@ export function SignalCard({ signal }: SignalCardProps) {
         </span>
       </div>
 
-      <div className="signal-card__metric" aria-label={`${signal.title}: ${displayValue(signal)}`}>
-        <strong>{displayValue(signal)}</strong>
+      <div className="signal-card__metric" aria-label={`${signal.title}: ${displayValue(signal.value)}`}>
+        <strong data-testid="signal-value">{displayValue(animatedValue)}</strong>
         {signal.value !== null && <span>{signal.unit}</span>}
       </div>
 
@@ -64,6 +118,17 @@ export function SignalCard({ signal }: SignalCardProps) {
           {signal.availability === 'stale' ? 'Último dato desactualizado' : 'Fuente declarada · integración pendiente'}
         </p>
       )}
+
+      <div className="signal-card__plain-language">
+        <p className="signal-card__plain-label">En criollo</p>
+        <p className="signal-card__plain-summary">{explanation.summary}</p>
+        {explanation.reference && (
+          <p className="signal-card__plain-reference">
+            {explanation.reference}
+            {explanation.isEstimate && <span> · estimación orientativa</span>}
+          </p>
+        )}
+      </div>
 
       <button
         className="signal-card__toggle"
