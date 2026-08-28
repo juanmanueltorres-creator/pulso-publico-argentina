@@ -95,6 +95,28 @@ describe('EvidenceCard', () => {
     expect(screen.getByText(/El resultado no fue calculado por Pulso/i)).toBeInTheDocument()
   })
 
+  it('provides compact top and bottom evidence rails for small screens without inventing app navigation', () => {
+    render(<EvidenceCard evidence={villaguayEvidence()} />)
+
+    const topRail = screen.getByTestId('evidence-top-rail')
+    expect(within(topRail).getByText(/Referencia externa/i)).toBeInTheDocument()
+    expect(within(topRail).getByText(/Maíz · El Niño/i)).toBeInTheDocument()
+
+    const actions = screen.getByRole('navigation', { name: /accesos de evidencia/i })
+    expect(within(actions).getByRole('link', { name: /Fuente/i })).toHaveAttribute(
+      'href',
+      'https://www.argentina.gob.ar/agroenso-reference',
+    )
+    expect(within(actions).getByRole('link', { name: /Método/i })).toHaveAttribute(
+      'href',
+      '#evidence-method-agroenso-maize-nino-villaguay',
+    )
+    expect(within(actions).getByRole('link', { name: /Territorio/i })).toHaveAttribute(
+      'href',
+      '/data/evidence/territories/villaguay.geojson',
+    )
+  })
+
   it('renders an unavailable result as Sin dato instead of zero', () => {
     render(<EvidenceCard evidence={villaguayEvidence(null)} />)
 
