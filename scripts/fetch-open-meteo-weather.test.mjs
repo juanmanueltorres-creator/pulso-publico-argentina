@@ -96,11 +96,62 @@ describe('Open-Meteo ECMWF adapter', () => {
 
   it('batches requests deterministically and preserves global point order', async () => {
     const fetcher = vi.fn(async (url) => responseForRequest(url))
+    const sleepImpl = vi.fn(async () => undefined)
 
-    const result = await fetchOpenMeteoWeather(points, fetcher, checkedAt, 2)
+    const result = await fetchOpenMeteoWeather(points, fetcher, checkedAt, 2, {
+      batchDelayMs: 12_000,
+      sleepImpl,
+      maxRetries: 0,
+    })
 
     expect(fetcher).toHaveBeenCalledTimes(2)
     expect(result.map((location) => location.id)).toEqual(points.map((point) => point.id))
+    expect(sleepImpl).toHaveBeenCalledTimes(1)
+    expect(sleepImpl).toHaveBeenCalledWith(12_000)
+  })
+
+  it('backs off and retries HTTP 429 while respecting Retry-After', async () => {
+    let call = 0
+    const fetcher = vi.fn(async (url) => {
+      call += 1
+      if (call === 1) {
+        return new Response('slow down', {
+          status: 429,
+          headers: { 'Retry-After': '1' },
+        })
+      }
+      return responseForRequest(url)
+    })
+    const sleepImpl = vi.fn(async () => undefined)
+
+    const result = await fetchOpenMeteoWeather(points.slice(0, 1), fetcher, checkedAt, 1, {
+      batchDelayMs: 0,
+      sleepImpl,
+      maxRetries: 2,
+      retryDelayMs: 60_000,
+    })
+
+    expect(result).toHaveLength(1)
+    expect(fetcher).toHaveBeenCalledTimes(2)
+    expect(sleepImpl).toHaveBeenCalledWith(1_000)
+  })
+
+  it('fails closed after exhausting retries for a persistent 429', async () => {
+    const fetcher = vi.fn(async () => new Response('slow down', { status: 429 }))
+    const sleepImpl = vi.fn(async () => undefined)
+
+    await expect(
+      fetchOpenMeteoWeather(points.slice(0, 1), fetcher, checkedAt, 1, {
+        batchDelayMs: 0,
+        sleepImpl,
+        maxRetries: 1,
+        retryDelayMs: 1_234,
+      }),
+    ).rejects.toThrow(/HTTP 429/i)
+
+    expect(fetcher).toHaveBeenCalledTimes(2)
+    expect(sleepImpl).toHaveBeenCalledTimes(1)
+    expect(sleepImpl).toHaveBeenCalledWith(1_234)
   })
 
   it('rejects non-success HTTP responses', async () => {
@@ -145,7 +196,13 @@ describe('Open-Meteo ECMWF adapter', () => {
       return responseForRequest(url)
     })
 
-    await expect(fetchOpenMeteoWeather(points, fetcher, checkedAt, 2)).rejects.toThrow(/HTTP 502/i)
+    await expect(
+      fetchOpenMeteoWeather(points, fetcher, checkedAt, 2, {
+        batchDelayMs: 0,
+        sleepImpl: async () => undefined,
+        maxRetries: 0,
+      }),
+    ).rejects.toThrow(/HTTP 502/i)
   })
 
   it('rejects invalid checkedAt and batch size inputs before requesting the provider', async () => {
