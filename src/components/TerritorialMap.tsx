@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
-import maplibregl, {
+import {
+  Map as MapLibreMap,
   type GeoJSONSource,
-  type Map as MapLibreMap,
+  type MapLayerMouseEvent,
   type StyleSpecification,
 } from 'maplibre-gl'
 import { eventsToFeatureCollection } from '../lib/territorialMapData'
@@ -209,7 +210,7 @@ export function TerritorialMap({
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return
 
-    const map = new maplibregl.Map({
+    const map = new MapLibreMap({
       container: containerRef.current,
       style: createBlackMapStyle(),
       bounds: ARGENTINA_VIEW_BOUNDS,
@@ -224,13 +225,13 @@ export function TerritorialMap({
       syncVisibility(map, modeRef.current)
     })
 
-    map.on('click', 'earthquake-points', (event) => {
+    map.on('click', 'earthquake-points', (event: MapLayerMouseEvent) => {
       const id = String(event.features?.[0]?.properties?.id ?? '')
       const selected = earthquakesRef.current.find((item) => item.id === id)
       if (selected) onSelectRef.current(selected)
     })
 
-    map.on('click', 'hotspot-points', (event) => {
+    map.on('click', 'hotspot-points', (event: MapLayerMouseEvent) => {
       const id = String(event.features?.[0]?.properties?.id ?? '')
       const selected = hotspotsRef.current.find((item) => item.id === id)
       if (selected) onSelectRef.current(selected)
