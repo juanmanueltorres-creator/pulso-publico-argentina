@@ -22,7 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Probe CONAE CSV export
+      - name: Inspect CONAE CSV result
         shell: bash
         run: |
           set -euo pipefail
@@ -31,56 +31,64 @@ jobs:
           from http.cookiejar import CookieJar
           from urllib.parse import urlencode
           from urllib.request import build_opener, HTTPCookieProcessor, Request
+          import re
 
           URL = 'https://catalogos5.conae.gov.ar/catalogofocos/default.aspx'
 
-          class HiddenParser(HTMLParser):
+          class Parser(HTMLParser):
               def __init__(self):
-                  super().__init__(); self.hidden = {}
+                  super().__init__(); self.hidden = {}; self.links=[]; self.inputs=[]; self._link=None
               def handle_starttag(self, tag, attrs):
-                  if tag != 'input': return
                   a = dict(attrs)
-                  if a.get('type') == 'hidden' and a.get('name'):
-                      self.hidden[a['name']] = a.get('value', '')
+                  if tag == 'input':
+                      if a.get('type') == 'hidden' and a.get('name'):
+                          self.hidden[a['name']] = a.get('value', '')
+                      self.inputs.append(a)
+                  elif tag == 'a':
+                      self._link = {'href': a.get('href'), 'text': ''}
+              def handle_data(self, data):
+                  if self._link is not None:
+                      self._link['text'] += data
+              def handle_endtag(self, tag):
+                  if tag == 'a' and self._link is not None:
+                      self.links.append(self._link); self._link=None
 
           jar = CookieJar()
           opener = build_opener(HTTPCookieProcessor(jar))
           headers = {'User-Agent': 'PulsoPublicoArgentina/0.1 (+https://github.com/juanmanueltorres-creator/pulso-publico-argentina)'}
           with opener.open(Request(URL, headers=headers), timeout=30) as r:
               html = r.read().decode('utf-8', errors='replace')
-              print('get_status=', r.status, 'bytes=', len(html))
-
-          p = HiddenParser(); p.feed(html)
+          p = Parser(); p.feed(html)
           required = ['__VIEWSTATE','__VIEWSTATEGENERATOR','__EVENTVALIDATION']
-          for key in required:
-              if key not in p.hidden:
-                  raise SystemExit(f'missing hidden field: {key}')
-
           data = {
               **{k: p.hidden[k] for k in required},
-              '__EVENTTARGET': 'btnBuscar',
-              '__EVENTARGUMENT': '',
-              'optCat': 'focos',
-              'ddSatelites': 'NOAA20',
-              'txtFechaMin': '27/08/2026',
-              'txtFechaMax': '28/08/2026',
-              'ddConfianzas': '0',
-              'optArea': 'dib',
-              'latSupIzq': '-21.7',
-              'longSupIzq': '-73.7',
-              'latInfDer': '-55.2',
-              'longInfDer': '-53.5',
-              'optFormato': 'csv',
-              'optTot': 'det',
+              '__EVENTTARGET': 'btnBuscar', '__EVENTARGUMENT': '',
+              'optCat': 'focos', 'ddSatelites': 'NOAA20',
+              'txtFechaMin': '27/08/2026', 'txtFechaMax': '28/08/2026',
+              'ddConfianzas': '0', 'optArea': 'dib',
+              'latSupIzq': '-21.7', 'longSupIzq': '-73.7',
+              'latInfDer': '-55.2', 'longInfDer': '-53.5',
+              'optFormato': 'csv', 'optTot': 'det',
           }
           req = Request(URL, data=urlencode(data).encode(), headers={**headers, 'Content-Type':'application/x-www-form-urlencoded'})
           with opener.open(req, timeout=60) as r:
-              body = r.read()
-              print('post_status=', r.status)
-              print('content_type=', r.headers.get('Content-Type'))
-              print('content_disposition=', r.headers.get('Content-Disposition'))
-              print('final_url=', r.geturl())
-              print('bytes=', len(body))
-              text = body[:1200].decode('utf-8', errors='replace').replace('\r',' ')
-              print('preview=', ' '.join(text.split())[:1000])
+              body = r.read().decode('utf-8', errors='replace')
+              print('result_url=', r.geturl())
+              print('result_bytes=', len(body))
+
+          q = Parser(); q.feed(body)
+          print('links=')
+          for link in q.links:
+              href = link.get('href') or ''
+              text = ' '.join(link.get('text','').split())
+              if any(k in (href + ' ' + text).lower() for k in ('csv','descarg','download','archivo','file')):
+                  print({'href': href, 'text': text})
+          print('inputs=')
+          for a in q.inputs:
+              if any(k in str(a).lower() for k in ('csv','descarg','download','archivo','file','volver')):
+                  print(a)
+          print('snippets=')
+          for pattern in (r'.{0,250}\.csv.{0,500}', r'.{0,250}descarg.{0,500}', r'.{0,250}download.{0,500}', r'.{0,250}archivo.{0,500}'):
+              for m in re.finditer(pattern, body, flags=re.I|re.S):
+                  print(re.sub(r'\s+', ' ', m.group(0)).strip()[:900])
           PY
