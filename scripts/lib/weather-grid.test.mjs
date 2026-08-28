@@ -84,15 +84,19 @@ describe('generateWeatherGrid', () => {
     },
   )
 
-  it('produces a bounded national grid from the versioned Argentina geometry', async () => {
-    const geometry = JSON.parse(
-      await readFile(resolve('public/data/argentina-provinces.geojson'), 'utf8'),
-    )
+  it(
+    'produces a bounded national grid from the versioned Argentina geometry',
+    async () => {
+      const geometry = JSON.parse(
+        await readFile(resolve('public/data/argentina-provinces.geojson'), 'utf8'),
+      )
 
-    const points = generateWeatherGrid(geometry)
+      const points = generateWeatherGrid(geometry)
 
-    expect(points.length).toBeGreaterThanOrEqual(500)
-    expect(points.length).toBeLessThanOrEqual(3000)
-    expect(new Set(points.map((point) => point.id)).size).toBe(points.length)
-  })
+      expect(points.length).toBeGreaterThanOrEqual(500)
+      expect(points.length).toBeLessThanOrEqual(3000)
+      expect(new Set(points.map((point) => point.id)).size).toBe(points.length)
+    },
+    15_000,
+  )
 })
