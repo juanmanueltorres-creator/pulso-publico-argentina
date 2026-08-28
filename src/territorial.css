@@ -70,8 +70,9 @@
 
 .territorial-legend {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.35rem 0.6rem;
   color: var(--soft);
   font-size: 0.7rem;
   line-height: 1.55;

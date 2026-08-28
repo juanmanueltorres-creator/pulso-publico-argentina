@@ -97,7 +97,7 @@ describe('TerritorialSection', () => {
     expect(screen.getByText('1 con confianza alta')).toBeInTheDocument()
     expect(screen.getByText(/una detección térmica no implica un incendio confirmado/i)).toBeInTheDocument()
     expect(screen.queryByText(/incendios activos/i)).not.toBeInTheDocument()
-    expect(screen.queryByText(/probabilidad de incendio/i)).not.toBeInTheDocument()
+    expect(screen.getByText(/confianza de detección no equivale a probabilidad de incendio/i)).toBeInTheDocument()
   })
 
   it('marks a ready snapshot stale exactly from sourceCheckedAt and shows the represented check', async () => {
