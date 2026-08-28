@@ -4,10 +4,6 @@ import { describe, expect, it } from 'vitest'
 import { parseConaeHotspots } from './adapters/conae-hotspots.mjs'
 import { refreshConaeHotspotSnapshot, selectConaeHotspots } from './refresh-conae-hotspots-lib.mjs'
 
-const capabilities = await readFile(
-  resolve(process.cwd(), 'scripts/fixtures/conae-capabilities.xml'),
-  'utf8',
-)
 const featureCollection = JSON.parse(
   await readFile(resolve(process.cwd(), 'scripts/fixtures/conae-viirs.geojson'), 'utf8'),
 )
@@ -33,17 +29,36 @@ const argentinaFixture = {
   ],
 }
 
-function successfulConaeFetch(url) {
+const resultHtml = (token) => `
+<script>
+function mostrarMapa() {
+  var formData = new FormData();
+  formData.append("datosMapa", "1");
+  formData.append("p", "${token}")
+}
+</script>`
+
+const catalogPayloads = {
+  NOAA20: [
+    '-30.10000,-62.20000,2026-08-28 - 03:10:00,NOAA20,87',
+    '-20.00000,-62.20000,2026-08-28 - 03:10:00,NOAA20,87',
+  ].join('\r\n'),
+  SNPP: '-34.50000,-64.50000,2026-08-27 - 06:20:00,SNPP,55\r\n',
+}
+
+async function successfulCatalogFetch(url, options = {}) {
   const requestUrl = new URL(url)
-  if (requestUrl.searchParams.get('request') === 'GetCapabilities') {
-    return Promise.resolve(new Response(capabilities, { status: 200 }))
+  if (requestUrl.pathname.endsWith('/search_date.aspx')) {
+    const satellite = requestUrl.searchParams.get('satelite')
+    return new Response(resultHtml(`token-${satellite}`), { status: 200 })
   }
-  return Promise.resolve(
-    new Response(JSON.stringify(featureCollection), {
-      status: 200,
-      headers: { 'content-type': 'application/json' },
-    }),
-  )
+
+  const body = new URLSearchParams(options.body)
+  const satellite = body.get('p')?.replace('token-', '')
+  return new Response(catalogPayloads[satellite], {
+    status: 200,
+    headers: { 'content-type': 'text/plain; charset=utf-8' },
+  })
 }
 
 describe('selectConaeHotspots', () => {
@@ -59,11 +74,11 @@ describe('selectConaeHotspots', () => {
 })
 
 describe('refreshConaeHotspotSnapshot', () => {
-  it('publishes a traced 24-hour CONAE snapshot without upgrading detections into fire claims', async () => {
+  it('publishes a traced 24-hour CONAE catalog snapshot without upgrading detections into fire claims', async () => {
     const result = await refreshConaeHotspotSnapshot(
       null,
       argentinaFixture,
-      successfulConaeFetch,
+      successfulCatalogFetch,
       '2026-08-28T05:00:00Z',
     )
 
@@ -77,18 +92,21 @@ describe('refreshConaeHotspotSnapshot', () => {
       freshness: { staleAfterMinutes: 240 },
       source: {
         name: 'CONAE',
-        url: 'https://catalogos.conae.gov.ar/catalogo/catalogoGeoServiciosOGC.html',
+        url: 'https://catalogos5.conae.gov.ar/catalogofocos/',
         kind: 'official',
       },
-      method: { type: 'wfs' },
+      method: { type: 'scrape' },
     })
-    expect(result.snapshot.events.map((event) => event.id)).toEqual(['viirs.1'])
+    expect(result.snapshot.events).toHaveLength(2)
+    expect(result.snapshot.events.map((event) => event.satellite)).toEqual(['SNPP', 'NOAA20'])
+    expect(result.snapshot.events.every((event) => event.frpMw === null)).toBe(true)
 
     const limitations = result.snapshot.limitations.join(' ').toLowerCase()
     expect(limitations).toContain('no implica un incendio confirmado')
     expect(limitations).toContain('no equivale a probabilidad de incendio')
     expect(limitations).toContain('frp')
-    expect(limitations).toContain('peligro')
+    expect(limitations).toContain('mapa público')
+    expect(limitations).toContain('zona horaria')
   })
 
   it('does not publish a synthetic empty snapshot when the provider fails', async () => {
