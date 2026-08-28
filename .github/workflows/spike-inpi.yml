@@ -1,0 +1,29 @@
+name: Spike INPI Source
+
+on:
+  push:
+    branches:
+      - feat/v1-foundation
+    paths:
+      - .github/workflows/spike-inpi.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Inspect INPI public statistics page
+        run: node scripts/spike-inpi-source.mjs
