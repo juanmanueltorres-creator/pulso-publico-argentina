@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-08-28T03:33:21.232Z",
+  "generatedAt": "2026-08-28T22:31:12.531Z",
   "signals": [
     {
       "schemaVersion": "1.0",
@@ -35,14 +35,14 @@
       "id": "openalex-argentina-works",
       "category": "science",
       "title": "Producción científica indexada",
-      "value": 27994,
+      "value": 28100,
       "unit": "works",
       "periodLabel": "2026 · afiliación institucional argentina",
       "status": "updated",
       "availability": "available",
-      "observedAt": "2026-08-28T02:37:51.882Z",
+      "observedAt": "2026-08-28T22:31:12.531Z",
       "publishedAt": null,
-      "fetchedAt": "2026-08-28T02:37:51.882Z",
+      "fetchedAt": "2026-08-28T22:31:12.531Z",
       "source": {
         "name": "OpenAlex",
         "url": "https://api.openalex.org/works?filter=institutions.country_code:AR,publication_year:2026",
@@ -100,7 +100,7 @@
       "availability": "stale",
       "observedAt": "2024-08-27T00:00:00.000Z",
       "publishedAt": null,
-      "fetchedAt": "2026-08-28T02:20:46.038Z",
+      "fetchedAt": "2026-08-28T22:16:15.480Z",
       "source": {
         "name": "Datos Argentina · GeoRef",
         "url": "https://www.datos.gob.ar/dataset/jgm_8/archivo/jgm_8.24",
