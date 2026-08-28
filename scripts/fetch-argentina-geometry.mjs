@@ -1,10 +1,15 @@
 import { mkdir, rename, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { validateArgentinaFeatureCollection } from './lib/geo.mjs'
+import {
+  simplifyFeatureCollection,
+  validateArgentinaFeatureCollection,
+} from './lib/geo.mjs'
 
 const IGN_WFS_BASE = 'https://wms.ign.gob.ar/geoserver/ows'
 const IGN_LAYER = 'ign:provincia'
+
+export const ARGENTINA_SIMPLIFY_TOLERANCE_DEGREES = 0.001
 
 export const ARGENTINA_WFS_URL =
   `${IGN_WFS_BASE}?service=WFS&version=2.0.0&request=GetFeature` +
@@ -24,7 +29,14 @@ export async function fetchArgentinaGeometry(fetchImpl = fetch) {
     throw new Error(`IGN provincia layer must contain 24 features; received ${payload.features.length}`)
   }
 
-  return payload
+  const simplified = validateArgentinaFeatureCollection(
+    simplifyFeatureCollection(payload, ARGENTINA_SIMPLIFY_TOLERANCE_DEGREES),
+  )
+  if (simplified.features.length !== 24) {
+    throw new Error('simplified IGN provincia layer must preserve 24 features')
+  }
+
+  return simplified
 }
 
 async function main() {
@@ -36,7 +48,9 @@ async function main() {
   await writeFile(tempPath, `${JSON.stringify(geometry)}\n`, 'utf8')
   await rename(tempPath, outputPath)
 
-  console.log(`IGN Argentina geometry written: ${geometry.features.length} province features`)
+  console.log(
+    `IGN Argentina geometry written: ${geometry.features.length} province features · tolerance ${ARGENTINA_SIMPLIFY_TOLERANCE_DEGREES}°`,
+  )
 }
 
 const isDirectRun =
