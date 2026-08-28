@@ -57,6 +57,24 @@ function syncVisibility(map: MapLibreMap, mode: TerritorialKind) {
   }
 }
 
+async function expandHotspotCluster(map: MapLibreMap, event: MapLayerMouseEvent) {
+  const feature = event.features?.[0]
+  const clusterId = Number(feature?.properties?.cluster_id)
+
+  if (!feature || feature.geometry.type !== 'Point' || !Number.isFinite(clusterId)) return
+
+  const hotspotSource = map.getSource('hotspots') as GeoJSONSource | undefined
+  if (!hotspotSource) return
+
+  const zoom = await hotspotSource.getClusterExpansionZoom(clusterId)
+  const [longitude, latitude] = feature.geometry.coordinates
+
+  map.easeTo({
+    center: [longitude, latitude],
+    zoom,
+  })
+}
+
 function createBlackMapStyle(): StyleSpecification {
   const baseUrl = import.meta.env.BASE_URL
   const emptyEvents = eventsToFeatureCollection([])
@@ -236,6 +254,10 @@ export function TerritorialMap({
       const selected = earthquakesRef.current.find((item) => item.id === id)
       if (selected) onSelectRef.current(selected)
     })
+
+    const handleHotspotClusterClick = (event: MapLayerMouseEvent) => expandHotspotCluster(map, event)
+    map.on('click', 'hotspot-clusters', handleHotspotClusterClick)
+    map.on('click', 'hotspot-cluster-count', handleHotspotClusterClick)
 
     map.on('click', 'hotspot-points', (event: MapLayerMouseEvent) => {
       const id = String(event.features?.[0]?.properties?.id ?? '')

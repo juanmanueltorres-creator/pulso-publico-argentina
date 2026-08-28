@@ -8,10 +8,12 @@ const mapMocks = vi.hoisted(() => ({
   setWorkerUrl: vi.fn(),
   setLayoutProperty: vi.fn(),
   setData: vi.fn(),
+  getClusterExpansionZoom: vi.fn(),
+  easeTo: vi.fn(),
   remove: vi.fn(),
   flyTo: vi.fn(),
   fitBounds: vi.fn(),
-  clickHandlers: new Map<string, (event: unknown) => void>(),
+  clickHandlers: new Map<string, (event: unknown) => unknown>(),
 }))
 
 vi.mock('maplibre-gl', () => {
@@ -25,17 +27,28 @@ vi.mock('maplibre-gl', () => {
         layerOrHandler()
       }
       if (event === 'click' && typeof layerOrHandler === 'string' && typeof maybeHandler === 'function') {
-        mapMocks.clickHandlers.set(layerOrHandler, maybeHandler as (event: unknown) => void)
+        mapMocks.clickHandlers.set(layerOrHandler, maybeHandler as (event: unknown) => unknown)
       }
       return this
     }
 
-    getSource() {
+    getSource(id: string) {
+      if (id === 'hotspots') {
+        return {
+          setData: mapMocks.setData,
+          getClusterExpansionZoom: mapMocks.getClusterExpansionZoom,
+        }
+      }
       return { setData: mapMocks.setData }
     }
 
     setLayoutProperty(...args: unknown[]) {
       mapMocks.setLayoutProperty(...args)
+      return this
+    }
+
+    easeTo(...args: unknown[]) {
+      mapMocks.easeTo(...args)
       return this
     }
 
@@ -66,6 +79,9 @@ describe('TerritorialMap', () => {
     mapMocks.construct.mockClear()
     mapMocks.setLayoutProperty.mockClear()
     mapMocks.setData.mockClear()
+    mapMocks.getClusterExpansionZoom.mockReset()
+    mapMocks.getClusterExpansionZoom.mockResolvedValue(8)
+    mapMocks.easeTo.mockClear()
     mapMocks.remove.mockClear()
     mapMocks.flyTo.mockClear()
     mapMocks.fitBounds.mockClear()
@@ -106,6 +122,35 @@ describe('TerritorialMap', () => {
     expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('earthquake-points', 'visibility', 'none')
     expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('hotspot-points', 'visibility', 'visible')
     expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('hotspot-clusters', 'visibility', 'visible')
+  })
+
+  it('expands hotspot clusters on click so individual detections can be selected', async () => {
+    const onSelect = vi.fn()
+    render(
+      <TerritorialMap
+        mode="thermal-hotspot"
+        earthquakes={earthquakeEvents}
+        hotspots={hotspotEvents}
+        selectedId={null}
+        onSelect={onSelect}
+      />,
+    )
+
+    const clusterEvent = {
+      features: [
+        {
+          properties: { cluster_id: 42 },
+          geometry: { type: 'Point', coordinates: [-64.2, -31.4] },
+        },
+      ],
+    }
+
+    await mapMocks.clickHandlers.get('hotspot-clusters')?.(clusterEvent)
+
+    expect(mapMocks.getClusterExpansionZoom).toHaveBeenCalledWith(42)
+    expect(mapMocks.easeTo).toHaveBeenCalledWith({ center: [-64.2, -31.4], zoom: 8 })
+    expect(mapMocks.clickHandlers.has('hotspot-cluster-count')).toBe(true)
+    expect(onSelect).not.toHaveBeenCalled()
   })
 
   it('selects only exact ids from the registered active data layers without moving the camera', () => {
