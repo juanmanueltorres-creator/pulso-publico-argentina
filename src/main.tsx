@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { App } from './App'
 import './styles.css'
+import './territorial.css'
 
 const root = document.getElementById('root')
 
