@@ -73,7 +73,7 @@ export interface SignalEnvelope {
     kind: 'official' | 'open-index'
   }
   method: {
-    type: 'api' | 'csv' | 'scrape' | 'calculation'
+    type: 'api' | 'csv' | 'xlsx' | 'scrape' | 'calculation'
     note: string
   }
   limitations: string[]
@@ -84,15 +84,16 @@ export interface SignalEnvelope {
 
 ## Foundation slice
 
-This first slice must provide:
+V1 provides:
 
 - Vite + React + TypeScript.
 - Contract types and runtime validation for the snapshot.
-- A static snapshot with four declared signals; unresolved sources use `value: null` and `availability: unavailable`, never fabricated values.
+- A public snapshot with four declared and populated source signals.
 - Mobile-first cards.
 - `¿Cómo lo sabemos?` disclosure showing source, state, dates, method and limitations.
-- Unit tests for snapshot validation and unavailable-value semantics.
-- CI for tests and build.
+- Unit tests for adapters, source boundaries, snapshot validation and unavailable-value semantics.
+- CI for tests and build, including the standard-library CAMMESA XLSX extractor test.
+- Scheduled source refresh workflows with serialized writes to the public snapshot.
 - No backend, DB, auth, maps, AI runtime or GeoPlatform changes.
 
 ## Source slices
@@ -146,15 +147,36 @@ availability: available
 
 The endpoint is used by the official dashboard but is not documented as a public stable API, so that limitation remains visible in the signal metadata.
 
-### CAMMESA — next
+### CAMMESA — implemented
 
-Inspect the data path behind `Renovables Hoy`. If the live iframe does not expose a stable structured source, use the official monthly renewable dataset and label it `updated`.
+The `Renovables Hoy` embedded/runtime path was investigated first. It was not reliable enough from GitHub Actions runners to justify a V1 `live` claim, so the source slice uses CAMMESA's official monthly **Energía Renovables** database.
+
+The official download route currently resolves to a ZIP containing one XLSX workbook. The extractor uses only Python's standard library (`zipfile` + XML) and reads the workbook's `Tabla Resumen Global`. It identifies the latest monthly date column and takes the `Total GWh` value already aggregated by CAMMESA.
+
+Pulso Público intentionally does not recompute the total by summing central or machine rows.
+
+**Verified behavior (2026-08-28):** the first end-to-end refresh downloaded `Energía Renovables - Base de Datos 2026-07` and published:
+
+```text
+value: 1791.245147...
+unit: GWh
+periodLabel: Julio 2026 · último dato publicado
+status: updated
+availability: available
+observedAt: 2026-07-01T00:00:00.000Z
+```
+
+The UI formats numeric values to at most two decimal places while the public snapshot preserves source numeric precision. The signal states explicitly that the observation is monthly, not real-time generation.
 
 ## Automation
 
-GeoRef and OpenAlex each refresh every 12 hours and can also be triggered manually. INPI refreshes once per day because its source is monthly. All source workflows share the `refresh-signals` concurrency group so they cannot write the public snapshot concurrently.
+GeoRef and OpenAlex refresh every 12 hours and can also be triggered manually. INPI and CAMMESA refresh once per day because their sources are monthly.
 
-Each refresh workflow has `contents: write` only because it commits the generated public snapshot. None of the three implemented sources requires a credential.
+All four source workflows share the `refresh-signals` concurrency group so they cannot write `public/data/signals.json` concurrently. Each workflow has `contents: write` only because it commits the generated snapshot.
+
+CAMMESA's network acquisition uses bounded timeouts and retries. Its parser fails closed when the archive/workbook structure does not contain the expected sheet, monthly date columns or `Total GWh` row.
+
+None of the four V1 sources requires a credential.
 
 ## Out of scope for V1
 
