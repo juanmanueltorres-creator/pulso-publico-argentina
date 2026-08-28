@@ -25,5 +25,5 @@ jobs:
         with:
           node-version: 20
 
-      - name: Inspect INPI AJAX parameters
+      - name: Inspect INPI structured response
         run: node scripts/spike-inpi-source.mjs
