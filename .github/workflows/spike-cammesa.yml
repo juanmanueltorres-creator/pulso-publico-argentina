@@ -20,10 +20,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      - name: Download CAMMESA monthly archive with retries
+        shell: bash
+        run: |
+          curl --fail --location \
+            --retry 5 --retry-delay 2 --retry-all-errors \
+            --connect-timeout 10 --max-time 90 \
+            --user-agent 'pulso-publico-argentina-source-spike/0.1' \
+            'https://cammesaweb.cammesa.com/erenovables/?wpdmdl=37500' \
+            --output /tmp/cammesa-renovables.zip
 
-      - name: Locate CAMMESA monthly renewable workbook
-        run: node scripts/spike-cammesa-source.mjs
+          echo '--- downloaded file ---'
+          file /tmp/cammesa-renovables.zip
+          ls -lh /tmp/cammesa-renovables.zip
+
+          echo '--- archive entries ---'
+          unzip -l /tmp/cammesa-renovables.zip
+
+      - name: Inspect archive text files
+        shell: bash
+        run: |
+          mkdir -p /tmp/cammesa-renovables
+          unzip -o /tmp/cammesa-renovables.zip -d /tmp/cammesa-renovables
+          find /tmp/cammesa-renovables -maxdepth 2 -type f -printf '%p\n'
