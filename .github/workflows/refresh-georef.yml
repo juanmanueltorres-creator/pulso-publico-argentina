@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: refresh-georef
+  group: refresh-signals
   cancel-in-progress: false
 
 jobs:
