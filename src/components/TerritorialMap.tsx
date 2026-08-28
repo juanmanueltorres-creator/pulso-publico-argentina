@@ -21,7 +21,13 @@ const ARGENTINA_VIEW_BOUNDS: [[number, number], [number, number]] = [
   [-53.5, -21.7],
 ]
 
-const HOTSPOT_LAYERS = ['hotspot-clusters', 'hotspot-cluster-count', 'hotspot-points'] as const
+const HOTSPOT_LAYERS = [
+  'hotspot-cluster-halo',
+  'hotspot-clusters',
+  'hotspot-cluster-count',
+  'hotspot-point-halo',
+  'hotspot-points',
+] as const
 
 interface TerritorialMapProps {
   mode: TerritorialKind
@@ -153,30 +159,70 @@ function createBlackMapStyle(): StyleSpecification {
         },
       },
       {
+        id: 'hotspot-cluster-halo',
+        type: 'circle',
+        source: 'hotspots',
+        filter: ['has', 'point_count'],
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-color': '#ffd27a',
+          'circle-opacity': [
+            'case',
+            ['>=', ['/', ['get', 'high_count'], ['get', 'point_count']], 0.03],
+            0.28,
+            0,
+          ],
+          'circle-blur': 0.72,
+          'circle-radius': [
+            'step',
+            ['get', 'point_count'],
+            17,
+            10,
+            23,
+            50,
+            29,
+            200,
+            36,
+            500,
+            44,
+          ],
+        },
+      },
+      {
         id: 'hotspot-clusters',
         type: 'circle',
         source: 'hotspots',
         filter: ['has', 'point_count'],
         layout: { visibility: 'none' },
         paint: {
-          'circle-color': '#f0c986',
-          'circle-opacity': [
-            'interpolate',
-            ['linear'],
+          'circle-color': [
+            'step',
             ['/', ['get', 'high_count'], ['get', 'point_count']],
-            0,
-            0.2,
-            0.1,
-            0.38,
-            0.3,
-            0.62,
-            0.6,
-            0.86,
-            1,
-            1,
+            '#4a3924',
+            0.01,
+            '#b77a32',
+            0.03,
+            '#ffd27a',
           ],
-          'circle-stroke-color': '#f0c986',
-          'circle-stroke-width': 1.2,
+          'circle-opacity': 0.94,
+          'circle-stroke-color': [
+            'step',
+            ['/', ['get', 'high_count'], ['get', 'point_count']],
+            '#765b38',
+            0.01,
+            '#e2a653',
+            0.03,
+            '#fff0c4',
+          ],
+          'circle-stroke-width': [
+            'step',
+            ['/', ['get', 'high_count'], ['get', 'point_count']],
+            1,
+            0.01,
+            1.35,
+            0.03,
+            1.8,
+          ],
           'circle-radius': [
             'step',
             ['get', 'point_count'],
@@ -203,7 +249,20 @@ function createBlackMapStyle(): StyleSpecification {
           'text-size': 10,
         },
         paint: {
-          'text-color': '#f1ede5',
+          'text-color': '#f8f1e4',
+        },
+      },
+      {
+        id: 'hotspot-point-halo',
+        type: 'circle',
+        source: 'hotspots',
+        filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'confidence'], 'high']],
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-color': '#ffd27a',
+          'circle-radius': 9.5,
+          'circle-opacity': 0.26,
+          'circle-blur': 0.72,
         },
       },
       {
@@ -213,19 +272,19 @@ function createBlackMapStyle(): StyleSpecification {
         filter: ['!', ['has', 'point_count']],
         layout: { visibility: 'none' },
         paint: {
-          'circle-color': '#f0c986',
-          'circle-radius': 5.5,
-          'circle-opacity': [
+          'circle-color': [
             'match',
             ['get', 'confidence'],
             'high',
-            1,
+            '#ffd27a',
             'nominal',
-            0.72,
+            '#b77a32',
             'low',
-            0.42,
-            0.55,
+            '#4a3924',
+            '#75624a',
           ],
+          'circle-radius': 5.5,
+          'circle-opacity': 0.96,
           'circle-stroke-color': '#050706',
           'circle-stroke-width': 1,
         },
@@ -279,6 +338,7 @@ export function TerritorialMap({
     })
 
     const handleHotspotClusterClick = (event: MapLayerMouseEvent) => expandHotspotCluster(map, event)
+    map.on('click', 'hotspot-cluster-halo', handleHotspotClusterClick)
     map.on('click', 'hotspot-clusters', handleHotspotClusterClick)
     map.on('click', 'hotspot-cluster-count', handleHotspotClusterClick)
 
