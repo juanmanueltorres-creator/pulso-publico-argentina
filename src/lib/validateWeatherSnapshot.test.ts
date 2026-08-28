@@ -25,7 +25,6 @@ describe('validateWeatherSnapshot', () => {
       provider: 'Open-Meteo',
       dataset: 'ECMWF IFS HRES 9 km',
       kind: 'numerical-weather-model',
-      upstream: 'ECMWF',
     })
   })
 
