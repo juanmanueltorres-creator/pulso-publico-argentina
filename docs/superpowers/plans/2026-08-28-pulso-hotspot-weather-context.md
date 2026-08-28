@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add a fail-closed, hourly `WeatherSnapshot 1.0` over a 0.5° Argentina grid and expose modeled 24-hour meteorological context around selected CONAE thermal hotspots without implying causality or confirmed fire.
+**Goal:** Add a fail-closed hourly `WeatherSnapshot 1.0` over a 0.5° Argentina grid and expose modeled 24-hour meteorological context around selected CONAE thermal hotspots without implying causality or confirmed fire.
 
-**Architecture:** Keep `TerritorialSnapshot` unchanged for earthquakes/hotspots and add a separate weather pipeline: Argentina geometry → deterministic grid → Open-Meteo Historical Forecast / ECMWF IFS HRES adapter → validated `weather.json` → independent React loader → MapLibre weather layers and hotspot-weather context. The browser only reads Pulso-owned static JSON; source refresh, spatial matching, temporal matching, and rendering transforms stay in small testable helpers.
+**Architecture:** Preserve the existing territorial contracts and add weather as an independent pipeline: official Argentina geometry → deterministic Pulso grid → Open-Meteo Historical Forecast using ECMWF IFS HRES → validated `weather.json` → independent React loader → pure spatial/temporal matching → persistent MapLibre layers. The browser reads Pulso-owned static JSON only; it never calls Open-Meteo directly.
 
 **Tech Stack:** React 19, TypeScript 5.7, Vite 6, Vitest 3, Testing Library, MapLibre GL 6, Node 24 ESM scripts, GitHub Actions.
 
@@ -12,75 +12,63 @@
 
 ## Global Constraints
 
-- Preserve `SignalEnvelope 1.0`, `TerritorialSnapshot 1.0`, `EvidenceSnapshot 1.0`, `TerritorialKind = 'earthquake' | 'thermal-hotspot'`, and all current public data paths.
-- Add weather through a separate `WeatherSnapshot 1.0`; do not add `weather` to `TerritorialKind`.
-- Grid spacing is exactly `0.5` degrees and is filtered by `public/data/argentina-provinces.geojson` with fail-closed point-in-polygon behavior.
-- Publish exactly 24 common hourly UTC timestamps per snapshot; every weather value array must align 1:1 with that global timestamp array.
-- Weather source for V3.1 is Open-Meteo Historical Forecast with model `ecmwf_ifs` (ECMWF IFS HRES 9 km), queried server-side only.
-- Required weather variables: `temperature_2m`, `relative_humidity_2m`, `wind_speed_10m`, `wind_direction_10m`, `wind_gusts_10m`, `precipitation`.
-- Public units: Celsius, percent, km/h, degrees, millimeters; internal timestamps UTC.
-- `null` means missing. Never coerce source failure or missing weather into zero.
-- `sourceCheckedAt` is the Pulso source-check time; `dataThrough` is the latest represented weather frame. Do not conflate them.
-- Weather stale threshold starts at exactly 180 minutes.
-- In hotspot mode, show weather neighbors only when a hotspot is selected; show at most six neighbors and one nearest reference point.
-- In weather mode, default to the latest complete frame and expose only `Temperatura | Viento | Humedad` as map variable controls in V3.1.
-- Do not reset map camera/zoom, recreate MapLibre, `flyTo`, or `fitBounds` when switching view modes or selecting an item.
-- UI language must say modeled context, not station/measurement-at-fire; spatial distance and time difference must be visible.
+- Preserve `SignalEnvelope 1.0`, `TerritorialSnapshot 1.0`, `EvidenceSnapshot 1.0`, and `TerritorialKind = 'earthquake' | 'thermal-hotspot'`.
+- Weather is a separate `WeatherSnapshot 1.0`; never add `weather` to `TerritorialKind`.
+- Grid spacing is exactly `0.5°`, filtered with `public/data/argentina-provinces.geojson` and existing fail-closed Polygon/MultiPolygon logic.
+- Publish exactly 24 common hourly UTC frames. All weather arrays align 1:1 with the global `timestamps` array.
+- Source: Open-Meteo Historical Forecast, `models=ecmwf_ifs`, ECMWF IFS HRES 9 km.
+- Variables: `temperature_2m`, `relative_humidity_2m`, `wind_speed_10m`, `wind_direction_10m`, `wind_gusts_10m`, `precipitation`.
+- Units: °C, %, km/h, meteorological degrees, mm. Internal time is UTC.
+- Missing values remain `null`; errors/missing data never become zero.
+- `sourceCheckedAt` and `dataThrough` are distinct. Initial stale threshold is exactly 180 minutes.
+- Hotspot mode shows weather neighbors only after hotspot selection; maximum six neighbors, with one primary reference.
+- Weather mode defaults to the latest frame and offers only `Temperatura | Viento | Humedad` in V3.1.
+- View changes and selections must not recreate MapLibre, reset camera/zoom, `flyTo`, or `fitBounds`.
+- UI must say modeled context, not station/measurement-at-fire. Distance and time difference are always visible for hotspot context.
 - Mandatory caveat: `Estas condiciones coexistían aproximadamente en espacio y tiempo con la detección. No prueban su causa ni confirman por sí solas un incendio.`
-- Open-Meteo/ECMWF attribution must be visible in the product and documented in README.
-- Keep refresh-weather independent of CONAE refresh and preserve the last valid weather snapshot on any refresh failure.
-- No animation, timeline/play, forecast, heatmap interpolation, particles, SMN stations, NOAA direct ingest, GOES, smoke, burn scar, ML, risk score, causal inference, or redesign of Pulso Evidencia in V3.1.
-- TDD for every task. Before merge: all Vitest/Node tests, TypeScript build, Vite production build, CAMMESA Python tests, and `git diff --check` must pass.
+- Open-Meteo/ECMWF attribution is visible in product and README.
+- Weather refresh has its own workflow/concurrency and never overwrites the last valid snapshot after failure.
+- Out of scope: animation, timeline/play, future forecast, heatmap/interpolation, particles, SMN stations, NOAA direct ingest, GOES, smoke, burn scar, ML, risk score, causal inference, Evidencia redesign.
+- TDD throughout. Final gate: CAMMESA Python tests, all JS/TS tests, TypeScript/Vite build, `git diff --check`, green PR CI, exact merged Pages SHA.
 
 ---
 
-## File Structure
+## File Map
 
-### New domain/frontend files
+### Create
 
-- `src/types/weather.ts` — public weather contract and UI view types.
-- `src/test/weatherFixtures.ts` — deterministic WeatherSnapshot fixtures shared by tests.
-- `src/lib/validateWeatherSnapshot.ts` — runtime fail-closed contract validation.
-- `src/lib/validateWeatherSnapshot.test.ts` — contract invariants.
-- `src/lib/loadWeatherSnapshot.ts` — fetch `/data/weather.json` and validate.
-- `src/lib/loadWeatherSnapshot.test.ts` — HTTP/JSON/semantic load failures.
-- `src/lib/weatherContext.ts` — Haversine neighbor matching and nearest timestamp selection.
-- `src/lib/weatherContext.test.ts` — spatial/temporal matching tests.
-- `src/lib/weatherMapData.ts` — convert one weather frame / neighbor set / link into GeoJSON.
-- `src/lib/weatherMapData.test.ts` — rendering-data semantics without MapLibre.
-- `src/components/WeatherDetail.tsx` — detail for a selected grid point.
-- `src/components/WeatherDetail.test.tsx` — textual/semantic rendering.
-- `src/components/HotspotWeatherContext.tsx` — secondary modeled-context block under a hotspot.
-- `src/components/HotspotWeatherContext.test.tsx` — caveat/distance/time/source rendering.
+- `src/types/weather.ts` — weather contract + `TerritorialViewMode` + `WeatherVariable`.
+- `src/test/weatherFixtures.ts` — deterministic frontend fixtures.
+- `src/lib/validateWeatherSnapshot.ts` / `.test.ts` — runtime contract guard.
+- `src/lib/loadWeatherSnapshot.ts` / `.test.ts` — `/data/weather.json` loader.
+- `src/lib/weatherContext.ts` / `.test.ts` — Haversine + temporal matching.
+- `src/lib/weatherMapData.ts` / `.test.ts` — active-frame GeoJSON, neighbors, link, wind direction vectors.
+- `src/components/WeatherDetail.tsx` / `.test.tsx` — selected weather point.
+- `src/components/HotspotWeatherContext.tsx` / `.test.tsx` — secondary context under selected hotspot.
+- `src/components/TerritorialLegend.test.tsx` — weather legend semantics; no such file exists on current `main`.
+- `scripts/lib/weather-grid.mjs` / `.test.mjs` — deterministic 0.5° grid.
+- `scripts/fetch-open-meteo-weather.mjs` / `.test.mjs` — provider adapter + batching.
+- `scripts/refresh-weather-lib.mjs` / `.test.mjs` — common frames + validated publication candidate.
+- `scripts/refresh-weather.mjs` — CLI + atomic write.
+- `.github/workflows/refresh-weather.yml` — hourly independent refresh.
+- `public/data/weather.json` — generated first valid snapshot.
 
-### New refresh files
+### Modify
 
-- `scripts/lib/weather-grid.mjs` — deterministic 0.5° national grid generator.
-- `scripts/lib/weather-grid.test.mjs` — Polygon/MultiPolygon/filter/order tests.
-- `scripts/fetch-open-meteo-weather.mjs` — URL builder, batched API fetch, raw-response normalization.
-- `scripts/fetch-open-meteo-weather.test.mjs` — batching/query/partial-response tests.
-- `scripts/refresh-weather-lib.mjs` — common-frame selection and candidate snapshot builder.
-- `scripts/refresh-weather-lib.test.mjs` — fail-closed publication logic.
-- `scripts/refresh-weather.mjs` — CLI orchestration and atomic write.
-- `.github/workflows/refresh-weather.yml` — independent hourly scheduled refresh.
-- `public/data/weather.json` — generated valid initial snapshot.
+- `src/components/TerritorialSection.tsx` / `.test.tsx` — weather load/state/view controls/selection memory.
+- `src/components/TerritorialMap.tsx` / `.test.tsx` — weather sources/layers without map recreation.
+- `src/components/TerritorialMap.hotspot-selection.test.tsx` — preserve production hotspot click path with expanded props.
+- `src/components/TerritorialDetail.tsx` — add an explicit post-detail slot only.
+- `src/components/TerritorialLegend.tsx` — accept weather view + variable.
+- `src/styles.css` — bounded weather UI styling.
+- `package.json` — `refresh:weather`.
+- `README.md` — source/attribution/semantics.
 
-### Existing files to modify
-
-- `src/components/TerritorialSection.tsx` — independent weather load/state, `TerritorialViewMode`, separate hotspot/weather selection memory.
-- `src/components/TerritorialSection.test.tsx` — mode/error/freshness/selection integration tests.
-- `src/components/TerritorialMap.tsx` — persistent weather sources/layers and view-specific visibility.
-- `src/components/TerritorialMap.test.tsx` — source/layer and camera-preservation behavior.
-- `src/components/TerritorialDetail.tsx` — keep core thermal/earthquake detail and accept the weather-context child without moving domain logic inside it.
-- `src/components/TerritorialLegend.tsx` and tests — weather-mode reading guidance without danger semantics.
-- `src/styles.css` — controls, grid symbols, vector arrows, context/detail hierarchy.
-- `package.json` — add `refresh:weather`.
-- `.github/workflows/ci.yml` — explicitly include Node ESM script tests if current Vitest discovery does not execute them; verify before modifying.
-- `README.md` — weather source, attribution, meaning and limitations.
+Do **not** modify `src/types/territorial.ts` or `src/lib/loadTerritorialSnapshot.ts` for weather.
 
 ---
 
-### Task 1: Define and validate `WeatherSnapshot 1.0`
+### Task 1: `WeatherSnapshot 1.0` contract and validator
 
 **Files:**
 - Create: `src/types/weather.ts`
@@ -89,10 +77,10 @@
 - Create: `src/lib/validateWeatherSnapshot.test.ts`
 
 **Interfaces:**
-- Produces: `WeatherSnapshot`, `WeatherPoint`, `WeatherVariable`, `TerritorialViewMode`, `validateWeatherSnapshot(input: unknown): WeatherSnapshot`.
-- Consumers: Tasks 2, 5, 6, 7, 8, 9.
+- Produces `WeatherSnapshot`, `WeatherPoint`, `WeatherVariable`, `TerritorialViewMode`, `validateWeatherSnapshot(input: unknown): WeatherSnapshot`.
+- Consumed by Tasks 2, 5–10.
 
-- [ ] **Step 1: Write the contract types exactly as approved**
+- [ ] **Step 1: Write the exact contract types**
 
 ```ts
 // src/types/weather.ts
@@ -141,82 +129,60 @@ export interface WeatherPoint {
 }
 ```
 
-- [ ] **Step 2: Write failing validator tests for the valid fixture and every invariant**
+- [ ] **Step 2: Write RED validator tests**
 
 ```ts
-it('accepts an aligned 24-frame WeatherSnapshot', () => {
-  expect(validateWeatherSnapshot(weatherSnapshotFixture())).toEqual(weatherSnapshotFixture())
-})
-
-it.each([
-  ['relativeHumidityPct', 101],
-  ['windSpeedKmh', -1],
-  ['windDirectionDeg', 361],
-  ['windGustKmh', -1],
-  ['precipitationMm', -0.1],
-] as const)('rejects invalid %s values', (key, invalid) => {
-  const payload = weatherSnapshotFixture()
-  payload.points[0].values[key][0] = invalid
-  expect(() => validateWeatherSnapshot(payload)).toThrow()
+it('accepts one aligned 24-frame snapshot', () => {
+  const fixture = weatherSnapshotFixture()
+  expect(validateWeatherSnapshot(fixture)).toEqual(fixture)
 })
 
 it('preserves null instead of coercing it to zero', () => {
-  const payload = weatherSnapshotFixture()
-  payload.points[0].values.temperatureC[3] = null
-  expect(validateWeatherSnapshot(payload).points[0].values.temperatureC[3]).toBeNull()
+  const fixture = weatherSnapshotFixture()
+  fixture.points[0].values.temperatureC[4] = null
+  expect(validateWeatherSnapshot(fixture).points[0].values.temperatureC[4]).toBeNull()
 })
 ```
 
-Also add explicit tests for: schema version, valid timestamps, exactly 24 timestamps, strict ascending/unique order, `dataThrough === timestamps[23]`, `hours === 24`, `stepHours === 1`, stale minutes positive, spacing exactly 0.5, unique IDs, WGS84 bounds, pointCount equality, array length equality, finite-or-null values, source kind, method type/resolution, and string limitations.
+Add explicit failing cases for: wrong schema; invalid dates; timestamps count != 24; duplicate/unordered timestamps; `dataThrough !== timestamps[23]`; wrong window/step; stale <= 0; spacing != 0.5; duplicate/empty IDs; invalid WGS84 query/provider coordinates; pointCount mismatch; wrong series lengths; NaN/Infinity; humidity outside 0–100; negative wind/gust/precipitation; wind direction outside 0–360; invalid source/method kinds; non-string limitations.
 
-- [ ] **Step 3: Run the new validator tests and verify RED**
+- [ ] **Step 3: Verify RED**
 
 Run: `npm run test:run -- src/lib/validateWeatherSnapshot.test.ts`
 
-Expected: FAIL because `validateWeatherSnapshot` and weather types/fixture are not yet implemented.
+Expected: FAIL because validator/fixture are not implemented.
 
-- [ ] **Step 4: Implement strict fail-closed validation without changing territorial validation**
+- [ ] **Step 4: Implement strict normalization**
 
-Use small internal helpers (`isRecord`, `requireString`, `requireTimestamp`, `requireFiniteNumber`, `requireNullableFiniteNumber`, `requireCoordinate`) local to `validateWeatherSnapshot.ts`. Return a new normalized object; do not return the unknown input by assertion.
-
-Core length/range guard:
+Use local record/string/timestamp/finite-number helpers. Series guard:
 
 ```ts
-const VALUE_KEYS = [
-  'temperatureC',
-  'relativeHumidityPct',
-  'windSpeedKmh',
-  'windDirectionDeg',
-  'windGustKmh',
-  'precipitationMm',
-] as const
-
-function validateSeries(values: Record<string, unknown>, key: typeof VALUE_KEYS[number], frameCount: number) {
-  const series = values[key]
-  if (!Array.isArray(series) || series.length !== frameCount) {
-    throw new Error(`${key} must contain ${frameCount} aligned values`)
+function nullableFiniteSeries(value: unknown, key: string, length: number): Array<number | null> {
+  if (!Array.isArray(value) || value.length !== length) {
+    throw new Error(`${key} must contain ${length} aligned values`)
   }
-  return series.map((value) => {
-    if (value === null) return null
-    if (typeof value !== 'number' || !Number.isFinite(value)) {
+  return value.map((item) => {
+    if (item === null) return null
+    if (typeof item !== 'number' || !Number.isFinite(item)) {
       throw new Error(`${key} values must be finite numbers or null`)
     }
-    return value
+    return item
   })
 }
 ```
 
-- [ ] **Step 5: Run validator tests and full TypeScript tests**
+Return a newly constructed `WeatherSnapshot`; do not cast/return unknown input.
 
-Run: `npm run test:run -- src/lib/validateWeatherSnapshot.test.ts`
+- [ ] **Step 5: Verify GREEN + type build**
+
+```bash
+npm run test:run -- src/lib/validateWeatherSnapshot.test.ts
+npm run build
+```
 
 Expected: PASS.
 
-Run: `npm run build`
-
-Expected: PASS with no contract/type errors.
-
-- [ ] **Step 6: Commit Task 1**
+- [ ] **Step 6: Commit**
 
 ```bash
 git add src/types/weather.ts src/test/weatherFixtures.ts src/lib/validateWeatherSnapshot.ts src/lib/validateWeatherSnapshot.test.ts
@@ -225,158 +191,148 @@ git commit -m "feat: add weather snapshot contract"
 
 ---
 
-### Task 2: Add an independent weather snapshot loader
+### Task 2: Independent weather loader
 
 **Files:**
 - Create: `src/lib/loadWeatherSnapshot.ts`
 - Create: `src/lib/loadWeatherSnapshot.test.ts`
 
-**Interfaces:**
-- Consumes: `WeatherSnapshot`, `validateWeatherSnapshot` from Task 1.
-- Produces: `loadWeatherSnapshot(fetcher?: typeof fetch, baseUrl?: string): Promise<WeatherSnapshot>`.
+**Interface:** `loadWeatherSnapshot(fetcher?: typeof fetch, baseUrl?: string): Promise<WeatherSnapshot>`.
 
-- [ ] **Step 1: Write failing loader tests**
+- [ ] **Step 1: Write RED tests**
 
 ```ts
-it('loads /data/weather.json through the independent weather validator', async () => {
-  const fetcher = vi.fn(async () => new Response(JSON.stringify(weatherSnapshotFixture()), { status: 200 }))
-  await expect(loadWeatherSnapshot(fetcher as typeof fetch, '/pulso/')).resolves.toEqual(weatherSnapshotFixture())
+it('loads /data/weather.json independently', async () => {
+  const fixture = weatherSnapshotFixture()
+  const fetcher = vi.fn(async () => new Response(JSON.stringify(fixture), { status: 200 }))
+  await expect(loadWeatherSnapshot(fetcher as typeof fetch, '/pulso/')).resolves.toEqual(fixture)
   expect(fetcher).toHaveBeenCalledWith('/pulso/data/weather.json', { cache: 'no-store' })
 })
 
-it('rejects HTTP errors instead of returning an empty weather snapshot', async () => {
+it('rejects HTTP failure instead of returning empty weather', async () => {
   const fetcher = vi.fn(async () => new Response('down', { status: 503 }))
   await expect(loadWeatherSnapshot(fetcher as typeof fetch, '/')).rejects.toThrow('HTTP 503')
 })
 ```
 
-Add one semantically invalid JSON test and one malformed JSON rejection test.
+Also test malformed JSON and valid JSON that fails semantic validation.
 
-- [ ] **Step 2: Run loader tests and verify RED**
+- [ ] **Step 2: Verify RED**
 
 Run: `npm run test:run -- src/lib/loadWeatherSnapshot.test.ts`
 
-Expected: FAIL because loader does not exist.
+Expected: FAIL.
 
-- [ ] **Step 3: Implement the minimal independent loader**
+- [ ] **Step 3: Implement**
 
 ```ts
 export async function loadWeatherSnapshot(
   fetcher: typeof fetch = fetch,
   baseUrl: string = import.meta.env.BASE_URL,
 ): Promise<WeatherSnapshot> {
-  const normalizedBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
-  const response = await fetcher(`${normalizedBase}data/weather.json`, { cache: 'no-store' })
+  const base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
+  const response = await fetcher(`${base}data/weather.json`, { cache: 'no-store' })
   if (!response.ok) throw new Error(`Failed to load weather snapshot: HTTP ${response.status}`)
   return validateWeatherSnapshot(await response.json())
 }
 ```
 
-Do not modify `loadTerritorialSnapshot.ts`.
-
-- [ ] **Step 4: Run tests and commit**
-
-Run: `npm run test:run -- src/lib/loadWeatherSnapshot.test.ts`
-
-Expected: PASS.
+- [ ] **Step 4: GREEN + commit**
 
 ```bash
+npm run test:run -- src/lib/loadWeatherSnapshot.test.ts
 git add src/lib/loadWeatherSnapshot.ts src/lib/loadWeatherSnapshot.test.ts
 git commit -m "feat: load weather snapshot independently"
 ```
 
 ---
 
-### Task 3: Generate the deterministic 0.5° Argentina weather grid
+### Task 3: Deterministic 0.5° national grid
 
 **Files:**
 - Create: `scripts/lib/weather-grid.mjs`
 - Create: `scripts/lib/weather-grid.test.mjs`
 - Reuse unchanged: `scripts/lib/geo.mjs`
 
-**Interfaces:**
-- Consumes: `pointInFeatureCollection([lon, lat], featureCollection)`.
-- Produces: `generateWeatherGrid(argentinaGeometry, spacingDegrees = 0.5)` returning ordered `{ id, latitude, longitude }[]`.
+**Interface:** `generateWeatherGrid(argentinaGeometry, spacingDegrees = 0.5): Array<{id, latitude, longitude}>`.
 
-- [ ] **Step 1: Write RED tests against small Polygon/MultiPolygon fixtures**
+- [ ] **Step 1: RED Polygon/MultiPolygon/hole/order tests**
 
 ```js
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { generateWeatherGrid } from './weather-grid.mjs'
 
-test('generates stable 0.5 degree ids and excludes outside points', () => {
-  const geometry = {
-    type: 'FeatureCollection',
-    features: [{
-      type: 'Feature',
-      properties: {},
-      geometry: {
-        type: 'Polygon',
-        coordinates: [[[-65,-33],[-63,-33],[-63,-31],[-65,-31],[-65,-33]]],
-      },
-    }],
-  }
-  const first = generateWeatherGrid(geometry, 0.5)
-  const second = generateWeatherGrid(geometry, 0.5)
+test('is deterministic and keeps only points inside the geometry', () => {
+  const first = generateWeatherGrid(geometryFixture, 0.5)
+  const second = generateWeatherGrid(geometryFixture, 0.5)
   assert.deepEqual(first, second)
-  assert.ok(first.every((point) => point.id === `wx-${point.latitude.toFixed(2)}-${point.longitude.toFixed(2)}`))
+  assert.ok(first.every((p) => p.id === `wx:${p.latitude.toFixed(2)}:${p.longitude.toFixed(2)}`))
 })
 ```
 
-Add tests for MultiPolygon, hole exclusion, invalid spacing, and deterministic latitude/longitude ordering.
+Add MultiPolygon, hole exclusion, spacing <= 0, and stable ordering tests.
 
-- [ ] **Step 2: Run the Node test and verify RED**
+- [ ] **Step 2: Verify RED**
 
 Run: `node --test scripts/lib/weather-grid.test.mjs`
 
-Expected: FAIL because `weather-grid.mjs` does not exist.
+Expected: FAIL.
 
-- [ ] **Step 3: Implement bbox scan + existing point-in-polygon filter**
+- [ ] **Step 3: Implement exact current Pulso bounds + snapping**
 
 ```js
+import { pointInFeatureCollection } from './geo.mjs'
+
+const VIEW_BOUNDS = {
+  minLongitude: -73.7,
+  minLatitude: -55.3,
+  maxLongitude: -53.5,
+  maxLatitude: -21.7,
+}
+
+function snapUp(value, spacing) {
+  return Math.ceil(value / spacing) * spacing
+}
+function snapDown(value, spacing) {
+  return Math.floor(value / spacing) * spacing
+}
+
 export function generateWeatherGrid(argentinaGeometry, spacingDegrees = 0.5) {
   if (!Number.isFinite(spacingDegrees) || spacingDegrees <= 0) {
     throw new Error('weather grid spacing must be a positive finite number')
   }
-
-  const candidates = []
-  for (let latitude = -55.5; latitude <= -21.5; latitude += spacingDegrees) {
-    for (let longitude = -73.5; longitude <= -53.5; longitude += spacingDegrees) {
-      const lat = Number(latitude.toFixed(6))
-      const lon = Number(longitude.toFixed(6))
-      if (!pointInFeatureCollection([lon, lat], argentinaGeometry)) continue
-      candidates.push({
-        id: `wx-${lat.toFixed(2)}-${lon.toFixed(2)}`,
-        latitude: lat,
-        longitude: lon,
-      })
+  const points = []
+  for (
+    let lat = snapUp(VIEW_BOUNDS.minLatitude, spacingDegrees);
+    lat <= snapDown(VIEW_BOUNDS.maxLatitude, spacingDegrees) + 1e-9;
+    lat += spacingDegrees
+  ) {
+    for (
+      let lon = snapUp(VIEW_BOUNDS.minLongitude, spacingDegrees);
+      lon <= snapDown(VIEW_BOUNDS.maxLongitude, spacingDegrees) + 1e-9;
+      lon += spacingDegrees
+    ) {
+      const latitude = Number(lat.toFixed(6))
+      const longitude = Number(lon.toFixed(6))
+      if (!pointInFeatureCollection([longitude, latitude], argentinaGeometry)) continue
+      points.push({ id: `wx:${latitude.toFixed(2)}:${longitude.toFixed(2)}`, latitude, longitude })
     }
   }
-
-  return candidates.sort((a, b) => a.latitude - b.latitude || a.longitude - b.longitude)
+  return points.sort((a, b) => a.latitude - b.latitude || a.longitude - b.longitude)
 }
 ```
 
-If the production geometry proves to extend beyond these current map bounds, use the existing map bounds from `TerritorialMap.tsx` exactly (`[-73.7,-55.3]` to `[-53.5,-21.7]`) snapped to 0.5° increments; do not invent broader geography.
-
-- [ ] **Step 4: Run grid tests**
-
-Run: `node --test scripts/lib/weather-grid.test.mjs`
-
-Expected: PASS.
-
-- [ ] **Step 5: Smoke-check the real geometry deterministically**
-
-Run:
+- [ ] **Step 4: GREEN + real-geometry smoke check**
 
 ```bash
-node -e "import('./scripts/lib/weather-grid.mjs').then(async ({generateWeatherGrid}) => { const fs=await import('node:fs/promises'); const g=JSON.parse(await fs.readFile('public/data/argentina-provinces.geojson','utf8')); const p=generateWeatherGrid(g); console.log(p.length, p[0], p.at(-1)); if (p.length < 500 || p.length > 3000) process.exit(1); })"
+node --test scripts/lib/weather-grid.test.mjs
+node -e "import('./scripts/lib/weather-grid.mjs').then(async ({generateWeatherGrid})=>{const fs=await import('node:fs/promises');const g=JSON.parse(await fs.readFile('public/data/argentina-provinces.geojson','utf8'));const p=generateWeatherGrid(g);console.log(p.length,p[0],p.at(-1));if(p.length<500||p.length>3000)process.exit(1)})"
 ```
 
-Expected: one deterministic point count in the approximate `10^3` order of magnitude and valid first/last points.
+Expected: deterministic national count in the approximate `10^3` order of magnitude.
 
-- [ ] **Step 6: Commit Task 3**
+- [ ] **Step 5: Commit**
 
 ```bash
 git add scripts/lib/weather-grid.mjs scripts/lib/weather-grid.test.mjs
@@ -385,81 +341,60 @@ git commit -m "feat: generate argentina weather grid"
 
 ---
 
-### Task 4: Fetch and normalize Open-Meteo ECMWF batches
+### Task 4: Open-Meteo / ECMWF batch adapter
 
 **Files:**
 - Create: `scripts/fetch-open-meteo-weather.mjs`
 - Create: `scripts/fetch-open-meteo-weather.test.mjs`
 
 **Interfaces:**
-- Consumes: grid points from Task 3.
-- Produces:
-  - `buildOpenMeteoUrl(points, checkedAt): URL`
-  - `fetchOpenMeteoBatch(points, fetchImpl, checkedAt): Promise<NormalizedWeatherLocation[]>`
-  - `fetchOpenMeteoWeather(points, fetchImpl, checkedAt, batchSize = 100): Promise<NormalizedWeatherLocation[]>`
+- `buildOpenMeteoUrl(points, checkedAt): URL`
+- `fetchOpenMeteoBatch(points, fetchImpl, checkedAt): Promise<NormalizedWeatherLocation[]>`
+- `fetchOpenMeteoWeather(points, fetchImpl, checkedAt, batchSize = 100): Promise<NormalizedWeatherLocation[]>`
 
-- [ ] **Step 1: Write RED query/batching tests**
+- [ ] **Step 1: RED URL tests**
 
-Assert the generated request uses:
+Assert exactly:
 
 ```text
-host: historical-forecast-api.open-meteo.com
-path: /v1/forecast
+https://historical-forecast-api.open-meteo.com/v1/forecast
 models=ecmwf_ifs
 hourly=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation
 timezone=UTC
-wind_speed_unit=kmh
 temperature_unit=celsius
+wind_speed_unit=kmh
 precipitation_unit=mm
 cell_selection=nearest
-latitude=<comma-separated batch>
-longitude=<comma-separated batch>
 ```
 
-Use explicit `start_date`/`end_date` derived from `checkedAt` to request enough source hours to select the last 24 complete hourly frames. Request the UTC calendar day containing `checkedAt - 30h` through the UTC calendar day containing `checkedAt`; later selection, not the API date range, enforces exactly 24 frames.
-
-Example assertion:
+Latitude/longitude are comma-separated in matching order. `start_date` is the UTC date containing `checkedAt - 30h`; `end_date` is the UTC date containing `checkedAt`. The later snapshot builder, not the date range, chooses exactly 24 frames.
 
 ```js
 assert.equal(url.searchParams.get('models'), 'ecmwf_ifs')
 assert.equal(url.searchParams.get('timezone'), 'UTC')
 assert.equal(url.searchParams.get('cell_selection'), 'nearest')
-assert.match(url.searchParams.get('hourly'), /temperature_2m/)
 ```
 
-- [ ] **Step 2: Add RED response tests**
+- [ ] **Step 2: RED response/batching tests**
 
-Use a two-location fake API response and assert preservation of:
+For two locations assert exact response-count matching, query IDs/order, provider coordinates, all six arrays, UTC timestamp normalization, and `null` preservation. Reject non-2xx, missing hourly block/variable, wrong multi-location response count, and any failed batch.
 
-- query location ID/order;
-- provider `latitude`/`longitude` as metadata;
-- hourly `time` strings normalized to `...:00:00Z`;
-- all six variable arrays;
-- `null` values preserved.
-
-Also test: non-2xx response rejects, non-array response for a multi-location batch rejects, missing location rejects, missing hourly variable rejects, and one failed batch causes the whole multi-batch fetch to reject.
-
-- [ ] **Step 3: Run tests and verify RED**
+- [ ] **Step 3: Verify RED**
 
 Run: `node --test scripts/fetch-open-meteo-weather.test.mjs`
 
-Expected: FAIL because adapter does not exist.
+Expected: FAIL.
 
-- [ ] **Step 4: Implement URL and response normalization**
-
-Use the provider model identifier `ecmwf_ifs`; do not use `best_match` or `ecmwf_ifs025` because the spec requires IFS HRES 9 km.
-
-Normalized location shape:
+- [ ] **Step 4: Implement normalized shape**
 
 ```js
 {
   id: point.id,
   queryCoordinate: { latitude: point.latitude, longitude: point.longitude },
-  providerCoordinate: {
-    latitude: response.latitude,
-    longitude: response.longitude,
-  },
-  timestamps: response.hourly.time.map((time) => new Date(`${time}:00Z`).toISOString()),
+  providerCoordinate: Number.isFinite(response.latitude) && Number.isFinite(response.longitude)
+    ? { latitude: response.latitude, longitude: response.longitude }
+    : null,
+  timestamps: response.hourly.time.map((time) => `${time}:00Z`),
   values: {
     temperatureC: response.hourly.temperature_2m,
     relativeHumidityPct: response.hourly.relative_humidity_2m,
@@ -471,24 +406,19 @@ Normalized location shape:
 }
 ```
 
-Guard against API response order changes by pairing each response array element with the same index in the sent batch and validating the response count exactly equals batch length.
+Validate timestamp strings with `Date.parse` after appending UTC. Keep batches sequential or with a small fixed concurrency; never one HTTP request per point.
 
-- [ ] **Step 5: Run adapter tests**
-
-Run: `node --test scripts/fetch-open-meteo-weather.test.mjs`
-
-Expected: PASS.
-
-- [ ] **Step 6: Commit Task 4**
+- [ ] **Step 5: GREEN + commit**
 
 ```bash
+node --test scripts/fetch-open-meteo-weather.test.mjs
 git add scripts/fetch-open-meteo-weather.mjs scripts/fetch-open-meteo-weather.test.mjs
 git commit -m "feat: fetch ecmwf weather batches"
 ```
 
 ---
 
-### Task 5: Build and publish a fail-closed weather snapshot
+### Task 5: Fail-closed snapshot publication + hourly workflow
 
 **Files:**
 - Create: `scripts/refresh-weather-lib.mjs`
@@ -496,33 +426,35 @@ git commit -m "feat: fetch ecmwf weather batches"
 - Create: `scripts/refresh-weather.mjs`
 - Create: `.github/workflows/refresh-weather.yml`
 - Modify: `package.json`
-- Create/Generate: `public/data/weather.json`
+- Generate: `public/data/weather.json`
+- Modify: `src/lib/validateWeatherSnapshot.test.ts`
 
 **Interfaces:**
-- Consumes: `generateWeatherGrid`, `fetchOpenMeteoWeather`, existing `writeJsonAtomic`.
-- Produces: `buildWeatherSnapshot(rawLocations, checkedAt)`, `refreshWeatherSnapshot(previous, geometry, fetchImpl, checkedAt)` returning `{ publish, snapshot }`.
+- `selectCommonTimestamps(locations): string[]`
+- `buildWeatherSnapshot(locations, checkedAt): WeatherSnapshot`
+- `refreshWeatherSnapshot(previous, geometry, fetchImpl, checkedAt): Promise<{publish:boolean,snapshot:WeatherSnapshot}>`
 
-- [ ] **Step 1: Write RED common-frame and publication tests**
+Node version is 24; `refresh-weather-lib.mjs` imports the same runtime validator from `../src/lib/validateWeatherSnapshot.ts` using Node 24 native TypeScript stripping. Do not maintain a second divergent contract validator.
+
+- [ ] **Step 1: RED common-frame tests**
 
 ```js
-test('publishes exactly the newest 24 common hourly frames', async () => {
-  const result = await refreshWeatherSnapshot(null, geometryFixture, fakeFetch, '2026-08-28T20:37:00Z')
-  assert.equal(result.snapshot.timestamps.length, 24)
-  assert.equal(result.snapshot.dataThrough, result.snapshot.timestamps.at(-1))
-  assert.equal(result.snapshot.grid.spacingDegrees, 0.5)
-  assert.equal(result.snapshot.grid.pointCount, result.snapshot.points.length)
+test('selects the newest 24 hourly timestamps shared by every point', () => {
+  const selected = selectCommonTimestamps(locationFixtures)
+  assert.equal(selected.length, 24)
+  assert.deepEqual(selected, [...selected].sort())
 })
 ```
 
-Add tests that reject/preserve the previous snapshot when: a batch throws, one location is missing, one expected grid point is absent, fewer than 24 common frames exist, a variable array is shorter than the common timestamps, or final contract validation fails.
+Reject fewer than 24 common frames, missing expected grid points, mismatched variable lengths, invalid final snapshot, and any adapter error.
 
-- [ ] **Step 2: Run refresh tests and verify RED**
+- [ ] **Step 2: Verify RED**
 
 Run: `node --test scripts/refresh-weather-lib.test.mjs`
 
-Expected: FAIL because refresh library does not exist.
+Expected: FAIL.
 
-- [ ] **Step 3: Implement newest common-frame selection**
+- [ ] **Step 3: Implement common timestamp selection**
 
 ```js
 export function selectCommonTimestamps(locations) {
@@ -532,7 +464,7 @@ export function selectCommonTimestamps(locations) {
       counts.set(timestamp, (counts.get(timestamp) ?? 0) + 1)
     }
   }
-  const common = [...counts.entries()]
+  const common = [...counts]
     .filter(([, count]) => count === locations.length)
     .map(([timestamp]) => timestamp)
     .sort()
@@ -541,9 +473,9 @@ export function selectCommonTimestamps(locations) {
 }
 ```
 
-For each location, map each selected timestamp back to its source index and extract each variable at that index. Missing source index is fatal; a present `null` value is not fatal.
+Map selected timestamps back to each point's source indices. Missing index is fatal; present `null` is valid.
 
-- [ ] **Step 4: Build the exact public candidate metadata**
+- [ ] **Step 4: Build the exact candidate and validate it before returning**
 
 ```js
 const candidate = {
@@ -570,27 +502,26 @@ const candidate = {
   limitations: [
     'Es contexto meteorológico modelado y no una medición de estación en la coordenada exacta.',
     'La coincidencia espacial y temporal con una detección térmica no demuestra causalidad ni confirma un incendio.',
-    'La malla de Pulso es más gruesa que la resolución nominal del modelo y se consulta en coordenadas discretas de 0,5°.',
+    'La malla Pulso es de 0,5° y no representa la resolución espacial nativa exacta del modelo.',
   ],
   points,
 }
+return validateWeatherSnapshot(candidate)
 ```
 
-The Node refresh layer cannot import the TypeScript validator directly. Mirror only the publication-critical checks in `refresh-weather-lib.mjs` and make `src/lib/validateWeatherSnapshot.test.ts` load the generated `public/data/weather.json` as an additional contract fixture after the first live snapshot is generated.
+- [ ] **Step 5: Implement atomic CLI**
 
-- [ ] **Step 5: Implement CLI orchestration with atomic write**
+`refresh-weather.mjs` reads previous `public/data/weather.json` if present and `public/data/argentina-provinces.geojson`, uses a 20 s fetch timeout, runs the refresh function, and calls existing `writeJsonAtomic` only after complete success. An exception logs `Weather refresh failed: ...`, exits 1, and leaves previous file untouched.
 
-`refresh-weather.mjs` must read the existing snapshot and Argentina geometry first, call the refresh library, and write only after full success using `writeJsonAtomic`. On any exception, set exit code 1 and leave the previous file unchanged.
+- [ ] **Step 6: Add npm command + independent workflow**
 
-- [ ] **Step 6: Add npm script and independent workflow**
-
-Add to `package.json`:
+`package.json`:
 
 ```json
 "refresh:weather": "node scripts/refresh-weather.mjs"
 ```
 
-Create `.github/workflows/refresh-weather.yml` with:
+`.github/workflows/refresh-weather.yml`:
 
 ```yaml
 name: Refresh Weather
@@ -608,12 +539,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup Node
+        uses: actions/setup-node@v7
         with:
           node-version: 24
-      - run: npm install --no-audit --no-fund
-      - run: npm run refresh:weather
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Refresh weather snapshot
+        run: npm run refresh:weather
       - name: Commit refreshed snapshot
         shell: bash
         run: |
@@ -628,33 +563,17 @@ jobs:
           git push origin "HEAD:${GITHUB_REF_NAME}"
 ```
 
-Do not reuse `refresh-territorial` concurrency.
-
-- [ ] **Step 7: Run all script tests before any live request**
-
-Run:
+- [ ] **Step 7: GREEN offline tests, then one live generation**
 
 ```bash
 node --test scripts/lib/weather-grid.test.mjs scripts/fetch-open-meteo-weather.test.mjs scripts/refresh-weather-lib.test.mjs
-```
-
-Expected: PASS with no network access.
-
-- [ ] **Step 8: Generate the first real snapshot once**
-
-Run: `npm run refresh:weather`
-
-Expected: `public/data/weather.json` is created atomically, has a point count in the expected national order of magnitude, and contains exactly 24 timestamps.
-
-Then run:
-
-```bash
+npm run refresh:weather
 npm run test:run -- src/lib/validateWeatherSnapshot.test.ts
 ```
 
-Expected: generated snapshot passes the frontend runtime contract validator.
+Add to `validateWeatherSnapshot.test.ts` a test that imports/parses `../../public/data/weather.json` and validates the generated artifact. Expected: 24 frames, `pointCount === points.length`, valid contract.
 
-- [ ] **Step 9: Commit Task 5**
+- [ ] **Step 8: Commit**
 
 ```bash
 git add scripts/refresh-weather-lib.mjs scripts/refresh-weather-lib.test.mjs scripts/refresh-weather.mjs .github/workflows/refresh-weather.yml package.json public/data/weather.json src/lib/validateWeatherSnapshot.test.ts
@@ -663,19 +582,20 @@ git commit -m "feat: publish hourly weather context"
 
 ---
 
-### Task 6: Match hotspots to weather in space and time
+### Task 6: Spatial + temporal hotspot/weather matching
 
 **Files:**
 - Create: `src/lib/weatherContext.ts`
 - Create: `src/lib/weatherContext.test.ts`
 
 **Interfaces:**
-- Consumes: `ThermalHotspotEvent`, `WeatherSnapshot`, `WeatherPoint`.
-- Produces: `HotspotWeatherContext`, `haversineKm`, `findWeatherContext(hotspot, snapshot, neighborCount = 6)`.
-
-- [ ] **Step 1: Define the result shape in the test**
 
 ```ts
+export interface WeatherNeighbor {
+  point: WeatherPoint
+  distanceKm: number
+}
+
 export interface HotspotWeatherContext {
   hotspotId: string
   frameIndex: number
@@ -685,113 +605,105 @@ export interface HotspotWeatherContext {
   neighbors: WeatherNeighbor[]
 }
 
-export interface WeatherNeighbor {
-  point: WeatherPoint
-  distanceKm: number
-}
+export function haversineKm(a: Coordinate, b: Coordinate): number
+export function findWeatherContext(
+  hotspot: ThermalHotspotEvent,
+  snapshot: WeatherSnapshot,
+  neighborCount?: number,
+): HotspotWeatherContext | null
 ```
 
-- [ ] **Step 2: Write RED tests**
+- [ ] **Step 1: RED tests**
 
-Cover:
+Cover known Haversine distance, ordered neighbors, hard cap of six, nearest timestamp, deterministic earlier timestamp on exact tie, absolute minute difference, and no usable context → `null`.
 
-- known Haversine distance within tolerance;
-- nearest six ordered ascending;
-- `neighborCount` capped at six even if caller passes more;
-- nearest timestamp to hotspot `occurredAt`;
-- ties choose the earlier timestamp deterministically;
-- returned time difference is absolute minutes;
-- no usable point/frame returns `null`;
-- a point with some null variables can still be a neighbor, but the primary frame must have at least one of temperature/humidity/wind speed available.
+Define `primary` precisely: start from neighbors ordered by distance and choose the first whose chosen frame has at least one non-null core value among temperature, humidity, wind speed. Preserve up to six spatial neighbors in `neighbors`; if none are usable at that frame, return `null`.
 
-- [ ] **Step 3: Run RED**
+- [ ] **Step 2: Verify RED**
 
 Run: `npm run test:run -- src/lib/weatherContext.test.ts`
 
-Expected: FAIL because helper does not exist.
+Expected: FAIL.
 
-- [ ] **Step 4: Implement pure matching**
+- [ ] **Step 3: Implement Haversine + matching**
 
 ```ts
 const EARTH_RADIUS_KM = 6371.0088
 
-export function haversineKm(a: { latitude: number; longitude: number }, b: { latitude: number; longitude: number }) {
-  const toRad = (value: number) => value * Math.PI / 180
-  const dLat = toRad(b.latitude - a.latitude)
-  const dLon = toRad(b.longitude - a.longitude)
-  const lat1 = toRad(a.latitude)
-  const lat2 = toRad(b.latitude)
+export function haversineKm(a: Coordinate, b: Coordinate): number {
+  const radians = (n: number) => n * Math.PI / 180
+  const dLat = radians(b.latitude - a.latitude)
+  const dLon = radians(b.longitude - a.longitude)
+  const lat1 = radians(a.latitude)
+  const lat2 = radians(b.latitude)
   const h = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2
   return 2 * EARTH_RADIUS_KM * Math.asin(Math.sqrt(h))
 }
 ```
 
-`findWeatherContext` must use `queryCoordinate`, not `providerCoordinate`, for the displayed spatial relationship because the spec defines Pulso grid coordinates as the reference geometry.
+Use `queryCoordinate`, not provider coordinate, for displayed matching distance.
 
-- [ ] **Step 5: Run tests and commit**
-
-Run: `npm run test:run -- src/lib/weatherContext.test.ts`
-
-Expected: PASS.
+- [ ] **Step 4: GREEN + commit**
 
 ```bash
+npm run test:run -- src/lib/weatherContext.test.ts
 git add src/lib/weatherContext.ts src/lib/weatherContext.test.ts
 git commit -m "feat: match hotspots with weather context"
 ```
 
 ---
 
-### Task 7: Build weather GeoJSON for one active frame
+### Task 7: Active-frame GeoJSON and wind-direction vectors
 
 **Files:**
 - Create: `src/lib/weatherMapData.ts`
 - Create: `src/lib/weatherMapData.test.ts`
 
 **Interfaces:**
-- Consumes: `WeatherSnapshot`, `WeatherVariable`, `HotspotWeatherContext`, optional selected `WeatherPoint`.
-- Produces:
-  - `weatherFrameToFeatureCollection(snapshot, frameIndex, variable)`
-  - `weatherNeighborsToFeatureCollection(context, frameIndex)`
-  - `weatherLinkToFeatureCollection(hotspot, context)`.
+- `weatherFrameToFeatureCollection(snapshot, frameIndex, variable)` — grid points for temperature/humidity; wind origins for wind.
+- `weatherWindVectorsToFeatureCollection(snapshot, frameIndex)` — constant-length LineStrings showing meteorological **from-direction**; length does not encode speed.
+- `weatherNeighborsToFeatureCollection(context, frameIndex)`.
+- `weatherLinkToFeatureCollection(hotspot, context)`.
+- `selectedHotspotToFeatureCollection(hotspot | null)`.
 
-- [ ] **Step 1: Write RED feature-property tests**
+- [ ] **Step 1: RED properties/null tests**
 
 ```ts
-const collection = weatherFrameToFeatureCollection(snapshot, 23, 'temperature')
-expect(collection.features[0].properties).toMatchObject({
-  id: 'wx--31.50--64.00',
-  temperatureC: expect.any(Number),
-  weatherValue: expect.any(Number),
+const temperature = weatherFrameToFeatureCollection(snapshot, 23, 'temperature')
+expect(temperature.features[0].properties).toMatchObject({
+  id: 'wx:-31.50:-64.00',
   frameIndex: 23,
+  weatherValue: expect.any(Number),
 })
 ```
 
-For wind, properties must include numeric `windSpeedKmh` and `windDirectionDeg`; features with `null` in the selected display variable must be omitted rather than rendered as zero.
+Selected display variable `null` omits that point rather than emitting zero. Wind vector requires both speed and direction non-null.
 
-- [ ] **Step 2: Run RED**
+- [ ] **Step 2: RED vector semantics test**
 
-Run: `npm run test:run -- src/lib/weatherMapData.test.ts`
+A north wind (`windDirectionDeg = 0`) produces a short line from the query point toward geographic north because the line indicates where the wind is **from**, not fire movement. All vector lengths are constant; speed stays a property/detail value.
 
-Expected: FAIL because helper does not exist.
-
-- [ ] **Step 3: Implement small pure GeoJSON transforms**
-
-Use query coordinates for geometry. Neighbor properties include `rank`, `distanceKm`, and `isPrimary`. Link collection contains exactly one LineString from hotspot `[longitude, latitude]` to primary query coordinate when context exists; otherwise an empty FeatureCollection.
-
-- [ ] **Step 4: Run tests and commit**
+- [ ] **Step 3: Verify RED**
 
 Run: `npm run test:run -- src/lib/weatherMapData.test.ts`
 
-Expected: PASS.
+Expected: FAIL.
+
+- [ ] **Step 4: Implement pure GeoJSON transforms**
+
+Use an approximately constant `0.12°` visual segment and spherical bearing math for the second coordinate. Neighbor features expose `rank`, `distanceKm`, `isPrimary`; context link is one LineString hotspot → primary query coordinate; selected hotspot is zero or one Point feature.
+
+- [ ] **Step 5: GREEN + commit**
 
 ```bash
+npm run test:run -- src/lib/weatherMapData.test.ts
 git add src/lib/weatherMapData.ts src/lib/weatherMapData.test.ts
 git commit -m "feat: prepare weather map data"
 ```
 
 ---
 
-### Task 8: Render weather and hotspot-context details
+### Task 8: Weather detail + hotspot context UI
 
 **Files:**
 - Create: `src/components/WeatherDetail.tsx`
@@ -801,10 +713,11 @@ git commit -m "feat: prepare weather map data"
 - Modify: `src/components/TerritorialDetail.tsx`
 
 **Interfaces:**
-- Consumes: `WeatherSnapshot`, selected `WeatherPoint`, frame index, `HotspotWeatherContext`.
-- Produces: semantic textual details only; no matching math in React components.
+- `WeatherDetail({ snapshot, point, frameIndex })`.
+- `HotspotWeatherContext({ snapshot, context })`.
+- `TerritorialDetail` gains exactly `afterDetails?: ReactNode`; it does not import weather matching logic.
 
-- [ ] **Step 1: Write RED `HotspotWeatherContext` UI test**
+- [ ] **Step 1: RED hotspot-context test**
 
 ```tsx
 render(<HotspotWeatherContext snapshot={snapshot} context={context} />)
@@ -815,179 +728,173 @@ expect(screen.getByText(/no prueban su causa ni confirman por sí solas un incen
 expect(screen.getByRole('link', { name: /Open-Meteo/i })).toBeInTheDocument()
 ```
 
-Also assert temperature/humidity/wind/gust/precipitation display `No disponible` for null, not zero.
+Assert null variable → `No disponible`, never `0`.
 
-- [ ] **Step 2: Write RED `WeatherDetail` test**
+- [ ] **Step 2: RED WeatherDetail test**
 
-Assert active frame time, temperature, humidity, wind direction + speed, gust, precipitation, query coordinate, provider/dataset, `dataThrough`, and the explicit text `No es una estación de superficie`.
+Assert frame UTC time, temperature, humidity, wind direction+speed, gusts, precipitation, query coordinate, provider/dataset, `dataThrough`, and exact semantic line `No es una estación de superficie.`
 
-- [ ] **Step 3: Run RED tests**
+- [ ] **Step 3: Verify RED**
 
 Run: `npm run test:run -- src/components/HotspotWeatherContext.test.tsx src/components/WeatherDetail.test.tsx`
 
-Expected: FAIL because components do not exist.
+Expected: FAIL.
 
-- [ ] **Step 4: Implement formatting in leaf components**
+- [ ] **Step 4: Implement leaf components**
 
-Use `Intl.NumberFormat('es-AR', { maximumFractionDigits: 1 })`. Wind cardinal label helper maps degrees to 16 compass sectors but retains numeric speed. Do not create risk labels.
+Use `Intl.NumberFormat('es-AR', { maximumFractionDigits: 1 })`. Convert wind degrees to 16-point cardinal text while retaining numeric speed. Required caveat appears verbatim.
 
-Required caveat must appear verbatim:
+- [ ] **Step 5: Add exact `afterDetails` slot**
 
 ```tsx
-<p className="weather-context__caveat">
-  Estas condiciones coexistían aproximadamente en espacio y tiempo con la detección. No prueban su causa ni confirman por sí solas un incendio.
-</p>
+import type { ReactNode } from 'react'
+
+interface TerritorialDetailProps {
+  // existing props...
+  afterDetails?: ReactNode
+}
 ```
 
-- [ ] **Step 5: Keep `TerritorialDetail` narrow**
+Render `{afterDetails}` after the existing `<dl>`/limitations block. Do not import `WeatherSnapshot` or `findWeatherContext` into this component.
 
-Add an optional React child/slot or optional `afterDetails` prop so `TerritorialSection` can append `HotspotWeatherContext` below thermal detail. Do not import `findWeatherContext` into `TerritorialDetail`.
-
-- [ ] **Step 6: Run component tests and existing territorial detail tests**
-
-Run: `npm run test:run -- src/components/HotspotWeatherContext.test.tsx src/components/WeatherDetail.test.tsx src/components/TerritorialSection.test.tsx`
-
-Expected: PASS for new leaf tests; existing section tests remain green before section integration.
-
-- [ ] **Step 7: Commit Task 8**
+- [ ] **Step 6: GREEN + regression + commit**
 
 ```bash
+npm run test:run -- src/components/HotspotWeatherContext.test.tsx src/components/WeatherDetail.test.tsx src/components/TerritorialSection.test.tsx
 git add src/components/WeatherDetail.tsx src/components/WeatherDetail.test.tsx src/components/HotspotWeatherContext.tsx src/components/HotspotWeatherContext.test.tsx src/components/TerritorialDetail.tsx
 git commit -m "feat: explain modeled hotspot weather context"
 ```
 
 ---
 
-### Task 9: Extend the persistent MapLibre map with weather layers
+### Task 9: Persistent MapLibre weather layers
 
 **Files:**
 - Modify: `src/components/TerritorialMap.tsx`
-- Modify/Create: `src/components/TerritorialMap.test.tsx`
+- Modify: `src/components/TerritorialMap.test.tsx`
+- Modify: `src/components/TerritorialMap.hotspot-selection.test.tsx`
 
-**Interfaces:**
-- Consumes: `TerritorialViewMode`, `WeatherVariable`, `WeatherSnapshot | null`, frame index, hotspot context, separate selected hotspot/weather IDs.
-- Produces callbacks: existing territorial `onSelect`; new `onSelectWeather(pointId: string)`.
+**Props after this task:**
 
-- [ ] **Step 1: Write RED map lifecycle/visibility tests**
+```ts
+interface TerritorialMapProps {
+  mode: TerritorialViewMode
+  weatherVariable: WeatherVariable
+  earthquakes: EarthquakeEvent[]
+  hotspots: ThermalHotspotEvent[]
+  weather: WeatherSnapshot | null
+  weatherFrameIndex: number
+  hotspotContext: HotspotWeatherContext | null
+  selectedHotspot: ThermalHotspotEvent | null
+  selectedWeatherPointId: string | null
+  onSelect: (event: EarthquakeEvent | ThermalHotspotEvent) => void
+  onSelectWeather: (pointId: string) => void
+}
+```
 
-Mock `maplibre-gl` and assert:
+- [ ] **Step 1: Extend existing mocks and write RED lifecycle tests**
 
-- `new Map()` happens once across rerenders from hotspot → weather → hotspot;
-- no `fitBounds`, `flyTo`, or new map construction occurs on view switch;
-- weather full-grid layer is hidden in hotspot mode without selection;
-- neighbor/link layers become visible only when hotspot context exists;
-- weather full-grid is visible in weather mode;
-- only the selected hotspot reference layer is visible in weather mode when a hotspot selection exists.
+Across rerender hotspot → weather → hotspot: constructor count remains 1; `flyTo`/`fitBounds` remain uncalled. Test full weather layer hidden in hotspot mode without selection; neighbor/link visible only with context; weather grid visible in weather mode; only selected hotspot reference appears there.
 
-- [ ] **Step 2: Run RED map tests**
+- [ ] **Step 2: Verify RED**
 
-Run: `npm run test:run -- src/components/TerritorialMap.test.tsx`
+Run: `npm run test:run -- src/components/TerritorialMap.test.tsx src/components/TerritorialMap.hotspot-selection.test.tsx`
 
-Expected: FAIL until weather props/sources/layers exist.
+Expected: FAIL until props/layers exist.
 
-- [ ] **Step 3: Add static sources to `createBlackMapStyle()`**
-
-Add empty GeoJSON sources:
+- [ ] **Step 3: Add empty sources once in map style**
 
 ```text
 weather-grid
+weather-wind-vectors
 weather-neighbors
 weather-link
 selected-hotspot-reference
 ```
 
-Do not add a source containing 24 × points features. `syncSources` receives only the active frame feature collection.
+`syncSources` supplies only the active frame, never all `points × 24` features.
 
-- [ ] **Step 4: Add restrained weather layers**
+- [ ] **Step 4: Add restrained layers**
 
-Implement:
+- `weather-temperature-points`: circle, sequential value ramp, no danger semantics.
+- `weather-humidity-points`: circle, separate sequential ramp, no danger semantics.
+- `weather-wind-origins`: small neutral circles.
+- `weather-wind-vectors`: thin lines generated in Task 7; direction only, constant visual length.
+- `weather-neighbor-points`: subtle circles.
+- `weather-primary-point`: slightly stronger secondary marker.
+- `weather-context-link`: thin low-opacity line.
+- `selected-hotspot-reference`: small existing-hotspot-family color.
 
-- `weather-temperature-points` circle layer using numeric `weatherValue` with a sequential non-risk ramp;
-- `weather-humidity-points` circle layer using numeric `weatherValue` with a separate sequential non-risk ramp;
-- `weather-wind-points` symbol layer rotating a simple arrow glyph by `windDirectionDeg`; speed remains detail text, not point size/risk;
-- `weather-neighbor-points` subtle circles;
-- `weather-primary-point` stronger but secondary to hotspot;
-- `weather-context-link` thin low-opacity line;
-- `selected-hotspot-reference` small hotspot-colored reference circle.
+No continuous surface and no particles.
 
-Do not interpolate a surface between grid points.
+- [ ] **Step 5: Visibility is pure layer toggling**
 
-- [ ] **Step 5: Extend source/visibility synchronization without recreating map**
+Implement `syncVisibility(map, mode, weatherVariable, hasHotspotContext, hasSelectedHotspot)`; mode changes never instantiate a new map.
 
-`syncVisibility(map, mode, weatherVariable, hasHotspotContext, hasSelectedHotspot)` must exclusively toggle layer visibility. Existing earthquake/hotspot cluster behavior stays unchanged.
+- [ ] **Step 6: Weather click path**
 
-- [ ] **Step 6: Add weather click handling**
+In weather mode, clicks on the visible weather point/origin layer resolve `properties.id` and call `onSelectWeather(id)`. Do not clear selected hotspot. Preserve current global hotspot production-click fallback and its dedicated test.
 
-In weather mode, click `weather-*-points`, read feature `id`, call `onSelectWeather(id)`. Preserve hotspot selection state in the parent; the map callback must not clear it.
-
-- [ ] **Step 7: Run map + territorial map regression tests**
-
-Run: `npm run test:run -- src/components/TerritorialMap.test.tsx`
-
-Expected: PASS.
-
-- [ ] **Step 8: Commit Task 9**
+- [ ] **Step 7: GREEN + commit**
 
 ```bash
-git add src/components/TerritorialMap.tsx src/components/TerritorialMap.test.tsx
+npm run test:run -- src/components/TerritorialMap.test.tsx src/components/TerritorialMap.hotspot-selection.test.tsx
+git add src/components/TerritorialMap.tsx src/components/TerritorialMap.test.tsx src/components/TerritorialMap.hotspot-selection.test.tsx
 git commit -m "feat: render weather context on territorial map"
 ```
 
 ---
 
-### Task 10: Integrate weather state, controls, errors, freshness, and selection memory
+### Task 10: Section integration, legend, accessibility, styling, attribution
 
 **Files:**
 - Modify: `src/components/TerritorialSection.tsx`
 - Modify: `src/components/TerritorialSection.test.tsx`
 - Modify: `src/components/TerritorialLegend.tsx`
-- Modify its test file if present.
+- Create: `src/components/TerritorialLegend.test.tsx`
+- Modify: `src/styles.css`
+- Modify: `README.md`
 
-**Interfaces:**
-- Consumes all previous frontend tasks.
-- Produces complete `Sismos | Focos de calor | Meteorología` interaction.
+**Interfaces:** complete `Sismos | Focos de calor | Meteorología` experience.
 
-- [ ] **Step 1: Update the map test mock before changing production section**
+- [ ] **Step 1: RED independent-load/failure tests**
 
-The mock must accept `TerritorialViewMode`, weather snapshot/frame props, `selectedHotspotId`, `selectedWeatherPointId`, `onSelect`, and `onSelectWeather`.
+Add prop:
 
-- [ ] **Step 2: Write RED integration tests for independent loading/failure**
-
-Add `loadWeather?: () => Promise<WeatherSnapshot>` prop and tests:
-
-```tsx
-<TerritorialSection
-  loadEarthquakes={async () => earthquakeSnapshot()}
-  loadHotspots={async () => hotspotSnapshot()}
-  loadWeather={async () => Promise.reject(new Error('weather unavailable'))}
-  now={availableNow}
-/>
+```ts
+type WeatherLoader = () => Promise<WeatherSnapshot>
+loadWeather?: WeatherLoader
 ```
 
-Assert earthquakes and hotspots remain usable, weather mode says `Contexto meteorológico temporalmente no disponible`, and no `0 °C`/`0 km/h` false values appear.
+Test weather rejection while earthquakes/hotspots remain usable. In weather mode show `Contexto meteorológico temporalmente no disponible`; assert no false `0 °C`/`0 km/h`.
 
-- [ ] **Step 3: Write RED view/selection-memory tests**
+- [ ] **Step 2: RED selection-memory flow**
 
-Sequence:
+Test sequence: Focos → select hotspot → context appears → Meteorología → select weather point → WeatherDetail → Focos → original hotspot detail restored. Hotspot and weather selections are separate states.
 
-1. switch to Focos;
-2. select hotspot via mocked map;
-3. assert thermal detail and modeled weather context;
-4. switch to Meteorología;
-5. select a weather point;
-6. assert WeatherDetail;
-7. switch back to Focos;
-8. assert original hotspot detail restored.
+- [ ] **Step 3: RED controls/freshness/accessibility**
 
-Do not clear hotspot selection on view switch. Earthquake selection may remain independent or be cleared when entering earthquake mode, but hotspot and weather selections must not share one `selectedId`.
+Assert `Sismos | Focos de calor | Meteorología`; weather-only `Temperatura | Viento | Humedad`; all buttons have `aria-pressed`; stale becomes true exactly at `sourceCheckedAt + 180 min`; weather summary exposes model, `dataThrough`, point count, last source check.
 
-- [ ] **Step 4: Write RED variable-control/freshness tests**
+- [ ] **Step 4: RED legend test**
 
-Assert buttons `Temperatura`, `Viento`, `Humedad` exist only in weather mode, are keyboard buttons with `aria-pressed`, and weather stale at exactly `sourceCheckedAt + 180 min` shows `Datos desactualizados` plus last source check.
+```tsx
+render(<TerritorialLegend mode="weather" weatherVariable="wind" />)
+expect(screen.getByText(/modelo meteorológico/i)).toBeInTheDocument()
+expect(screen.getByText(/no estación de superficie/i)).toBeInTheDocument()
+expect(screen.getByText(/dirección desde la que sopla el viento/i)).toBeInTheDocument()
+expect(screen.queryByText(/riesgo/i)).not.toBeInTheDocument()
+```
 
-- [ ] **Step 5: Implement independent section state**
+- [ ] **Step 5: Verify RED**
 
-Use separate state:
+```bash
+npm run test:run -- src/components/TerritorialSection.test.tsx src/components/TerritorialLegend.test.tsx
+```
+
+Expected: FAIL.
+
+- [ ] **Step 6: Implement explicit independent state**
 
 ```ts
 const [mode, setMode] = useState<TerritorialViewMode>('earthquake')
@@ -997,57 +904,27 @@ const [weatherVariable, setWeatherVariable] = useState<WeatherVariable>('tempera
 const [selectedEarthquakeId, setSelectedEarthquakeId] = useState<string | null>(null)
 const [selectedHotspotId, setSelectedHotspotId] = useState<string | null>(null)
 const [selectedWeatherPointId, setSelectedWeatherPointId] = useState<string | null>(null)
-const activeWeatherFrameIndex = weather ? weather.timestamps.length - 1 : -1
+const weatherFrameIndex = weather ? weather.timestamps.length - 1 : -1
 ```
 
-Compute hotspot context with `useMemo(() => selectedHotspot && weather ? findWeatherContext(selectedHotspot, weather) : null, [...])`.
+Load weather in its own `useEffect`. Compute selected hotspot, selected weather point, and `findWeatherContext` with `useMemo`. Switching view does **not** clear hotspot/weather selections.
 
-- [ ] **Step 6: Implement summary/detail switching**
+- [ ] **Step 7: Wire details + summary + map**
 
-Weather summary must show model/dataset, latest frame (`dataThrough`), source check, point count, and stale state. It must say `Contexto meteorológico modelado`, not `observaciones` or `estaciones`.
+Hotspot detail keeps CONAE evidence first and passes `<HotspotWeatherContext ... />` through `afterDetails` when available. On weather failure, `afterDetails` becomes a compact unavailable-state message. Weather mode renders `WeatherDetail` for selected point or a weather-specific empty-state prompt.
 
-Hotspot detail appends `HotspotWeatherContext` only when weather context exists; on weather error it appends a compact `Contexto meteorológico temporalmente no disponible` state instead of hiding the hotspot detail.
+- [ ] **Step 8: Implement legend + bounded styles**
 
-- [ ] **Step 7: Extend legend for weather semantics**
+`TerritorialLegend` props become:
 
-Weather legend must explain current display variable and include `Modelo meteorológico · no estación de superficie`. Do not use danger/risk wording.
-
-- [ ] **Step 8: Run section integration tests**
-
-Run:
-
-```bash
-npm run test:run -- src/components/TerritorialSection.test.tsx src/components/TerritorialMap.test.tsx src/components/HotspotWeatherContext.test.tsx src/components/WeatherDetail.test.tsx
+```ts
+interface TerritorialLegendProps {
+  mode: TerritorialViewMode
+  weatherVariable?: WeatherVariable
+}
 ```
 
-Expected: PASS.
-
-- [ ] **Step 9: Commit Task 10**
-
-```bash
-git add src/components/TerritorialSection.tsx src/components/TerritorialSection.test.tsx src/components/TerritorialLegend.tsx src/components/TerritorialLegend.test.tsx
-git commit -m "feat: add weather territorial view"
-```
-
-If the legend test file has a different existing name, add the exact existing file returned by repository inspection rather than creating a duplicate test file.
-
----
-
-### Task 11: Apply bounded visual styling and attribution
-
-**Files:**
-- Modify: `src/styles.css`
-- Modify: `README.md`
-- Modify: UI tests from Tasks 8–10 only when they assert accessible labels, not presentation internals.
-
-**Interfaces:**
-- No new domain interfaces.
-
-- [ ] **Step 1: Add weather controls using existing territorial visual tokens**
-
-Reuse current Pulso black/bone/aged-amber hierarchy. Add only classes required by the new components/layers; do not restyle Evidence or national cards.
-
-Required responsive behaviors:
+Add only required weather classes to existing Pulso design language. Minimum responsive rules:
 
 ```css
 .territorial-weather-variables {
@@ -1055,76 +932,53 @@ Required responsive behaviors:
   flex-wrap: wrap;
   gap: .45rem;
 }
-
-.weather-context__caveat {
-  max-width: 52ch;
-}
+.weather-context__caveat { max-width: 52ch; }
 ```
 
-Keep targets keyboard-visible with the repo's existing focus style. Do not encode danger through red/orange thresholds.
+Keep existing keyboard focus treatment; no danger colors/threshold labels.
 
-- [ ] **Step 2: Add visible source attribution in UI and README**
+- [ ] **Step 9: Add visible attribution + README copy**
 
-README section must state:
+README states:
 
 ```text
 Meteorología: Open-Meteo Historical Forecast · ECMWF IFS HRES 9 km · CC BY 4.0.
 Los valores son contexto meteorológico modelado sobre una malla Pulso de 0,5°; no son estaciones ni mediciones exactas en cada foco.
 ```
 
-Link to Open-Meteo Historical Forecast documentation and ECMWF attribution/source page using normal Markdown links in README.
+UI includes an Open-Meteo source link and dataset label in weather summary/detail.
 
-- [ ] **Step 3: Run targeted UI tests and build**
-
-Run:
+- [ ] **Step 10: GREEN integration + build**
 
 ```bash
-npm run test:run -- src/components/TerritorialSection.test.tsx src/components/WeatherDetail.test.tsx src/components/HotspotWeatherContext.test.tsx
+npm run test:run -- src/components/TerritorialSection.test.tsx src/components/TerritorialLegend.test.tsx src/components/TerritorialMap.test.tsx src/components/TerritorialMap.hotspot-selection.test.tsx src/components/HotspotWeatherContext.test.tsx src/components/WeatherDetail.test.tsx
 npm run build
 ```
 
 Expected: PASS.
 
-- [ ] **Step 4: Commit Task 11**
+- [ ] **Step 11: Commit**
 
 ```bash
-git add src/styles.css README.md
-git commit -m "docs: explain modeled weather context"
+git add src/components/TerritorialSection.tsx src/components/TerritorialSection.test.tsx src/components/TerritorialLegend.tsx src/components/TerritorialLegend.test.tsx src/styles.css README.md
+git commit -m "feat: add weather territorial view"
 ```
 
 ---
 
-### Task 12: Final regression gate, review, PR, merge, and exact deploy verification
+### Task 11: Full regression, review, PR, merge, exact deploy
 
-**Files:**
-- Potentially modify: `.github/workflows/ci.yml` only if Step 1 proves Node `.test.mjs` files are not already executed by Vitest/CI.
-- No product feature scope additions.
+**Files:** no new feature files. Do not add scope here.
 
-**Interfaces:**
-- This is a verification/integration task; no new public interfaces.
-
-- [ ] **Step 1: Verify all Node script tests are covered by CI**
-
-Run locally:
+- [ ] **Step 1: Run all data-adapter tests explicitly**
 
 ```bash
-npm run test:run
+node --test scripts/lib/weather-grid.test.mjs scripts/fetch-open-meteo-weather.test.mjs scripts/refresh-weather-lib.test.mjs
 ```
 
-Inspect output for `scripts/lib/weather-grid.test.mjs`, `scripts/fetch-open-meteo-weather.test.mjs`, and `scripts/refresh-weather-lib.test.mjs`.
+Expected: PASS. Existing CI already runs the repository Vitest suite; explicit Node invocation makes the new refresh boundary independently visible in this final gate.
 
-If they are present, do not modify CI.
-
-If Vitest does not discover them, modify `.github/workflows/ci.yml` to add before `npm run test:run`:
-
-```yaml
-      - name: Test Node data adapters
-        run: node --test scripts/**/*.test.mjs
-```
-
-Then rerun the exact CI command locally.
-
-- [ ] **Step 2: Run the complete local verification gate**
+- [ ] **Step 2: Run complete local regression**
 
 ```bash
 python3 scripts/cammesa_xlsx_test.py
@@ -1133,41 +987,19 @@ npm run build
 git diff --check
 ```
 
-Expected:
+Expected: all green; only the pre-existing Vite chunk-size warning is acceptable; `git diff --check` emits nothing.
 
-- CAMMESA extractor tests PASS;
-- every Vitest/Node-discovered suite PASS;
-- TypeScript/Vite build PASS;
-- only the pre-existing chunk-size warning is acceptable;
-- `git diff --check` prints nothing and exits 0.
-
-- [ ] **Step 3: Verify the generated public snapshot explicitly**
-
-Run:
+- [ ] **Step 3: Validate generated artifact explicitly**
 
 ```bash
-node -e "const fs=require('fs'); const w=JSON.parse(fs.readFileSync('public/data/weather.json','utf8')); if(w.timestamps.length!==24) throw new Error('not 24 frames'); if(w.grid.pointCount!==w.points.length) throw new Error('point count mismatch'); if(w.dataThrough!==w.timestamps.at(-1)) throw new Error('dataThrough mismatch'); console.log(w.grid.pointCount, w.timestamps[0], w.dataThrough);"
+node -e "const fs=require('fs');const w=JSON.parse(fs.readFileSync('public/data/weather.json','utf8'));if(w.timestamps.length!==24)throw new Error('not 24 frames');if(w.grid.pointCount!==w.points.length)throw new Error('point count mismatch');if(w.dataThrough!==w.timestamps.at(-1))throw new Error('dataThrough mismatch');console.log(w.grid.pointCount,w.timestamps[0],w.dataThrough)"
 ```
 
-Expected: valid point count and aligned 24-frame range.
+- [ ] **Step 4: Review against spec before PR**
 
-- [ ] **Step 4: Perform code review against the spec before opening PR**
+Reject the change if any of these are true: `TerritorialKind` changed; browser calls Open-Meteo; missing values become zero; causal/risk language appears; map is recreated/reset on view change; weather failure breaks hotspot reading; attribution is absent; `weather.json` is hand-authored demo data; animation/forecast/GOES entered scope.
 
-Check specifically:
-
-- no modification of `TerritorialKind`;
-- no browser Open-Meteo request;
-- no false zeros;
-- no risk/causal language;
-- no map recreation/reset;
-- no animation/forecast/GOES scope creep;
-- weather failure leaves hotspots usable;
-- attribution present;
-- `weather.json` is a generated static snapshot, not hardcoded demo data.
-
-- [ ] **Step 5: Push feature branch and open PR**
-
-Use implementation branch:
+- [ ] **Step 5: Push implementation branch + open PR**
 
 ```bash
 git push -u origin feat/pulso-weather-context-v3-1
@@ -1179,56 +1011,36 @@ PR title:
 feat: add modeled weather context to thermal hotspots
 ```
 
-PR body must summarize: separate contract, 0.5° grid, 24 UTC frames, ECMWF/Open-Meteo source, hotspot matching, independent fail-closed refresh, explicit non-causality, and full verification results.
+PR body records separate contract, 0.5° grid, 24 UTC frames, Open-Meteo/ECMWF source, spatial/temporal matching, fail-closed refresh, non-causality semantics, and exact verification commands/results.
 
-- [ ] **Step 6: Require green CI and review before merge**
+- [ ] **Step 6: Require exact-head green CI before merge**
 
-Do not merge on local tests alone. Record exact PR head SHA and verify GitHub CI passes on that SHA.
+Record PR head SHA and verify CI success on that SHA. Do not merge based only on local tests.
 
-- [ ] **Step 7: Merge and verify exact GitHub Pages deployment**
+- [ ] **Step 7: Merge and verify exact Pages SHA**
 
-After merge, record exact merge SHA. Verify:
-
-1. `main` CI succeeds on that merge SHA;
-2. GitHub Pages build succeeds;
-3. deployed Pages build version equals the exact merge SHA;
-4. public URL loads `weather.json` and the new Meteorología UI;
-5. Focos still works if weather context is unavailable.
-
-- [ ] **Step 8: Final completion commit only if CI coverage changed**
-
-If `.github/workflows/ci.yml` changed in Step 1:
-
-```bash
-git add .github/workflows/ci.yml
-git commit -m "ci: cover weather data adapters"
-```
-
-Otherwise no synthetic final commit is needed.
+Record merge SHA, then verify: `main` CI green; Pages build/deploy green; deployed Pages build version equals merge SHA; public app loads `weather.json`; Meteorología renders; Focos still functions when weather is unavailable.
 
 ---
 
-## Implementation Order and Review Checkpoints
-
-Execute strictly in this order:
+## Execution Order
 
 ```text
-1 Contract
+1 Contract + validator
 2 Loader
 3 Grid
-4 Provider adapter
-5 Snapshot publication
+4 Open-Meteo adapter
+5 Snapshot + workflow
 6 Spatial/temporal context
-7 GeoJSON transforms
+7 Map-data transforms
 8 Detail UI
-9 Map layers
-10 Section integration
-11 Styling/docs
-12 Full verification + PR/deploy
+9 Persistent MapLibre layers
+10 Section/legend/styles/docs
+11 Regression + PR + exact deploy
 ```
 
-Reviewer gates after Tasks 1, 5, 7, 10, and 12 are especially important because they close contract, ingestion, map-data, product-integration, and production boundaries respectively.
+Reviewer checkpoints after Tasks **1, 5, 7, 10, 11** close the contract, ingestion, map-data, product, and production boundaries.
 
 ## Definition of Done
 
-The feature is done only when a selected CONAE hotspot can show a traceable nearby modeled weather frame with visible spatial/temporal distance, the separate Meteorología view can render the latest national 0.5° grid for temperature/wind/humidity without resetting the map, weather refresh is independently fail-closed, all language avoids causal/confirmation overclaiming, the complete regression gate is green, and GitHub Pages is verified against the exact merged SHA.
+V3.1 is done only when a selected CONAE hotspot can show a traceable nearby modeled weather frame with visible spatial/time separation; Meteorología renders the latest national 0.5° grid for temperature/wind/humidity without resetting the map; weather refresh is independently fail-closed; wording never overclaims causality or fire confirmation; Open-Meteo/ECMWF attribution is visible; the full regression gate is green; and GitHub Pages is verified against the exact merged SHA.
