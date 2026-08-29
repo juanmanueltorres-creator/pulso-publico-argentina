@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { earthquakeEvents } from '../test/territorialFixtures'
 import {
+  EARTHQUAKE_DEPTH_REFERENCE_KM,
   EARTHQUAKE_DEPTH_VERTICAL_EXAGGERATION,
   buildEarthquakeDepth3DGeometry,
 } from './earthquakeDepth3D'
@@ -27,6 +28,22 @@ describe('earthquake depth 3D geometry', () => {
     expect(geometry.points[0].x).toBeLessThanOrEqual(1)
     expect(geometry.points[0].y).toBeGreaterThanOrEqual(0)
     expect(geometry.points[0].y).toBeLessThanOrEqual(1)
+  })
+
+  it('builds three in-scene horizontal depth reference frames at 70, 150 and 300 km', () => {
+    const events = [
+      { ...earthquakeEvents[0], depthKm: 86 },
+      { ...earthquakeEvents[1], depthKm: 32 },
+    ]
+
+    const geometry = buildEarthquakeDepth3DGeometry(events, null)
+
+    expect(EARTHQUAKE_DEPTH_REFERENCE_KM).toEqual([70, 150, 300])
+    expect(geometry.guides).toHaveLength(24)
+    expect(new Set(geometry.guides.map((vertex) => vertex.elevation))).toEqual(
+      new Set([-420_000, -900_000, -1_800_000]),
+    )
+    expect(geometry.guides.every((vertex) => vertex.size === 0)).toBe(true)
   })
 
   it('keeps the hypocenter cloud without stems or anchors when nothing is selected and skips missing depth', () => {
