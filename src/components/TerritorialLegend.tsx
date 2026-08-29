@@ -1,4 +1,8 @@
 import type { CSSProperties } from 'react'
+import {
+  EARTHQUAKE_DEPTH_UNKNOWN_COLOR,
+  earthquakeDepthLegendGradient,
+} from '../lib/earthquakeDepthScale'
 import type { TerritorialViewMode, WeatherVariable } from '../types/weather'
 
 interface TerritorialLegendProps {
@@ -66,6 +70,32 @@ function WeatherScale({
   )
 }
 
+function EarthquakeDepthScale() {
+  return (
+    <>
+      <WeatherScale
+        ariaLabel="Escala visual de profundidad reportada"
+        gradient={earthquakeDepthLegendGradient()}
+        labels={['0 km', '70 km', '150 km', '300 km', '500+ km']}
+        direction="somero ← profundidad reportada → profundo"
+      />
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+        <span
+          aria-hidden="true"
+          style={{
+            display: 'inline-block',
+            width: '0.72rem',
+            height: '0.72rem',
+            borderRadius: '999px',
+            background: EARTHQUAKE_DEPTH_UNKNOWN_COLOR,
+          }}
+        />
+        Sin profundidad reportada = tono neutro
+      </span>
+    </>
+  )
+}
+
 function WindArrowExample() {
   return (
     <span role="img" aria-label="Ejemplo de flecha de viento: cola y punta" style={ARROW_EXAMPLE_STYLE}>
@@ -85,8 +115,10 @@ export function TerritorialLegend({ mode, weatherVariable = 'temperature' }: Ter
         <strong>Cómo leer este mapa</strong>
         <span className="territorial-legend__mark territorial-legend__mark--earthquake" aria-hidden="true" />
         <span>Tamaño = magnitud</span>
+        <span>Color = profundidad reportada</span>
+        <EarthquakeDepthScale />
         <span>Escala visual reforzada desde M4+; el tamaño no representa daño previsto.</span>
-        <span>La profundidad y la intensidad aparecen en el detalle.</span>
+        <span>La profundidad exacta y la intensidad aparecen en el detalle.</span>
       </div>
     )
   }
