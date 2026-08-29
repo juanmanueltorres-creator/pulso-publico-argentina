@@ -87,6 +87,7 @@ export class EarthquakeDepth3DLayer implements CustomLayerInterface {
   private uniforms: Record<string, WebGLUniformLocation | null> = {}
   private data = new Float32Array(0)
   private lineVertexCount = 0
+  private anchorVertexCount = 0
   private pointVertexCount = 0
   private dirty = true
   private visible = false
@@ -113,13 +114,14 @@ export class EarthquakeDepth3DLayer implements CustomLayerInterface {
     this.uniforms = {}
   }
 
-  setEvents(events: EarthquakeEvent[]): void {
-    const { stems, points } = buildEarthquakeDepth3DGeometry(events)
-    const vertices = [...stems, ...points]
+  setEvents(events: EarthquakeEvent[], selectedId: string | null = null): void {
+    const { stems, anchors, points } = buildEarthquakeDepth3DGeometry(events, selectedId)
+    const vertices = [...stems, ...anchors, ...points]
     const data = new Float32Array(vertices.length * FLOATS_PER_VERTEX)
     vertices.forEach((vertex, index) => writeVertex(data, index, vertex))
     this.data = data
     this.lineVertexCount = stems.length
+    this.anchorVertexCount = anchors.length
     this.pointVertexCount = points.length
     this.dirty = true
     this.map?.triggerRepaint()
@@ -216,13 +218,25 @@ export class EarthquakeDepth3DLayer implements CustomLayerInterface {
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
     gl.bindVertexArray(this.vao)
 
-    gl.uniform1i(this.uniforms.u_points, 0)
-    gl.uniform1f(this.uniforms.u_opacity, 0.28)
-    gl.drawArrays(gl.LINES, 0, this.lineVertexCount)
+    if (this.lineVertexCount > 0) {
+      gl.uniform1i(this.uniforms.u_points, 0)
+      gl.uniform1f(this.uniforms.u_opacity, 0.52)
+      gl.drawArrays(gl.LINES, 0, this.lineVertexCount)
+    }
+
+    if (this.anchorVertexCount > 0) {
+      gl.uniform1i(this.uniforms.u_points, 1)
+      gl.uniform1f(this.uniforms.u_opacity, 0.94)
+      gl.drawArrays(gl.POINTS, this.lineVertexCount, this.anchorVertexCount)
+    }
 
     gl.uniform1i(this.uniforms.u_points, 1)
-    gl.uniform1f(this.uniforms.u_opacity, 0.96)
-    gl.drawArrays(gl.POINTS, this.lineVertexCount, this.pointVertexCount)
+    gl.uniform1f(this.uniforms.u_opacity, 1)
+    gl.drawArrays(
+      gl.POINTS,
+      this.lineVertexCount + this.anchorVertexCount,
+      this.pointVertexCount,
+    )
 
     gl.bindVertexArray(null)
     gl.depthMask(true)
