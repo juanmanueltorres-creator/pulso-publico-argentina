@@ -2,6 +2,25 @@ import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { TerritorialLegend } from './TerritorialLegend'
 
+describe('TerritorialLegend earthquake mode', () => {
+  it('explains magnitude as size and reported depth as color with an explicit scale', () => {
+    render(<TerritorialLegend mode="earthquake" />)
+
+    expect(screen.getByText(/tamaño = magnitud/i)).toBeInTheDocument()
+    expect(screen.getByText(/color = profundidad reportada/i)).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: /escala visual de profundidad reportada/i })).toBeInTheDocument()
+    expect(screen.getByText(/somero/i)).toBeInTheDocument()
+    expect(screen.getByText(/profundo/i)).toBeInTheDocument()
+    expect(screen.getByText('0 km')).toBeInTheDocument()
+    expect(screen.getByText('70 km')).toBeInTheDocument()
+    expect(screen.getByText('150 km')).toBeInTheDocument()
+    expect(screen.getByText('300 km')).toBeInTheDocument()
+    expect(screen.getByText('500+ km')).toBeInTheDocument()
+    expect(screen.getByText(/sin profundidad reportada/i)).toBeInTheDocument()
+    expect(screen.getByText(/no representa daño previsto/i)).toBeInTheDocument()
+  })
+})
+
 describe('TerritorialLegend weather mode', () => {
   it('explains temperature colors with an explicit visual scale', () => {
     render(<TerritorialLegend mode="weather" weatherVariable="temperature" />)

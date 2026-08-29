@@ -7,6 +7,7 @@ import {
   type StyleSpecification,
 } from 'maplibre-gl'
 import mapLibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
+import { earthquakeDepthColorExpression } from '../lib/earthquakeDepthScale'
 import { eventsToFeatureCollection } from '../lib/territorialMapData'
 import type { HotspotWeatherContext } from '../lib/weatherContext'
 import {
@@ -272,7 +273,7 @@ function createBlackMapStyle(): StyleSpecification {
         type: 'circle',
         source: 'earthquakes',
         paint: {
-          'circle-color': '#f0c986',
+          'circle-color': earthquakeDepthColorExpression(),
           'circle-opacity': 0.84,
           'circle-stroke-color': '#050706',
           'circle-stroke-width': 1.2,
