@@ -14,6 +14,14 @@ const mapMocks = vi.hoisted(() => ({
   remove: vi.fn(),
 }))
 
+const popupMocks = vi.hoisted(() => ({
+  construct: vi.fn(),
+  setLngLat: vi.fn(),
+  setText: vi.fn(),
+  addTo: vi.fn(),
+  remove: vi.fn(),
+}))
+
 const depthLayerMocks = vi.hoisted(() => ({
   setEvents: vi.fn(),
   setVisible: vi.fn(),
@@ -37,6 +45,32 @@ vi.mock('../lib/EarthquakeDepth3DLayer', () => ({
 }))
 
 vi.mock('maplibre-gl', () => {
+  class MockPopup {
+    constructor(options: unknown) {
+      popupMocks.construct(options)
+    }
+
+    setLngLat(...args: unknown[]) {
+      popupMocks.setLngLat(...args)
+      return this
+    }
+
+    setText(...args: unknown[]) {
+      popupMocks.setText(...args)
+      return this
+    }
+
+    addTo(...args: unknown[]) {
+      popupMocks.addTo(...args)
+      return this
+    }
+
+    remove() {
+      popupMocks.remove()
+      return this
+    }
+  }
+
   class MockMap {
     constructor(options: unknown) {
       mapMocks.construct(options)
@@ -82,6 +116,7 @@ vi.mock('maplibre-gl', () => {
 
   return {
     Map: MockMap,
+    Popup: MockPopup,
     setWorkerUrl: vi.fn(),
   }
 })
@@ -96,11 +131,16 @@ describe('TerritorialMap earthquake depth 3D mode', () => {
     mapMocks.easeTo.mockClear()
     mapMocks.sourceSetData.mockClear()
     mapMocks.remove.mockClear()
+    popupMocks.construct.mockClear()
+    popupMocks.setLngLat.mockClear()
+    popupMocks.setText.mockClear()
+    popupMocks.addTo.mockClear()
+    popupMocks.remove.mockClear()
     depthLayerMocks.setEvents.mockClear()
     depthLayerMocks.setVisible.mockClear()
   })
 
-  it('focuses the existing map on the hypocenter cloud with a depth-readable camera and updates the selected 3D stem without recreating it', () => {
+  it('focuses the existing map on the hypocenter cloud and keeps an INPRES depth label on the selected surface anchor', () => {
     const props = {
       mode: 'earthquake' as const,
       earthquakes: earthquakeEvents,
@@ -129,6 +169,20 @@ describe('TerritorialMap earthquake depth 3D mode', () => {
         bearing: -22,
       }),
     )
+    expect(popupMocks.construct).toHaveBeenCalledTimes(1)
+    expect(popupMocks.construct).toHaveBeenCalledWith(
+      expect.objectContaining({
+        closeButton: false,
+        closeOnClick: false,
+        className: 'earthquake-depth-3d-label',
+      }),
+    )
+    expect(popupMocks.setLngLat).toHaveBeenLastCalledWith([
+      earthquakeEvents[0].longitude,
+      earthquakeEvents[0].latitude,
+    ])
+    expect(popupMocks.setText).toHaveBeenLastCalledWith('87 km · INPRES')
+    expect(popupMocks.addTo).toHaveBeenCalledTimes(1)
 
     depthLayerMocks.setEvents.mockClear()
     rerender(
@@ -141,6 +195,12 @@ describe('TerritorialMap earthquake depth 3D mode', () => {
 
     expect(mapMocks.construct).toHaveBeenCalledTimes(1)
     expect(depthLayerMocks.setEvents).toHaveBeenCalledWith(earthquakeEvents, earthquakeEvents[1].id)
+    expect(popupMocks.construct).toHaveBeenCalledTimes(1)
+    expect(popupMocks.setLngLat).toHaveBeenLastCalledWith([
+      earthquakeEvents[1].longitude,
+      earthquakeEvents[1].latitude,
+    ])
+    expect(popupMocks.setText).toHaveBeenLastCalledWith('18 km · INPRES')
 
     mapMocks.easeTo.mockClear()
     rerender(<TerritorialMap {...props} earthquakeDisplayMode="2d" />)
@@ -149,5 +209,6 @@ describe('TerritorialMap earthquake depth 3D mode', () => {
     expect(mapMocks.easeTo).toHaveBeenCalledWith(
       expect.objectContaining({ pitch: 0, bearing: 0 }),
     )
+    expect(popupMocks.remove).toHaveBeenCalled()
   })
 })
