@@ -90,26 +90,44 @@ describe('weatherFrameToFeatureCollection', () => {
 })
 
 describe('weatherWindVectorsToFeatureCollection', () => {
-  it('draws a north wind toward geographic north because the segment encodes from-direction', () => {
+  it('draws a meteorological north wind as a headed arrow flowing toward geographic south', () => {
     const value = snapshot()
     value.points[0].values.windSpeedKmh[3] = 15
     value.points[0].values.windDirectionDeg[3] = 0
 
     const collection = weatherWindVectorsToFeatureCollection(value, 3) as any
     const vector = collection.features.find((feature: any) => feature.properties.id === 'wx:-31.50:-64.00')
-    const [origin, endpoint] = vector.geometry.coordinates
+    const [shaft, headLeft, headRight] = vector.geometry.coordinates
+    const [origin, endpoint] = shaft
 
+    expect(vector.geometry.type).toBe('MultiLineString')
     expect(origin).toEqual([-64, -31.5])
-    expect(endpoint[1]).toBeGreaterThan(origin[1])
+    expect(endpoint[1]).toBeLessThan(origin[1])
     expect(Math.abs(endpoint[0] - origin[0])).toBeLessThan(0.001)
+    expect(headLeft[0]).toEqual(endpoint)
+    expect(headRight[0]).toEqual(endpoint)
     expect(vector.properties).toMatchObject({
       windSpeedKmh: 15,
       windDirectionDeg: 0,
-      directionSemantics: 'from',
+      flowDirectionDeg: 180,
+      directionSemantics: 'arrow-to-flow',
     })
   })
 
-  it('keeps visual vector length constant even when wind speeds differ', () => {
+  it('draws a meteorological south wind toward geographic north', () => {
+    const value = snapshot()
+    value.points[0].values.windSpeedKmh[3] = 15
+    value.points[0].values.windDirectionDeg[3] = 180
+
+    const collection = weatherWindVectorsToFeatureCollection(value, 3) as any
+    const vector = collection.features.find((feature: any) => feature.properties.id === 'wx:-31.50:-64.00')
+    const [[origin, endpoint]] = vector.geometry.coordinates
+
+    expect(endpoint[1]).toBeGreaterThan(origin[1])
+    expect(vector.properties.flowDirectionDeg).toBe(0)
+  })
+
+  it('keeps visual shaft length constant even when wind speeds differ', () => {
     const value = snapshot()
     value.points[0].queryCoordinate = { latitude: -31.5, longitude: -64 }
     value.points[1].queryCoordinate = { latitude: -31.5, longitude: -63.5 }
@@ -120,7 +138,8 @@ describe('weatherWindVectorsToFeatureCollection', () => {
 
     const collection = weatherWindVectorsToFeatureCollection(value, 6) as any
     const lengths = collection.features.map((feature: any) => {
-      const [a, b] = feature.geometry.coordinates
+      const [shaft] = feature.geometry.coordinates
+      const [a, b] = shaft
       return Math.hypot(b[0] - a[0], b[1] - a[1])
     })
 

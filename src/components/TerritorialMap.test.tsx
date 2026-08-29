@@ -107,6 +107,11 @@ function weatherProps(overrides: Record<string, unknown> = {}) {
   }
 }
 
+function layerById(id: string) {
+  const options = mapMocks.construct.mock.calls[0]?.[0] as any
+  return options.style.layers.find((layer: any) => layer.id === id)
+}
+
 describe('TerritorialMap', () => {
   beforeEach(() => {
     mapMocks.construct.mockClear()
@@ -151,6 +156,32 @@ describe('TerritorialMap', () => {
         'selected-hotspot-reference',
       ]),
     )
+  })
+
+  it('uses distinct expressive palettes for temperature, humidity and wind speed', () => {
+    render(<TerritorialMap {...weatherProps()} />)
+
+    const temperature = JSON.stringify(layerById('weather-temperature-points').paint['circle-color'])
+    const humidity = JSON.stringify(layerById('weather-humidity-points').paint['circle-color'])
+    const windOrigins = JSON.stringify(layerById('weather-wind-origins').paint['circle-color'])
+    const windVectors = JSON.stringify(layerById('weather-wind-vectors').paint['line-color'])
+
+    expect(temperature).toContain('#4f7cac')
+    expect(temperature).toContain('#73bfb8')
+    expect(temperature).toContain('#f2c14e')
+    expect(temperature).toContain('#d95d39')
+
+    expect(humidity).toContain('#6b5547')
+    expect(humidity).toContain('#5f9d87')
+    expect(humidity).toContain('#4f9fbf')
+    expect(humidity).toContain('#8bd3dd')
+
+    expect(windOrigins).toContain('#7aa6b8')
+    expect(windOrigins).toContain('#64c7c0')
+    expect(windOrigins).toContain('#f2c14e')
+    expect(windOrigins).toContain('#ef8354')
+    expect(windVectors).toContain('#7aa6b8')
+    expect(windVectors).toContain('#ef8354')
   })
 
   it('keeps one MapLibre instance across hotspot → weather → hotspot without moving the camera', () => {
