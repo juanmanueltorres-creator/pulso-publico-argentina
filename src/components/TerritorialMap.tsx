@@ -288,8 +288,8 @@ function syncEarthquakeDepthDisplay(
     map.easeTo({
       ...(camera?.center ? { center: camera.center } : {}),
       ...(typeof camera?.zoom === 'number' ? { zoom: Math.min(camera.zoom, 5.2) } : {}),
-      pitch: 70,
-      bearing: -24,
+      pitch: 60,
+      bearing: -22,
       duration: 700,
     })
   } else {

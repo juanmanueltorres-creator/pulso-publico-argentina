@@ -20,14 +20,16 @@ describe('TerritorialLegend earthquake mode', () => {
     expect(screen.getByText(/no representa daño previsto/i)).toBeInTheDocument()
   })
 
-  it('states the selected-stem semantics and 2x visual exaggeration in 3D mode', () => {
+  it('states selected-stem semantics, 6x visual exaggeration and explicit 3D depth references', () => {
     render(<TerritorialLegend mode="earthquake" earthquakeDisplayMode="3d" />)
 
     expect(screen.getByText(/sismo seleccionado.*superficie.*hipocentro/i)).toBeInTheDocument()
-    expect(screen.getByText(/exageración vertical 2×/i)).toBeInTheDocument()
+    expect(screen.getByText(/exageración vertical 6×/i)).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: /guía visual de profundidad 3d/i })).toBeInTheDocument()
+    expect(screen.getByText(/referencias z.*0 km.*70 km.*150 km.*300 km/i)).toBeInTheDocument()
     expect(screen.getByText(/sin relieve\/DEM/i)).toBeInTheDocument()
     expect(screen.getByText(/no corrige.*altitud local/i)).toBeInTheDocument()
-    expect(screen.queryByText(/escala vertical 1×/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/exageración vertical 2×/i)).not.toBeInTheDocument()
   })
 })
 

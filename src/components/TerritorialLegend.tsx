@@ -98,6 +98,53 @@ function EarthquakeDepthScale() {
   )
 }
 
+function EarthquakeDepth3DGuide() {
+  const references = ['0 km', '70 km', '150 km', '300 km']
+
+  return (
+    <span
+      role="img"
+      aria-label="Guía visual de profundidad 3D: referencias 0, 70, 150 y 300 km"
+      style={{
+        display: 'inline-grid',
+        gridTemplateColumns: '0.8rem auto',
+        columnGap: '0.55rem',
+        alignItems: 'stretch',
+        padding: '0.42rem 0.55rem',
+        border: '1px solid rgba(211, 164, 98, 0.16)',
+        borderRadius: '0.4rem',
+        background: 'rgba(255,255,255,0.014)',
+      }}
+    >
+      <span
+        aria-hidden="true"
+        style={{
+          display: 'grid',
+          gridTemplateRows: 'repeat(4, 1fr)',
+          minHeight: '3.15rem',
+          borderLeft: '1px solid rgba(240, 201, 134, 0.48)',
+        }}
+      >
+        {references.map((reference) => (
+          <span
+            key={reference}
+            style={{
+              width: '0.55rem',
+              borderTop: '1px solid rgba(240, 201, 134, 0.48)',
+            }}
+          />
+        ))}
+      </span>
+      <span style={{ display: 'grid', gap: '0.14rem' }}>
+        <span style={{ color: 'var(--muted)', fontSize: '0.61rem' }}>Guía geométrica · profundidad reportada</span>
+        <span style={{ fontFamily: "'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace", fontSize: '0.58rem' }}>
+          Referencias Z: 0 km · 70 km · 150 km · 300 km
+        </span>
+      </span>
+    </span>
+  )
+}
+
 function WindArrowExample() {
   return (
     <span role="img" aria-label="Ejemplo de flecha de viento: cola y punta" style={ARROW_EXAMPLE_STYLE}>
@@ -126,7 +173,8 @@ export function TerritorialLegend({
         {earthquakeDisplayMode === '3d' ? (
           <>
             <span>Vista 3D: el sismo seleccionado conecta superficie → hipocentro reportado.</span>
-            <span>Exageración vertical 2× · superficie plana de referencia · sin relieve/DEM.</span>
+            <span>Exageración vertical 6× · superficie plana de referencia · sin relieve/DEM.</span>
+            <EarthquakeDepth3DGuide />
             <span>No corrige la profundidad reportada por altitud local.</span>
           </>
         ) : null}

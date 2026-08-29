@@ -100,7 +100,7 @@ describe('TerritorialMap earthquake depth 3D mode', () => {
     depthLayerMocks.setVisible.mockClear()
   })
 
-  it('focuses the existing map on the hypocenter cloud and updates the selected 3D stem without recreating it', () => {
+  it('focuses the existing map on the hypocenter cloud with a depth-readable camera and updates the selected 3D stem without recreating it', () => {
     const props = {
       mode: 'earthquake' as const,
       earthquakes: earthquakeEvents,
@@ -112,7 +112,7 @@ describe('TerritorialMap earthquake depth 3D mode', () => {
     const { rerender } = render(<TerritorialMap {...props} earthquakeDisplayMode="3d" />)
 
     const options = mapMocks.construct.mock.calls[0]?.[0] as any
-    expect(options.maxPitch).toBeGreaterThanOrEqual(70)
+    expect(options.maxPitch).toBeGreaterThanOrEqual(60)
     expect(options.canvasContextAttributes).toEqual(expect.objectContaining({ antialias: true }))
     expect(mapMocks.construct).toHaveBeenCalledTimes(1)
     expect(mapMocks.addLayer).toHaveBeenCalledTimes(1)
@@ -125,8 +125,8 @@ describe('TerritorialMap earthquake depth 3D mode', () => {
       expect.objectContaining({
         center: [-66, -31],
         zoom: expect.any(Number),
-        pitch: 70,
-        bearing: -24,
+        pitch: 60,
+        bearing: -22,
       }),
     )
 
