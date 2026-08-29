@@ -6,23 +6,23 @@ import {
 } from './earthquakeDepth3D'
 
 describe('earthquake depth 3D geometry', () => {
-  it('renders every valid hypocenter at 2x visual depth but only stems and anchors the selected event', () => {
+  it('renders every valid hypocenter at 6x visual depth but only stems and anchors the selected event', () => {
     const selected = { ...earthquakeEvents[0], depthKm: 86, magnitude: 4.2 }
     const other = { ...earthquakeEvents[1], depthKm: 32, magnitude: 2.8 }
     const events = [selected, other]
 
     const geometry = buildEarthquakeDepth3DGeometry(events, selected.id)
 
-    expect(EARTHQUAKE_DEPTH_VERTICAL_EXAGGERATION).toBe(2)
+    expect(EARTHQUAKE_DEPTH_VERTICAL_EXAGGERATION).toBe(6)
     expect(geometry.points).toHaveLength(2)
     expect(geometry.stems).toHaveLength(2)
     expect(geometry.anchors).toHaveLength(1)
     expect(geometry.stems[0].elevation).toBe(0)
-    expect(geometry.stems[1].elevation).toBe(-172_000)
+    expect(geometry.stems[1].elevation).toBe(-516_000)
     expect(geometry.anchors[0].elevation).toBe(0)
     expect(geometry.anchors[0].size).toBeGreaterThan(geometry.points[0].size)
-    expect(geometry.points[0].elevation).toBe(-172_000)
-    expect(geometry.points[1].elevation).toBe(-64_000)
+    expect(geometry.points[0].elevation).toBe(-516_000)
+    expect(geometry.points[1].elevation).toBe(-192_000)
     expect(geometry.points[0].x).toBeGreaterThanOrEqual(0)
     expect(geometry.points[0].x).toBeLessThanOrEqual(1)
     expect(geometry.points[0].y).toBeGreaterThanOrEqual(0)
@@ -46,6 +46,6 @@ describe('earthquake depth 3D geometry', () => {
     const event = { ...earthquakeEvents[0], depthKm: -1.5 }
     const geometry = buildEarthquakeDepth3DGeometry([event], event.id)
 
-    expect(geometry.points[0].elevation).toBe(3000)
+    expect(geometry.points[0].elevation).toBe(9000)
   })
 })
