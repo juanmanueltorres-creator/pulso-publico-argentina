@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-08-29T01:43:53.135Z",
-  "sourceCheckedAt": "2026-08-29T01:43:53.135Z",
+  "generatedAt": "2026-08-29T08:58:27.662Z",
+  "sourceCheckedAt": "2026-08-29T08:58:27.662Z",
   "window": {
     "hours": 168
   },
@@ -969,6 +969,54 @@
       "depthKm": 110,
       "place": null,
       "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-57d3159e55f80448",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-29T00:08:09-03:00",
+      "latitude": -32.177,
+      "longitude": -67.07,
+      "magnitude": 2.5,
+      "depthKm": 13,
+      "place": null,
+      "province": "SAN LUIS",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-8cd3ba08987e75bb",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-29T02:00:26-03:00",
+      "latitude": -30.972,
+      "longitude": -64.28,
+      "magnitude": 2.3,
+      "depthKm": 10,
+      "place": null,
+      "province": "CORDOBA",
+      "intensityText": "II a III -Capilla del Monte, Córdoba. II a III -Huerta Grande, Córdoba. II a III -Agua de Oro, Córdoba. II a III -La Calera, Córdoba. II a III -Valle Hermoso, Córdoba. II a III -San Antonio de Arredondo, Córdoba"
+    },
+    {
+      "id": "inpres-af965524c3ceb80e",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-29T02:24:34-03:00",
+      "latitude": -24.248,
+      "longitude": -67.023,
+      "magnitude": 3.5,
+      "depthKm": 189,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-aea10aaf44768177",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-29T05:22:43-03:00",
+      "latitude": -32.88,
+      "longitude": -68.37,
+      "magnitude": 2.9,
+      "depthKm": 10,
+      "place": null,
+      "province": "MENDOZA",
       "intensityText": null
     }
   ]
