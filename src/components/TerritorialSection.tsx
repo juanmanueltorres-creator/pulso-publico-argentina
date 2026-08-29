@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import type { EarthquakeDisplayMode } from '../lib/earthquakeDepth3D'
 import { loadTerritorialSnapshot } from '../lib/loadTerritorialSnapshot'
 import { loadWeatherSnapshot } from '../lib/loadWeatherSnapshot'
 import { findWeatherContext } from '../lib/weatherContext'
@@ -70,6 +71,7 @@ export function TerritorialSection({
   now,
 }: TerritorialSectionProps) {
   const [mode, setMode] = useState<TerritorialViewMode>('earthquake')
+  const [earthquakeDisplayMode, setEarthquakeDisplayMode] = useState<EarthquakeDisplayMode>('2d')
   const [weatherVariable, setWeatherVariable] = useState<WeatherVariable>('temperature')
   const [earthquakes, setEarthquakes] = useState<TerritorialSnapshot<EarthquakeEvent> | null>(null)
   const [hotspots, setHotspots] = useState<TerritorialSnapshot<ThermalHotspotEvent> | null>(null)
@@ -214,7 +216,26 @@ export function TerritorialSection({
         </button>
       </div>
 
-      {mode === 'weather' ? (
+      {mode === 'earthquake' ? (
+        <div className="territorial-weather-variables" aria-label="Representación sísmica">
+          <button
+            type="button"
+            className="territorial-weather-variable"
+            aria-pressed={earthquakeDisplayMode === '2d'}
+            onClick={() => setEarthquakeDisplayMode('2d')}
+          >
+            Mapa 2D
+          </button>
+          <button
+            type="button"
+            className="territorial-weather-variable"
+            aria-pressed={earthquakeDisplayMode === '3d'}
+            onClick={() => setEarthquakeDisplayMode('3d')}
+          >
+            Profundidad 3D
+          </button>
+        </div>
+      ) : mode === 'weather' ? (
         <div className="territorial-weather-variables" aria-label="Variable meteorológica">
           <button
             type="button"
@@ -302,11 +323,16 @@ export function TerritorialSection({
         )}
       </div>
 
-      <TerritorialLegend mode={mode} weatherVariable={weatherVariable} />
+      <TerritorialLegend
+        mode={mode}
+        weatherVariable={weatherVariable}
+        earthquakeDisplayMode={earthquakeDisplayMode}
+      />
 
       <div className="territorial-layout">
         <TerritorialMap
           mode={mode}
+          earthquakeDisplayMode={earthquakeDisplayMode}
           weatherVariable={weatherVariable}
           earthquakes={earthquakes?.events ?? []}
           hotspots={hotspots?.events ?? []}
