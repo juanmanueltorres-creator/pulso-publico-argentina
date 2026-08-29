@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import {
   Map as MapLibreMap,
   setWorkerUrl,
+  type DataDrivenPropertyValueSpecification,
   type GeoJSONSource,
   type MapLayerMouseEvent,
   type StyleSpecification,
@@ -56,7 +57,7 @@ const EARTHQUAKE_RADIUS_EXPRESSION = [
   34,
   8,
   46,
-] as unknown as Parameters<MapLibreMap['setPaintProperty']>[2]
+] as unknown as DataDrivenPropertyValueSpecification<number>
 
 const HOTSPOT_LAYERS = [
   'hotspot-cluster-halo',
