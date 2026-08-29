@@ -204,6 +204,30 @@
   opacity: 0.55;
 }
 
+.territorial-map .earthquake-depth-3d-label {
+  pointer-events: none;
+}
+
+.territorial-map .earthquake-depth-3d-label .maplibregl-popup-content {
+  padding: 0.3rem 0.45rem;
+  border: 1px solid rgba(240, 201, 134, 0.42);
+  border-radius: 0.32rem;
+  background: rgba(7, 9, 8, 0.94);
+  color: var(--accent-strong);
+  box-shadow: 0 0 0.8rem rgba(211, 164, 98, 0.08);
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.61rem;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  white-space: nowrap;
+}
+
+.territorial-map .earthquake-depth-3d-label.maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
+.territorial-map .earthquake-depth-3d-label.maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip,
+.territorial-map .earthquake-depth-3d-label.maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip {
+  border-top-color: rgba(240, 201, 134, 0.42);
+}
+
 .territorial-detail,
 .weather-detail {
   min-height: 12rem;
