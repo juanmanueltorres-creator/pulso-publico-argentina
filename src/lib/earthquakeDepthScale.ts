@@ -1,6 +1,7 @@
 import type { ExpressionSpecification } from 'maplibre-gl'
 
 export const EARTHQUAKE_DEPTH_UNKNOWN_COLOR = '#8896b4'
+export const EARTHQUAKE_DEPTH_MAX_KM = 500
 
 export const EARTHQUAKE_DEPTH_STOPS = [
   [0, '#d95d39'],
@@ -8,7 +9,7 @@ export const EARTHQUAKE_DEPTH_STOPS = [
   [70, '#f2c14e'],
   [150, '#73bfb8'],
   [300, '#4f7cac'],
-  [500, '#5d4b8c'],
+  [EARTHQUAKE_DEPTH_MAX_KM, '#5d4b8c'],
 ] as const
 
 export function earthquakeDepthColorExpression(): ExpressionSpecification {
@@ -25,4 +26,11 @@ export function earthquakeDepthColorExpression(): ExpressionSpecification {
     ],
     EARTHQUAKE_DEPTH_UNKNOWN_COLOR,
   ] as unknown as ExpressionSpecification
+}
+
+export function earthquakeDepthLegendGradient(): string {
+  const stops = EARTHQUAKE_DEPTH_STOPS.map(
+    ([depth, color]) => `${color} ${((depth / EARTHQUAKE_DEPTH_MAX_KM) * 100).toFixed(1)}%`,
+  )
+  return `linear-gradient(90deg, ${stops.join(', ')})`
 }
