@@ -125,8 +125,8 @@ export function TerritorialLegend({
         <EarthquakeDepthScale />
         {earthquakeDisplayMode === '3d' ? (
           <>
-            <span>Vista 3D: ancla en superficie → hipocentro reportado.</span>
-            <span>Escala vertical 1× · superficie plana de referencia · sin relieve/DEM.</span>
+            <span>Vista 3D: el sismo seleccionado conecta superficie → hipocentro reportado.</span>
+            <span>Exageración vertical 2× · superficie plana de referencia · sin relieve/DEM.</span>
             <span>No corrige la profundidad reportada por altitud local.</span>
           </>
         ) : null}
