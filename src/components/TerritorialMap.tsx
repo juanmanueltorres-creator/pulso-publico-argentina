@@ -2,11 +2,14 @@ import { useEffect, useRef } from 'react'
 import {
   Map as MapLibreMap,
   setWorkerUrl,
+  type DataDrivenPropertyValueSpecification,
   type GeoJSONSource,
   type MapLayerMouseEvent,
   type StyleSpecification,
 } from 'maplibre-gl'
 import mapLibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
+import { EarthquakeDepth3DLayer } from '../lib/EarthquakeDepth3DLayer'
+import type { EarthquakeDisplayMode } from '../lib/earthquakeDepth3D'
 import { earthquakeDepthColorExpression } from '../lib/earthquakeDepthScale'
 import { eventsToFeatureCollection } from '../lib/territorialMapData'
 import type { HotspotWeatherContext } from '../lib/weatherContext'
@@ -34,6 +37,28 @@ const ARGENTINA_VIEW_BOUNDS: [[number, number], [number, number]] = [
   [-53.5, -21.7],
 ]
 
+const EARTHQUAKE_RADIUS_EXPRESSION = [
+  'interpolate',
+  ['exponential', 1.55],
+  ['get', 'magnitude'],
+  1,
+  3,
+  2,
+  4,
+  3,
+  6,
+  4,
+  10,
+  5,
+  16,
+  6,
+  24,
+  7,
+  34,
+  8,
+  46,
+] as unknown as DataDrivenPropertyValueSpecification<number>
+
 const HOTSPOT_LAYERS = [
   'hotspot-cluster-halo',
   'hotspot-clusters',
@@ -50,6 +75,7 @@ const WEATHER_CONTEXT_LAYERS = [
 
 interface TerritorialMapProps {
   mode: TerritorialViewMode
+  earthquakeDisplayMode?: EarthquakeDisplayMode
   weatherVariable?: WeatherVariable
   earthquakes: EarthquakeEvent[]
   hotspots: ThermalHotspotEvent[]
@@ -62,6 +88,12 @@ interface TerritorialMapProps {
   selectedId?: string | null
   onSelect: (event: EarthquakeEvent | ThermalHotspotEvent) => void
   onSelectWeather?: (pointId: string) => void
+}
+
+type EarthquakeDepthLayerState = {
+  layer: EarthquakeDepth3DLayer | null
+  added: boolean
+  active: boolean
 }
 
 const EMPTY_FEATURE_COLLECTION = {
@@ -185,6 +217,40 @@ function syncVisibility(
   )
 }
 
+function syncEarthquakeDepthDisplay(
+  map: MapLibreMap,
+  mode: TerritorialViewMode,
+  displayMode: EarthquakeDisplayMode,
+  earthquakes: EarthquakeEvent[],
+  state: EarthquakeDepthLayerState,
+) {
+  const active = mode === 'earthquake' && displayMode === '3d'
+
+  if (active && !state.layer) {
+    state.layer = new EarthquakeDepth3DLayer()
+    state.layer.setEvents(earthquakes)
+  }
+  if (active && state.layer && !state.added) {
+    state.layer.setVisible(true)
+    map.addLayer(state.layer)
+    state.added = true
+  } else {
+    state.layer?.setVisible(active)
+  }
+
+  if (active === state.active) return
+
+  map.setPaintProperty('earthquake-points', 'circle-radius', active ? 3.6 : EARTHQUAKE_RADIUS_EXPRESSION)
+  map.setPaintProperty('earthquake-points', 'circle-opacity', active ? 0.52 : 0.84)
+  map.setPaintProperty('earthquake-points', 'circle-stroke-width', active ? 0.8 : 1.2)
+  map.easeTo(
+    active
+      ? { pitch: 62, bearing: -12, duration: 650 }
+      : { pitch: 0, bearing: 0, duration: 650 },
+  )
+  state.active = active
+}
+
 async function expandHotspotCluster(map: MapLibreMap, event: MapLayerMouseEvent) {
   const feature = event.features?.[0]
   const clusterId = Number(feature?.properties?.cluster_id)
@@ -277,27 +343,7 @@ function createBlackMapStyle(): StyleSpecification {
           'circle-opacity': 0.84,
           'circle-stroke-color': '#050706',
           'circle-stroke-width': 1.2,
-          'circle-radius': [
-            'interpolate',
-            ['exponential', 1.55],
-            ['get', 'magnitude'],
-            1,
-            3,
-            2,
-            4,
-            3,
-            6,
-            4,
-            10,
-            5,
-            16,
-            6,
-            24,
-            7,
-            34,
-            8,
-            46,
-          ],
+          'circle-radius': EARTHQUAKE_RADIUS_EXPRESSION,
         },
       },
       {
@@ -592,6 +638,7 @@ function createBlackMapStyle(): StyleSpecification {
 
 export function TerritorialMap({
   mode,
+  earthquakeDisplayMode = '2d',
   weatherVariable = 'temperature',
   earthquakes,
   hotspots,
@@ -608,6 +655,7 @@ export function TerritorialMap({
   const mapRef = useRef<MapLibreMap | null>(null)
   const loadedRef = useRef(false)
   const modeRef = useRef(mode)
+  const earthquakeDisplayModeRef = useRef(earthquakeDisplayMode)
   const weatherVariableRef = useRef(weatherVariable)
   const earthquakesRef = useRef(earthquakes)
   const hotspotsRef = useRef(hotspots)
@@ -617,8 +665,14 @@ export function TerritorialMap({
   const selectedHotspotRef = useRef(selectedHotspot)
   const onSelectRef = useRef(onSelect)
   const onSelectWeatherRef = useRef(onSelectWeather)
+  const earthquakeDepthLayerStateRef = useRef<EarthquakeDepthLayerState>({
+    layer: null,
+    added: false,
+    active: false,
+  })
 
   modeRef.current = mode
+  earthquakeDisplayModeRef.current = earthquakeDisplayMode
   weatherVariableRef.current = weatherVariable
   earthquakesRef.current = earthquakes
   hotspotsRef.current = hotspots
@@ -638,6 +692,8 @@ export function TerritorialMap({
       bounds: ARGENTINA_VIEW_BOUNDS,
       fitBoundsOptions: { padding: 24 },
       attributionControl: false,
+      maxPitch: 75,
+      canvasContextAttributes: { antialias: true },
     })
     mapRef.current = map
 
@@ -659,6 +715,13 @@ export function TerritorialMap({
         weatherVariableRef.current,
         hotspotContextRef.current !== null,
         selectedHotspotRef.current !== null,
+      )
+      syncEarthquakeDepthDisplay(
+        map,
+        modeRef.current,
+        earthquakeDisplayModeRef.current,
+        earthquakesRef.current,
+        earthquakeDepthLayerStateRef.current,
       )
     })
 
@@ -704,6 +767,7 @@ export function TerritorialMap({
     return () => {
       loadedRef.current = false
       mapRef.current = null
+      earthquakeDepthLayerStateRef.current = { layer: null, added: false, active: false }
       map.remove()
     }
   }, [])
@@ -721,6 +785,7 @@ export function TerritorialMap({
       hotspotContext,
       selectedHotspot,
     )
+    earthquakeDepthLayerStateRef.current.layer?.setEvents(earthquakes)
   }, [
     earthquakes,
     hotspots,
@@ -743,6 +808,18 @@ export function TerritorialMap({
     )
   }, [mode, weatherVariable, hotspotContext, selectedHotspot])
 
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map || !loadedRef.current) return
+    syncEarthquakeDepthDisplay(
+      map,
+      mode,
+      earthquakeDisplayMode,
+      earthquakes,
+      earthquakeDepthLayerStateRef.current,
+    )
+  }, [mode, earthquakeDisplayMode, earthquakes])
+
   return (
     <div
       ref={containerRef}
@@ -751,6 +828,7 @@ export function TerritorialMap({
       aria-label="Mapa de señales territoriales de Argentina"
       data-selected-id={selectedId ?? selectedHotspot?.id ?? undefined}
       data-selected-weather-point-id={selectedWeatherPointId ?? undefined}
+      data-earthquake-display-mode={earthquakeDisplayMode}
     />
   )
 }
