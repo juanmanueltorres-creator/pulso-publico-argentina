@@ -3,7 +3,7 @@ import { earthquakeDepthColorRgb } from './earthquakeDepthScale'
 
 export type EarthquakeDisplayMode = '2d' | '3d'
 
-export const EARTHQUAKE_DEPTH_VERTICAL_EXAGGERATION = 2
+export const EARTHQUAKE_DEPTH_VERTICAL_EXAGGERATION = 6
 
 const MAX_MERCATOR_LATITUDE = 85.051129
 const SELECTED_SURFACE_COLOR: [number, number, number] = [248, 235, 198]
