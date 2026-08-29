@@ -217,18 +217,56 @@ function syncVisibility(
   )
 }
 
+function earthquakeCloudBounds(events: EarthquakeEvent[]): [[number, number], [number, number]] | null {
+  const valid = events.filter(
+    (event) =>
+      event.depthKm !== null &&
+      Number.isFinite(event.depthKm) &&
+      Number.isFinite(event.longitude) &&
+      Number.isFinite(event.latitude),
+  )
+  if (valid.length === 0) return null
+
+  let minLongitude = valid[0].longitude
+  let maxLongitude = valid[0].longitude
+  let minLatitude = valid[0].latitude
+  let maxLatitude = valid[0].latitude
+
+  for (const event of valid.slice(1)) {
+    minLongitude = Math.min(minLongitude, event.longitude)
+    maxLongitude = Math.max(maxLongitude, event.longitude)
+    minLatitude = Math.min(minLatitude, event.latitude)
+    maxLatitude = Math.max(maxLatitude, event.latitude)
+  }
+
+  if (minLongitude === maxLongitude) {
+    minLongitude -= 0.5
+    maxLongitude += 0.5
+  }
+  if (minLatitude === maxLatitude) {
+    minLatitude -= 0.5
+    maxLatitude += 0.5
+  }
+
+  return [
+    [minLongitude, minLatitude],
+    [maxLongitude, maxLatitude],
+  ]
+}
+
 function syncEarthquakeDepthDisplay(
   map: MapLibreMap,
   mode: TerritorialViewMode,
   displayMode: EarthquakeDisplayMode,
   earthquakes: EarthquakeEvent[],
+  selectedId: string | null,
   state: EarthquakeDepthLayerState,
 ) {
   const active = mode === 'earthquake' && displayMode === '3d'
 
   if (active && !state.layer) {
     state.layer = new EarthquakeDepth3DLayer()
-    state.layer.setEvents(earthquakes)
+    state.layer.setEvents(earthquakes, selectedId)
   }
   if (active && state.layer && !state.added) {
     state.layer.setVisible(true)
@@ -241,13 +279,23 @@ function syncEarthquakeDepthDisplay(
   if (active === state.active) return
 
   map.setPaintProperty('earthquake-points', 'circle-radius', active ? 3.6 : EARTHQUAKE_RADIUS_EXPRESSION)
-  map.setPaintProperty('earthquake-points', 'circle-opacity', active ? 0.52 : 0.84)
-  map.setPaintProperty('earthquake-points', 'circle-stroke-width', active ? 0.8 : 1.2)
-  map.easeTo(
-    active
-      ? { pitch: 62, bearing: -12, duration: 650 }
-      : { pitch: 0, bearing: 0, duration: 650 },
-  )
+  map.setPaintProperty('earthquake-points', 'circle-opacity', active ? 0.34 : 0.84)
+  map.setPaintProperty('earthquake-points', 'circle-stroke-width', active ? 0.65 : 1.2)
+
+  if (active) {
+    const bounds = earthquakeCloudBounds(earthquakes)
+    const camera = bounds ? map.cameraForBounds(bounds, { padding: 44 }) : undefined
+    map.easeTo({
+      ...(camera?.center ? { center: camera.center } : {}),
+      ...(typeof camera?.zoom === 'number' ? { zoom: Math.min(camera.zoom, 5.2) } : {}),
+      pitch: 70,
+      bearing: -24,
+      duration: 700,
+    })
+  } else {
+    map.easeTo({ pitch: 0, bearing: 0, duration: 650 })
+  }
+
   state.active = active
 }
 
@@ -663,6 +711,7 @@ export function TerritorialMap({
   const weatherFrameIndexRef = useRef(weatherFrameIndex)
   const hotspotContextRef = useRef(hotspotContext)
   const selectedHotspotRef = useRef(selectedHotspot)
+  const selectedIdRef = useRef(selectedId)
   const onSelectRef = useRef(onSelect)
   const onSelectWeatherRef = useRef(onSelectWeather)
   const earthquakeDepthLayerStateRef = useRef<EarthquakeDepthLayerState>({
@@ -680,6 +729,7 @@ export function TerritorialMap({
   weatherFrameIndexRef.current = weatherFrameIndex
   hotspotContextRef.current = hotspotContext
   selectedHotspotRef.current = selectedHotspot
+  selectedIdRef.current = selectedId
   onSelectRef.current = onSelect
   onSelectWeatherRef.current = onSelectWeather
 
@@ -721,6 +771,7 @@ export function TerritorialMap({
         modeRef.current,
         earthquakeDisplayModeRef.current,
         earthquakesRef.current,
+        selectedIdRef.current,
         earthquakeDepthLayerStateRef.current,
       )
     })
@@ -785,7 +836,7 @@ export function TerritorialMap({
       hotspotContext,
       selectedHotspot,
     )
-    earthquakeDepthLayerStateRef.current.layer?.setEvents(earthquakes)
+    earthquakeDepthLayerStateRef.current.layer?.setEvents(earthquakes, selectedId)
   }, [
     earthquakes,
     hotspots,
@@ -794,6 +845,7 @@ export function TerritorialMap({
     weatherVariable,
     hotspotContext,
     selectedHotspot,
+    selectedId,
   ])
 
   useEffect(() => {
@@ -816,9 +868,10 @@ export function TerritorialMap({
       mode,
       earthquakeDisplayMode,
       earthquakes,
+      selectedId,
       earthquakeDepthLayerStateRef.current,
     )
-  }, [mode, earthquakeDisplayMode, earthquakes])
+  }, [mode, earthquakeDisplayMode, earthquakes, selectedId])
 
   return (
     <div
