@@ -8,7 +8,7 @@ const mapMocks = vi.hoisted(() => ({
   addLayer: vi.fn(),
   setPaintProperty: vi.fn(),
   setLayoutProperty: vi.fn(),
-  cameraForBounds: vi.fn(() => ({ center: [-66, -31], zoom: 4.8 })),
+  cameraForBounds: vi.fn((..._args: unknown[]) => ({ center: [-66, -31], zoom: 4.8 })),
   easeTo: vi.fn(),
   sourceSetData: vi.fn(),
   remove: vi.fn(),
