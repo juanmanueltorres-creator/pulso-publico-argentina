@@ -56,7 +56,7 @@ const EARTHQUAKE_RADIUS_EXPRESSION = [
   34,
   8,
   46,
-]
+] as unknown as Parameters<MapLibreMap['setPaintProperty']>[2]
 
 const HOTSPOT_LAYERS = [
   'hotspot-cluster-halo',
