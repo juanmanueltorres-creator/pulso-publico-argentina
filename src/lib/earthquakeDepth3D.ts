@@ -4,9 +4,13 @@ import { earthquakeDepthColorRgb } from './earthquakeDepthScale'
 export type EarthquakeDisplayMode = '2d' | '3d'
 
 export const EARTHQUAKE_DEPTH_VERTICAL_EXAGGERATION = 6
+export const EARTHQUAKE_DEPTH_REFERENCE_KM = [70, 150, 300] as const
 
 const MAX_MERCATOR_LATITUDE = 85.051129
 const SELECTED_SURFACE_COLOR: [number, number, number] = [248, 235, 198]
+const DEPTH_GUIDE_COLOR: [number, number, number] = [164, 146, 112]
+const GUIDE_PADDING_RATIO = 0.08
+const MIN_GUIDE_PADDING = 0.004
 
 export interface EarthquakeDepth3DVertex {
   x: number
@@ -17,6 +21,7 @@ export interface EarthquakeDepth3DVertex {
 }
 
 export interface EarthquakeDepth3DGeometry {
+  guides: EarthquakeDepth3DVertex[]
   stems: EarthquakeDepth3DVertex[]
   anchors: EarthquakeDepth3DVertex[]
   points: EarthquakeDepth3DVertex[]
@@ -32,6 +37,54 @@ function toMercator(longitude: number, latitude: number): [number, number] {
 
 function pointSize(magnitude: number): number {
   return Math.max(4, Math.min(16, 4 + magnitude * 1.45))
+}
+
+function guideVertex(x: number, y: number, elevation: number): EarthquakeDepth3DVertex {
+  return { x, y, elevation, color: DEPTH_GUIDE_COLOR, size: 0 }
+}
+
+function buildDepthGuides(points: EarthquakeDepth3DVertex[]): EarthquakeDepth3DVertex[] {
+  if (points.length === 0) return []
+
+  let minX = points[0].x
+  let maxX = points[0].x
+  let minY = points[0].y
+  let maxY = points[0].y
+
+  for (const point of points.slice(1)) {
+    minX = Math.min(minX, point.x)
+    maxX = Math.max(maxX, point.x)
+    minY = Math.min(minY, point.y)
+    maxY = Math.max(maxY, point.y)
+  }
+
+  const padX = Math.max((maxX - minX) * GUIDE_PADDING_RATIO, MIN_GUIDE_PADDING)
+  const padY = Math.max((maxY - minY) * GUIDE_PADDING_RATIO, MIN_GUIDE_PADDING)
+  const left = Math.max(0, minX - padX)
+  const right = Math.min(1, maxX + padX)
+  const top = Math.max(0, minY - padY)
+  const bottom = Math.min(1, maxY + padY)
+  const guides: EarthquakeDepth3DVertex[] = []
+
+  for (const depthKm of EARTHQUAKE_DEPTH_REFERENCE_KM) {
+    const elevation = -depthKm * 1000 * EARTHQUAKE_DEPTH_VERTICAL_EXAGGERATION
+    const topLeft = guideVertex(left, top, elevation)
+    const topRight = guideVertex(right, top, elevation)
+    const bottomRight = guideVertex(right, bottom, elevation)
+    const bottomLeft = guideVertex(left, bottom, elevation)
+    guides.push(
+      topLeft,
+      topRight,
+      topRight,
+      bottomRight,
+      bottomRight,
+      bottomLeft,
+      bottomLeft,
+      topLeft,
+    )
+  }
+
+  return guides
 }
 
 export function buildEarthquakeDepth3DGeometry(
@@ -67,5 +120,5 @@ export function buildEarthquakeDepth3DGeometry(
     anchors.push(anchor)
   }
 
-  return { stems, anchors, points }
+  return { guides: buildDepthGuides(points), stems, anchors, points }
 }

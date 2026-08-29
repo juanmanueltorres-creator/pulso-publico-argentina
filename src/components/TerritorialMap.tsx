@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import {
   Map as MapLibreMap,
+  Popup,
   setWorkerUrl,
   type DataDrivenPropertyValueSpecification,
   type GeoJSONSource,
@@ -92,6 +93,7 @@ interface TerritorialMapProps {
 
 type EarthquakeDepthLayerState = {
   layer: EarthquakeDepth3DLayer | null
+  label: Popup | null
   added: boolean
   active: boolean
 }
@@ -254,6 +256,49 @@ function earthquakeCloudBounds(events: EarthquakeEvent[]): [[number, number], [n
   ]
 }
 
+function syncEarthquakeDepthLabel(
+  map: MapLibreMap,
+  active: boolean,
+  earthquakes: EarthquakeEvent[],
+  selectedId: string | null,
+  state: EarthquakeDepthLayerState,
+) {
+  const selected = active
+    ? earthquakes.find(
+        (event) =>
+          event.id === selectedId &&
+          event.depthKm !== null &&
+          Number.isFinite(event.depthKm) &&
+          Number.isFinite(event.longitude) &&
+          Number.isFinite(event.latitude),
+      )
+    : undefined
+
+  if (!selected || selected.depthKm === null) {
+    state.label?.remove()
+    state.label = null
+    return
+  }
+
+  if (!state.label) {
+    state.label = new Popup({
+      closeButton: false,
+      closeOnClick: false,
+      className: 'earthquake-depth-3d-label',
+      offset: [0, -11],
+    })
+    state.label
+      .setLngLat([selected.longitude, selected.latitude])
+      .setText(`${selected.depthKm} km · INPRES`)
+      .addTo(map)
+    return
+  }
+
+  state.label
+    .setLngLat([selected.longitude, selected.latitude])
+    .setText(`${selected.depthKm} km · INPRES`)
+}
+
 function syncEarthquakeDepthDisplay(
   map: MapLibreMap,
   mode: TerritorialViewMode,
@@ -275,6 +320,8 @@ function syncEarthquakeDepthDisplay(
   } else {
     state.layer?.setVisible(active)
   }
+
+  syncEarthquakeDepthLabel(map, active, earthquakes, selectedId, state)
 
   if (active === state.active) return
 
@@ -716,6 +763,7 @@ export function TerritorialMap({
   const onSelectWeatherRef = useRef(onSelectWeather)
   const earthquakeDepthLayerStateRef = useRef<EarthquakeDepthLayerState>({
     layer: null,
+    label: null,
     added: false,
     active: false,
   })
@@ -818,7 +866,8 @@ export function TerritorialMap({
     return () => {
       loadedRef.current = false
       mapRef.current = null
-      earthquakeDepthLayerStateRef.current = { layer: null, added: false, active: false }
+      earthquakeDepthLayerStateRef.current.label?.remove()
+      earthquakeDepthLayerStateRef.current = { layer: null, label: null, added: false, active: false }
       map.remove()
     }
   }, [])
