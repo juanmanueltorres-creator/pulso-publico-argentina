@@ -3,9 +3,10 @@ import { earthquakeDepthColorRgb } from './earthquakeDepthScale'
 
 export type EarthquakeDisplayMode = '2d' | '3d'
 
-export const EARTHQUAKE_DEPTH_VERTICAL_EXAGGERATION = 1
+export const EARTHQUAKE_DEPTH_VERTICAL_EXAGGERATION = 2
 
 const MAX_MERCATOR_LATITUDE = 85.051129
+const SELECTED_SURFACE_COLOR: [number, number, number] = [248, 235, 198]
 
 export interface EarthquakeDepth3DVertex {
   x: number
@@ -17,6 +18,7 @@ export interface EarthquakeDepth3DVertex {
 
 export interface EarthquakeDepth3DGeometry {
   stems: EarthquakeDepth3DVertex[]
+  anchors: EarthquakeDepth3DVertex[]
   points: EarthquakeDepth3DVertex[]
 }
 
@@ -32,8 +34,12 @@ function pointSize(magnitude: number): number {
   return Math.max(4, Math.min(16, 4 + magnitude * 1.45))
 }
 
-export function buildEarthquakeDepth3DGeometry(events: EarthquakeEvent[]): EarthquakeDepth3DGeometry {
+export function buildEarthquakeDepth3DGeometry(
+  events: EarthquakeEvent[],
+  selectedId: string | null = null,
+): EarthquakeDepth3DGeometry {
   const stems: EarthquakeDepth3DVertex[] = []
+  const anchors: EarthquakeDepth3DVertex[] = []
   const points: EarthquakeDepth3DVertex[] = []
 
   for (const event of events) {
@@ -43,12 +49,23 @@ export function buildEarthquakeDepth3DGeometry(events: EarthquakeEvent[]): Earth
     const elevation = -event.depthKm * 1000 * EARTHQUAKE_DEPTH_VERTICAL_EXAGGERATION
     const color = earthquakeDepthColorRgb(event.depthKm)
     const size = pointSize(event.magnitude)
-    const surface: EarthquakeDepth3DVertex = { x, y, elevation: 0, color, size }
     const hypocenter: EarthquakeDepth3DVertex = { x, y, elevation, color, size }
 
-    stems.push(surface, hypocenter)
     points.push(hypocenter)
+
+    if (event.id !== selectedId) continue
+
+    const surface: EarthquakeDepth3DVertex = { x, y, elevation: 0, color, size }
+    const anchor: EarthquakeDepth3DVertex = {
+      x,
+      y,
+      elevation: 0,
+      color: SELECTED_SURFACE_COLOR,
+      size: size + 7,
+    }
+    stems.push(surface, hypocenter)
+    anchors.push(anchor)
   }
 
-  return { stems, points }
+  return { stems, anchors, points }
 }

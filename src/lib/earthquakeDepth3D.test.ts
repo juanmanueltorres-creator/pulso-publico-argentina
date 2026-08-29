@@ -6,31 +6,46 @@ import {
 } from './earthquakeDepth3D'
 
 describe('earthquake depth 3D geometry', () => {
-  it('projects reported depth below a zero-elevation reference surface without terrain reinterpretation', () => {
-    const events = [
-      { ...earthquakeEvents[0], depthKm: 86, magnitude: 4.2 },
-      { ...earthquakeEvents[1], depthKm: null, magnitude: 2.8 },
-    ]
+  it('renders every valid hypocenter at 2x visual depth but only stems and anchors the selected event', () => {
+    const selected = { ...earthquakeEvents[0], depthKm: 86, magnitude: 4.2 }
+    const other = { ...earthquakeEvents[1], depthKm: 32, magnitude: 2.8 }
+    const events = [selected, other]
 
-    const geometry = buildEarthquakeDepth3DGeometry(events)
+    const geometry = buildEarthquakeDepth3DGeometry(events, selected.id)
 
-    expect(EARTHQUAKE_DEPTH_VERTICAL_EXAGGERATION).toBe(1)
-    expect(geometry.points).toHaveLength(1)
+    expect(EARTHQUAKE_DEPTH_VERTICAL_EXAGGERATION).toBe(2)
+    expect(geometry.points).toHaveLength(2)
     expect(geometry.stems).toHaveLength(2)
+    expect(geometry.anchors).toHaveLength(1)
     expect(geometry.stems[0].elevation).toBe(0)
-    expect(geometry.stems[1].elevation).toBe(-86_000)
-    expect(geometry.points[0].elevation).toBe(-86_000)
+    expect(geometry.stems[1].elevation).toBe(-172_000)
+    expect(geometry.anchors[0].elevation).toBe(0)
+    expect(geometry.anchors[0].size).toBeGreaterThan(geometry.points[0].size)
+    expect(geometry.points[0].elevation).toBe(-172_000)
+    expect(geometry.points[1].elevation).toBe(-64_000)
     expect(geometry.points[0].x).toBeGreaterThanOrEqual(0)
     expect(geometry.points[0].x).toBeLessThanOrEqual(1)
     expect(geometry.points[0].y).toBeGreaterThanOrEqual(0)
     expect(geometry.points[0].y).toBeLessThanOrEqual(1)
   })
 
-  it('preserves negative reported depths as positions above the reference surface instead of clamping the source value', () => {
-    const geometry = buildEarthquakeDepth3DGeometry([
-      { ...earthquakeEvents[0], depthKm: -1.5 },
-    ])
+  it('keeps the hypocenter cloud without stems or anchors when nothing is selected and skips missing depth', () => {
+    const events = [
+      { ...earthquakeEvents[0], depthKm: 86 },
+      { ...earthquakeEvents[1], depthKm: null },
+    ]
 
-    expect(geometry.points[0].elevation).toBe(1500)
+    const geometry = buildEarthquakeDepth3DGeometry(events, null)
+
+    expect(geometry.points).toHaveLength(1)
+    expect(geometry.stems).toHaveLength(0)
+    expect(geometry.anchors).toHaveLength(0)
+  })
+
+  it('preserves negative reported depths instead of clamping the source value', () => {
+    const event = { ...earthquakeEvents[0], depthKm: -1.5 }
+    const geometry = buildEarthquakeDepth3DGeometry([event], event.id)
+
+    expect(geometry.points[0].elevation).toBe(3000)
   })
 })

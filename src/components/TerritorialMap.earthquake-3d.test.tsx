@@ -8,9 +8,32 @@ const mapMocks = vi.hoisted(() => ({
   addLayer: vi.fn(),
   setPaintProperty: vi.fn(),
   setLayoutProperty: vi.fn(),
+  cameraForBounds: vi.fn((..._args: unknown[]) => ({ center: [-66, -31], zoom: 4.8 })),
   easeTo: vi.fn(),
   sourceSetData: vi.fn(),
   remove: vi.fn(),
+}))
+
+const depthLayerMocks = vi.hoisted(() => ({
+  setEvents: vi.fn(),
+  setVisible: vi.fn(),
+  triggerRepaint: vi.fn(),
+}))
+
+vi.mock('../lib/EarthquakeDepth3DLayer', () => ({
+  EarthquakeDepth3DLayer: class {
+    id = 'earthquake-depth-3d'
+    type = 'custom' as const
+    renderingMode = '3d' as const
+
+    setEvents(...args: unknown[]) {
+      depthLayerMocks.setEvents(...args)
+    }
+
+    setVisible(...args: unknown[]) {
+      depthLayerMocks.setVisible(...args)
+    }
+  },
 }))
 
 vi.mock('maplibre-gl', () => {
@@ -43,6 +66,10 @@ vi.mock('maplibre-gl', () => {
       return this
     }
 
+    cameraForBounds(...args: unknown[]) {
+      return mapMocks.cameraForBounds(...args)
+    }
+
     easeTo(...args: unknown[]) {
       mapMocks.easeTo(...args)
       return this
@@ -65,17 +92,20 @@ describe('TerritorialMap earthquake depth 3D mode', () => {
     mapMocks.addLayer.mockClear()
     mapMocks.setPaintProperty.mockClear()
     mapMocks.setLayoutProperty.mockClear()
+    mapMocks.cameraForBounds.mockClear()
     mapMocks.easeTo.mockClear()
     mapMocks.sourceSetData.mockClear()
     mapMocks.remove.mockClear()
+    depthLayerMocks.setEvents.mockClear()
+    depthLayerMocks.setVisible.mockClear()
   })
 
-  it('adds one custom 3D hypocenter layer and tilts the existing map without recreating it', () => {
+  it('focuses the existing map on the hypocenter cloud and updates the selected 3D stem without recreating it', () => {
     const props = {
       mode: 'earthquake' as const,
       earthquakes: earthquakeEvents,
       hotspots: hotspotEvents,
-      selectedId: null,
+      selectedId: earthquakeEvents[0].id,
       onSelect: vi.fn(),
     }
 
@@ -89,9 +119,28 @@ describe('TerritorialMap earthquake depth 3D mode', () => {
     expect(mapMocks.addLayer.mock.calls[0]?.[0]).toEqual(
       expect.objectContaining({ id: 'earthquake-depth-3d', type: 'custom', renderingMode: '3d' }),
     )
+    expect(depthLayerMocks.setEvents).toHaveBeenCalledWith(earthquakeEvents, earthquakeEvents[0].id)
+    expect(mapMocks.cameraForBounds).toHaveBeenCalledTimes(1)
     expect(mapMocks.easeTo).toHaveBeenCalledWith(
-      expect.objectContaining({ pitch: expect.any(Number), bearing: expect.any(Number) }),
+      expect.objectContaining({
+        center: [-66, -31],
+        zoom: expect.any(Number),
+        pitch: 70,
+        bearing: -24,
+      }),
     )
+
+    depthLayerMocks.setEvents.mockClear()
+    rerender(
+      <TerritorialMap
+        {...props}
+        selectedId={earthquakeEvents[1].id}
+        earthquakeDisplayMode="3d"
+      />,
+    )
+
+    expect(mapMocks.construct).toHaveBeenCalledTimes(1)
+    expect(depthLayerMocks.setEvents).toHaveBeenCalledWith(earthquakeEvents, earthquakeEvents[1].id)
 
     mapMocks.easeTo.mockClear()
     rerender(<TerritorialMap {...props} earthquakeDisplayMode="2d" />)
