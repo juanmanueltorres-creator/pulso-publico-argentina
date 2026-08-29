@@ -86,6 +86,7 @@ export class EarthquakeDepth3DLayer implements CustomLayerInterface {
   private variant = ''
   private uniforms: Record<string, WebGLUniformLocation | null> = {}
   private data = new Float32Array(0)
+  private guideVertexCount = 0
   private lineVertexCount = 0
   private anchorVertexCount = 0
   private pointVertexCount = 0
@@ -115,11 +116,12 @@ export class EarthquakeDepth3DLayer implements CustomLayerInterface {
   }
 
   setEvents(events: EarthquakeEvent[], selectedId: string | null = null): void {
-    const { stems, anchors, points } = buildEarthquakeDepth3DGeometry(events, selectedId)
-    const vertices = [...stems, ...anchors, ...points]
+    const { guides, stems, anchors, points } = buildEarthquakeDepth3DGeometry(events, selectedId)
+    const vertices = [...guides, ...stems, ...anchors, ...points]
     const data = new Float32Array(vertices.length * FLOATS_PER_VERTEX)
     vertices.forEach((vertex, index) => writeVertex(data, index, vertex))
     this.data = data
+    this.guideVertexCount = guides.length
     this.lineVertexCount = stems.length
     this.anchorVertexCount = anchors.length
     this.pointVertexCount = points.length
@@ -218,23 +220,30 @@ export class EarthquakeDepth3DLayer implements CustomLayerInterface {
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
     gl.bindVertexArray(this.vao)
 
+    if (this.guideVertexCount > 0) {
+      gl.uniform1i(this.uniforms.u_points, 0)
+      gl.uniform1f(this.uniforms.u_opacity, 0.14)
+      gl.drawArrays(gl.LINES, 0, this.guideVertexCount)
+    }
+
     if (this.lineVertexCount > 0) {
       gl.uniform1i(this.uniforms.u_points, 0)
       gl.uniform1f(this.uniforms.u_opacity, 0.52)
-      gl.drawArrays(gl.LINES, 0, this.lineVertexCount)
+      gl.drawArrays(gl.LINES, this.guideVertexCount, this.lineVertexCount)
     }
 
+    const anchorOffset = this.guideVertexCount + this.lineVertexCount
     if (this.anchorVertexCount > 0) {
       gl.uniform1i(this.uniforms.u_points, 1)
       gl.uniform1f(this.uniforms.u_opacity, 0.94)
-      gl.drawArrays(gl.POINTS, this.lineVertexCount, this.anchorVertexCount)
+      gl.drawArrays(gl.POINTS, anchorOffset, this.anchorVertexCount)
     }
 
     gl.uniform1i(this.uniforms.u_points, 1)
     gl.uniform1f(this.uniforms.u_opacity, 1)
     gl.drawArrays(
       gl.POINTS,
-      this.lineVertexCount + this.anchorVertexCount,
+      anchorOffset + this.anchorVertexCount,
       this.pointVertexCount,
     )
 
