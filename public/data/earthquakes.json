@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-08-30T12:49:22.547Z",
-  "sourceCheckedAt": "2026-08-30T12:49:22.547Z",
+  "generatedAt": "2026-08-30T17:24:25.488Z",
+  "sourceCheckedAt": "2026-08-30T17:24:25.488Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-878581d4541d9c4e",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-23T10:25:41-03:00",
-      "latitude": -25.945,
-      "longitude": -66.533,
-      "magnitude": 2.8,
-      "depthKm": 9,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-f0708be8dcffe957",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-23T11:36:03-03:00",
-      "latitude": -30.21,
-      "longitude": -63.992,
-      "magnitude": 2.7,
-      "depthKm": 24,
-      "place": null,
-      "province": "CORDOBA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-8a8f0481312f9f4c",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-23T13:01:47-03:00",
-      "latitude": -31.321,
-      "longitude": -68.966,
-      "magnitude": 3.2,
-      "depthKm": 110,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-edddf1a91090f521",
       "kind": "earthquake",
@@ -943,6 +907,30 @@
       "longitude": -68.661,
       "magnitude": 2.5,
       "depthKm": 116,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-66c7e28aac2c664e",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-30T10:30:50-03:00",
+      "latitude": -31.011,
+      "longitude": -64.506,
+      "magnitude": 2.3,
+      "depthKm": 4,
+      "place": null,
+      "province": "CORDOBA",
+      "intensityText": "II a III -Villa Giardino, Córdoba. II a III -Agua de Oro, Córdoba. II a III -La Falda, Córdoba. II a III -Ascochinga, Córdoba. II a III -La Granja, Córdoba"
+    },
+    {
+      "id": "inpres-5a98a3efcc32a64f",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-30T10:43:00-03:00",
+      "latitude": -31.82,
+      "longitude": -67.45,
+      "magnitude": 3.1,
+      "depthKm": 133,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
