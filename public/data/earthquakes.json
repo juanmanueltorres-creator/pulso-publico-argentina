@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-08-30T06:35:21.280Z",
-  "sourceCheckedAt": "2026-08-30T06:35:21.280Z",
+  "generatedAt": "2026-08-30T12:49:22.547Z",
+  "sourceCheckedAt": "2026-08-30T12:49:22.547Z",
   "window": {
     "hours": 168
   },
@@ -23,78 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-afa0aef4d5fa073b",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-23T04:56:59-03:00",
-      "latitude": -32.424,
-      "longitude": -69.626,
-      "magnitude": 2.7,
-      "depthKm": 126,
-      "place": null,
-      "province": "MENDOZA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-a9a0503a4a68e27d",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-23T05:15:25-03:00",
-      "latitude": -27.998,
-      "longitude": -66.489,
-      "magnitude": 2.8,
-      "depthKm": 183,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-13aaaaa533ee1fcc",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-23T05:34:28-03:00",
-      "latitude": -25.983,
-      "longitude": -64.646,
-      "magnitude": 3.8,
-      "depthKm": 20,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": "III -El Potrero, Salta. III -Rosario de la Frontera, Salta. III -Nueva Esperanza, Santigo del Estero. II a III -San Miguel de Tucumán, Tucumán"
-    },
-    {
-      "id": "inpres-4798bffb4160a190",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-23T05:51:56-03:00",
-      "latitude": -23.957,
-      "longitude": -67.166,
-      "magnitude": 3.2,
-      "depthKm": 190,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-8eb5d1c2b741424e",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-23T08:26:14-03:00",
-      "latitude": -29.285,
-      "longitude": -69.915,
-      "magnitude": 2.5,
-      "depthKm": 123,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-6edd269826a421dc",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-23T08:41:31-03:00",
-      "latitude": -27.578,
-      "longitude": -67.514,
-      "magnitude": 2.5,
-      "depthKm": 138,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
     {
       "id": "inpres-878581d4541d9c4e",
       "kind": "earthquake",
@@ -1003,6 +931,18 @@
       "longitude": -69.44,
       "magnitude": 2.6,
       "depthKm": 109,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-2fea4c1b82a8b9f5",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-30T02:40:42-03:00",
+      "latitude": -32.243,
+      "longitude": -68.661,
+      "magnitude": 2.5,
+      "depthKm": 116,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
