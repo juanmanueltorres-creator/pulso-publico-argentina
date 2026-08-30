@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-08-30T00:14:47.806Z",
-  "sourceCheckedAt": "2026-08-30T00:14:47.806Z",
+  "generatedAt": "2026-08-30T06:35:21.280Z",
+  "sourceCheckedAt": "2026-08-30T06:35:21.280Z",
   "window": {
     "hours": 168
   },
@@ -23,54 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-8f7235bba1a2c860",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-22T22:48:02-03:00",
-      "latitude": -31.611,
-      "longitude": -68.212,
-      "magnitude": 2.5,
-      "depthKm": 109,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-3acd46ef273ac602",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-23T01:24:15-03:00",
-      "latitude": -28.111,
-      "longitude": -67.206,
-      "magnitude": 2.5,
-      "depthKm": 159,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-420eaaa6a279ab9e",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-23T02:46:57-03:00",
-      "latitude": -31.837,
-      "longitude": -69.749,
-      "magnitude": 2.6,
-      "depthKm": 110,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-ccfa7b2fde78f24b",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-23T03:06:27-03:00",
-      "latitude": -31.507,
-      "longitude": -69.025,
-      "magnitude": 2.7,
-      "depthKm": 120,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-afa0aef4d5fa073b",
       "kind": "earthquake",
@@ -1053,18 +1005,6 @@
       "depthKm": 109,
       "place": null,
       "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-0bc586d4181279e5",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-29T20:50:09-03:00",
-      "latitude": -32.89,
-      "longitude": -68.53,
-      "magnitude": 3,
-      "depthKm": 246,
-      "place": null,
-      "province": "MENDOZA",
       "intensityText": null
     }
   ]
