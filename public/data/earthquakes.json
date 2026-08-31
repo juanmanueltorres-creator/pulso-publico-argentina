@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-08-31T05:25:13.575Z",
-  "sourceCheckedAt": "2026-08-31T05:25:13.575Z",
+  "generatedAt": "2026-08-31T13:36:47.089Z",
+  "sourceCheckedAt": "2026-08-31T13:36:47.089Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-44f49fec91500a27",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-24T04:44:50-03:00",
-      "latitude": -31.393,
-      "longitude": -68.881,
-      "magnitude": 3.4,
-      "depthKm": 106,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-a38ef06f7621e8a4",
       "kind": "earthquake",
@@ -828,15 +816,63 @@
       "intensityText": "II a III -Agua de Oro, Córdoba"
     },
     {
-      "id": "inpres-da778f7b9d9d6a79",
+      "id": "inpres-f501301202119bd1",
       "kind": "earthquake",
-      "occurredAt": "2026-08-30T23:54:12-03:00",
-      "latitude": -32.46,
-      "longitude": -66.97,
+      "occurredAt": "2026-08-30T23:54:11-03:00",
+      "latitude": -32.427,
+      "longitude": -67.017,
       "magnitude": 2.5,
-      "depthKm": 10,
+      "depthKm": 18,
       "place": null,
       "province": "SAN LUIS",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-7f776c51f6071112",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-31T00:49:35-03:00",
+      "latitude": -31.448,
+      "longitude": -68.73,
+      "magnitude": 2.6,
+      "depthKm": 112,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-9ca023e3b424eb94",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-31T02:54:07-03:00",
+      "latitude": -25.725,
+      "longitude": -66.229,
+      "magnitude": 3.5,
+      "depthKm": 226,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-1f0003b0a17021d4",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-31T07:11:48-03:00",
+      "latitude": -32.598,
+      "longitude": -69.407,
+      "magnitude": 3,
+      "depthKm": 124,
+      "place": null,
+      "province": "MENDOZA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-7f8d1ffa11ad0a41",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-31T09:57:22-03:00",
+      "latitude": -31.4,
+      "longitude": -69.29,
+      "magnitude": 2.5,
+      "depthKm": 136,
+      "place": null,
+      "province": "SAN JUAN",
       "intensityText": null
     }
   ]
