@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-08-30T23:26:31.930Z",
-  "sourceCheckedAt": "2026-08-30T23:26:31.930Z",
+  "generatedAt": "2026-08-31T05:25:13.575Z",
+  "sourceCheckedAt": "2026-08-31T05:25:13.575Z",
   "window": {
     "hours": 168
   },
@@ -23,54 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-212cf8dabdc8f223",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-23T21:30:08-03:00",
-      "latitude": -31.788,
-      "longitude": -67.587,
-      "magnitude": 2.6,
-      "depthKm": 120,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-4e3af9a87c3d9cc3",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-23T21:47:37-03:00",
-      "latitude": -29.356,
-      "longitude": -67.498,
-      "magnitude": 2.5,
-      "depthKm": 10,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": "II a III -La Puntilla, La Rioja"
-    },
-    {
-      "id": "inpres-e4c163a884bf1b41",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-23T23:20:28-03:00",
-      "latitude": -29.566,
-      "longitude": -69.444,
-      "magnitude": 2.6,
-      "depthKm": 129,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-39b9dfce4010fc1f",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-24T02:04:04-03:00",
-      "latitude": -28.233,
-      "longitude": -67.194,
-      "magnitude": 4.3,
-      "depthKm": 156,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": "III -Tinogasta, Catamarca. II a III -Belén, Catamarca. II a III -Fiambalá, Catamarca. II a III -San F. del Valle de Catamarca. II a III -Ciudad de La Rioja"
-    },
     {
       "id": "inpres-44f49fec91500a27",
       "kind": "earthquake",
@@ -850,6 +802,42 @@
       "place": null,
       "province": "CORDOBA",
       "intensityText": "II a III -Villa Giardino, Córdoba. II a III -Agua de Oro, Córdoba. II a III -La Falda, Córdoba. II a III -Ascochinga, Córdoba. II a III -La Granja, Córdoba"
+    },
+    {
+      "id": "inpres-728e4447248eb47a",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-30T17:50:35-03:00",
+      "latitude": -28.6,
+      "longitude": -69.433,
+      "magnitude": 2.5,
+      "depthKm": 118,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-afb834ce6e717cf8",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-30T19:42:43-03:00",
+      "latitude": -30.997,
+      "longitude": -64.423,
+      "magnitude": 2.5,
+      "depthKm": 8,
+      "place": null,
+      "province": "CORDOBA",
+      "intensityText": "II a III -Agua de Oro, Córdoba"
+    },
+    {
+      "id": "inpres-da778f7b9d9d6a79",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-30T23:54:12-03:00",
+      "latitude": -32.46,
+      "longitude": -66.97,
+      "magnitude": 2.5,
+      "depthKm": 10,
+      "place": null,
+      "province": "SAN LUIS",
+      "intensityText": null
     }
   ]
 }
