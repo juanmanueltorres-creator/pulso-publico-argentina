@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-08-31T19:59:25.203Z",
-  "sourceCheckedAt": "2026-08-31T19:59:25.203Z",
+  "generatedAt": "2026-08-31T23:47:41.106Z",
+  "sourceCheckedAt": "2026-08-31T23:47:41.106Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-2d6a3d8a86e88f42",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-24T17:43:48-03:00",
-      "latitude": -31.395,
-      "longitude": -68.943,
-      "magnitude": 2.8,
-      "depthKm": 100,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-6bd9f36872327f77",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-24T19:36:04-03:00",
-      "latitude": -31.047,
-      "longitude": -64.392,
-      "magnitude": 2.4,
-      "depthKm": 11,
-      "place": null,
-      "province": "CORDOBA",
-      "intensityText": "II a III -Agua de Oro, Córdoba"
-    },
     {
       "id": "inpres-c2787f6707dac559",
       "kind": "earthquake",
@@ -744,6 +720,18 @@
       "intensityText": null
     },
     {
+      "id": "inpres-8eacd3b1e36da5eb",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-29T14:17:31-03:00",
+      "latitude": -27.532,
+      "longitude": -67.541,
+      "magnitude": 2.5,
+      "depthKm": 142,
+      "place": null,
+      "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
       "id": "inpres-bd1a6e6a9249bbc3",
       "kind": "earthquake",
       "occurredAt": "2026-08-29T16:25:57-03:00",
@@ -751,6 +739,30 @@
       "longitude": -69.44,
       "magnitude": 2.6,
       "depthKm": 109,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-0887d48ccdb215de",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-29T16:27:30-03:00",
+      "latitude": -23.571,
+      "longitude": -66.78,
+      "magnitude": 3.8,
+      "depthKm": 208,
+      "place": null,
+      "province": "JUJUY",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-f4ddf1a10245081a",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-29T20:33:43-03:00",
+      "latitude": -31.218,
+      "longitude": -68.37,
+      "magnitude": 2.7,
+      "depthKm": 103,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
