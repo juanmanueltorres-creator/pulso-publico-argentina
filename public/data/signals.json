@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-08-31T05:53:36.462Z",
+  "generatedAt": "2026-08-31T10:01:37.367Z",
   "signals": [
     {
       "schemaVersion": "1.0",
@@ -71,7 +71,7 @@
       "availability": "available",
       "observedAt": "2026-07-01T00:00:00.000Z",
       "publishedAt": null,
-      "fetchedAt": "2026-08-30T09:25:43.290Z",
+      "fetchedAt": "2026-08-31T10:01:37.367Z",
       "source": {
         "name": "INPI Argentina",
         "url": "https://datos.inpi.gob.ar/Home/Ingresos_Patentes",
