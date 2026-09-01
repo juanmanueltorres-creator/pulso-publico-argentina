@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-01T14:48:54.754Z",
-  "sourceCheckedAt": "2026-09-01T14:48:54.754Z",
+  "generatedAt": "2026-09-01T18:25:38.765Z",
+  "sourceCheckedAt": "2026-09-01T18:25:38.765Z",
   "window": {
     "hours": 168
   },
@@ -732,6 +732,18 @@
       "intensityText": null
     },
     {
+      "id": "inpres-448e69fb56f1de2a",
+      "kind": "earthquake",
+      "occurredAt": "2026-08-30T19:33:01-03:00",
+      "latitude": -51.418,
+      "longitude": -72.271,
+      "magnitude": 2.5,
+      "depthKm": 17,
+      "place": null,
+      "province": "SANTA CRUZ",
+      "intensityText": null
+    },
+    {
       "id": "inpres-afb834ce6e717cf8",
       "kind": "earthquake",
       "occurredAt": "2026-08-30T19:42:43-03:00",
@@ -898,6 +910,18 @@
       "place": null,
       "province": "CORDOBA",
       "intensityText": "II a III -Mina Clavero, Córdoba. II a III -Villa Dolores, Córdoba. II a III -Villa General Belgrano, Córdoba"
+    },
+    {
+      "id": "inpres-26aabc8ed8f0ee2b",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-01T02:44:10-03:00",
+      "latitude": -38.336,
+      "longitude": -69.086,
+      "magnitude": 2.8,
+      "depthKm": 8,
+      "place": null,
+      "province": "NEUQUEN",
+      "intensityText": null
     },
     {
       "id": "inpres-e2abecd22b09b72b",
