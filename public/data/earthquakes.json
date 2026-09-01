@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-01T04:59:37.880Z",
-  "sourceCheckedAt": "2026-09-01T04:59:37.880Z",
+  "generatedAt": "2026-09-01T10:00:59.671Z",
+  "sourceCheckedAt": "2026-09-01T10:00:59.671Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-c2787f6707dac559",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-25T02:17:38-03:00",
-      "latitude": -31.625,
-      "longitude": -69.237,
-      "magnitude": 2.5,
-      "depthKm": 110,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-3ef252a33d02da15",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-25T02:19:15-03:00",
-      "latitude": -31.552,
-      "longitude": -69.013,
-      "magnitude": 3.1,
-      "depthKm": 99,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-51313e0fd10d6155",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-25T02:52:30-03:00",
-      "latitude": -24.105,
-      "longitude": -66.652,
-      "magnitude": 3.1,
-      "depthKm": 207,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
     {
       "id": "inpres-28b61b0ec8c5e3c2",
       "kind": "earthquake",
@@ -970,6 +934,18 @@
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
+    },
+    {
+      "id": "inpres-690a81ff2c9aed34",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-01T01:46:12-03:00",
+      "latitude": -31.77,
+      "longitude": -64.887,
+      "magnitude": 2.6,
+      "depthKm": 12,
+      "place": null,
+      "province": "CORDOBA",
+      "intensityText": "II a III -Mina Clavero, Córdoba. II a III -Villa Dolores, Córdoba. II a III -Villa General Belgrano, Córdoba"
     }
   ]
 }
