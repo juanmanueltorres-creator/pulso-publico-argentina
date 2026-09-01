@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-01T18:25:38.765Z",
-  "sourceCheckedAt": "2026-09-01T18:25:38.765Z",
+  "generatedAt": "2026-09-01T21:44:04.873Z",
+  "sourceCheckedAt": "2026-09-01T21:44:04.873Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-94570011698691d2",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-25T17:16:52-03:00",
-      "latitude": -31.447,
-      "longitude": -67.7,
-      "magnitude": 2.9,
-      "depthKm": 9,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-51c8c29f588de05f",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-25T17:51:27-03:00",
-      "latitude": -31.282,
-      "longitude": -68.655,
-      "magnitude": 3,
-      "depthKm": 109,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-17f753f2071613ee",
       "kind": "earthquake",
@@ -456,13 +432,13 @@
       "intensityText": "III -Río Turbio, Santa Cruz. III -28 de Noviembre, Santa Cruz"
     },
     {
-      "id": "inpres-a5cfe2ce3825e846",
+      "id": "inpres-23a96a9f48f7d765",
       "kind": "earthquake",
       "occurredAt": "2026-08-28T16:43:38-03:00",
-      "latitude": -25.936,
-      "longitude": -66.417,
-      "magnitude": 3.3,
-      "depthKm": 142,
+      "latitude": -25.968,
+      "longitude": -66.655,
+      "magnitude": 3.2,
+      "depthKm": 19,
       "place": null,
       "province": "SALTA",
       "intensityText": null
@@ -981,6 +957,18 @@
       "depthKm": 120,
       "place": null,
       "province": "MENDOZA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-be9266dfe4349fe1",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-01T17:52:24-03:00",
+      "latitude": -31.541,
+      "longitude": -69.545,
+      "magnitude": 2.8,
+      "depthKm": 117,
+      "place": null,
+      "province": "SAN JUAN",
       "intensityText": null
     }
   ]
