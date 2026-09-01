@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "thermal-hotspot",
-  "generatedAt": "2026-09-01T00:02:21.921Z",
-  "sourceCheckedAt": "2026-09-01T00:02:21.921Z",
+  "generatedAt": "2026-09-01T05:31:09.261Z",
+  "sourceCheckedAt": "2026-09-01T05:31:09.261Z",
   "window": {
     "hours": 24
   },
@@ -25,17 +25,6 @@
     "El payload del mapa público no rotula explícitamente la zona horaria; Pulso interpreta esas marcas temporales como UTC para normalizarlas y declara esta limitación."
   ],
   "events": [
-    {
-      "id": "conae-c890fab04c09cc4e",
-      "kind": "thermal-hotspot",
-      "occurredAt": "2026-08-31T04:19:00.000Z",
-      "latitude": -25.62944,
-      "longitude": -59.81273,
-      "confidence": "nominal",
-      "frpMw": null,
-      "sensor": "VIIRS",
-      "satellite": "NOAA20"
-    },
     {
       "id": "conae-76130c9402427af0",
       "kind": "thermal-hotspot",
