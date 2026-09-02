@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-02T04:26:40.098Z",
-  "sourceCheckedAt": "2026-09-02T04:26:40.098Z",
+  "generatedAt": "2026-09-02T09:32:28.862Z",
+  "sourceCheckedAt": "2026-09-02T09:32:28.862Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-9690d9e418a0b015",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-26T02:43:15-03:00",
-      "latitude": -30.733,
-      "longitude": -68.811,
-      "magnitude": 3.2,
-      "depthKm": 106,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-3c7c27abed761da4",
       "kind": "earthquake",
@@ -960,15 +948,39 @@
       "intensityText": null
     },
     {
-      "id": "inpres-bc56ace09370f917",
+      "id": "inpres-3cf3b452a305d0d7",
       "kind": "earthquake",
-      "occurredAt": "2026-09-01T23:38:38-03:00",
-      "latitude": -28.32,
-      "longitude": -67.56,
+      "occurredAt": "2026-09-02T02:08:25-03:00",
+      "latitude": -31.812,
+      "longitude": -67.169,
       "magnitude": 2.5,
-      "depthKm": 205,
+      "depthKm": 127,
       "place": null,
-      "province": "CATAMARCA",
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-bb672e3905765b59",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-02T04:53:36-03:00",
+      "latitude": -30.44,
+      "longitude": -70.06,
+      "magnitude": 2.6,
+      "depthKm": 91,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-f3d43f5a75c0e307",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-02T06:21:16-03:00",
+      "latitude": -29.11,
+      "longitude": -68.56,
+      "magnitude": 2.7,
+      "depthKm": 91,
+      "place": null,
+      "province": "LA RIOJA",
       "intensityText": null
     }
   ]
