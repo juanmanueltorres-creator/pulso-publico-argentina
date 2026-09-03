@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-03T11:07:49.684Z",
-  "sourceCheckedAt": "2026-09-03T11:07:49.684Z",
+  "generatedAt": "2026-09-03T16:21:36.532Z",
+  "sourceCheckedAt": "2026-09-03T16:21:36.532Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-a5650d5248456e47",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-27T09:38:38-03:00",
-      "latitude": -33.217,
-      "longitude": -68.152,
-      "magnitude": 2.8,
-      "depthKm": 11,
-      "place": null,
-      "province": "MENDOZA",
-      "intensityText": "II a III -12 de Octubre, Mendoza. II a III -Santa Rosa, Mendoza. II a III -La Florida, Mendoza. II a III -El Mirador, Mendoza"
-    },
-    {
-      "id": "inpres-368317b0f6d9c787",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-27T11:09:01-03:00",
-      "latitude": -24.205,
-      "longitude": -67.015,
-      "magnitude": 3.3,
-      "depthKm": 203,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-6133a6eb81b38f66",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-27T12:26:35-03:00",
-      "latitude": -25.978,
-      "longitude": -66.774,
-      "magnitude": 3.6,
-      "depthKm": 11,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-83305313587c0f98",
       "kind": "earthquake",
@@ -840,6 +804,18 @@
       "intensityText": null
     },
     {
+      "id": "inpres-5a40f821f657f343",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-03T00:40:38-03:00",
+      "latitude": -25.902,
+      "longitude": -66.373,
+      "magnitude": 3.1,
+      "depthKm": 154,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
       "id": "inpres-627efadc2f28d7d8",
       "kind": "earthquake",
       "occurredAt": "2026-09-03T04:29:32-03:00",
@@ -850,6 +826,30 @@
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
+    },
+    {
+      "id": "inpres-af6096c037c9f1b6",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-03T09:02:19-03:00",
+      "latitude": -32.883,
+      "longitude": -68.958,
+      "magnitude": 2.8,
+      "depthKm": 9,
+      "place": null,
+      "province": "MENDOZA",
+      "intensityText": "II a III -Ciudad de Mendoza. II a III -Vistalba, Mendoza"
+    },
+    {
+      "id": "inpres-79ea3149ce2a3c57",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-03T10:50:01-03:00",
+      "latitude": -31.015,
+      "longitude": -64.361,
+      "magnitude": 2.4,
+      "depthKm": 11,
+      "place": null,
+      "province": "CORDOBA",
+      "intensityText": "II a III -La Granja, Córdoba. II a III -Agua de Oro, Córdoba. II a III -Valle Hermoso, Córdoba"
     }
   ]
 }
