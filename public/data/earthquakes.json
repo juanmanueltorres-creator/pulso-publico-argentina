@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-04T00:56:34.542Z",
-  "sourceCheckedAt": "2026-09-04T00:56:34.542Z",
+  "generatedAt": "2026-09-04T05:49:07.075Z",
+  "sourceCheckedAt": "2026-09-04T05:49:07.075Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-72ab8cfc6beb1dcb",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-27T23:12:20-03:00",
-      "latitude": -31.316,
-      "longitude": -68.655,
-      "magnitude": 2.7,
-      "depthKm": 109,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-daeb4c76713f4e23",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-28T01:54:18-03:00",
-      "latitude": -31.246,
-      "longitude": -68.998,
-      "magnitude": 2.8,
-      "depthKm": 112,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-a373eea257392796",
       "kind": "earthquake",
@@ -816,27 +792,51 @@
       "intensityText": null
     },
     {
-      "id": "inpres-55f88e19ca670baa",
+      "id": "inpres-5f7cf4f29555c6ec",
       "kind": "earthquake",
       "occurredAt": "2026-09-03T20:44:06-03:00",
       "latitude": -32.62,
       "longitude": -70.156,
-      "magnitude": 3.2,
+      "magnitude": 3.1,
       "depthKm": 111,
       "place": null,
       "province": "MENDOZA",
       "intensityText": null
     },
     {
-      "id": "inpres-ee6cf63f4c872b9b",
+      "id": "inpres-67c3a9554ade3549",
       "kind": "earthquake",
-      "occurredAt": "2026-09-03T21:40:40-03:00",
-      "latitude": -31.02,
-      "longitude": -66.36,
-      "magnitude": 3.2,
+      "occurredAt": "2026-09-03T21:40:38-03:00",
+      "latitude": -30.994,
+      "longitude": -66.293,
+      "magnitude": 2.5,
+      "depthKm": 6,
+      "place": null,
+      "province": "LA RIOJA",
+      "intensityText": "II a III -Santa Rita de Catuña, La Rioja. II a III -La Aguadita, La Rioja. II a III -Ambil, La Rioja"
+    },
+    {
+      "id": "inpres-1426f64f6c2b82e5",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-03T22:00:42-03:00",
+      "latitude": -30.982,
+      "longitude": -66.327,
+      "magnitude": 2.7,
       "depthKm": 10,
       "place": null,
       "province": "LA RIOJA",
+      "intensityText": "II a III -Ambil, La Rioja. II a III -Santa Rosa de Catuña, La Rioja. II a III -Milagro, La Rioja"
+    },
+    {
+      "id": "inpres-688fc95516f06291",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-03T22:58:34-03:00",
+      "latitude": -27.218,
+      "longitude": -66.825,
+      "magnitude": 3.3,
+      "depthKm": 20,
+      "place": null,
+      "province": "CATAMARCA",
       "intensityText": null
     }
   ]
