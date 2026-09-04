@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-03T22:31:07.632Z",
-  "sourceCheckedAt": "2026-09-03T22:31:07.632Z",
+  "generatedAt": "2026-09-04T00:56:34.542Z",
+  "sourceCheckedAt": "2026-09-04T00:56:34.542Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-321bdb3c08e45f28",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-27T20:17:39-03:00",
-      "latitude": -24.563,
-      "longitude": -67.198,
-      "magnitude": 3.4,
-      "depthKm": 177,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-72ab8cfc6beb1dcb",
       "kind": "earthquake",
@@ -802,6 +790,54 @@
       "place": null,
       "province": "CORDOBA",
       "intensityText": "II a III -La Granja, Córdoba. II a III -Agua de Oro, Córdoba. II a III -Valle Hermoso, Córdoba"
+    },
+    {
+      "id": "inpres-b1a0ee3a1c76081d",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-03T15:54:03-03:00",
+      "latitude": -28.301,
+      "longitude": -66.327,
+      "magnitude": 2.5,
+      "depthKm": 12,
+      "place": null,
+      "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-089ce338913d9029",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-03T19:57:15-03:00",
+      "latitude": -28.361,
+      "longitude": -67.596,
+      "magnitude": 2.5,
+      "depthKm": 123,
+      "place": null,
+      "province": "LA RIOJA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-55f88e19ca670baa",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-03T20:44:06-03:00",
+      "latitude": -32.62,
+      "longitude": -70.156,
+      "magnitude": 3.2,
+      "depthKm": 111,
+      "place": null,
+      "province": "MENDOZA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-ee6cf63f4c872b9b",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-03T21:40:40-03:00",
+      "latitude": -31.02,
+      "longitude": -66.36,
+      "magnitude": 3.2,
+      "depthKm": 10,
+      "place": null,
+      "province": "LA RIOJA",
+      "intensityText": null
     }
   ]
 }
