@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-04T16:17:10.617Z",
-  "sourceCheckedAt": "2026-09-04T16:17:10.617Z",
+  "generatedAt": "2026-09-04T19:30:22.011Z",
+  "sourceCheckedAt": "2026-09-04T19:30:22.011Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-ffdae7b378fb9452",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-28T13:34:54-03:00",
-      "latitude": -31.475,
-      "longitude": -68.836,
-      "magnitude": 2.5,
-      "depthKm": 110,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-14d9257dd38cd1aa",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-28T16:21:37-03:00",
-      "latitude": -51.439,
-      "longitude": -72.299,
-      "magnitude": 3.6,
-      "depthKm": 28,
-      "place": null,
-      "province": "SANTA CRUZ",
-      "intensityText": "III -Río Turbio, Santa Cruz. III -28 de Noviembre, Santa Cruz"
-    },
     {
       "id": "inpres-23a96a9f48f7d765",
       "kind": "earthquake",
@@ -861,6 +837,30 @@
       "depthKm": 121,
       "place": null,
       "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-e55be82fb1b90d1d",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-04T12:29:58-03:00",
+      "latitude": -31.605,
+      "longitude": -68.19,
+      "magnitude": 2.5,
+      "depthKm": 103,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-648a416f4325ac5a",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-04T14:33:21-03:00",
+      "latitude": -27.274,
+      "longitude": -66.479,
+      "magnitude": 2.6,
+      "depthKm": 12,
+      "place": null,
+      "province": "CATAMARCA",
       "intensityText": null
     }
   ]
