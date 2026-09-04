@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-04T05:49:07.075Z",
-  "sourceCheckedAt": "2026-09-04T05:49:07.075Z",
+  "generatedAt": "2026-09-04T11:11:06.244Z",
+  "sourceCheckedAt": "2026-09-04T11:11:06.244Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-a373eea257392796",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-28T02:49:18-03:00",
-      "latitude": -29.757,
-      "longitude": -69.465,
-      "magnitude": 2.9,
-      "depthKm": 137,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-89cb1e485c43bcc2",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-28T06:07:02-03:00",
-      "latitude": -31.936,
-      "longitude": -69.203,
-      "magnitude": 2.8,
-      "depthKm": 121,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-0f3b034b47b92876",
       "kind": "earthquake",
@@ -837,6 +813,66 @@
       "depthKm": 20,
       "place": null,
       "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-88ce8fe363b05909",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-04T00:21:37-03:00",
+      "latitude": -31.003,
+      "longitude": -64.426,
+      "magnitude": 2.7,
+      "depthKm": 9,
+      "place": null,
+      "province": "CORDOBA",
+      "intensityText": "II a III -Villa Carlos Paz, Córdoba. II a III -Cosquín, Córdoba. II a III -La Falda, Córdoba. II a III -Villa Giardino, Córdoba. II a III -La Cumbre, Córdoba. II a III -Capilla del Monte, Córdoba. II a III -La Calera, Córdoba. II a III -Río Ceballos, Córdoba. II a III -Salisipuedes, Córdoba. II a III -La Granja, Córdoba. II a III -Ascochinga, Córdoba"
+    },
+    {
+      "id": "inpres-f2f8dd7b024b4403",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-04T02:53:06-03:00",
+      "latitude": -24.255,
+      "longitude": -67.308,
+      "magnitude": 3.1,
+      "depthKm": 178,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-357a0468856d17cf",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-04T05:45:30-03:00",
+      "latitude": -32.308,
+      "longitude": -70.161,
+      "magnitude": 3.2,
+      "depthKm": 119,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-2b23ee54fa92e4b8",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-04T05:54:14-03:00",
+      "latitude": -33.074,
+      "longitude": -68.692,
+      "magnitude": 2.8,
+      "depthKm": 13,
+      "place": null,
+      "province": "MENDOZA",
+      "intensityText": "II a III -San Martín, Mendoza. II a III -Rodeo del Medio, Mendoza. II a III -Ciudad de Mendoza. II a III -Agrelo, Mendoza. II a III -Vistalba, Mendoza"
+    },
+    {
+      "id": "inpres-13fe87c92da61972",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-04T06:03:07-03:00",
+      "latitude": -31.331,
+      "longitude": -67.993,
+      "magnitude": 2.5,
+      "depthKm": 11,
+      "place": null,
+      "province": "SAN JUAN",
       "intensityText": null
     }
   ]
