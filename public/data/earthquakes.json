@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-04T22:19:34.409Z",
-  "sourceCheckedAt": "2026-09-04T22:19:34.409Z",
+  "generatedAt": "2026-09-05T00:53:22.401Z",
+  "sourceCheckedAt": "2026-09-05T00:53:22.401Z",
   "window": {
     "hours": 168
   },
@@ -792,13 +792,13 @@
       "intensityText": null
     },
     {
-      "id": "inpres-900d68ba81f6e12a",
+      "id": "inpres-6c1a6b21c5958e08",
       "kind": "earthquake",
-      "occurredAt": "2026-09-04T19:09:26-03:00",
-      "latitude": -29.25,
-      "longitude": -67.7,
-      "magnitude": 2.7,
-      "depthKm": 111,
+      "occurredAt": "2026-09-04T19:09:24-03:00",
+      "latitude": -29.271,
+      "longitude": -67.671,
+      "magnitude": 2.9,
+      "depthKm": 125,
       "place": null,
       "province": "LA RIOJA",
       "intensityText": null
