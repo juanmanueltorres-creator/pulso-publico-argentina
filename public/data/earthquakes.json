@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-05T10:29:44.804Z",
-  "sourceCheckedAt": "2026-09-05T10:29:44.804Z",
+  "generatedAt": "2026-09-05T13:50:35.079Z",
+  "sourceCheckedAt": "2026-09-05T13:50:35.079Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-260ba20c0732e5f6",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-29T08:07:48-03:00",
-      "latitude": -31.571,
-      "longitude": -69.435,
-      "magnitude": 2.8,
-      "depthKm": 116,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-6492d8b1c0522e2f",
       "kind": "earthquake",
@@ -744,28 +732,28 @@
       "intensityText": null
     },
     {
-      "id": "inpres-fab56df8a073207a",
+      "id": "inpres-af5b5f6606966fb9",
       "kind": "earthquake",
       "occurredAt": "2026-09-05T02:41:23-03:00",
-      "latitude": -28.74,
-      "longitude": -67.1,
-      "magnitude": 2.7,
+      "latitude": -28.782,
+      "longitude": -67.082,
+      "magnitude": 2.8,
       "depthKm": 139,
       "place": null,
       "province": "LA RIOJA",
       "intensityText": null
     },
     {
-      "id": "inpres-c99a55b44a015694",
+      "id": "inpres-64edf8dceaa517c0",
       "kind": "earthquake",
-      "occurredAt": "2026-09-05T02:58:47-03:00",
-      "latitude": -29.91,
-      "longitude": -65.34,
-      "magnitude": 2.9,
-      "depthKm": 10,
+      "occurredAt": "2026-09-05T08:37:13-03:00",
+      "latitude": -25.974,
+      "longitude": -66.703,
+      "magnitude": 4.7,
+      "depthKm": 6,
       "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
+      "province": "SALTA",
+      "intensityText": "IV -Molinos, Salta. III a IV -Cafayate, Salta. III -Ciudad de Salta. III -Ciudad de San Miguel de Tucumán. II a III -Ciudad de san Salvador de Jujuy"
     }
   ]
 }
