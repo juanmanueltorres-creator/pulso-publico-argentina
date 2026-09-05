@@ -57,11 +57,12 @@ function isSnapshotStale(snapshot: SnapshotFreshness, now: Date): boolean {
 function displaySourceCheck(value: string): string {
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return value
-  return new Intl.DateTimeFormat('es-AR', {
+  const formatted = new Intl.DateTimeFormat('es-AR', {
     dateStyle: 'medium',
     timeStyle: 'short',
-    timeZone: 'UTC',
+    timeZone: 'America/Argentina/Buenos_Aires',
   }).format(date)
+  return `${formatted} · hora ARG`
 }
 
 export function TerritorialSection({
