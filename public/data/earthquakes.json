@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-05T13:50:35.079Z",
-  "sourceCheckedAt": "2026-09-05T13:50:35.079Z",
+  "generatedAt": "2026-09-05T16:47:35.241Z",
+  "sourceCheckedAt": "2026-09-05T16:47:35.241Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-6492d8b1c0522e2f",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-29T13:19:40-03:00",
-      "latitude": -30.439,
-      "longitude": -68.709,
-      "magnitude": 2.7,
-      "depthKm": 102,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-8eacd3b1e36da5eb",
       "kind": "earthquake",
@@ -754,6 +742,18 @@
       "place": null,
       "province": "SALTA",
       "intensityText": "IV -Molinos, Salta. III a IV -Cafayate, Salta. III -Ciudad de Salta. III -Ciudad de San Miguel de Tucumán. II a III -Ciudad de san Salvador de Jujuy"
+    },
+    {
+      "id": "inpres-6fe2442505abaff7",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-05T10:48:06-03:00",
+      "latitude": -25.811,
+      "longitude": -66.646,
+      "magnitude": 3.6,
+      "depthKm": 14,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
     }
   ]
 }
