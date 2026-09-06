@@ -84,7 +84,7 @@ describe('App', () => {
   it('renders the snapshot generation instant in Argentina time', async () => {
     render(<App loadSnapshot={async () => snapshot} />)
 
-    expect(await screen.findByText(/Snapshot: 27 ago 2026.*21:00.*hora ARG/i)).toBeInTheDocument()
+    expect(await screen.findByText(/Snapshot: 27 de ago de 2026.*21:00.*hora ARG/i)).toBeInTheDocument()
   })
 
   it('keeps Territorial and Evidence mounted when the national snapshot cannot be loaded', async () => {
