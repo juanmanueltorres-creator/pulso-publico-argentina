@@ -157,7 +157,7 @@ export function TerritorialSection({
     if (!isSnapshotStale(snapshot, currentTime)) return null
     return (
       <span className="territorial-summary__stale">
-        Datos desactualizados · Fuente consultada (última consulta) {formatArgInstant(snapshot.sourceCheckedAt, 'fetch')}
+        Sin actualización reciente · Última actualización de Pulso {formatArgInstant(snapshot.sourceCheckedAt, 'fetch')}
       </span>
     )
   }
@@ -298,7 +298,7 @@ export function TerritorialSection({
           <>
             <strong>{weather.grid.pointCount} puntos modelados · últimas 24 h</strong>
             <span>{weather.source.dataset}</span>
-            <span>Datos hasta {formatArgInstant(weather.dataThrough, 'model-frame')}</span>
+            <span>Hora representada {formatArgInstant(weather.dataThrough, 'model-frame')}</span>
             <span>
               <a href={weather.source.url} target="_blank" rel="noreferrer">
                 {weather.source.provider}
