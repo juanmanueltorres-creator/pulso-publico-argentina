@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-06T21:19:39.597Z",
-  "sourceCheckedAt": "2026-09-06T21:19:39.597Z",
+  "generatedAt": "2026-09-06T23:49:34.159Z",
+  "sourceCheckedAt": "2026-09-06T23:49:34.159Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-bf31b8d5f7a3306d",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-30T19:07:05-03:00",
-      "latitude": -37.652,
-      "longitude": -69.133,
-      "magnitude": 2.6,
-      "depthKm": 7,
-      "place": null,
-      "province": "NEUQUEN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-448e69fb56f1de2a",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-30T19:33:01-03:00",
-      "latitude": -51.418,
-      "longitude": -72.271,
-      "magnitude": 2.5,
-      "depthKm": 17,
-      "place": null,
-      "province": "SANTA CRUZ",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-afb834ce6e717cf8",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-30T19:42:43-03:00",
-      "latitude": -30.997,
-      "longitude": -64.423,
-      "magnitude": 2.5,
-      "depthKm": 8,
-      "place": null,
-      "province": "CORDOBA",
-      "intensityText": "II a III -Agua de Oro, Córdoba"
-    },
     {
       "id": "inpres-04e41e67bb9e81ce",
       "kind": "earthquake",
@@ -789,6 +753,18 @@
       "depthKm": 15,
       "place": null,
       "province": "MENDOZA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-95b5a1442f18d5aa",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-06T19:38:46-03:00",
+      "latitude": -25.94,
+      "longitude": -66.39,
+      "magnitude": 3.6,
+      "depthKm": 10,
+      "place": null,
+      "province": "SALTA",
       "intensityText": null
     }
   ]
