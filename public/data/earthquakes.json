@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-06T09:21:56.072Z",
-  "sourceCheckedAt": "2026-09-06T09:21:56.072Z",
+  "generatedAt": "2026-09-06T13:38:33.589Z",
+  "sourceCheckedAt": "2026-09-06T13:38:33.589Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-f41f49ea6beb5059",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-30T07:21:31-03:00",
-      "latitude": -28.833,
-      "longitude": -67.82,
-      "magnitude": 2.5,
-      "depthKm": 111,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-66c7e28aac2c664e",
-      "kind": "earthquake",
-      "occurredAt": "2026-08-30T10:30:50-03:00",
-      "latitude": -31.011,
-      "longitude": -64.506,
-      "magnitude": 2.3,
-      "depthKm": 4,
-      "place": null,
-      "province": "CORDOBA",
-      "intensityText": "II a III -Villa Giardino, Córdoba. II a III -Agua de Oro, Córdoba. II a III -La Falda, Córdoba. II a III -Ascochinga, Córdoba. II a III -La Granja, Córdoba"
-    },
     {
       "id": "inpres-728e4447248eb47a",
       "kind": "earthquake",
@@ -720,51 +696,63 @@
       "intensityText": null
     },
     {
-      "id": "inpres-5f72ea54253b4081",
+      "id": "inpres-01cc873618c03861",
       "kind": "earthquake",
-      "occurredAt": "2026-09-05T23:39:40-03:00",
-      "latitude": -31.22,
-      "longitude": -68.95,
+      "occurredAt": "2026-09-05T23:39:36-03:00",
+      "latitude": -31.198,
+      "longitude": -69.022,
+      "magnitude": 3.3,
+      "depthKm": 111,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-7f7993eb1621e70c",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-06T00:20:19-03:00",
+      "latitude": -31.652,
+      "longitude": -67.455,
       "magnitude": 2.5,
-      "depthKm": 72,
+      "depthKm": 111,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
     },
     {
-      "id": "inpres-f3156830350dea03",
+      "id": "inpres-3d871e019afab85d",
       "kind": "earthquake",
-      "occurredAt": "2026-09-06T00:20:21-03:00",
-      "latitude": -31.64,
-      "longitude": -67.46,
-      "magnitude": 2.7,
-      "depthKm": 96,
+      "occurredAt": "2026-09-06T00:23:49-03:00",
+      "latitude": -30.996,
+      "longitude": -64.444,
+      "magnitude": 2.6,
+      "depthKm": 8,
       "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
+      "province": "CORDOBA",
+      "intensityText": "II a III -La Falda, Córdoba. II a III -Capilla del Monte, Córdoba. II a III -Corral Quemado, Córdoba. II a III -Salsipuedes, Córdoba"
     },
     {
-      "id": "inpres-06a0eeb5cabc90a0",
+      "id": "inpres-5f50bb07de6750ac",
       "kind": "earthquake",
-      "occurredAt": "2026-09-06T01:49:46-03:00",
-      "latitude": -28.89,
-      "longitude": -67.33,
+      "occurredAt": "2026-09-06T01:49:45-03:00",
+      "latitude": -28.917,
+      "longitude": -67.366,
       "magnitude": 2.9,
-      "depthKm": 109,
+      "depthKm": 131,
       "place": null,
       "province": "LA RIOJA",
       "intensityText": null
     },
     {
-      "id": "inpres-d928a9ce7f9e2928",
+      "id": "inpres-a1d6b6fe2ecdaf8e",
       "kind": "earthquake",
-      "occurredAt": "2026-09-06T03:07:23-03:00",
-      "latitude": -31.73,
-      "longitude": -67.1,
-      "magnitude": 2.5,
-      "depthKm": 82,
+      "occurredAt": "2026-09-06T08:48:04-03:00",
+      "latitude": -32.162,
+      "longitude": -69.525,
+      "magnitude": 2.6,
+      "depthKm": 105,
       "place": null,
-      "province": "SAN JUAN",
+      "province": "MENDOZA",
       "intensityText": null
     }
   ]
