@@ -1,5 +1,6 @@
 import { useEffect, useId, useState } from 'react'
 import { explainSignal } from '../lib/explainSignal'
+import { formatArgInstant, formatCalendarDate } from '../lib/timeDisplay'
 import type { SignalEnvelope } from '../types/signal'
 
 const CATEGORY_ICON: Record<SignalEnvelope['category'], string> = {
@@ -16,17 +17,19 @@ const STATUS_LABEL: Record<SignalEnvelope['status'], string> = {
   historical: 'HISTÓRICO',
 }
 
+const CALENDAR_OBSERVATION_SIGNAL_IDS = new Set([
+  'cammesa-renewables',
+  'inpi-patents',
+  'georef-api-usage',
+])
+
 const VALUE_FORMATTER = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 2 })
 
-function displayDate(value: string | null): string {
-  if (!value) return 'No informado'
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return value
-  return new Intl.DateTimeFormat('es-AR', {
-    dateStyle: 'medium',
-    timeStyle: value.includes('T') ? 'short' : undefined,
-    timeZone: 'UTC',
-  }).format(date)
+function displayObservedAt(signal: SignalEnvelope): string {
+  if (!signal.observedAt) return 'No informado'
+  return CALENDAR_OBSERVATION_SIGNAL_IDS.has(signal.id)
+    ? formatCalendarDate(signal.observedAt, 'observation')
+    : formatArgInstant(signal.observedAt, 'observation')
 }
 
 function displayValue(value: number | null): string {
@@ -157,11 +160,11 @@ export function SignalCard({ signal }: SignalCardProps) {
             </div>
             <div>
               <dt>Observado</dt>
-              <dd>{displayDate(signal.observedAt)}</dd>
+              <dd>{displayObservedAt(signal)}</dd>
             </div>
             <div>
               <dt>Consultado</dt>
-              <dd>{displayDate(signal.fetchedAt)}</dd>
+              <dd>{formatArgInstant(signal.fetchedAt, 'fetch')}</dd>
             </div>
             <div>
               <dt>Método</dt>
