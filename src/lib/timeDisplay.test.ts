@@ -11,7 +11,7 @@ describe('timeDisplay temporal contract adapter', () => {
   })
 
   it('renders calendar observations without shifting them to the previous Argentina day', () => {
-    expect(formatCalendarDate('2026-07-01T00:00:00.000Z', 'observation')).toMatch(/1 jul 2026/i)
-    expect(formatCalendarDate('2026-07-01T00:00:00.000Z', 'observation')).not.toMatch(/30 jun/i)
+    expect(formatCalendarDate('2026-07-01T00:00:00.000Z', 'observation')).toMatch(/1 de jul de 2026/i)
+    expect(formatCalendarDate('2026-07-01T00:00:00.000Z', 'observation')).not.toMatch(/30 de jun/i)
   })
 })
