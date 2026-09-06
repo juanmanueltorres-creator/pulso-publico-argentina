@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-09-06T15:25:43.639Z",
+  "generatedAt": "2026-09-06T15:37:12.415Z",
   "signals": [
     {
       "schemaVersion": "1.0",
@@ -40,9 +40,9 @@
       "periodLabel": "2026 · afiliación institucional argentina",
       "status": "updated",
       "availability": "available",
-      "observedAt": "2026-09-06T04:56:20.259Z",
+      "observedAt": "2026-09-06T15:37:12.415Z",
       "publishedAt": null,
-      "fetchedAt": "2026-09-06T04:56:20.259Z",
+      "fetchedAt": "2026-09-06T15:37:12.415Z",
       "source": {
         "name": "OpenAlex",
         "url": "https://api.openalex.org/works?filter=institutions.country_code:AR,publication_year:2026",
