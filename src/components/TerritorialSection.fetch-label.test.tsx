@@ -8,21 +8,21 @@ vi.mock('./TerritorialMap', () => ({
   TerritorialMap: () => <div data-testid="territorial-map" />,
 }))
 
-describe('TerritorialSection Argentina time display', () => {
-  it('shows meteorological timestamps in Argentina time and labels the timezone', async () => {
+describe('TerritorialSection fetch timestamp semantics', () => {
+  it('labels a stale source check as Fuente consultada so it is not confused with model time', async () => {
     const user = userEvent.setup()
 
     render(
       <TerritorialSection
-        loadEarthquakes={async () => Promise.reject(new Error('not needed for this test'))}
-        loadHotspots={async () => Promise.reject(new Error('not needed for this test'))}
+        loadEarthquakes={async () => Promise.reject(new Error('not needed'))}
+        loadHotspots={async () => Promise.reject(new Error('not needed'))}
         loadWeather={async () => weatherSnapshotFixture()}
-        now={new Date('2026-08-28T01:00:00Z')}
+        now={new Date('2026-08-28T09:00:00Z')}
       />,
     )
 
     await user.click(screen.getByRole('button', { name: 'Meteorología' }))
 
-    expect(await screen.findByText(/Datos hasta.*20:00.*hora ARG/i)).toBeInTheDocument()
+    expect(await screen.findByText(/Datos desactualizados.*Fuente consultada/i)).toBeInTheDocument()
   })
 })

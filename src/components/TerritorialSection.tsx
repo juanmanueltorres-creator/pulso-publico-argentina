@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { EarthquakeDisplayMode } from '../lib/earthquakeDepth3D'
 import { loadTerritorialSnapshot } from '../lib/loadTerritorialSnapshot'
 import { loadWeatherSnapshot } from '../lib/loadWeatherSnapshot'
+import { formatArgInstant } from '../lib/timeDisplay'
 import { findWeatherContext } from '../lib/weatherContext'
 import type {
   EarthquakeEvent,
@@ -52,17 +53,6 @@ function isSnapshotStale(snapshot: SnapshotFreshness, now: Date): boolean {
   const checkedAt = new Date(snapshot.sourceCheckedAt).getTime()
   if (Number.isNaN(checkedAt)) return true
   return now.getTime() - checkedAt >= snapshot.freshness.staleAfterMinutes * 60_000
-}
-
-function displaySourceCheck(value: string): string {
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return value
-  const formatted = new Intl.DateTimeFormat('es-AR', {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-    timeZone: 'America/Argentina/Buenos_Aires',
-  }).format(date)
-  return `${formatted} · hora ARG`
 }
 
 export function TerritorialSection({
@@ -167,7 +157,7 @@ export function TerritorialSection({
     if (!isSnapshotStale(snapshot, currentTime)) return null
     return (
       <span className="territorial-summary__stale">
-        Datos desactualizados · Última consulta {displaySourceCheck(snapshot.sourceCheckedAt)}
+        Datos desactualizados · Fuente consultada (última consulta) {formatArgInstant(snapshot.sourceCheckedAt, 'fetch')}
       </span>
     )
   }
@@ -308,7 +298,7 @@ export function TerritorialSection({
           <>
             <strong>{weather.grid.pointCount} puntos modelados · últimas 24 h</strong>
             <span>{weather.source.dataset}</span>
-            <span>Datos hasta {displaySourceCheck(weather.dataThrough)}</span>
+            <span>Datos hasta {formatArgInstant(weather.dataThrough, 'model-frame')}</span>
             <span>
               <a href={weather.source.url} target="_blank" rel="noreferrer">
                 {weather.source.provider}

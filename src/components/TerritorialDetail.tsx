@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { explainEarthquake, explainHotspot } from '../lib/explainTerritorial'
+import { formatArgInstant } from '../lib/timeDisplay'
 import type { EarthquakeEvent, ThermalHotspotEvent } from '../types/territorial'
 
 type TerritorialEvent = EarthquakeEvent | ThermalHotspotEvent
@@ -15,16 +16,6 @@ interface TerritorialDetailProps {
 }
 
 const NUMBER_FORMATTER = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 1 })
-
-function displayTime(value: string): string {
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return value
-  return new Intl.DateTimeFormat('es-AR', {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-    timeZone: 'UTC',
-  }).format(date)
-}
 
 function confidenceLabel(value: ThermalHotspotEvent['confidence']): string {
   if (value === 'high') return 'alta'
@@ -57,8 +48,8 @@ export function TerritorialDetail({
       <p className="territorial-detail__explanation">{explanation}</p>
       <dl>
         <div>
-          <dt>Fecha</dt>
-          <dd>{displayTime(event.occurredAt)}</dd>
+          <dt>Fecha y hora</dt>
+          <dd>{formatArgInstant(event.occurredAt, 'observation')}</dd>
         </div>
         {event.kind === 'earthquake' ? (
           <>

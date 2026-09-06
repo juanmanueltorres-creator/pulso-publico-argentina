@@ -4,6 +4,7 @@ import { SectionHeading } from './components/SectionHeading'
 import { SignalCard } from './components/SignalCard'
 import { TerritorialSection } from './components/TerritorialSection'
 import { loadSignals } from './lib/loadSignals'
+import { formatArgInstant } from './lib/timeDisplay'
 import type { SignalSnapshot } from './types/signal'
 
 type SnapshotLoader = () => Promise<SignalSnapshot>
@@ -88,7 +89,7 @@ export function App({ loadSnapshot = loadSignals }: AppProps) {
       {snapshot ? (
         <footer className="snapshot-footer">
           <span>Contrato público · v{snapshot.schemaVersion}</span>
-          <span>Snapshot: {new Date(snapshot.generatedAt).toLocaleString('es-AR')}</span>
+          <span>Snapshot: {formatArgInstant(snapshot.generatedAt, 'generation')}</span>
         </footer>
       ) : null}
     </main>

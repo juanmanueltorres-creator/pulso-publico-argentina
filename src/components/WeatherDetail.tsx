@@ -1,3 +1,4 @@
+import { formatArgInstant } from '../lib/timeDisplay'
 import type { WeatherPoint, WeatherSnapshot } from '../types/weather'
 
 interface WeatherDetailProps {
@@ -26,15 +27,8 @@ const WIND_DIRECTIONS = [
   'NNO',
 ] as const
 
-function displayTime(value: string | undefined): string {
-  if (!value) return 'No disponible'
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return 'No disponible'
-  return new Intl.DateTimeFormat('es-AR', {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-    timeZone: 'UTC',
-  }).format(date)
+function displayModelTime(value: string | undefined): string {
+  return value ? formatArgInstant(value, 'model-frame') : 'No disponible'
 }
 
 function formatNumber(value: number | null | undefined, unit: string): string {
@@ -74,7 +68,7 @@ export function WeatherDetail({ snapshot, point, frameIndex }: WeatherDetailProp
       <dl>
         <div>
           <dt>Hora del modelo</dt>
-          <dd>{displayTime(frameTimestamp)}</dd>
+          <dd>{displayModelTime(frameTimestamp)}</dd>
         </div>
         <div>
           <dt>Temperatura</dt>
@@ -117,7 +111,7 @@ export function WeatherDetail({ snapshot, point, frameIndex }: WeatherDetailProp
         </div>
         <div>
           <dt>Datos hasta</dt>
-          <dd>{displayTime(snapshot.dataThrough)}</dd>
+          <dd>{displayModelTime(snapshot.dataThrough)}</dd>
         </div>
       </dl>
     </aside>

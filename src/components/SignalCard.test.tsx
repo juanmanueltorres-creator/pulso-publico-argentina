@@ -69,6 +69,17 @@ describe('SignalCard', () => {
     expect(screen.getByText(/Método/i)).toBeInTheDocument()
   })
 
+  it('keeps calendar observations as calendar dates and renders fetch instants in Argentina time', async () => {
+    const user = userEvent.setup()
+    render(<SignalCard signal={cammesaSignal} />)
+
+    await user.click(screen.getByRole('button', { name: /cómo lo sabemos/i }))
+
+    expect(screen.getByText(/1 de jul de 2026/i)).toBeInTheDocument()
+    expect(screen.queryByText(/30 de jun de 2026/i)).not.toBeInTheDocument()
+    expect(screen.getByText(/27 de ago de 2026.*21:00.*hora ARG/i)).toBeInTheDocument()
+  })
+
   it('shows the human explanation naturally, without an editorial label', () => {
     render(<SignalCard signal={cammesaSignal} />)
 
