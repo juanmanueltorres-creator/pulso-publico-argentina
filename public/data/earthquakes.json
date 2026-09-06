@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-06T16:58:03.299Z",
-  "sourceCheckedAt": "2026-09-06T16:58:03.299Z",
+  "generatedAt": "2026-09-06T19:06:38.924Z",
+  "sourceCheckedAt": "2026-09-06T19:06:38.924Z",
   "window": {
     "hours": 168
   },
@@ -777,6 +777,18 @@
       "depthKm": 31,
       "place": null,
       "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-5a2121904260872b",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-06T15:03:53-03:00",
+      "latitude": -28.75,
+      "longitude": -67.27,
+      "magnitude": 2.6,
+      "depthKm": 120,
+      "place": null,
+      "province": "LA RIOJA",
       "intensityText": null
     }
   ]
