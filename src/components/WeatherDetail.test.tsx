@@ -15,6 +15,7 @@ describe('WeatherDetail', () => {
     render(<WeatherDetail snapshot={value} point={point} frameIndex={10} />)
 
     expect(screen.getByText(/hora del modelo/i)).toBeInTheDocument()
+    expect(screen.getByText(/27 ago 2026.*07:00.*hora ARG/i)).toBeInTheDocument()
     expect(screen.getByText(/temperatura/i)).toBeInTheDocument()
     expect(screen.getByText(/20,5 °C/i)).toBeInTheDocument()
     expect(screen.getByText(/humedad/i)).toBeInTheDocument()
@@ -33,6 +34,7 @@ describe('WeatherDetail', () => {
       value.source.url,
     )
     expect(screen.getByText(/datos hasta/i)).toBeInTheDocument()
+    expect(screen.getByText(/27 ago 2026.*20:00.*hora ARG/i)).toBeInTheDocument()
     expect(screen.getByText('No es una estación de superficie.')).toBeInTheDocument()
   })
 
