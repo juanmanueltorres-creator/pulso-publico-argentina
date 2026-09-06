@@ -49,7 +49,7 @@ describe('HotspotWeatherContext', () => {
     expect(screen.getByText(/19,2 km/i)).toBeInTheDocument()
     expect(screen.getByText(/23 min/i)).toBeInTheDocument()
     expect(screen.getByText(/hora del modelo/i)).toBeInTheDocument()
-    expect(screen.getByText(/27 ago 2026.*07:00.*hora ARG/i)).toBeInTheDocument()
+    expect(screen.getByText(/27 de ago de 2026.*07:00.*hora ARG/i)).toBeInTheDocument()
     expect(screen.getByText(/temperatura/i)).toBeInTheDocument()
     expect(screen.getByText(/humedad/i)).toBeInTheDocument()
     expect(screen.getByText(/viento/i)).toBeInTheDocument()
