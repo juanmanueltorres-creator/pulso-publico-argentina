@@ -33,12 +33,12 @@ describe('TerritorialDetail temporal display', () => {
     render(<TerritorialDetail event={earthquake} />)
 
     expect(screen.getByText(/fecha y hora/i)).toBeInTheDocument()
-    expect(screen.getByText(/5 sept 2026.*20:23.*hora ARG/i)).toBeInTheDocument()
+    expect(screen.getByText(/5 de sept de 2026.*20:23.*hora ARG/i)).toBeInTheDocument()
   })
 
   it('converts a UTC event to the same Argentina display policy', () => {
     render(<TerritorialDetail event={hotspot} />)
 
-    expect(screen.getByText(/5 sept 2026.*20:23.*hora ARG/i)).toBeInTheDocument()
+    expect(screen.getByText(/5 de sept de 2026.*20:23.*hora ARG/i)).toBeInTheDocument()
   })
 })
