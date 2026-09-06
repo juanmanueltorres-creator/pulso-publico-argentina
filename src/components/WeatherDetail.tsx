@@ -67,7 +67,7 @@ export function WeatherDetail({ snapshot, point, frameIndex }: WeatherDetailProp
 
       <dl>
         <div>
-          <dt>Hora del modelo</dt>
+          <dt>Hora representada</dt>
           <dd>{displayModelTime(frameTimestamp)}</dd>
         </div>
         <div>
@@ -108,10 +108,6 @@ export function WeatherDetail({ snapshot, point, frameIndex }: WeatherDetailProp
               {snapshot.source.provider}
             </a>
           </dd>
-        </div>
-        <div>
-          <dt>Datos hasta</dt>
-          <dd>{displayModelTime(snapshot.dataThrough)}</dd>
         </div>
       </dl>
     </aside>

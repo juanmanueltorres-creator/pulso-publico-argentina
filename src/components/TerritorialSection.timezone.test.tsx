@@ -9,7 +9,7 @@ vi.mock('./TerritorialMap', () => ({
 }))
 
 describe('TerritorialSection Argentina time display', () => {
-  it('shows meteorological timestamps in Argentina time and labels the timezone', async () => {
+  it('shows the represented meteorological time in Argentina time and labels the timezone', async () => {
     const user = userEvent.setup()
 
     render(
@@ -23,6 +23,7 @@ describe('TerritorialSection Argentina time display', () => {
 
     await user.click(screen.getByRole('button', { name: 'Meteorología' }))
 
-    expect(await screen.findByText(/Datos hasta.*20:00.*hora ARG/i)).toBeInTheDocument()
+    expect(await screen.findByText(/Hora representada.*20:00.*hora ARG/i)).toBeInTheDocument()
+    expect(screen.queryByText(/Datos hasta/i)).not.toBeInTheDocument()
   })
 })
