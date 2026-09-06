@@ -157,7 +157,7 @@ export function TerritorialSection({
     if (!isSnapshotStale(snapshot, currentTime)) return null
     return (
       <span className="territorial-summary__stale">
-        Datos desactualizados · Última consulta {formatArgInstant(snapshot.sourceCheckedAt, 'fetch')}
+        Datos desactualizados · Fuente consultada (última consulta) {formatArgInstant(snapshot.sourceCheckedAt, 'fetch')}
       </span>
     )
   }
