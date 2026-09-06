@@ -75,9 +75,9 @@ describe('SignalCard', () => {
 
     await user.click(screen.getByRole('button', { name: /cómo lo sabemos/i }))
 
-    expect(screen.getByText(/1 jul 2026/i)).toBeInTheDocument()
-    expect(screen.queryByText(/30 jun 2026/i)).not.toBeInTheDocument()
-    expect(screen.getByText(/27 ago 2026.*21:00.*hora ARG/i)).toBeInTheDocument()
+    expect(screen.getByText(/1 de jul de 2026/i)).toBeInTheDocument()
+    expect(screen.queryByText(/30 de jun de 2026/i)).not.toBeInTheDocument()
+    expect(screen.getByText(/27 de ago de 2026.*21:00.*hora ARG/i)).toBeInTheDocument()
   })
 
   it('shows the human explanation naturally, without an editorial label', () => {
