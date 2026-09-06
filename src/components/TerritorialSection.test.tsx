@@ -160,7 +160,8 @@ describe('TerritorialSection', () => {
     expect(weatherButton).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getByText('2 puntos modelados · últimas 24 h')).toBeInTheDocument()
     expect(screen.getByText('ECMWF IFS HRES 9 km')).toBeInTheDocument()
-    expect(screen.getByText(/datos hasta/i)).toBeInTheDocument()
+    expect(screen.getByText(/hora representada/i)).toBeInTheDocument()
+    expect(screen.queryByText(/datos hasta/i)).not.toBeInTheDocument()
     expect(screen.getByText(/modelo meteorológico.*no es una estación de superficie/i)).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'Open-Meteo' })).toHaveAttribute('href', weather.source.url)
 
@@ -193,7 +194,7 @@ describe('TerritorialSection', () => {
     await screen.findByText('2 sismos registrados · últimos 7 días')
     await user.click(screen.getByRole('button', { name: 'Meteorología' }))
 
-    expect(screen.getByText(/Datos desactualizados.*Última consulta/i)).toBeInTheDocument()
+    expect(screen.getByText(/Sin actualización reciente.*Última actualización de Pulso/i)).toBeInTheDocument()
   })
 
   it('marks a ready snapshot stale exactly from sourceCheckedAt and shows the represented check', async () => {
@@ -207,7 +208,7 @@ describe('TerritorialSection', () => {
     )
 
     expect(await screen.findByText('2 sismos registrados · últimos 7 días')).toBeInTheDocument()
-    expect(screen.getByText(/Datos desactualizados.*Última consulta/i)).toBeInTheDocument()
+    expect(screen.getByText(/Sin actualización reciente.*Última actualización de Pulso/i)).toBeInTheDocument()
   })
 
   it('keeps earthquakes usable when the hotspot source fails instead of converting failure into zero', async () => {
