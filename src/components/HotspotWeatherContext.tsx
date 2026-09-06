@@ -1,3 +1,4 @@
+import { formatArgInstant } from '../lib/timeDisplay'
 import type { HotspotWeatherContext as HotspotWeatherContextValue } from '../lib/weatherContext'
 import type { WeatherSnapshot } from '../types/weather'
 
@@ -58,6 +59,10 @@ export function HotspotWeatherContext({ snapshot, context }: HotspotWeatherConte
       </p>
 
       <dl>
+        <div>
+          <dt>Hora del modelo</dt>
+          <dd>{formatArgInstant(context.frameTimestamp, 'model-frame')}</dd>
+        </div>
         <div>
           <dt>Temperatura</dt>
           <dd>{formatNumber(point.values.temperatureC[frameIndex], '°C')}</dd>
