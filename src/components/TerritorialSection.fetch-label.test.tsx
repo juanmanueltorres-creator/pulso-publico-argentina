@@ -9,7 +9,7 @@ vi.mock('./TerritorialMap', () => ({
 }))
 
 describe('TerritorialSection fetch timestamp semantics', () => {
-  it('labels a stale source check as Fuente consultada so it is not confused with model time', async () => {
+  it('explains a stale source check as Pulso synchronization time, separate from represented time', async () => {
     const user = userEvent.setup()
 
     render(
@@ -23,6 +23,7 @@ describe('TerritorialSection fetch timestamp semantics', () => {
 
     await user.click(screen.getByRole('button', { name: 'Meteorología' }))
 
-    expect(await screen.findByText(/Datos desactualizados.*Fuente consultada/i)).toBeInTheDocument()
+    expect(await screen.findByText(/Sin actualización reciente.*Última actualización de Pulso/i)).toBeInTheDocument()
+    expect(screen.queryByText(/Fuente consultada \(última consulta\)/i)).not.toBeInTheDocument()
   })
 })
