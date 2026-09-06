@@ -81,6 +81,12 @@ describe('App', () => {
     expect(screen.getByRole('heading', { name: 'Consultas históricas a GeoRef' })).toBeInTheDocument()
   })
 
+  it('renders the snapshot generation instant in Argentina time', async () => {
+    render(<App loadSnapshot={async () => snapshot} />)
+
+    expect(await screen.findByText(/Snapshot: 27 ago 2026.*21:00.*hora ARG/i)).toBeInTheDocument()
+  })
+
   it('keeps Territorial and Evidence mounted when the national snapshot cannot be loaded', async () => {
     render(<App loadSnapshot={async () => Promise.reject(new Error('network'))} />)
 
