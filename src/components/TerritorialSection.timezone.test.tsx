@@ -23,6 +23,6 @@ describe('TerritorialSection Argentina time display', () => {
 
     await user.click(screen.getByRole('button', { name: 'Meteorología' }))
 
-    expect(await screen.findByText(/Datos hasta.*8:00.*hora ARG/i)).toBeInTheDocument()
+    expect(await screen.findByText(/Datos hasta.*20:00.*hora ARG/i)).toBeInTheDocument()
   })
 })
