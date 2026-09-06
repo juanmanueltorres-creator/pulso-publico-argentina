@@ -17,7 +17,7 @@ describe('TerritorialSection fetch timestamp semantics', () => {
         loadEarthquakes={async () => Promise.reject(new Error('not needed'))}
         loadHotspots={async () => Promise.reject(new Error('not needed'))}
         loadWeather={async () => weatherSnapshotFixture()}
-        now={new Date('2026-08-28T08:00:00Z')}
+        now={new Date('2026-08-28T09:00:00Z')}
       />,
     )
 
