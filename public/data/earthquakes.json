@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-07T20:32:16.440Z",
-  "sourceCheckedAt": "2026-09-07T20:32:16.440Z",
+  "generatedAt": "2026-09-07T23:27:58.337Z",
+  "sourceCheckedAt": "2026-09-07T23:27:58.337Z",
   "window": {
     "hours": 168
   },
@@ -780,15 +780,15 @@
       "intensityText": null
     },
     {
-      "id": "inpres-c0f6f7757ea5f338",
+      "id": "inpres-9bcdf6be6b1f7c9b",
       "kind": "earthquake",
-      "occurredAt": "2026-09-07T10:43:53-03:00",
-      "latitude": -26.134,
-      "longitude": -63.986,
-      "magnitude": 2.7,
-      "depthKm": 137,
+      "occurredAt": "2026-09-07T10:43:54-03:00",
+      "latitude": -25.895,
+      "longitude": -66.721,
+      "magnitude": 2.6,
+      "depthKm": 30,
       "place": null,
-      "province": "SANTIAGO DEL ESTERO",
+      "province": "SALTA",
       "intensityText": null
     },
     {
@@ -816,6 +816,18 @@
       "intensityText": null
     },
     {
+      "id": "inpres-033e58bd2ef85ae4",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-07T13:14:38-03:00",
+      "latitude": -25.782,
+      "longitude": -66.161,
+      "magnitude": 3.5,
+      "depthKm": 176,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
       "id": "inpres-8d08be577d1e6c2b",
       "kind": "earthquake",
       "occurredAt": "2026-09-07T14:09:28-03:00",
@@ -825,6 +837,42 @@
       "depthKm": 15,
       "place": null,
       "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-861e11586a10b9ea",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-07T15:36:13-03:00",
+      "latitude": -25.756,
+      "longitude": -66.594,
+      "magnitude": 2.9,
+      "depthKm": 30,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-9098481910d7ae18",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-07T15:48:08-03:00",
+      "latitude": -25.948,
+      "longitude": -66.681,
+      "magnitude": 3.1,
+      "depthKm": 13,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-e2a03e778ca59c1e",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-07T18:13:04-03:00",
+      "latitude": -27.28,
+      "longitude": -64.148,
+      "magnitude": 2.7,
+      "depthKm": 17,
+      "place": null,
+      "province": "SANTIAGO DEL ESTERO",
       "intensityText": null
     }
   ]
