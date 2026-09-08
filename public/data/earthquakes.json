@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-08T04:27:26.055Z",
-  "sourceCheckedAt": "2026-09-08T04:27:26.055Z",
+  "generatedAt": "2026-09-08T09:35:41.117Z",
+  "sourceCheckedAt": "2026-09-08T09:35:41.117Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-690a81ff2c9aed34",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-01T01:46:12-03:00",
-      "latitude": -31.77,
-      "longitude": -64.887,
-      "magnitude": 2.6,
-      "depthKm": 12,
-      "place": null,
-      "province": "CORDOBA",
-      "intensityText": "II a III -Mina Clavero, Córdoba. II a III -Villa Dolores, Córdoba. II a III -Villa General Belgrano, Córdoba"
-    },
-    {
-      "id": "inpres-26aabc8ed8f0ee2b",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-01T02:44:10-03:00",
-      "latitude": -38.336,
-      "longitude": -69.086,
-      "magnitude": 2.8,
-      "depthKm": 8,
-      "place": null,
-      "province": "NEUQUEN",
-      "intensityText": null
-    },
     {
       "id": "inpres-e2abecd22b09b72b",
       "kind": "earthquake",
