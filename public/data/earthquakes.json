@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-09T16:33:54.185Z",
-  "sourceCheckedAt": "2026-09-09T16:33:54.185Z",
+  "generatedAt": "2026-09-09T19:43:52.655Z",
+  "sourceCheckedAt": "2026-09-09T19:43:52.655Z",
   "window": {
     "hours": 168
   },
@@ -1140,6 +1140,18 @@
       "intensityText": null
     },
     {
+      "id": "inpres-4e2fa02ab065be1c",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-09T06:47:31-03:00",
+      "latitude": -25.962,
+      "longitude": -66.744,
+      "magnitude": 2.7,
+      "depthKm": 17,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
       "id": "inpres-9787c377b609831a",
       "kind": "earthquake",
       "occurredAt": "2026-09-09T07:06:57-03:00",
@@ -1152,13 +1164,37 @@
       "intensityText": "IV -Cafayate, Salta. IV -Antofagasta de la Sierra, Catamarca. III a IV -Molinos, Salta. III -Ciudad de San Miguel de Tucumán. II a III -Ciudad de Salta"
     },
     {
-      "id": "inpres-5ca35c88da79f285",
+      "id": "inpres-0189f54d0ce5c95c",
       "kind": "earthquake",
-      "occurredAt": "2026-09-09T08:28:43-03:00",
-      "latitude": -31.91,
-      "longitude": -67.09,
-      "magnitude": 2.9,
-      "depthKm": 107,
+      "occurredAt": "2026-09-09T08:21:18-03:00",
+      "latitude": -25.963,
+      "longitude": -66.613,
+      "magnitude": 3.2,
+      "depthKm": 13,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-0d46e36f992cb310",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-09T08:27:33-03:00",
+      "latitude": -24.25,
+      "longitude": -67.076,
+      "magnitude": 2.6,
+      "depthKm": 206,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-c02718f553791e6c",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-09T08:28:41-03:00",
+      "latitude": -31.882,
+      "longitude": -67.132,
+      "magnitude": 2.5,
+      "depthKm": 126,
       "place": null,
       "province": "SAN LUIS",
       "intensityText": null
