@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-09T11:14:50.642Z",
-  "sourceCheckedAt": "2026-09-09T11:14:50.642Z",
+  "generatedAt": "2026-09-09T16:33:54.185Z",
+  "sourceCheckedAt": "2026-09-09T16:33:54.185Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-e8f9f55eddf34ccf",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-02T12:19:01-03:00",
-      "latitude": -32.209,
-      "longitude": -70.124,
-      "magnitude": 3.2,
-      "depthKm": 122,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-5a40f821f657f343",
       "kind": "earthquake",
@@ -300,6 +288,18 @@
       "intensityText": null
     },
     {
+      "id": "inpres-1927b00a07bde61e",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-05T05:18:46-03:00",
+      "latitude": -25.894,
+      "longitude": -66.687,
+      "magnitude": 3.3,
+      "depthKm": 11,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
       "id": "inpres-1fe66420432b02f7",
       "kind": "earthquake",
       "occurredAt": "2026-09-05T06:13:07-03:00",
@@ -355,6 +355,18 @@
       "longitude": -66.687,
       "magnitude": 3.4,
       "depthKm": 10,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-75b737c41836ed13",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-05T21:51:26-03:00",
+      "latitude": -25.808,
+      "longitude": -66.801,
+      "magnitude": 3.1,
+      "depthKm": 3,
       "place": null,
       "province": "SALTA",
       "intensityText": null
@@ -432,6 +444,18 @@
       "intensityText": null
     },
     {
+      "id": "inpres-033d09c9bb90cf3d",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-06T06:24:35-03:00",
+      "latitude": -25.935,
+      "longitude": -66.676,
+      "magnitude": 4.1,
+      "depthKm": 5,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
       "id": "inpres-8d3624a0981f4d9e",
       "kind": "earthquake",
       "occurredAt": "2026-09-06T07:02:21-03:00",
@@ -453,6 +477,18 @@
       "depthKm": 105,
       "place": null,
       "province": "MENDOZA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-203eb7b81dc97765",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-06T10:07:56-03:00",
+      "latitude": -25.638,
+      "longitude": -66.66,
+      "magnitude": 2.7,
+      "depthKm": 28,
+      "place": null,
+      "province": "CATAMARCA",
       "intensityText": null
     },
     {
@@ -1068,6 +1104,30 @@
       "intensityText": null
     },
     {
+      "id": "inpres-643d4dcee7850253",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-08T22:54:17-03:00",
+      "latitude": -25.78,
+      "longitude": -66.628,
+      "magnitude": 2.9,
+      "depthKm": 19,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-39a4c1b98631dfbe",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-08T22:56:52-03:00",
+      "latitude": -26.021,
+      "longitude": -66.715,
+      "magnitude": 2.6,
+      "depthKm": 13,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
       "id": "inpres-f94217b535ca78d8",
       "kind": "earthquake",
       "occurredAt": "2026-09-09T05:29:15-03:00",
@@ -1090,6 +1150,18 @@
       "place": null,
       "province": "SALTA",
       "intensityText": "IV -Cafayate, Salta. IV -Antofagasta de la Sierra, Catamarca. III a IV -Molinos, Salta. III -Ciudad de San Miguel de Tucumán. II a III -Ciudad de Salta"
+    },
+    {
+      "id": "inpres-5ca35c88da79f285",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-09T08:28:43-03:00",
+      "latitude": -31.91,
+      "longitude": -67.09,
+      "magnitude": 2.9,
+      "depthKm": 107,
+      "place": null,
+      "province": "SAN LUIS",
+      "intensityText": null
     }
   ]
 }
