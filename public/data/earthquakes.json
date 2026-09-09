@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-09T05:56:31.002Z",
-  "sourceCheckedAt": "2026-09-09T05:56:31.002Z",
+  "generatedAt": "2026-09-09T11:14:50.642Z",
+  "sourceCheckedAt": "2026-09-09T11:14:50.642Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-6762c0b6c383c19f",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-02T04:53:34-03:00",
-      "latitude": -30.466,
-      "longitude": -70.082,
-      "magnitude": 2.5,
-      "depthKm": 99,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-16083fa23980572f",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-02T06:21:14-03:00",
-      "latitude": -29.108,
-      "longitude": -68.566,
-      "magnitude": 2.5,
-      "depthKm": 111,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-aab1faa57d9f16ef",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-02T06:31:59-03:00",
-      "latitude": -23.605,
-      "longitude": -66.739,
-      "magnitude": 3.2,
-      "depthKm": 216,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
     {
       "id": "inpres-e8f9f55eddf34ccf",
       "kind": "earthquake",
@@ -1102,6 +1066,30 @@
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
+    },
+    {
+      "id": "inpres-f94217b535ca78d8",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-09T05:29:15-03:00",
+      "latitude": -27.426,
+      "longitude": -68.866,
+      "magnitude": 2.6,
+      "depthKm": 127,
+      "place": null,
+      "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-9787c377b609831a",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-09T07:06:57-03:00",
+      "latitude": -26,
+      "longitude": -66.73,
+      "magnitude": 5.1,
+      "depthKm": 6,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": "IV -Cafayate, Salta. IV -Antofagasta de la Sierra, Catamarca. III a IV -Molinos, Salta. III -Ciudad de San Miguel de Tucumán. II a III -Ciudad de Salta"
     }
   ]
 }
