@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-10T11:11:45.707Z",
-  "sourceCheckedAt": "2026-09-10T11:11:45.707Z",
+  "generatedAt": "2026-09-10T16:20:15.315Z",
+  "sourceCheckedAt": "2026-09-10T16:20:15.315Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-af6096c037c9f1b6",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-03T09:02:19-03:00",
-      "latitude": -32.883,
-      "longitude": -68.958,
-      "magnitude": 2.8,
-      "depthKm": 9,
-      "place": null,
-      "province": "MENDOZA",
-      "intensityText": "II a III -Ciudad de Mendoza. II a III -Vistalba, Mendoza"
-    },
-    {
-      "id": "inpres-79ea3149ce2a3c57",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-03T10:50:01-03:00",
-      "latitude": -31.015,
-      "longitude": -64.361,
-      "magnitude": 2.4,
-      "depthKm": 11,
-      "place": null,
-      "province": "CORDOBA",
-      "intensityText": "II a III -La Granja, Córdoba. II a III -Agua de Oro, Córdoba. II a III -Valle Hermoso, Córdoba"
-    },
     {
       "id": "inpres-b1a0ee3a1c76081d",
       "kind": "earthquake",
@@ -1282,6 +1258,42 @@
       "place": null,
       "province": "LA RIOJA",
       "intensityText": null
+    },
+    {
+      "id": "inpres-67b074a2191b7800",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-10T09:00:42-03:00",
+      "latitude": -33.53,
+      "longitude": -68.372,
+      "magnitude": 3.1,
+      "depthKm": 10,
+      "place": null,
+      "province": "MENDOZA",
+      "intensityText": "II a III -Rivadavia, Mendoza"
+    },
+    {
+      "id": "inpres-cf193c2010bf7e11",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-10T11:52:25-03:00",
+      "latitude": -29.112,
+      "longitude": -68.299,
+      "magnitude": 2.5,
+      "depthKm": 24,
+      "place": null,
+      "province": "LA RIOJA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-ba282c2a951e9c09",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-10T12:46:13-03:00",
+      "latitude": -31.348,
+      "longitude": -64.337,
+      "magnitude": 2.5,
+      "depthKm": 25,
+      "place": null,
+      "province": "CORDOBA",
+      "intensityText": "II a III -La Calera, Córdoba"
     }
   ]
 }
