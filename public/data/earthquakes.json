@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-09T22:30:15.927Z",
-  "sourceCheckedAt": "2026-09-09T22:30:15.927Z",
+  "generatedAt": "2026-09-10T01:01:19.884Z",
+  "sourceCheckedAt": "2026-09-10T01:01:19.884Z",
   "window": {
     "hours": 168
   },
@@ -1224,13 +1224,25 @@
       "intensityText": null
     },
     {
-      "id": "inpres-4ad4d035d3242240",
+      "id": "inpres-11bd53372e5a46ba",
       "kind": "earthquake",
-      "occurredAt": "2026-09-09T14:20:57-03:00",
-      "latitude": -25.942,
-      "longitude": -66.344,
+      "occurredAt": "2026-09-09T12:33:10-03:00",
+      "latitude": -25.979,
+      "longitude": -66.701,
+      "magnitude": 3.3,
+      "depthKm": 8,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-69169d5d4b17faa5",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-09T14:20:55-03:00",
+      "latitude": -25.902,
+      "longitude": -66.145,
       "magnitude": 2.9,
-      "depthKm": 145,
+      "depthKm": 165,
       "place": null,
       "province": "SALTA",
       "intensityText": null
