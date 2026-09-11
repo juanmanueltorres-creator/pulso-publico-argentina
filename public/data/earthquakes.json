@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-10T22:31:01.863Z",
-  "sourceCheckedAt": "2026-09-10T22:31:01.863Z",
+  "generatedAt": "2026-09-11T01:00:01.030Z",
+  "sourceCheckedAt": "2026-09-11T01:00:01.030Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-089ce338913d9029",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-03T19:57:15-03:00",
-      "latitude": -28.361,
-      "longitude": -67.596,
-      "magnitude": 2.5,
-      "depthKm": 123,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-5f7cf4f29555c6ec",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-03T20:44:06-03:00",
-      "latitude": -32.62,
-      "longitude": -70.156,
-      "magnitude": 3.1,
-      "depthKm": 111,
-      "place": null,
-      "province": "MENDOZA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-67c3a9554ade3549",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-03T21:40:38-03:00",
-      "latitude": -30.994,
-      "longitude": -66.293,
-      "magnitude": 2.5,
-      "depthKm": 6,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": "II a III -Santa Rita de Catuña, La Rioja. II a III -La Aguadita, La Rioja. II a III -Ambil, La Rioja"
-    },
     {
       "id": "inpres-1426f64f6c2b82e5",
       "kind": "earthquake",
@@ -1353,6 +1317,30 @@
       "depthKm": 104,
       "place": null,
       "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-19b18e28ade577eb",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-10T20:37:38-03:00",
+      "latitude": -32.731,
+      "longitude": -68.783,
+      "magnitude": 2.7,
+      "depthKm": 8,
+      "place": null,
+      "province": "MENDOZA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-7df936c48dd13ef9",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-10T21:20:31-03:00",
+      "latitude": -24.025,
+      "longitude": -66.875,
+      "magnitude": 3.7,
+      "depthKm": 207,
+      "place": null,
+      "province": "SALTA",
       "intensityText": null
     }
   ]
