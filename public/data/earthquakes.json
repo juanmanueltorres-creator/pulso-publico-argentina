@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-11T01:00:01.030Z",
-  "sourceCheckedAt": "2026-09-11T01:00:01.030Z",
+  "generatedAt": "2026-09-11T05:54:00.991Z",
+  "sourceCheckedAt": "2026-09-11T05:54:00.991Z",
   "window": {
     "hours": 168
   },
@@ -23,54 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-1426f64f6c2b82e5",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-03T22:00:42-03:00",
-      "latitude": -30.982,
-      "longitude": -66.327,
-      "magnitude": 2.7,
-      "depthKm": 10,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": "II a III -Ambil, La Rioja. II a III -Santa Rosa de Catuña, La Rioja. II a III -Milagro, La Rioja"
-    },
-    {
-      "id": "inpres-688fc95516f06291",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-03T22:58:34-03:00",
-      "latitude": -27.218,
-      "longitude": -66.825,
-      "magnitude": 3.3,
-      "depthKm": 20,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-88ce8fe363b05909",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-04T00:21:37-03:00",
-      "latitude": -31.003,
-      "longitude": -64.426,
-      "magnitude": 2.7,
-      "depthKm": 9,
-      "place": null,
-      "province": "CORDOBA",
-      "intensityText": "II a III -Villa Carlos Paz, Córdoba. II a III -Cosquín, Córdoba. II a III -La Falda, Córdoba. II a III -Villa Giardino, Córdoba. II a III -La Cumbre, Córdoba. II a III -Capilla del Monte, Córdoba. II a III -La Calera, Córdoba. II a III -Río Ceballos, Córdoba. II a III -Salisipuedes, Córdoba. II a III -La Granja, Córdoba. II a III -Ascochinga, Córdoba"
-    },
-    {
-      "id": "inpres-f2f8dd7b024b4403",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-04T02:53:06-03:00",
-      "latitude": -24.255,
-      "longitude": -67.308,
-      "magnitude": 3.1,
-      "depthKm": 178,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-357a0468856d17cf",
       "kind": "earthquake",
