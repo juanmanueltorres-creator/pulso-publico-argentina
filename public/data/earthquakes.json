@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-11T16:24:06.111Z",
-  "sourceCheckedAt": "2026-09-11T16:24:06.111Z",
+  "generatedAt": "2026-09-11T19:37:58.770Z",
+  "sourceCheckedAt": "2026-09-11T19:37:58.770Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-648a416f4325ac5a",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-04T14:33:21-03:00",
-      "latitude": -27.274,
-      "longitude": -66.479,
-      "magnitude": 2.6,
-      "depthKm": 12,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
     {
       "id": "inpres-6c1a6b21c5958e08",
       "kind": "earthquake",
@@ -1260,13 +1248,13 @@
       "intensityText": null
     },
     {
-      "id": "inpres-f373e13e9d5ad7bf",
+      "id": "inpres-c3e105eb2e9f65d2",
       "kind": "earthquake",
       "occurredAt": "2026-09-11T10:17:24-03:00",
-      "latitude": -32.75,
-      "longitude": -70.04,
-      "magnitude": 3.9,
-      "depthKm": 137,
+      "latitude": -32.716,
+      "longitude": -70.064,
+      "magnitude": 3.3,
+      "depthKm": 127,
       "place": null,
       "province": "MENDOZA",
       "intensityText": null
