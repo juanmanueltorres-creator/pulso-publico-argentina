@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-12T10:39:42.494Z",
-  "sourceCheckedAt": "2026-09-12T10:39:42.494Z",
+  "generatedAt": "2026-09-12T17:04:36.694Z",
+  "sourceCheckedAt": "2026-09-12T17:04:36.694Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-64edf8dceaa517c0",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-05T08:37:13-03:00",
-      "latitude": -25.974,
-      "longitude": -66.703,
-      "magnitude": 4.7,
-      "depthKm": 6,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": "IV -Molinos, Salta. III a IV -Cafayate, Salta. III -Ciudad de Salta. III -Ciudad de San Miguel de Tucumán. II a III -Ciudad de san Salvador de Jujuy"
-    },
-    {
-      "id": "inpres-6fe2442505abaff7",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-05T10:48:06-03:00",
-      "latitude": -25.811,
-      "longitude": -66.646,
-      "magnitude": 3.6,
-      "depthKm": 14,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-50939ee632789153",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-05T13:37:40-03:00",
-      "latitude": -25.902,
-      "longitude": -66.687,
-      "magnitude": 3.4,
-      "depthKm": 10,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-75b737c41836ed13",
       "kind": "earthquake",
@@ -1282,6 +1246,18 @@
       "place": null,
       "province": "CORDOBA",
       "intensityText": "II a III -Capilla del Monte, Córdoba. II a III -La Banda, Córdoba"
+    },
+    {
+      "id": "inpres-c9c336306e67f971",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-12T06:09:13-03:00",
+      "latitude": -24.282,
+      "longitude": -67.192,
+      "magnitude": 3.1,
+      "depthKm": 182,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
     }
   ]
 }
