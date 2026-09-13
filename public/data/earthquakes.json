@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-13T11:43:47.851Z",
-  "sourceCheckedAt": "2026-09-13T11:43:47.851Z",
+  "generatedAt": "2026-09-13T16:11:22.830Z",
+  "sourceCheckedAt": "2026-09-13T16:11:22.830Z",
   "window": {
     "hours": 168
   },
@@ -23,54 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-a1d6b6fe2ecdaf8e",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-06T08:48:04-03:00",
-      "latitude": -32.162,
-      "longitude": -69.525,
-      "magnitude": 2.6,
-      "depthKm": 105,
-      "place": null,
-      "province": "MENDOZA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-203eb7b81dc97765",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-06T10:07:56-03:00",
-      "latitude": -25.638,
-      "longitude": -66.66,
-      "magnitude": 2.7,
-      "depthKm": 28,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-ba918878ec307511",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-06T12:32:48-03:00",
-      "latitude": -31.408,
-      "longitude": -68.535,
-      "magnitude": 3.2,
-      "depthKm": 109,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-7cde037c195dcb64",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-06T12:41:14-03:00",
-      "latitude": -25.721,
-      "longitude": -66.723,
-      "magnitude": 3,
-      "depthKm": 31,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-fc3c26489c002dae",
       "kind": "earthquake",
@@ -1183,6 +1135,18 @@
       "longitude": -69.239,
       "magnitude": 2.7,
       "depthKm": 115,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-4cc646dac90f146f",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-13T10:01:13-03:00",
+      "latitude": -30.579,
+      "longitude": -69.16,
+      "magnitude": 3,
+      "depthKm": 14,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
