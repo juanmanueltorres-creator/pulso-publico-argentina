@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-13T22:22:16.108Z",
-  "sourceCheckedAt": "2026-09-13T22:22:16.108Z",
+  "generatedAt": "2026-09-14T00:59:43.142Z",
+  "sourceCheckedAt": "2026-09-14T00:59:43.142Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-bb7f60fe4f6112c8",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-06T19:38:43-03:00",
-      "latitude": -25.837,
-      "longitude": -66.637,
-      "magnitude": 3.5,
-      "depthKm": 8,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-b3772365369b2d33",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-06T21:52:19-03:00",
-      "latitude": -25.871,
-      "longitude": -66.601,
-      "magnitude": 2.8,
-      "depthKm": 9,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-ee23c76064715df5",
       "kind": "earthquake",
@@ -1128,15 +1104,27 @@
       "intensityText": null
     },
     {
-      "id": "inpres-950bec77c5f83892",
+      "id": "inpres-9328c1380675580f",
       "kind": "earthquake",
-      "occurredAt": "2026-09-13T16:40:31-03:00",
-      "latitude": -26.28,
-      "longitude": -66.51,
-      "magnitude": 4.9,
-      "depthKm": 10,
+      "occurredAt": "2026-09-13T16:40:28-03:00",
+      "latitude": -26.117,
+      "longitude": -66.656,
+      "magnitude": 4.8,
+      "depthKm": 30,
       "place": null,
-      "province": "SALTA",
+      "province": "CATAMARCA",
+      "intensityText": "III -Antofagasta de la Sierra"
+    },
+    {
+      "id": "inpres-c9caa1c08d81b239",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-13T19:19:45-03:00",
+      "latitude": -27.422,
+      "longitude": -67.285,
+      "magnitude": 2.8,
+      "depthKm": 149,
+      "place": null,
+      "province": "CATAMARCA",
       "intensityText": null
     }
   ]
