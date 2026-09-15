@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-15T07:39:35.827Z",
-  "sourceCheckedAt": "2026-09-15T07:39:35.827Z",
+  "generatedAt": "2026-09-15T13:28:55.438Z",
+  "sourceCheckedAt": "2026-09-15T13:28:55.438Z",
   "window": {
     "hours": 168
   },
@@ -23,78 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-58dcefa01c707a93",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-08T04:54:00-03:00",
-      "latitude": -30.905,
-      "longitude": -64.569,
-      "magnitude": 2.3,
-      "depthKm": 5,
-      "place": null,
-      "province": "CORDOBA",
-      "intensityText": "II a III -Cruz del Eje, Córdoba. II a III -Capilla del Monte, Córdoba"
-    },
-    {
-      "id": "inpres-022571d83eee1c27",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-08T05:35:32-03:00",
-      "latitude": -24.424,
-      "longitude": -67.385,
-      "magnitude": 3.7,
-      "depthKm": 169,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-f7d593075e861e47",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-08T06:49:40-03:00",
-      "latitude": -31.475,
-      "longitude": -69.232,
-      "magnitude": 2.8,
-      "depthKm": 116,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-fa6c9ab5c2d9a395",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-08T08:54:10-03:00",
-      "latitude": -31.684,
-      "longitude": -69.579,
-      "magnitude": 2.5,
-      "depthKm": 106,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-4eda7cdf263dd1e5",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-08T10:03:14-03:00",
-      "latitude": -28.44,
-      "longitude": -67.154,
-      "magnitude": 2.5,
-      "depthKm": 142,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-f7ed415021458c9d",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-08T10:06:12-03:00",
-      "latitude": -25.916,
-      "longitude": -66.538,
-      "magnitude": 3.8,
-      "depthKm": 5,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-0db7e154e3c7fce5",
       "kind": "earthquake",
@@ -468,13 +396,13 @@
       "intensityText": null
     },
     {
-      "id": "inpres-86a18e64dbc7a90d",
+      "id": "inpres-6a6c9093f2c02feb",
       "kind": "earthquake",
       "occurredAt": "2026-09-10T04:09:02-03:00",
       "latitude": -25.582,
       "longitude": -66.451,
       "magnitude": 3.2,
-      "depthKm": 111,
+      "depthKm": 20,
       "place": null,
       "province": "SALTA",
       "intensityText": null
@@ -864,13 +792,13 @@
       "intensityText": null
     },
     {
-      "id": "inpres-b95c8ce5b97e91a0",
+      "id": "inpres-5151ed4892f128a0",
       "kind": "earthquake",
       "occurredAt": "2026-09-13T01:56:24-03:00",
-      "latitude": -25.706,
-      "longitude": -65.764,
-      "magnitude": 3,
-      "depthKm": 169,
+      "latitude": -25.917,
+      "longitude": -66.68,
+      "magnitude": 2.8,
+      "depthKm": 6,
       "place": null,
       "province": "SALTA",
       "intensityText": null
@@ -981,7 +909,7 @@
       "depthKm": 30,
       "place": null,
       "province": "CATAMARCA",
-      "intensityText": "III -Antofagasta de la Sierra"
+      "intensityText": "III -Antofagasta de la Sierra, Catamarca"
     },
     {
       "id": "inpres-c9caa1c08d81b239",
@@ -1080,15 +1008,87 @@
       "intensityText": null
     },
     {
-      "id": "inpres-3fe3c1aef7c6a145",
+      "id": "inpres-b0b7b31338c8b8be",
       "kind": "earthquake",
-      "occurredAt": "2026-09-15T04:29:22-03:00",
-      "latitude": -31.64,
-      "longitude": -69.57,
-      "magnitude": 2.8,
-      "depthKm": 123,
+      "occurredAt": "2026-09-14T23:18:48-03:00",
+      "latitude": -31.351,
+      "longitude": -68.585,
+      "magnitude": 2.7,
+      "depthKm": 105,
       "place": null,
       "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-6e80611b54f1f12d",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-15T02:31:21-03:00",
+      "latitude": -31.255,
+      "longitude": -68.542,
+      "magnitude": 2.7,
+      "depthKm": 113,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-3802619f4dbaf291",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-15T04:29:22-03:00",
+      "latitude": -31.657,
+      "longitude": -69.56,
+      "magnitude": 3,
+      "depthKm": 120,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-d9546aa19822f84d",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-15T06:44:56-03:00",
+      "latitude": -32.781,
+      "longitude": -68.852,
+      "magnitude": 2.5,
+      "depthKm": 134,
+      "place": null,
+      "province": "MENDOZA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-fb34b47f46aa1db3",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-15T07:12:53-03:00",
+      "latitude": -31.776,
+      "longitude": -69.385,
+      "magnitude": 2.8,
+      "depthKm": 117,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-5a508a57dbe2503e",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-15T07:23:14-03:00",
+      "latitude": -34.246,
+      "longitude": -66.697,
+      "magnitude": 3.5,
+      "depthKm": 7,
+      "place": null,
+      "province": "SAN LUIS",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-592cda1d26a028b9",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-15T10:23:01-03:00",
+      "latitude": -28.86,
+      "longitude": -66.59,
+      "magnitude": 3.3,
+      "depthKm": 10,
+      "place": null,
+      "province": "LA RIOJA",
       "intensityText": null
     }
   ]
