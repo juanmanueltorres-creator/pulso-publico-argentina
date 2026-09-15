@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-15T13:28:55.438Z",
-  "sourceCheckedAt": "2026-09-15T13:28:55.438Z",
+  "generatedAt": "2026-09-15T18:08:24.011Z",
+  "sourceCheckedAt": "2026-09-15T18:08:24.011Z",
   "window": {
     "hours": 168
   },
@@ -23,54 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-0db7e154e3c7fce5",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-08T12:17:49-03:00",
-      "latitude": -25.704,
-      "longitude": -66.603,
-      "magnitude": 3.2,
-      "depthKm": 18,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-3974547ed606b411",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-08T12:33:02-03:00",
-      "latitude": -31.389,
-      "longitude": -68.704,
-      "magnitude": 2.5,
-      "depthKm": 105,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-f13665cc9e03d165",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-08T13:34:57-03:00",
-      "latitude": -31.445,
-      "longitude": -68.717,
-      "magnitude": 2.7,
-      "depthKm": 107,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-48c8491721dd9ec0",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-08T14:10:49-03:00",
-      "latitude": -25.751,
-      "longitude": -66.618,
-      "magnitude": 3.2,
-      "depthKm": 30,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-80c416204c8943a3",
       "kind": "earthquake",
@@ -1080,15 +1032,39 @@
       "intensityText": null
     },
     {
-      "id": "inpres-592cda1d26a028b9",
+      "id": "inpres-256a0e0840e372e5",
       "kind": "earthquake",
-      "occurredAt": "2026-09-15T10:23:01-03:00",
-      "latitude": -28.86,
-      "longitude": -66.59,
-      "magnitude": 3.3,
-      "depthKm": 10,
+      "occurredAt": "2026-09-15T10:23:00-03:00",
+      "latitude": -28.79,
+      "longitude": -66.646,
+      "magnitude": 3.1,
+      "depthKm": 22,
       "place": null,
       "province": "LA RIOJA",
+      "intensityText": "III -Aimogasta, La Rioja. II a III -Chumbicha, Catamarca. II a III -Ciudad de San Fernando del Valle de Catamarca"
+    },
+    {
+      "id": "inpres-52e9c88480526e3d",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-15T11:46:09-03:00",
+      "latitude": -31.322,
+      "longitude": -68.67,
+      "magnitude": 2.7,
+      "depthKm": 105,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-daec365153c97514",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-15T14:41:26-03:00",
+      "latitude": -25.374,
+      "longitude": -66.6,
+      "magnitude": 4,
+      "depthKm": 206,
+      "place": null,
+      "province": "CATAMARCA",
       "intensityText": null
     }
   ]
