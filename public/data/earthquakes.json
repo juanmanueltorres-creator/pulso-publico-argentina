@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-19T00:14:49.777Z",
-  "sourceCheckedAt": "2026-09-19T00:14:49.777Z",
+  "generatedAt": "2026-09-19T05:47:07.356Z",
+  "sourceCheckedAt": "2026-09-19T05:47:07.356Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-2eeb1fbf57442cb4",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-11T21:46:09-03:00",
-      "latitude": -31.11,
-      "longitude": -69.139,
-      "magnitude": 2.9,
-      "depthKm": 122,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-36b9d6479777d056",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-11T23:50:32-03:00",
-      "latitude": -31.533,
-      "longitude": -68.704,
-      "magnitude": 2.5,
-      "depthKm": 104,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-e7c585e44e1a57d2",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-12T00:17:29-03:00",
-      "latitude": -30.858,
-      "longitude": -64.674,
-      "magnitude": 2.5,
-      "depthKm": 10,
-      "place": null,
-      "province": "CORDOBA",
-      "intensityText": "II a III -Capilla del Monte, Córdoba. II a III -La Banda, Córdoba"
-    },
     {
       "id": "inpres-de1fa40c63efb010",
       "kind": "earthquake",
@@ -1017,6 +981,18 @@
       "depthKm": 122,
       "place": null,
       "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-c4a692e4c06c799b",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-19T01:58:35-03:00",
+      "latitude": -25.96,
+      "longitude": -66.75,
+      "magnitude": 2.7,
+      "depthKm": 10,
+      "place": null,
+      "province": "CATAMARCA",
       "intensityText": null
     }
   ]
