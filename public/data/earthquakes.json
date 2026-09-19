@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-19T05:47:07.356Z",
-  "sourceCheckedAt": "2026-09-19T05:47:07.356Z",
+  "generatedAt": "2026-09-19T10:51:19.270Z",
+  "sourceCheckedAt": "2026-09-19T10:51:19.270Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-de1fa40c63efb010",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-12T04:21:59-03:00",
-      "latitude": -31.527,
-      "longitude": -68.777,
-      "magnitude": 2.7,
-      "depthKm": 106,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-08db24cedd0ee7de",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-12T05:46:30-03:00",
-      "latitude": -28.464,
-      "longitude": -69.1,
-      "magnitude": 2.7,
-      "depthKm": 124,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-c9c336306e67f971",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-12T06:09:13-03:00",
-      "latitude": -24.282,
-      "longitude": -67.192,
-      "magnitude": 3.1,
-      "depthKm": 182,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-308bf7818be789f3",
       "kind": "earthquake",
@@ -993,6 +957,30 @@
       "depthKm": 10,
       "place": null,
       "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-73b4aed7aeb476c2",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-19T04:24:04-03:00",
+      "latitude": -28.02,
+      "longitude": -69.22,
+      "magnitude": 2.6,
+      "depthKm": 111,
+      "place": null,
+      "province": "LA RIOJA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-360e0609cc7be192",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-19T06:20:15-03:00",
+      "latitude": -29.55,
+      "longitude": -68.52,
+      "magnitude": 2.9,
+      "depthKm": 112,
+      "place": null,
+      "province": "LA RIOJA",
       "intensityText": null
     }
   ]
