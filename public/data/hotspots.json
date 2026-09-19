@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "thermal-hotspot",
-  "generatedAt": "2026-09-18T22:46:02.872Z",
-  "sourceCheckedAt": "2026-09-18T22:46:02.872Z",
+  "generatedAt": "2026-09-19T01:28:15.711Z",
+  "sourceCheckedAt": "2026-09-19T01:28:15.711Z",
   "window": {
     "hours": 24
   },
@@ -3764,6 +3764,138 @@
       "frpMw": null,
       "sensor": "VIIRS",
       "satellite": "SNPP"
+    },
+    {
+      "id": "conae-48f99a450494491a",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-09-18T19:25:00.000Z",
+      "latitude": -37.42912,
+      "longitude": -69.16988,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-64531d7592e324c4",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-09-18T19:25:00.000Z",
+      "latitude": -38.15546,
+      "longitude": -68.68972,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-6d7a2225f5ee84a6",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-09-18T19:25:00.000Z",
+      "latitude": -37.08718,
+      "longitude": -69.47272,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-7c59526543438fc4",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-09-18T19:25:00.000Z",
+      "latitude": -38.15681,
+      "longitude": -68.69452,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-d793b12bea2614d2",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-09-18T19:25:00.000Z",
+      "latitude": -38.06616,
+      "longitude": -70.76566,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-e84b0cb2f43ae9a8",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-09-18T19:25:00.000Z",
+      "latitude": -41.4299,
+      "longitude": -66.18179,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-952de03897e9a961",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-09-18T19:28:00.000Z",
+      "latitude": -33.69579,
+      "longitude": -69.01362,
+      "confidence": "high",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-ab9aabac34d89f86",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-09-18T19:28:00.000Z",
+      "latitude": -33.69742,
+      "longitude": -69.00954,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-b1f8d35206105e68",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-09-18T19:28:00.000Z",
+      "latitude": -33.70308,
+      "longitude": -68.99131,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-c883b84634fd7752",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-09-18T19:28:00.000Z",
+      "latitude": -33.6991,
+      "longitude": -69.01538,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-e43fb4cb681eefac",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-09-18T19:28:00.000Z",
+      "latitude": -33.70463,
+      "longitude": -68.98735,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-edc4875583dc2365",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-09-18T19:28:00.000Z",
+      "latitude": -33.69744,
+      "longitude": -69.01947,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
     }
   ]
 }
