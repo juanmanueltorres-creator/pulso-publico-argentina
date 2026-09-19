@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-09-19T08:14:58.416Z",
+  "generatedAt": "2026-09-19T08:45:48.854Z",
   "signals": [
     {
       "schemaVersion": "1.0",
@@ -14,7 +14,7 @@
       "availability": "available",
       "observedAt": "2026-07-01T00:00:00.000Z",
       "publishedAt": null,
-      "fetchedAt": "2026-09-18T08:58:05.496Z",
+      "fetchedAt": "2026-09-19T08:45:48.854Z",
       "source": {
         "name": "CAMMESA",
         "url": "https://cammesaweb.cammesa.com/erenovables/",
