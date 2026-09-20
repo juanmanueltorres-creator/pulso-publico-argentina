@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-20T19:24:19.786Z",
-  "sourceCheckedAt": "2026-09-20T19:24:19.786Z",
+  "generatedAt": "2026-09-20T22:24:11.318Z",
+  "sourceCheckedAt": "2026-09-20T22:24:11.318Z",
   "window": {
     "hours": 168
   },
@@ -23,90 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-9328c1380675580f",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-13T16:40:28-03:00",
-      "latitude": -26.117,
-      "longitude": -66.656,
-      "magnitude": 4.8,
-      "depthKm": 30,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": "III -Antofagasta de la Sierra, Catamarca"
-    },
-    {
-      "id": "inpres-0dff3b7c32e8ed80",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-13T16:48:28-03:00",
-      "latitude": -25.97,
-      "longitude": -66.78,
-      "magnitude": 3,
-      "depthKm": 10,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-8f499bcb47c4dc1e",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-13T16:58:58-03:00",
-      "latitude": -25.959,
-      "longitude": -66.649,
-      "magnitude": 3.5,
-      "depthKm": 10,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-c866c7fe3af11e9b",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-13T17:21:01-03:00",
-      "latitude": -25.928,
-      "longitude": -66.868,
-      "magnitude": 2.6,
-      "depthKm": 30,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-6de7cedac9a84509",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-13T17:25:57-03:00",
-      "latitude": -25.929,
-      "longitude": -66.871,
-      "magnitude": 2.6,
-      "depthKm": 30,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-a635b1ad4d9a5339",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-13T19:00:29-03:00",
-      "latitude": -30.565,
-      "longitude": -69.948,
-      "magnitude": 2.5,
-      "depthKm": 120,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-c9caa1c08d81b239",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-13T19:19:45-03:00",
-      "latitude": -27.422,
-      "longitude": -67.285,
-      "magnitude": 2.8,
-      "depthKm": 149,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
     {
       "id": "inpres-deb3a684428e1078",
       "kind": "earthquake",
@@ -849,7 +765,7 @@
       "depthKm": 10,
       "place": null,
       "province": "SAN JUAN",
-      "intensityText": null
+      "intensityText": "II a III -Media Agua, San Juan. II a III -Encón, San Juan"
     }
   ]
 }
