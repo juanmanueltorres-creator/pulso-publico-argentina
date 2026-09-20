@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-20T01:02:15.037Z",
-  "sourceCheckedAt": "2026-09-20T01:02:15.037Z",
+  "generatedAt": "2026-09-20T06:09:12.800Z",
+  "sourceCheckedAt": "2026-09-20T06:09:12.800Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-5151ed4892f128a0",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-13T01:56:24-03:00",
-      "latitude": -25.917,
-      "longitude": -66.68,
-      "magnitude": 2.8,
-      "depthKm": 6,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-f4dab98a2b9b9988",
       "kind": "earthquake",
@@ -888,12 +876,36 @@
       "intensityText": null
     },
     {
-      "id": "inpres-39ccbadd181d1486",
+      "id": "inpres-b4e2358d48fbb51c",
       "kind": "earthquake",
-      "occurredAt": "2026-09-19T21:53:47-03:00",
-      "latitude": -31.48,
+      "occurredAt": "2026-09-19T21:53:46-03:00",
+      "latitude": -31.478,
       "longitude": -69.32,
       "magnitude": 2.6,
+      "depthKm": 116,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-4ea902b34decefdf",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-19T22:33:37-03:00",
+      "latitude": -27.915,
+      "longitude": -66.848,
+      "magnitude": 3,
+      "depthKm": 159,
+      "place": null,
+      "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-c3bb815262a80716",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-19T22:48:22-03:00",
+      "latitude": -30.886,
+      "longitude": -69.846,
+      "magnitude": 2.9,
       "depthKm": 109,
       "place": null,
       "province": "SAN JUAN",
