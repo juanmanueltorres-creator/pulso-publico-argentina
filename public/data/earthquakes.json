@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-20T06:09:12.800Z",
-  "sourceCheckedAt": "2026-09-20T06:09:12.800Z",
+  "generatedAt": "2026-09-20T12:15:59.125Z",
+  "sourceCheckedAt": "2026-09-20T12:15:59.125Z",
   "window": {
     "hours": 168
   },
@@ -23,66 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-f4dab98a2b9b9988",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-13T04:08:12-03:00",
-      "latitude": -25.851,
-      "longitude": -66.626,
-      "magnitude": 2.8,
-      "depthKm": 10,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-cbb614dd6a472e2e",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-13T04:18:02-03:00",
-      "latitude": -31.604,
-      "longitude": -69.129,
-      "magnitude": 2.7,
-      "depthKm": 106,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-61a8d1f6efa82d67",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-13T04:44:53-03:00",
-      "latitude": -31.402,
-      "longitude": -69.239,
-      "magnitude": 2.7,
-      "depthKm": 115,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-627fd999e6d6c89b",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-13T05:41:50-03:00",
-      "latitude": -31.229,
-      "longitude": -68.457,
-      "magnitude": 2.5,
-      "depthKm": 105,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-56ca1b124edbc03f",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-13T06:50:57-03:00",
-      "latitude": -31.46,
-      "longitude": -68.729,
-      "magnitude": 2.7,
-      "depthKm": 104,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-4cc646dac90f146f",
       "kind": "earthquake",
@@ -910,6 +850,30 @@
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
+    },
+    {
+      "id": "inpres-59462b5765d0c8ba",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-20T05:32:45-03:00",
+      "latitude": -25.6,
+      "longitude": -66.721,
+      "magnitude": 4.3,
+      "depthKm": 205,
+      "place": null,
+      "province": "CATAMARCA",
+      "intensityText": "II a III -Cafayate, Salta. II a III -Colalao del Valle, Tucumán. II a III -Molinos, Salta. II a III -Santa María, Catamarca"
+    },
+    {
+      "id": "inpres-3da29f68e67665e4",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-20T05:47:54-03:00",
+      "latitude": -26.123,
+      "longitude": -65.373,
+      "magnitude": 5,
+      "depthKm": 197,
+      "place": null,
+      "province": "TUCUMAN",
+      "intensityText": "III a IV -San Miguel de Tucumán. III -Ciudad de Salta. III -Metán, Salta. III -Cachi, Salta. III -Cafayate, Salta. II a III -Ciudad de Santiago del Estero"
     }
   ]
 }
