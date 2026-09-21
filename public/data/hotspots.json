@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "thermal-hotspot",
-  "generatedAt": "2026-09-21T10:59:58.027Z",
-  "sourceCheckedAt": "2026-09-21T10:59:58.027Z",
+  "generatedAt": "2026-09-21T17:09:26.391Z",
+  "sourceCheckedAt": "2026-09-21T17:09:26.391Z",
   "window": {
     "hours": 24
   },
@@ -25,39 +25,6 @@
     "El payload del mapa público no rotula explícitamente la zona horaria; Pulso interpreta esas marcas temporales como UTC para normalizarlas y declara esta limitación."
   ],
   "events": [
-    {
-      "id": "conae-5140dc8c19a3ddc5",
-      "kind": "thermal-hotspot",
-      "occurredAt": "2026-09-20T17:09:00.000Z",
-      "latitude": -27.63362,
-      "longitude": -62.41867,
-      "confidence": "nominal",
-      "frpMw": null,
-      "sensor": "VIIRS",
-      "satellite": "NOAA20"
-    },
-    {
-      "id": "conae-c24b233e69066d96",
-      "kind": "thermal-hotspot",
-      "occurredAt": "2026-09-20T17:09:00.000Z",
-      "latitude": -32.22879,
-      "longitude": -64.52471,
-      "confidence": "nominal",
-      "frpMw": null,
-      "sensor": "VIIRS",
-      "satellite": "NOAA20"
-    },
-    {
-      "id": "conae-f327cdc645ec09c6",
-      "kind": "thermal-hotspot",
-      "occurredAt": "2026-09-20T17:09:00.000Z",
-      "latitude": -27.76808,
-      "longitude": -57.71356,
-      "confidence": "nominal",
-      "frpMw": null,
-      "sensor": "VIIRS",
-      "satellite": "NOAA20"
-    },
     {
       "id": "conae-01af9d1606182e9f",
       "kind": "thermal-hotspot",
