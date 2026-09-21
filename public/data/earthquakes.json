@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-20T22:24:11.318Z",
-  "sourceCheckedAt": "2026-09-20T22:24:11.318Z",
+  "generatedAt": "2026-09-21T01:01:55.912Z",
+  "sourceCheckedAt": "2026-09-21T01:01:55.912Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-deb3a684428e1078",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-13T20:56:32-03:00",
-      "latitude": -23.43,
-      "longitude": -66.814,
-      "magnitude": 3.8,
-      "depthKm": 207,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
     {
       "id": "inpres-b8a29dd757f3c751",
       "kind": "earthquake",
@@ -766,6 +754,30 @@
       "place": null,
       "province": "SAN JUAN",
       "intensityText": "II a III -Media Agua, San Juan. II a III -Encón, San Juan"
+    },
+    {
+      "id": "inpres-7863e166e2e41da8",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-20T20:29:55-03:00",
+      "latitude": -25.836,
+      "longitude": -66.488,
+      "magnitude": 2.6,
+      "depthKm": 10,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-97ee0c201d377103",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-20T21:47:13-03:00",
+      "latitude": -32.7,
+      "longitude": -67.23,
+      "magnitude": 3.3,
+      "depthKm": 148,
+      "place": null,
+      "province": "MENDOZA",
+      "intensityText": null
     }
   ]
 }
