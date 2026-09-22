@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-22T09:53:29.061Z",
-  "sourceCheckedAt": "2026-09-22T09:53:29.061Z",
+  "generatedAt": "2026-09-22T14:46:31.099Z",
+  "sourceCheckedAt": "2026-09-22T14:46:31.099Z",
   "window": {
     "hours": 168
   },
@@ -23,54 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-fb34b47f46aa1db3",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-15T07:12:53-03:00",
-      "latitude": -31.776,
-      "longitude": -69.385,
-      "magnitude": 2.8,
-      "depthKm": 117,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-5a508a57dbe2503e",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-15T07:23:14-03:00",
-      "latitude": -34.246,
-      "longitude": -66.697,
-      "magnitude": 3.5,
-      "depthKm": 7,
-      "place": null,
-      "province": "SAN LUIS",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-256a0e0840e372e5",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-15T10:23:00-03:00",
-      "latitude": -28.79,
-      "longitude": -66.646,
-      "magnitude": 3.1,
-      "depthKm": 22,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": "III -Aimogasta, La Rioja. II a III -Chumbicha, Catamarca. II a III -Ciudad de San Fernando del Valle de Catamarca"
-    },
-    {
-      "id": "inpres-52e9c88480526e3d",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-15T11:46:09-03:00",
-      "latitude": -31.322,
-      "longitude": -68.67,
-      "magnitude": 2.7,
-      "depthKm": 105,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-daec365153c97514",
       "kind": "earthquake",
@@ -540,6 +492,18 @@
       "intensityText": null
     },
     {
+      "id": "inpres-89c0c471dab01b88",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-19T19:18:31-03:00",
+      "latitude": -22.719,
+      "longitude": -66.78,
+      "magnitude": 2.9,
+      "depthKm": 229,
+      "place": null,
+      "province": "JUJUY",
+      "intensityText": null
+    },
+    {
       "id": "inpres-68b62be86dacdbab",
       "kind": "earthquake",
       "occurredAt": "2026-09-19T19:53:34-03:00",
@@ -660,6 +624,18 @@
       "intensityText": "III a IV -San Miguel de Tucumán. III -Ciudad de Salta. III -Metán, Salta. III -Cachi, Salta. III -Cafayate, Salta. II a III -Ciudad de Santiago del Estero"
     },
     {
+      "id": "inpres-58985e68beb58e50",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-20T06:04:34-03:00",
+      "latitude": -25.822,
+      "longitude": -66.567,
+      "magnitude": 3.1,
+      "depthKm": 8,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
       "id": "inpres-ce698fc08fd84e4d",
       "kind": "earthquake",
       "occurredAt": "2026-09-20T09:13:34-03:00",
@@ -706,6 +682,18 @@
       "place": null,
       "province": "SAN JUAN",
       "intensityText": "II a III -Media Agua, San Juan. II a III -Encón, San Juan"
+    },
+    {
+      "id": "inpres-677268f50dc946a5",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-20T18:19:32-03:00",
+      "latitude": -25.813,
+      "longitude": -66.773,
+      "magnitude": 3,
+      "depthKm": 13,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
     },
     {
       "id": "inpres-aa0b0259bd20b34b",
@@ -996,6 +984,18 @@
       "intensityText": null
     },
     {
+      "id": "inpres-c8f32dbed50ae3a5",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-21T05:22:28-03:00",
+      "latitude": -34.341,
+      "longitude": -67.402,
+      "magnitude": 2.7,
+      "depthKm": 226,
+      "place": null,
+      "province": "MENDOZA",
+      "intensityText": null
+    },
+    {
       "id": "inpres-6f4b4e75d236074d",
       "kind": "earthquake",
       "occurredAt": "2026-09-21T05:49:14-03:00",
@@ -1015,6 +1015,18 @@
       "longitude": -66.659,
       "magnitude": 3.9,
       "depthKm": 5,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-3e9c4379f4176af3",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-21T06:53:06-03:00",
+      "latitude": -25.883,
+      "longitude": -66.496,
+      "magnitude": 2.5,
+      "depthKm": 4,
       "place": null,
       "province": "SALTA",
       "intensityText": null
@@ -1116,28 +1128,64 @@
       "intensityText": null
     },
     {
-      "id": "inpres-a9b2c9f2aff9e93a",
+      "id": "inpres-5b975e04163b1216",
       "kind": "earthquake",
-      "occurredAt": "2026-09-22T03:25:50-03:00",
-      "latitude": -30.84,
-      "longitude": -64.58,
-      "magnitude": 3,
-      "depthKm": 10,
+      "occurredAt": "2026-09-21T21:07:31-03:00",
+      "latitude": -24.011,
+      "longitude": -66.834,
+      "magnitude": 2.7,
+      "depthKm": 210,
       "place": null,
-      "province": "CORDOBA",
+      "province": "JUJUY",
       "intensityText": null
     },
     {
-      "id": "inpres-bb4dee86f9f99d11",
+      "id": "inpres-7b2ef873d81020aa",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-22T03:25:49-03:00",
+      "latitude": -30.815,
+      "longitude": -64.559,
+      "magnitude": 2.9,
+      "depthKm": 24,
+      "place": null,
+      "province": "CORDOBA",
+      "intensityText": "III -Capilla del Monte, Córdoba. II a III -La Banda, Córdoba. II a III -Cruz del Eje, Córdoba. II a III -Huerta Grande, Córdoba. II a III -Agua de Oro, Córdoba. II a III -La Falda, Córdoba. II a III -Cosquín, Córdoba. II a III -Río Ceballos, Córdoba. II a III -Tanti, Córdoba. II a III -La Calera, Córdoba"
+    },
+    {
+      "id": "inpres-c8ff416b94b175c4",
       "kind": "earthquake",
       "occurredAt": "2026-09-22T04:56:05-03:00",
-      "latitude": -24.23,
-      "longitude": -67.16,
-      "magnitude": 2.8,
-      "depthKm": 205,
+      "latitude": -24.28,
+      "longitude": -67.164,
+      "magnitude": 3.3,
+      "depthKm": 189,
       "place": null,
       "province": "SALTA",
       "intensityText": null
+    },
+    {
+      "id": "inpres-7f34e6394949737e",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-22T10:08:45-03:00",
+      "latitude": -31.525,
+      "longitude": -68.931,
+      "magnitude": 2.7,
+      "depthKm": 109,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-65907f3ec58c268d",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-22T10:24:15-03:00",
+      "latitude": -50.361,
+      "longitude": -72.296,
+      "magnitude": 2.4,
+      "depthKm": 9,
+      "place": null,
+      "province": "SANTA CRUZ",
+      "intensityText": "II a III -El Calafate, Santa Cruz"
     }
   ]
 }
