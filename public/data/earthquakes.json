@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-23T05:54:23.940Z",
-  "sourceCheckedAt": "2026-09-23T05:54:23.940Z",
+  "generatedAt": "2026-09-23T11:27:17.488Z",
+  "sourceCheckedAt": "2026-09-23T11:27:17.488Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-78e84242f89369e3",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-16T06:39:21-03:00",
-      "latitude": -25.948,
-      "longitude": -66.684,
-      "magnitude": 2.5,
-      "depthKm": 10,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-e0253871710e44cb",
       "kind": "earthquake",
@@ -1212,16 +1200,64 @@
       "intensityText": null
     },
     {
-      "id": "inpres-92e2e706a0de753e",
+      "id": "inpres-b32d5cfc03176af1",
       "kind": "earthquake",
-      "occurredAt": "2026-09-23T00:33:34-03:00",
-      "latitude": -31.25,
-      "longitude": -68.82,
-      "magnitude": 2.7,
-      "depthKm": 79,
+      "occurredAt": "2026-09-23T03:22:05-03:00",
+      "latitude": -31.87,
+      "longitude": -69.6,
+      "magnitude": 3.3,
+      "depthKm": 114,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
+    },
+    {
+      "id": "inpres-d49582f3b1f90d71",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-23T04:40:14-03:00",
+      "latitude": -25.96,
+      "longitude": -66.858,
+      "magnitude": 2.6,
+      "depthKm": 4,
+      "place": null,
+      "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-607b55dd39e8d7e5",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-23T05:29:50-03:00",
+      "latitude": -32.501,
+      "longitude": -66.798,
+      "magnitude": 2.8,
+      "depthKm": 10,
+      "place": null,
+      "province": "SAN LUIS",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-9992b7a47249bf94",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-23T05:34:16-03:00",
+      "latitude": -25.962,
+      "longitude": -66.699,
+      "magnitude": 2.5,
+      "depthKm": 10,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-f5bce5a740b9abfa",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-23T06:21:13-03:00",
+      "latitude": -28.758,
+      "longitude": -67.265,
+      "magnitude": 5.4,
+      "depthKm": 143,
+      "place": null,
+      "province": "LA RIOJA",
+      "intensityText": "IV -Famatina, La Rioja. III a IV -Aimogasta, La Rioja. III a IV -Chilecito, La Rioja. III -Ciudad de La Rioja. III -Ciudad de San F. del Valle de Catamarca. III -Vinchina, La Rioja. II a III -San José de Jáchal, San Juan. II a III -Ciudad de San Juan. II a III -Ciudad de Córdoba"
     }
   ]
 }
