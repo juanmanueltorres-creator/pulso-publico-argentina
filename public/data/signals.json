@@ -1,20 +1,20 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-09-23T08:47:29.088Z",
+  "generatedAt": "2026-09-23T09:16:05.129Z",
   "signals": [
     {
       "schemaVersion": "1.0",
       "id": "cammesa-renewables",
       "category": "energy",
       "title": "Energía renovable generada",
-      "value": 1791.2451470000005,
+      "value": 2269.645570999999,
       "unit": "GWh",
-      "periodLabel": "Julio 2026 · último dato publicado",
+      "periodLabel": "Agosto 2026 · último dato publicado",
       "status": "updated",
       "availability": "available",
-      "observedAt": "2026-07-01T00:00:00.000Z",
+      "observedAt": "2026-08-01T00:00:00.000Z",
       "publishedAt": null,
-      "fetchedAt": "2026-09-22T09:15:54.790Z",
+      "fetchedAt": "2026-09-23T09:16:05.129Z",
       "source": {
         "name": "CAMMESA",
         "url": "https://cammesaweb.cammesa.com/erenovables/",
