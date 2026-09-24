@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-24T04:39:31.514Z",
-  "sourceCheckedAt": "2026-09-24T04:39:31.514Z",
+  "generatedAt": "2026-09-24T09:55:55.310Z",
+  "sourceCheckedAt": "2026-09-24T09:55:55.310Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-fcc324848ac85e56",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-17T02:03:39-03:00",
-      "latitude": -28.28,
-      "longitude": -67.53,
-      "magnitude": 2.7,
-      "depthKm": 129,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-cdffc79490bc6128",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-17T03:49:29-03:00",
-      "latitude": -31.147,
-      "longitude": -68.405,
-      "magnitude": 2.9,
-      "depthKm": 107,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-246ee399621d6b5e",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-17T06:31:25-03:00",
-      "latitude": -31.976,
-      "longitude": -68.195,
-      "magnitude": 2.9,
-      "depthKm": 119,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-a0c07f00d5ba43ca",
       "kind": "earthquake",
@@ -1461,6 +1425,30 @@
       "depthKm": 10,
       "place": null,
       "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-c4595eb9e0e1c4d7",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-24T06:03:08-03:00",
+      "latitude": -25.88,
+      "longitude": -66.63,
+      "magnitude": 2.8,
+      "depthKm": 10,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-a7b5776cb6a389d5",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-24T06:13:19-03:00",
+      "latitude": -31.035,
+      "longitude": -67.807,
+      "magnitude": 2.5,
+      "depthKm": 11,
+      "place": null,
+      "province": "SAN JUAN",
       "intensityText": null
     }
   ]
