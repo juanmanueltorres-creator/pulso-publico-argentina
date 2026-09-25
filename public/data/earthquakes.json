@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-25T13:40:56.171Z",
-  "sourceCheckedAt": "2026-09-25T13:40:56.171Z",
+  "generatedAt": "2026-09-25T18:32:28.053Z",
+  "sourceCheckedAt": "2026-09-25T18:32:28.053Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-fcef538af8f76108",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-18T12:22:00-03:00",
-      "latitude": -32.563,
-      "longitude": -69.652,
-      "magnitude": 2.6,
-      "depthKm": 127,
-      "place": null,
-      "province": "MENDOZA",
-      "intensityText": null
-    },
     {
       "id": "inpres-2f91112e5813c06f",
       "kind": "earthquake",
@@ -1375,6 +1363,102 @@
       "longitude": -66.786,
       "magnitude": 3.4,
       "depthKm": 10,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-29f4e4a4a4b5b82a",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-25T09:50:32-03:00",
+      "latitude": -25.997,
+      "longitude": -66.665,
+      "magnitude": 2.7,
+      "depthKm": 4,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-7d3db5cb7076c59e",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-25T09:59:27-03:00",
+      "latitude": -32.246,
+      "longitude": -64.314,
+      "magnitude": 2.8,
+      "depthKm": 23,
+      "place": null,
+      "province": "CORDOBA",
+      "intensityText": "II a III -Almafuerte, Córdoba. II a III -Los Cóndores, Córdoba. II a III -Embalse, Córdoba"
+    },
+    {
+      "id": "inpres-4619b98fecd5d26d",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-25T10:16:25-03:00",
+      "latitude": -29.54,
+      "longitude": -66.944,
+      "magnitude": 2.6,
+      "depthKm": 25,
+      "place": null,
+      "province": "LA RIOJA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-907b7a42dfbeb664",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-25T10:35:16-03:00",
+      "latitude": -25.909,
+      "longitude": -66.597,
+      "magnitude": 2.5,
+      "depthKm": 24,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-7a652b9afb8d1516",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-25T10:58:08-03:00",
+      "latitude": -25.812,
+      "longitude": -66.513,
+      "magnitude": 3,
+      "depthKm": 4,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-8bd2d2571635f7fd",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-25T11:19:02-03:00",
+      "latitude": -25.688,
+      "longitude": -66.598,
+      "magnitude": 2.5,
+      "depthKm": 16,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-cba4070f1078a237",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-25T11:23:35-03:00",
+      "latitude": -25.941,
+      "longitude": -66.717,
+      "magnitude": 3,
+      "depthKm": 6,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-c5f6ae626b63d809",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-25T12:46:40-03:00",
+      "latitude": -25.935,
+      "longitude": -66.762,
+      "magnitude": 2.7,
+      "depthKm": 4,
       "place": null,
       "province": "SALTA",
       "intensityText": null
