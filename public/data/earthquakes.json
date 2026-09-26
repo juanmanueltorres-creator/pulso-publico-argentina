@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-26T13:01:01.009Z",
-  "sourceCheckedAt": "2026-09-26T13:01:01.009Z",
+  "generatedAt": "2026-09-26T17:06:28.693Z",
+  "sourceCheckedAt": "2026-09-26T17:06:28.693Z",
   "window": {
     "hours": 168
   },
@@ -1440,25 +1440,25 @@
       "intensityText": null
     },
     {
-      "id": "inpres-d929c2a9b204a083",
+      "id": "inpres-35048368d2a0806c",
       "kind": "earthquake",
-      "occurredAt": "2026-09-26T02:25:48-03:00",
-      "latitude": -25.98,
-      "longitude": -66.63,
-      "magnitude": 2.7,
-      "depthKm": 10,
+      "occurredAt": "2026-09-26T02:25:44-03:00",
+      "latitude": -25.946,
+      "longitude": -66.777,
+      "magnitude": 2.8,
+      "depthKm": 12,
       "place": null,
       "province": "SALTA",
       "intensityText": null
     },
     {
-      "id": "inpres-3935e1f56a6fbb44",
+      "id": "inpres-ca31755dbf2e85fe",
       "kind": "earthquake",
-      "occurredAt": "2026-09-26T04:03:24-03:00",
-      "latitude": -24.31,
-      "longitude": -67.23,
+      "occurredAt": "2026-09-26T04:03:23-03:00",
+      "latitude": -24.292,
+      "longitude": -67.217,
       "magnitude": 3,
-      "depthKm": 200,
+      "depthKm": 195,
       "place": null,
       "province": "SALTA",
       "intensityText": null
@@ -1476,16 +1476,28 @@
       "intensityText": "II a III -La Dormida, Mendoza. II a III -Rivadavia, Mendoza. II a III -Palmira, Mendoza"
     },
     {
-      "id": "inpres-f57571d7fadefb9c",
+      "id": "inpres-ed23329a4d058d9d",
       "kind": "earthquake",
-      "occurredAt": "2026-09-26T06:29:52-03:00",
-      "latitude": -25.89,
-      "longitude": -66.53,
+      "occurredAt": "2026-09-26T06:29:50-03:00",
+      "latitude": -25.758,
+      "longitude": -66.461,
       "magnitude": 2.6,
-      "depthKm": 10,
+      "depthKm": 15,
       "place": null,
       "province": "SALTA",
       "intensityText": null
+    },
+    {
+      "id": "inpres-6ae7a49c54ae788e",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-26T08:44:51-03:00",
+      "latitude": -33.345,
+      "longitude": -64.783,
+      "magnitude": 2.5,
+      "depthKm": 5,
+      "place": null,
+      "province": "CORDOBA",
+      "intensityText": "II a III -Sampacho, Córdoba"
     }
   ]
 }
