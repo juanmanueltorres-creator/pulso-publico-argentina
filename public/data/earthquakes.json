@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-26T19:50:20.303Z",
-  "sourceCheckedAt": "2026-09-26T19:50:20.303Z",
+  "generatedAt": "2026-09-26T22:43:17.623Z",
+  "sourceCheckedAt": "2026-09-26T22:43:17.623Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-89c0c471dab01b88",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-19T19:18:31-03:00",
-      "latitude": -22.719,
-      "longitude": -66.78,
-      "magnitude": 2.9,
-      "depthKm": 229,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
     {
       "id": "inpres-eaf2b338ae1ce113",
       "kind": "earthquake",
@@ -1498,6 +1486,18 @@
       "place": null,
       "province": "LA RIOJA",
       "intensityText": null
+    },
+    {
+      "id": "inpres-e24a3c56fd594efd",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-26T17:56:26-03:00",
+      "latitude": -31.867,
+      "longitude": -68.577,
+      "magnitude": 3.3,
+      "depthKm": 16,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": "III -Los Berros, San Juan. III -Carpinteria, San Juan. III -Media Agua, San Juan. III -Cochagual, San Juan. III -La Rinconada, San Juan. II a III -Villa Aberastain, San Juan. II a III -Rawson, San Juan. II a III -Ciudad de San Juan. II a III -Chimbas, San Juan. II a III -Rivadavia, San Juan"
     }
   ]
 }
