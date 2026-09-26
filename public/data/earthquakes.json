@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-26T17:06:28.693Z",
-  "sourceCheckedAt": "2026-09-26T17:06:28.693Z",
+  "generatedAt": "2026-09-26T19:50:20.303Z",
+  "sourceCheckedAt": "2026-09-26T19:50:20.303Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-650d865d1ac09123",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-19T14:15:00-03:00",
-      "latitude": -23.054,
-      "longitude": -66.887,
-      "magnitude": 3.5,
-      "depthKm": 215,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
     {
       "id": "inpres-89c0c471dab01b88",
       "kind": "earthquake",
@@ -1498,6 +1486,18 @@
       "place": null,
       "province": "CORDOBA",
       "intensityText": "II a III -Sampacho, Córdoba"
+    },
+    {
+      "id": "inpres-ba6a3f24dde6a86e",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-26T16:42:59-03:00",
+      "latitude": -29.05,
+      "longitude": -68.61,
+      "magnitude": 2.5,
+      "depthKm": 89,
+      "place": null,
+      "province": "LA RIOJA",
+      "intensityText": null
     }
   ]
 }
