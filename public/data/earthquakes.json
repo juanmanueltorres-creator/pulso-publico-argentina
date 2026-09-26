@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-26T01:29:49.138Z",
-  "sourceCheckedAt": "2026-09-26T01:29:49.138Z",
+  "generatedAt": "2026-09-26T07:35:19.270Z",
+  "sourceCheckedAt": "2026-09-26T07:35:19.270Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-c0233d1613bf6aa1",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-19T01:58:32-03:00",
-      "latitude": -25.995,
-      "longitude": -66.808,
-      "magnitude": 2.5,
-      "depthKm": 8,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
     {
       "id": "inpres-bd3686001e591da5",
       "kind": "earthquake",
@@ -1461,6 +1449,54 @@
       "depthKm": 8,
       "place": null,
       "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-181bf266be24a187",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-25T22:51:53-03:00",
+      "latitude": -25.86,
+      "longitude": -66.5,
+      "magnitude": 2.7,
+      "depthKm": 10,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-d929c2a9b204a083",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-26T02:25:48-03:00",
+      "latitude": -25.98,
+      "longitude": -66.63,
+      "magnitude": 2.7,
+      "depthKm": 10,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-3935e1f56a6fbb44",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-26T04:03:24-03:00",
+      "latitude": -24.31,
+      "longitude": -67.23,
+      "magnitude": 3,
+      "depthKm": 200,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-016ae8adee1d4c08",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-26T04:07:41-03:00",
+      "latitude": -33.25,
+      "longitude": -67.99,
+      "magnitude": 2.9,
+      "depthKm": 10,
+      "place": null,
+      "province": "MENDOZA",
       "intensityText": null
     }
   ]
