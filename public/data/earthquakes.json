@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-27T13:53:49.365Z",
-  "sourceCheckedAt": "2026-09-27T13:53:49.365Z",
+  "generatedAt": "2026-09-27T18:18:41.302Z",
+  "sourceCheckedAt": "2026-09-27T18:18:41.302Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-3b4a62d3b057a7ba",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-20T13:23:58-03:00",
-      "latitude": -32.028,
-      "longitude": -68.035,
-      "magnitude": 3,
-      "depthKm": 8,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-fea650e9e34ebeb3",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-20T13:31:07-03:00",
-      "latitude": -32.089,
-      "longitude": -68.126,
-      "magnitude": 3.5,
-      "depthKm": 27,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-2c32d3d326f14a95",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-20T13:31:08-03:00",
-      "latitude": -32.035,
-      "longitude": -68.043,
-      "magnitude": 3.4,
-      "depthKm": 12,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": "II a III -Media Agua, San Juan. II a III -Encón, San Juan"
-    },
     {
       "id": "inpres-677268f50dc946a5",
       "kind": "earthquake",
@@ -1389,6 +1353,42 @@
       "depthKm": 3,
       "place": null,
       "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-d3a6d65bb9576526",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-27T11:48:07-03:00",
+      "latitude": -31.944,
+      "longitude": -68.246,
+      "magnitude": 3.5,
+      "depthKm": 115,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": "II a III -Media Agua, San Juan. II a III -Pocito, San Juan. II a III -Ciudad de San Juan"
+    },
+    {
+      "id": "inpres-1b80e6850b4fe880",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-27T14:45:59-03:00",
+      "latitude": -32.2,
+      "longitude": -69.39,
+      "magnitude": 2.7,
+      "depthKm": 92,
+      "place": null,
+      "province": "MENDOZA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-b81332cfce70901c",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-27T15:00:03-03:00",
+      "latitude": -28.89,
+      "longitude": -67.06,
+      "magnitude": 3.3,
+      "depthKm": 144,
+      "place": null,
+      "province": "LA RIOJA",
       "intensityText": null
     }
   ]
