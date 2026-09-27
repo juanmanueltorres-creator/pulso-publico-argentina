@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-27T08:03:03.935Z",
-  "sourceCheckedAt": "2026-09-27T08:03:03.935Z",
+  "generatedAt": "2026-09-27T13:53:49.365Z",
+  "sourceCheckedAt": "2026-09-27T13:53:49.365Z",
   "window": {
     "hours": 168
   },
@@ -23,102 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-59462b5765d0c8ba",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-20T05:32:45-03:00",
-      "latitude": -25.6,
-      "longitude": -66.721,
-      "magnitude": 4.3,
-      "depthKm": 205,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": "II a III -Cafayate, Salta. II a III -Colalao del Valle, Tucumán. II a III -Molinos, Salta. II a III -Santa María, Catamarca"
-    },
-    {
-      "id": "inpres-01e566b2e8f75e5b",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-20T05:47:54-03:00",
-      "latitude": -26,
-      "longitude": -66.637,
-      "magnitude": 4.9,
-      "depthKm": 19,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": "III a IV -San Miguel de Tucumán. III -Ciudad de Salta. III -Metán, Salta. III -Cachi, Salta. III -Cafayate, Salta. II a III -Ciudad de Santiago del Estero"
-    },
-    {
-      "id": "inpres-58985e68beb58e50",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-20T06:04:34-03:00",
-      "latitude": -25.822,
-      "longitude": -66.567,
-      "magnitude": 3.1,
-      "depthKm": 8,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-544bced2d3093fc1",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-20T07:05:25-03:00",
-      "latitude": -25.879,
-      "longitude": -66.632,
-      "magnitude": 2.9,
-      "depthKm": 5,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-9ca1cf711c250782",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-20T07:26:43-03:00",
-      "latitude": -24.216,
-      "longitude": -67.235,
-      "magnitude": 3.2,
-      "depthKm": 178,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-02142928037746a2",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-20T07:47:21-03:00",
-      "latitude": -25.881,
-      "longitude": -66.67,
-      "magnitude": 2.9,
-      "depthKm": 15,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-ce698fc08fd84e4d",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-20T09:13:34-03:00",
-      "latitude": -24.151,
-      "longitude": -67.146,
-      "magnitude": 3.4,
-      "depthKm": 190,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-8ff8ab03380f7e3a",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-20T10:24:16-03:00",
-      "latitude": -25.823,
-      "longitude": -66.577,
-      "magnitude": 3.4,
-      "depthKm": 18,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-3b4a62d3b057a7ba",
       "kind": "earthquake",
@@ -1459,6 +1363,30 @@
       "longitude": -66.554,
       "magnitude": 3.5,
       "depthKm": 15,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-a9a7d755f3ac8894",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-27T05:37:02-03:00",
+      "latitude": -31.689,
+      "longitude": -70.3,
+      "magnitude": 3,
+      "depthKm": 116,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-3e25bb2a10134b4c",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-27T06:57:39-03:00",
+      "latitude": -25.878,
+      "longitude": -66.483,
+      "magnitude": 3.1,
+      "depthKm": 3,
       "place": null,
       "province": "SALTA",
       "intensityText": null
