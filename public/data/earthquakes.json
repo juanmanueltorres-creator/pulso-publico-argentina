@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-09-29T01:52:04.799Z",
-  "sourceCheckedAt": "2026-09-29T01:52:04.799Z",
+  "generatedAt": "2026-09-29T08:22:54.809Z",
+  "sourceCheckedAt": "2026-09-29T08:22:54.809Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-7b2ef873d81020aa",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-22T03:25:49-03:00",
-      "latitude": -30.815,
-      "longitude": -64.559,
-      "magnitude": 2.9,
-      "depthKm": 24,
-      "place": null,
-      "province": "CORDOBA",
-      "intensityText": "III -Capilla del Monte, Córdoba. II a III -La Banda, Córdoba. II a III -Cruz del Eje, Córdoba. II a III -Huerta Grande, Córdoba. II a III -Agua de Oro, Córdoba. II a III -La Falda, Córdoba. II a III -Cosquín, Córdoba. II a III -Río Ceballos, Córdoba. II a III -Tanti, Córdoba. II a III -La Calera, Córdoba"
-    },
-    {
-      "id": "inpres-c8ff416b94b175c4",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-22T04:56:05-03:00",
-      "latitude": -24.28,
-      "longitude": -67.164,
-      "magnitude": 3.3,
-      "depthKm": 189,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-7f34e6394949737e",
       "kind": "earthquake",
@@ -1221,6 +1197,30 @@
       "depthKm": 180,
       "place": null,
       "province": "CORDOBA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-e43c0a937050af08",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-29T02:29:26-03:00",
+      "latitude": -26.04,
+      "longitude": -66.6,
+      "magnitude": 2.9,
+      "depthKm": 10,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-626e3e4e99fb47a1",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-29T02:50:02-03:00",
+      "latitude": -25.92,
+      "longitude": -66.6,
+      "magnitude": 3.2,
+      "depthKm": 10,
+      "place": null,
+      "province": "SALTA",
       "intensityText": null
     }
   ]
