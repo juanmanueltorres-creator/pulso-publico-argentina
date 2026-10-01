@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-01T05:43:42.064Z",
-  "sourceCheckedAt": "2026-10-01T05:43:42.064Z",
+  "generatedAt": "2026-10-01T13:04:19.093Z",
+  "sourceCheckedAt": "2026-10-01T13:04:19.093Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-a7b5776cb6a389d5",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-24T06:13:19-03:00",
-      "latitude": -31.035,
-      "longitude": -67.807,
-      "magnitude": 2.5,
-      "depthKm": 11,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-4424fd50e1e17007",
       "kind": "earthquake",
@@ -1200,18 +1188,6 @@
       "intensityText": null
     },
     {
-      "id": "inpres-4a0cc896c5c834fd",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-29T23:13:44-03:00",
-      "latitude": -38.193,
-      "longitude": -68.594,
-      "magnitude": 2.6,
-      "depthKm": 9,
-      "place": null,
-      "province": "NEUQUEN",
-      "intensityText": null
-    },
-    {
       "id": "inpres-132191b65b1eaaa0",
       "kind": "earthquake",
       "occurredAt": "2026-09-30T02:15:27-03:00",
@@ -1296,39 +1272,87 @@
       "intensityText": null
     },
     {
-      "id": "inpres-cc017255e42d9968",
+      "id": "inpres-60422665425663db",
       "kind": "earthquake",
-      "occurredAt": "2026-09-30T20:56:59-03:00",
-      "latitude": -37.12,
-      "longitude": -69.29,
-      "magnitude": 3.3,
-      "depthKm": 19,
+      "occurredAt": "2026-09-30T16:38:58-03:00",
+      "latitude": -38.184,
+      "longitude": -68.621,
+      "magnitude": 2.6,
+      "depthKm": 9,
       "place": null,
-      "province": "MENDOZA",
+      "province": "NEUQUEN",
       "intensityText": null
     },
     {
-      "id": "inpres-a31ccdb7e002dbb6",
+      "id": "inpres-c02ec7868a52fe4a",
       "kind": "earthquake",
-      "occurredAt": "2026-09-30T21:08:22-03:00",
-      "latitude": -27.59,
-      "longitude": -67.59,
-      "magnitude": 2.9,
-      "depthKm": 138,
+      "occurredAt": "2026-09-30T17:46:42-03:00",
+      "latitude": -38.197,
+      "longitude": -68.553,
+      "magnitude": 2.6,
+      "depthKm": 9,
+      "place": null,
+      "province": "NEUQUEN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-671dd52dac09e823",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-30T20:57:05-03:00",
+      "latitude": -37.662,
+      "longitude": -69.158,
+      "magnitude": 2.7,
+      "depthKm": 6,
+      "place": null,
+      "province": "NEUQUEN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-c4923f1cd8f7933f",
+      "kind": "earthquake",
+      "occurredAt": "2026-09-30T21:08:21-03:00",
+      "latitude": -27.569,
+      "longitude": -67.58,
+      "magnitude": 2.7,
+      "depthKm": 134,
       "place": null,
       "province": "CATAMARCA",
       "intensityText": null
     },
     {
-      "id": "inpres-3d8046dc440987a2",
+      "id": "inpres-2365d8845e5aabb0",
       "kind": "earthquake",
       "occurredAt": "2026-09-30T21:39:31-03:00",
-      "latitude": -23.15,
-      "longitude": -66.94,
-      "magnitude": 3.1,
-      "depthKm": 216,
+      "latitude": -22.993,
+      "longitude": -66.831,
+      "magnitude": 3.2,
+      "depthKm": 192,
       "place": null,
       "province": "JUJUY",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-e6a2d64593a172a6",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-01T00:16:10-03:00",
+      "latitude": -38.199,
+      "longitude": -68.584,
+      "magnitude": 3,
+      "depthKm": 8,
+      "place": null,
+      "province": "NEUQUEN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-8308f689a41ac937",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-01T04:25:50-03:00",
+      "latitude": -38.182,
+      "longitude": -68.605,
+      "magnitude": 2.7,
+      "depthKm": 10,
+      "place": null,
+      "province": "NEUQUEN",
       "intensityText": null
     }
   ]
