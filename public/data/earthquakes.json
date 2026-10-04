@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-03T21:09:44.763Z",
-  "sourceCheckedAt": "2026-10-03T21:09:44.763Z",
+  "generatedAt": "2026-10-04T00:32:50.870Z",
+  "sourceCheckedAt": "2026-10-04T00:32:50.870Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-7dc591e34994b3c3",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-26T19:30:52-03:00",
-      "latitude": -22.83,
-      "longitude": -66.243,
-      "magnitude": 3.7,
-      "depthKm": 252,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
     {
       "id": "inpres-99915c012469f5c4",
       "kind": "earthquake",
