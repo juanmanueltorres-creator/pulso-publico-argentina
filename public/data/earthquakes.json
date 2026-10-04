@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-04T00:32:50.870Z",
-  "sourceCheckedAt": "2026-10-04T00:32:50.870Z",
+  "generatedAt": "2026-10-04T06:47:50.486Z",
+  "sourceCheckedAt": "2026-10-04T06:47:50.486Z",
   "window": {
     "hours": 168
   },
@@ -23,78 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-99915c012469f5c4",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-26T21:58:50-03:00",
-      "latitude": -25.828,
-      "longitude": -66.563,
-      "magnitude": 2.6,
-      "depthKm": 3,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-38760d8b25cbaa5d",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-26T22:24:03-03:00",
-      "latitude": -33.159,
-      "longitude": -68.945,
-      "magnitude": 3.1,
-      "depthKm": 9,
-      "place": null,
-      "province": "MENDOZA",
-      "intensityText": "III -Agrelo, Mendoza. II a III -Ciudad de Mendoza. II a III -Vistalba, Mendoza. II a III -Potrerillos, Mendoza"
-    },
-    {
-      "id": "inpres-3a67889740a86560",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-26T22:27:05-03:00",
-      "latitude": -25.83,
-      "longitude": -66.536,
-      "magnitude": 2.8,
-      "depthKm": 8,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-0984c647ea1f69e4",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-26T22:52:31-03:00",
-      "latitude": -26.004,
-      "longitude": -66.625,
-      "magnitude": 2.6,
-      "depthKm": 4,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-2c5fef42c64a42ee",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-26T23:12:49-03:00",
-      "latitude": -32.716,
-      "longitude": -68.807,
-      "magnitude": 2.7,
-      "depthKm": 14,
-      "place": null,
-      "province": "MENDOZA",
-      "intensityText": "II a III -Ciudad de Mendoza"
-    },
-    {
-      "id": "inpres-ac9cebb211ba908d",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-26T23:49:27-03:00",
-      "latitude": -25.797,
-      "longitude": -66.554,
-      "magnitude": 3.5,
-      "depthKm": 15,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-51e14dc8c7a0e5b9",
       "kind": "earthquake",
@@ -1089,6 +1017,30 @@
       "depthKm": 104,
       "place": null,
       "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-ded5105eff432820",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-04T01:31:09-03:00",
+      "latitude": -24.13,
+      "longitude": -67.53,
+      "magnitude": 2.7,
+      "depthKm": 10,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-88dbc039dcfffbb4",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-04T01:54:14-03:00",
+      "latitude": -24.1,
+      "longitude": -66.97,
+      "magnitude": 3.1,
+      "depthKm": 166,
+      "place": null,
+      "province": "SALTA",
       "intensityText": null
     }
   ]
