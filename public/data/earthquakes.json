@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-05T00:50:59.292Z",
-  "sourceCheckedAt": "2026-10-05T00:50:59.292Z",
+  "generatedAt": "2026-10-05T06:56:56.173Z",
+  "sourceCheckedAt": "2026-10-05T06:56:56.173Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-be226ee430027d22",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-28T00:51:02-03:00",
-      "latitude": -38.543,
-      "longitude": -69.184,
-      "magnitude": 2.6,
-      "depthKm": 6,
-      "place": null,
-      "province": "NEUQUEN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-0afd6f09cb973896",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-28T01:58:35-03:00",
-      "latitude": -38.575,
-      "longitude": -69.19,
-      "magnitude": 2.5,
-      "depthKm": 6,
-      "place": null,
-      "province": "NEUQUEN",
-      "intensityText": null
-    },
     {
       "id": "inpres-f7526c1468e4eaee",
       "kind": "earthquake",
@@ -864,15 +840,39 @@
       "intensityText": null
     },
     {
-      "id": "inpres-95400f68086c900d",
+      "id": "inpres-d7c0bd76529e2003",
       "kind": "earthquake",
-      "occurredAt": "2026-10-04T21:23:16-03:00",
-      "latitude": -31.57,
-      "longitude": -67.84,
+      "occurredAt": "2026-10-04T21:23:14-03:00",
+      "latitude": -31.521,
+      "longitude": -67.927,
       "magnitude": 2.9,
-      "depthKm": 10,
+      "depthKm": 17,
       "place": null,
       "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-4297eae3a96fd4e7",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-04T22:02:39-03:00",
+      "latitude": -31.24,
+      "longitude": -68.87,
+      "magnitude": 3.6,
+      "depthKm": 109,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": "II a III -Ciudad de San Juan. II a III -Villa Calingasta, San Juan. II a III -Ciudad de Mendoza"
+    },
+    {
+      "id": "inpres-ec88049f1adf9c75",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-05T00:47:41-03:00",
+      "latitude": -28.64,
+      "longitude": -67.48,
+      "magnitude": 2.5,
+      "depthKm": 125,
+      "place": null,
+      "province": "LA RIOJA",
       "intensityText": null
     }
   ]
