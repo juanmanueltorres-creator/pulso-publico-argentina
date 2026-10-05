@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-04T21:22:14.089Z",
-  "sourceCheckedAt": "2026-10-04T21:22:14.089Z",
+  "generatedAt": "2026-10-05T00:50:59.292Z",
+  "sourceCheckedAt": "2026-10-05T00:50:59.292Z",
   "window": {
     "hours": 168
   },
@@ -23,90 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-aca8f68d135853c9",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-27T18:54:52-03:00",
-      "latitude": -28.647,
-      "longitude": -67.573,
-      "magnitude": 2.5,
-      "depthKm": 124,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-9eb3d5a991f6f3c5",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-27T20:02:42-03:00",
-      "latitude": -25.97,
-      "longitude": -66.771,
-      "magnitude": 2.5,
-      "depthKm": 11,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-0d246e16b5c6e6f2",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-27T20:03:56-03:00",
-      "latitude": -25.95,
-      "longitude": -66.72,
-      "magnitude": 2.7,
-      "depthKm": 3,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-268239b2f3a08d10",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-27T20:23:29-03:00",
-      "latitude": -30.796,
-      "longitude": -64.569,
-      "magnitude": 2.7,
-      "depthKm": 12,
-      "place": null,
-      "province": "CORDOBA",
-      "intensityText": "II a III -Charbonier, Córdoba. II a III -Capilla del Monte, Córdoba"
-    },
-    {
-      "id": "inpres-f4a71d3a2c15f08a",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-27T20:30:49-03:00",
-      "latitude": -25.863,
-      "longitude": -66.717,
-      "magnitude": 3.1,
-      "depthKm": 4,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-27db8ed8721531cd",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-27T20:36:58-03:00",
-      "latitude": -31.311,
-      "longitude": -68.826,
-      "magnitude": 2.6,
-      "depthKm": 110,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-e6315c20543a855d",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-27T21:49:40-03:00",
-      "latitude": -31.747,
-      "longitude": -70.044,
-      "magnitude": 2.5,
-      "depthKm": 115,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-be226ee430027d22",
       "kind": "earthquake",
@@ -924,13 +840,37 @@
       "intensityText": null
     },
     {
-      "id": "inpres-318cd53c5529fec0",
+      "id": "inpres-552d9834434663be",
       "kind": "earthquake",
-      "occurredAt": "2026-10-04T16:57:45-03:00",
-      "latitude": -32.02,
-      "longitude": -70,
-      "magnitude": 3.3,
-      "depthKm": 132,
+      "occurredAt": "2026-10-04T16:57:44-03:00",
+      "latitude": -32.047,
+      "longitude": -69.979,
+      "magnitude": 3.1,
+      "depthKm": 125,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-e8622877e8515162",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-04T19:04:25-03:00",
+      "latitude": -31.399,
+      "longitude": -69.35,
+      "magnitude": 2.9,
+      "depthKm": 110,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-95400f68086c900d",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-04T21:23:16-03:00",
+      "latitude": -31.57,
+      "longitude": -67.84,
+      "magnitude": 2.9,
+      "depthKm": 10,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
