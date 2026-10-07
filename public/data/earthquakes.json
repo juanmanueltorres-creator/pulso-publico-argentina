@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-07T02:18:26.780Z",
-  "sourceCheckedAt": "2026-10-07T02:18:26.780Z",
+  "generatedAt": "2026-10-07T10:09:38.172Z",
+  "sourceCheckedAt": "2026-10-07T10:09:38.172Z",
   "window": {
     "hours": 168
   },
@@ -23,54 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-132191b65b1eaaa0",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-30T02:15:27-03:00",
-      "latitude": -31.634,
-      "longitude": -67.023,
-      "magnitude": 2.7,
-      "depthKm": 130,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-17e60db022250953",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-30T05:27:55-03:00",
-      "latitude": -32.7,
-      "longitude": -68.9,
-      "magnitude": 2.9,
-      "depthKm": 139,
-      "place": null,
-      "province": "MENDOZA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-357ea7815768af9c",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-30T05:36:34-03:00",
-      "latitude": -31.835,
-      "longitude": -68.037,
-      "magnitude": 2.6,
-      "depthKm": 6,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": "II a III -Villa Santa Rosa, San Juan. II a III -Caucete, San Juan"
-    },
-    {
-      "id": "inpres-742f21745e6ea5dc",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-30T07:03:22-03:00",
-      "latitude": -38.189,
-      "longitude": -68.582,
-      "magnitude": 2.8,
-      "depthKm": 8,
-      "place": null,
-      "province": "NEUQUEN",
-      "intensityText": null
-    },
     {
       "id": "inpres-493f7af20a0de8c7",
       "kind": "earthquake",
@@ -1054,6 +1006,54 @@
       "place": null,
       "province": "SAN JUAN",
       "intensityText": "II a III -Ciudad de San Juan. II a III -Ciudad de Mendoza"
+    },
+    {
+      "id": "inpres-baa6ef1b0d6f45a7",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-06T21:06:20-03:00",
+      "latitude": -31.284,
+      "longitude": -68.807,
+      "magnitude": 2.5,
+      "depthKm": 112,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-bd1a1c357ed4c8a2",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-06T22:29:40-03:00",
+      "latitude": -38.564,
+      "longitude": -69.186,
+      "magnitude": 2.9,
+      "depthKm": 10,
+      "place": null,
+      "province": "NEUQUEN",
+      "intensityText": "III -Sauzal Bonito, Neuquén"
+    },
+    {
+      "id": "inpres-463d8637933ffba3",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-07T01:54:55-03:00",
+      "latitude": -27.595,
+      "longitude": -67.478,
+      "magnitude": 3,
+      "depthKm": 145,
+      "place": null,
+      "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-bb51a8f0715a6c7d",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-07T04:00:59-03:00",
+      "latitude": -31.107,
+      "longitude": -67.47,
+      "magnitude": 2.9,
+      "depthKm": 110,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
     }
   ]
 }
