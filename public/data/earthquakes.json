@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-08T17:50:49.789Z",
-  "sourceCheckedAt": "2026-10-08T17:50:49.789Z",
+  "generatedAt": "2026-10-08T23:17:05.087Z",
+  "sourceCheckedAt": "2026-10-08T23:17:05.087Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-9b6ef68bf01b2f90",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-01T16:53:50-03:00",
-      "latitude": -38.186,
-      "longitude": -68.594,
-      "magnitude": 3.2,
-      "depthKm": 8,
-      "place": null,
-      "province": "NEUQUEN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-d1c6740cab1c0720",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-01T20:15:51-03:00",
-      "latitude": -31.319,
-      "longitude": -69.24,
-      "magnitude": 3.2,
-      "depthKm": 116,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-4c54f660767b7bbf",
       "kind": "earthquake",
@@ -967,6 +943,18 @@
       "longitude": -68.909,
       "magnitude": 2.6,
       "depthKm": 10,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-5d683426cd92a125",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-08T19:48:31-03:00",
+      "latitude": -30.55,
+      "longitude": -69.14,
+      "magnitude": 2.6,
+      "depthKm": 55,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
