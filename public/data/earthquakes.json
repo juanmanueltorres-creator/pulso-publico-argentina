@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-07T23:01:51.840Z",
-  "sourceCheckedAt": "2026-10-07T23:01:51.840Z",
+  "generatedAt": "2026-10-08T02:40:24.311Z",
+  "sourceCheckedAt": "2026-10-08T02:40:24.311Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-671dd52dac09e823",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-30T20:57:05-03:00",
-      "latitude": -37.662,
-      "longitude": -69.158,
-      "magnitude": 2.7,
-      "depthKm": 6,
-      "place": null,
-      "province": "NEUQUEN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-c4923f1cd8f7933f",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-30T21:08:21-03:00",
-      "latitude": -27.569,
-      "longitude": -67.58,
-      "magnitude": 2.7,
-      "depthKm": 134,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-2365d8845e5aabb0",
-      "kind": "earthquake",
-      "occurredAt": "2026-09-30T21:39:31-03:00",
-      "latitude": -22.993,
-      "longitude": -66.831,
-      "magnitude": 3.2,
-      "depthKm": 192,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
     {
       "id": "inpres-e6a2d64593a172a6",
       "kind": "earthquake",
@@ -1065,6 +1029,18 @@
       "depthKm": 5,
       "place": null,
       "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-900d643b43c51d55",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-07T22:28:15-03:00",
+      "latitude": -25.87,
+      "longitude": -66.62,
+      "magnitude": 2.7,
+      "depthKm": 10,
+      "place": null,
+      "province": "SALTA",
       "intensityText": null
     }
   ]
