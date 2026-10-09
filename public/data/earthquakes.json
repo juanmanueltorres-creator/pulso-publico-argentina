@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-09T19:30:10.745Z",
-  "sourceCheckedAt": "2026-10-09T19:30:10.745Z",
+  "generatedAt": "2026-10-09T23:59:36.193Z",
+  "sourceCheckedAt": "2026-10-09T23:59:36.193Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-ca19cc68ee8a28a0",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-02T20:23:47-03:00",
-      "latitude": -31.555,
-      "longitude": -68.193,
-      "magnitude": 2.7,
-      "depthKm": 106,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-b8a47eecfdcb1f62",
       "kind": "earthquake",
@@ -837,6 +825,30 @@
       "depthKm": 113,
       "place": null,
       "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-46129bb0112bd864",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-09T19:29:04-03:00",
+      "latitude": -32.455,
+      "longitude": -69.048,
+      "magnitude": 3.4,
+      "depthKm": 10,
+      "place": null,
+      "province": "MENDOZA",
+      "intensityText": "II a III -Uspallata, Mendoza. II a III -Ciudad de Mendoza"
+    },
+    {
+      "id": "inpres-c16e4e790239db22",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-09T19:50:08-03:00",
+      "latitude": -23.082,
+      "longitude": -66.665,
+      "magnitude": 3.5,
+      "depthKm": 231,
+      "place": null,
+      "province": "JUJUY",
       "intensityText": null
     }
   ]
