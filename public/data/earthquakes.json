@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-09T06:00:42.066Z",
-  "sourceCheckedAt": "2026-10-09T06:00:42.066Z",
+  "generatedAt": "2026-10-09T13:08:31.641Z",
+  "sourceCheckedAt": "2026-10-09T13:08:31.641Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-8a66b27d67ae2d40",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-02T03:15:53-03:00",
-      "latitude": -25.858,
-      "longitude": -67.017,
-      "magnitude": 2.6,
-      "depthKm": 146,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-105149c58a1a8dc7",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-02T09:47:26-03:00",
-      "latitude": -23.993,
-      "longitude": -66.981,
-      "magnitude": 3.3,
-      "depthKm": 206,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-3c075c81afe88be3",
       "kind": "earthquake",
@@ -876,15 +852,75 @@
       "intensityText": null
     },
     {
-      "id": "inpres-e19c9a632b6ebd77",
+      "id": "inpres-3f280f65bdaefeae",
       "kind": "earthquake",
-      "occurredAt": "2026-10-09T00:38:27-03:00",
-      "latitude": -32.85,
-      "longitude": -68.31,
-      "magnitude": 2.6,
-      "depthKm": 10,
+      "occurredAt": "2026-10-08T21:48:52-03:00",
+      "latitude": -38.209,
+      "longitude": -68.553,
+      "magnitude": 3,
+      "depthKm": 7,
+      "place": null,
+      "province": "NEUQUEN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-208aba6eec62ae44",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-08T23:44:26-03:00",
+      "latitude": -28.401,
+      "longitude": -65.82,
+      "magnitude": 2.8,
+      "depthKm": 5,
+      "place": null,
+      "province": "CATAMARCA",
+      "intensityText": "III -Ciudad de San Fernando del Valle de Catamarca. II a III -Coneta, Catamarca. II a III -La Tercena, Catamarca"
+    },
+    {
+      "id": "inpres-d6041d070e577f76",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-09T00:38:25-03:00",
+      "latitude": -32.864,
+      "longitude": -68.296,
+      "magnitude": 2.5,
+      "depthKm": 7,
       "place": null,
       "province": "MENDOZA",
+      "intensityText": "II a III -San Martín, Mendoza"
+    },
+    {
+      "id": "inpres-b8f23c8dd85562ed",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-09T03:23:03-03:00",
+      "latitude": -31.465,
+      "longitude": -68.545,
+      "magnitude": 2.7,
+      "depthKm": 106,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-2a825caa5a21c6c1",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-09T07:42:20-03:00",
+      "latitude": -31.385,
+      "longitude": -68.774,
+      "magnitude": 3.5,
+      "depthKm": 105,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-cafffd89c87abd91",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-09T09:11:24-03:00",
+      "latitude": -31.069,
+      "longitude": -67.655,
+      "magnitude": 2.7,
+      "depthKm": 107,
+      "place": null,
+      "province": "SAN JUAN",
       "intensityText": null
     }
   ]
