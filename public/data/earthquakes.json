@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-11T07:06:22.593Z",
-  "sourceCheckedAt": "2026-10-11T07:06:22.593Z",
+  "generatedAt": "2026-10-11T14:01:27.227Z",
+  "sourceCheckedAt": "2026-10-11T14:01:27.227Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-53bae96adc914007",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-04T05:09:33-03:00",
-      "latitude": -28.304,
-      "longitude": -69.179,
-      "magnitude": 2.9,
-      "depthKm": 94,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-773989595f18e77b",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-04T09:29:33-03:00",
-      "latitude": -30.692,
-      "longitude": -69.835,
-      "magnitude": 2.9,
-      "depthKm": 116,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-f8ce0d71a0c0eec6",
       "kind": "earthquake",
@@ -756,25 +732,25 @@
       "intensityText": null
     },
     {
-      "id": "inpres-9b5c77e4ed558e1e",
+      "id": "inpres-41e202b9442fdd9f",
       "kind": "earthquake",
       "occurredAt": "2026-10-11T02:03:28-03:00",
-      "latitude": -33.15,
-      "longitude": -68.86,
-      "magnitude": 3.8,
-      "depthKm": 10,
+      "latitude": -33.095,
+      "longitude": -68.973,
+      "magnitude": 3,
+      "depthKm": 21,
       "place": null,
       "province": "MENDOZA",
-      "intensityText": null
+      "intensityText": "II a III -Potrerillos, Mendoza. II a III -Cacheuta, Mendoza. II a III -Ciudad de Mendoza"
     },
     {
-      "id": "inpres-da37f2ae4f2332fd",
+      "id": "inpres-b43cc2291ce3fcef",
       "kind": "earthquake",
-      "occurredAt": "2026-10-11T02:10:11-03:00",
-      "latitude": -30.35,
-      "longitude": -69.36,
+      "occurredAt": "2026-10-11T02:10:09-03:00",
+      "latitude": -30.314,
+      "longitude": -69.39,
       "magnitude": 2.6,
-      "depthKm": 97,
+      "depthKm": 111,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
