@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-11T22:49:21.004Z",
-  "sourceCheckedAt": "2026-10-11T22:49:21.004Z",
+  "generatedAt": "2026-10-12T02:18:44.505Z",
+  "sourceCheckedAt": "2026-10-12T02:18:44.505Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-d7c0bd76529e2003",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-04T21:23:14-03:00",
-      "latitude": -31.521,
-      "longitude": -67.927,
-      "magnitude": 2.9,
-      "depthKm": 17,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-4297eae3a96fd4e7",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-04T22:02:39-03:00",
-      "latitude": -31.24,
-      "longitude": -68.87,
-      "magnitude": 3.6,
-      "depthKm": 109,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": "II a III -Ciudad de San Juan. II a III -Villa Calingasta, San Juan. II a III -Ciudad de Mendoza"
-    },
-    {
-      "id": "inpres-60971b75ad0fa020",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-04T22:39:03-03:00",
-      "latitude": -32.756,
-      "longitude": -69.661,
-      "magnitude": 2.7,
-      "depthKm": 121,
-      "place": null,
-      "province": "MENDOZA",
-      "intensityText": null
-    },
     {
       "id": "inpres-035f85bf116eae95",
       "kind": "earthquake",
