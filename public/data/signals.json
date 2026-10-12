@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-10-11T17:44:21.746Z",
+  "generatedAt": "2026-10-12T05:51:29.062Z",
   "signals": [
     {
       "schemaVersion": "1.0",
@@ -93,14 +93,14 @@
       "id": "georef-api-usage",
       "category": "public-infrastructure",
       "title": "Consultas históricas a GeoRef",
-      "value": 264037620,
+      "value": 263725263,
       "unit": "consultas",
-      "periodLabel": "Acumulado al 2024-08-27",
+      "periodLabel": "Acumulado al 2024-08-25",
       "status": "historical",
       "availability": "stale",
-      "observedAt": "2024-08-27T00:00:00.000Z",
+      "observedAt": "2024-08-25T00:00:00.000Z",
       "publishedAt": null,
-      "fetchedAt": "2026-10-11T17:40:21.017Z",
+      "fetchedAt": "2026-10-12T05:51:29.062Z",
       "source": {
         "name": "Datos Argentina · GeoRef",
         "url": "https://www.datos.gob.ar/dataset/jgm_8/archivo/jgm_8.24",
