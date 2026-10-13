@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-13T02:32:46.511Z",
-  "sourceCheckedAt": "2026-10-13T02:32:46.511Z",
+  "generatedAt": "2026-10-13T10:26:45.736Z",
+  "sourceCheckedAt": "2026-10-13T10:26:45.736Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-03901ba6d8f15ce5",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-06T01:49:40-03:00",
-      "latitude": -24.075,
-      "longitude": -66.892,
-      "magnitude": 3.3,
-      "depthKm": 215,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-02cc7f9d325c1691",
       "kind": "earthquake",
@@ -705,6 +693,66 @@
       "depthKm": 209,
       "place": null,
       "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-1eaee951b886310e",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-13T00:04:11-03:00",
+      "latitude": -28.9,
+      "longitude": -67.146,
+      "magnitude": 4.2,
+      "depthKm": 134,
+      "place": null,
+      "province": "LA RIOJA",
+      "intensityText": "III -Chilecito, La Rioja. III -Aimogasta, La Rioja. III -Anillaco, La Rioja. II a III -Vinchina, La Rioja. II a III -Ciudad de La Rioja"
+    },
+    {
+      "id": "inpres-72eabd8d8ff322be",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-13T00:47:52-03:00",
+      "latitude": -25.955,
+      "longitude": -66.752,
+      "magnitude": 2.6,
+      "depthKm": 10,
+      "place": null,
+      "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-ffd9f52c5480769e",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-13T03:56:19-03:00",
+      "latitude": -29.616,
+      "longitude": -68.453,
+      "magnitude": 2.7,
+      "depthKm": 116,
+      "place": null,
+      "province": "LA RIOJA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-46b7b0f503444344",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-13T05:08:21-03:00",
+      "latitude": -31.235,
+      "longitude": -68.921,
+      "magnitude": 3.3,
+      "depthKm": 114,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-1e0498bf6b3df04f",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-13T06:10:08-03:00",
+      "latitude": -29.789,
+      "longitude": -67.91,
+      "magnitude": 2.5,
+      "depthKm": 113,
+      "place": null,
+      "province": "LA RIOJA",
       "intensityText": null
     }
   ]
