@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-14T23:10:00.733Z",
-  "sourceCheckedAt": "2026-10-14T23:10:00.733Z",
+  "generatedAt": "2026-10-15T04:28:38.504Z",
+  "sourceCheckedAt": "2026-10-15T04:28:38.504Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-78ab67f42232b29b",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-07T22:28:11-03:00",
-      "latitude": -25.859,
-      "longitude": -66.685,
-      "magnitude": 2.7,
-      "depthKm": 5,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-9e2e0e65026837fd",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-08T00:48:54-03:00",
-      "latitude": -33.029,
-      "longitude": -68.987,
-      "magnitude": 2.9,
-      "depthKm": 9,
-      "place": null,
-      "province": "MENDOZA",
-      "intensityText": "II a III -Ciudad de Mendoza. II a III -Luján de Cuyo, Mendoza"
-    },
     {
       "id": "inpres-4fad8dde4844147d",
       "kind": "earthquake",
@@ -910,6 +886,30 @@
       "place": null,
       "province": "SALTA",
       "intensityText": null
+    },
+    {
+      "id": "inpres-87f19c222a7d4afe",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-14T21:23:37-03:00",
+      "latitude": -23.07,
+      "longitude": -66.491,
+      "magnitude": 3.5,
+      "depthKm": 249,
+      "place": null,
+      "province": "JUJUY",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-775f1ef06d60c632",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-14T21:50:11-03:00",
+      "latitude": -30.649,
+      "longitude": -69.228,
+      "magnitude": 3.5,
+      "depthKm": 10,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": "III -Villa Iglesia, San Juan. II a III -Rodeo, San Juan. II a III -Ciudad de San Juan"
     }
   ]
 }
