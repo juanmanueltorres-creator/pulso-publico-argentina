@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "thermal-hotspot",
-  "generatedAt": "2026-10-15T11:57:30.783Z",
-  "sourceCheckedAt": "2026-10-15T11:57:30.783Z",
+  "generatedAt": "2026-10-15T17:16:48.289Z",
+  "sourceCheckedAt": "2026-10-15T17:16:48.289Z",
   "window": {
     "hours": 24
   },
@@ -607,6 +607,105 @@
       "frpMw": null,
       "sensor": "VIIRS",
       "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-3c12a65b03d5e562",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-10-15T06:42:00.000Z",
+      "latitude": -38.7015,
+      "longitude": -68.70014,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "SNPP"
+    },
+    {
+      "id": "conae-3f45a98203f18c1a",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-10-15T06:42:00.000Z",
+      "latitude": -38.69524,
+      "longitude": -68.69972,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "SNPP"
+    },
+    {
+      "id": "conae-4f8f0ea093952cff",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-10-15T06:42:00.000Z",
+      "latitude": -38.74396,
+      "longitude": -68.84061,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "SNPP"
+    },
+    {
+      "id": "conae-57300a084092f591",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-10-15T06:42:00.000Z",
+      "latitude": -37.42559,
+      "longitude": -69.17117,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "SNPP"
+    },
+    {
+      "id": "conae-58991682aa2fe7df",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-10-15T06:42:00.000Z",
+      "latitude": -38.695,
+      "longitude": -68.70616,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "SNPP"
+    },
+    {
+      "id": "conae-607ac1528d6a7902",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-10-15T06:42:00.000Z",
+      "latitude": -38.69842,
+      "longitude": -68.70502,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "SNPP"
+    },
+    {
+      "id": "conae-b098af69f4c4daa8",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-10-15T06:42:00.000Z",
+      "latitude": -38.70126,
+      "longitude": -68.70659,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "SNPP"
+    },
+    {
+      "id": "conae-f53672031acdca11",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-10-15T06:42:00.000Z",
+      "latitude": -38.69862,
+      "longitude": -68.69855,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "SNPP"
+    },
+    {
+      "id": "conae-f8b8e9ec79d2afa7",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-10-15T06:42:00.000Z",
+      "latitude": -38.74417,
+      "longitude": -68.83454,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "SNPP"
     }
   ]
 }
