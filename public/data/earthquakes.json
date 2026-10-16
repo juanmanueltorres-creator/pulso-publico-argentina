@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-15T22:12:56.919Z",
-  "sourceCheckedAt": "2026-10-15T22:12:56.919Z",
+  "generatedAt": "2026-10-16T01:15:19.398Z",
+  "sourceCheckedAt": "2026-10-16T01:15:19.398Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-f6b2be57379c2a8c",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-08T19:48:28-03:00",
-      "latitude": -30.502,
-      "longitude": -69.24,
-      "magnitude": 2.6,
-      "depthKm": 104,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-3f280f65bdaefeae",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-08T21:48:52-03:00",
-      "latitude": -38.209,
-      "longitude": -68.553,
-      "magnitude": 3,
-      "depthKm": 7,
-      "place": null,
-      "province": "NEUQUEN",
-      "intensityText": null
-    },
     {
       "id": "inpres-208aba6eec62ae44",
       "kind": "earthquake",
@@ -876,6 +852,18 @@
       "intensityText": null
     },
     {
+      "id": "inpres-54ed684bc7fd8289",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-14T20:52:32-03:00",
+      "latitude": -30.412,
+      "longitude": -69.373,
+      "magnitude": 2.6,
+      "depthKm": 18,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
       "id": "inpres-87f19c222a7d4afe",
       "kind": "earthquake",
       "occurredAt": "2026-10-14T21:23:37-03:00",
@@ -1089,6 +1077,18 @@
       "depthKm": 217,
       "place": null,
       "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-182bfb4cac37e1c5",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-15T19:41:48-03:00",
+      "latitude": -25.904,
+      "longitude": -67.068,
+      "magnitude": 2.6,
+      "depthKm": 30,
+      "place": null,
+      "province": "CATAMARCA",
       "intensityText": null
     }
   ]
