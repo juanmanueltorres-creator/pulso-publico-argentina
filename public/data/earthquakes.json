@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-16T07:04:48.484Z",
-  "sourceCheckedAt": "2026-10-16T07:04:48.484Z",
+  "generatedAt": "2026-10-16T12:22:00.662Z",
+  "sourceCheckedAt": "2026-10-16T12:22:00.662Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-2a825caa5a21c6c1",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-09T07:42:20-03:00",
-      "latitude": -31.385,
-      "longitude": -68.774,
-      "magnitude": 3.5,
-      "depthKm": 105,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-cafffd89c87abd91",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-09T09:11:24-03:00",
-      "latitude": -31.069,
-      "longitude": -67.655,
-      "magnitude": 2.7,
-      "depthKm": 107,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-598f316984dfb657",
       "kind": "earthquake",
@@ -1053,6 +1029,30 @@
       "depthKm": 30,
       "place": null,
       "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-baec095a13c8e1d1",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-16T04:08:49-03:00",
+      "latitude": -23.919,
+      "longitude": -66.776,
+      "magnitude": 3.4,
+      "depthKm": 202,
+      "place": null,
+      "province": "JUJUY",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-1751984c5c07076a",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-16T07:45:34-03:00",
+      "latitude": -28.763,
+      "longitude": -67.472,
+      "magnitude": 2.8,
+      "depthKm": 138,
+      "place": null,
+      "province": "LA RIOJA",
       "intensityText": null
     }
   ]
