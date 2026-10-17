@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-17T17:05:08.581Z",
-  "sourceCheckedAt": "2026-10-17T17:05:08.581Z",
+  "generatedAt": "2026-10-17T19:20:56.405Z",
+  "sourceCheckedAt": "2026-10-17T19:20:56.405Z",
   "window": {
     "hours": 168
   },
@@ -1101,6 +1101,18 @@
       "depthKm": 10,
       "place": null,
       "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-8cf7cf8d05be4799",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-17T14:24:18-03:00",
+      "latitude": -26.99,
+      "longitude": -66.5,
+      "magnitude": 3.9,
+      "depthKm": 10,
+      "place": null,
+      "province": "CATAMARCA",
       "intensityText": null
     }
   ]
