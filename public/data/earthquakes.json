@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-16T23:31:22.377Z",
-  "sourceCheckedAt": "2026-10-16T23:31:22.377Z",
+  "generatedAt": "2026-10-17T04:16:34.336Z",
+  "sourceCheckedAt": "2026-10-17T04:16:34.336Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-fd236fa0babe379f",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-09T21:42:03-03:00",
-      "latitude": -28.19,
-      "longitude": -67.441,
-      "magnitude": 2.8,
-      "depthKm": 143,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-59f640c30159b4d8",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-10T00:52:47-03:00",
-      "latitude": -28.761,
-      "longitude": -69.578,
-      "magnitude": 3.1,
-      "depthKm": 123,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-05bd0d9819a90384",
       "kind": "earthquake",
