@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-18T10:56:39.293Z",
-  "sourceCheckedAt": "2026-10-18T10:56:39.293Z",
+  "generatedAt": "2026-10-18T14:31:52.364Z",
+  "sourceCheckedAt": "2026-10-18T14:31:52.364Z",
   "window": {
     "hours": 168
   },
@@ -1044,25 +1044,13 @@
       "intensityText": "II a III -Villa Carlos Paz, Córdoba. II a III -Tanti, Córdoba. II a III -Villa Icho Cruz, Córdoba"
     },
     {
-      "id": "inpres-e374f0168f132096",
+      "id": "inpres-df3299eeee12026d",
       "kind": "earthquake",
-      "occurredAt": "2026-10-18T01:06:19-03:00",
-      "latitude": -31.64,
-      "longitude": -66.85,
-      "magnitude": 2.8,
-      "depthKm": 108,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-02cd24eee1dbdce7",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-18T07:34:43-03:00",
-      "latitude": -29.24,
-      "longitude": -68.94,
-      "magnitude": 3,
-      "depthKm": 10,
+      "occurredAt": "2026-10-18T01:06:16-03:00",
+      "latitude": -31.628,
+      "longitude": -66.845,
+      "magnitude": 2.5,
+      "depthKm": 126,
       "place": null,
       "province": "LA RIOJA",
       "intensityText": null
