@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-17T22:13:54.333Z",
-  "sourceCheckedAt": "2026-10-17T22:13:54.333Z",
+  "generatedAt": "2026-10-18T00:56:59.553Z",
+  "sourceCheckedAt": "2026-10-18T00:56:59.553Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-938825bea02ba668",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-10T19:46:15-03:00",
-      "latitude": -31.772,
-      "longitude": -69.86,
-      "magnitude": 2.8,
-      "depthKm": 124,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-a81652a2e9208473",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-10T21:36:28-03:00",
-      "latitude": -29.953,
-      "longitude": -67.893,
-      "magnitude": 3.1,
-      "depthKm": 12,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": "II a III -La Torre, La Rioja. II a III -Balde del Rosario, San Juan"
-    },
     {
       "id": "inpres-d4abec8037e6c953",
       "kind": "earthquake",
@@ -1089,6 +1065,18 @@
       "depthKm": 209,
       "place": null,
       "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-dfa43c8fead51c1b",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-17T19:37:31-03:00",
+      "latitude": -25.984,
+      "longitude": -66.761,
+      "magnitude": 3.4,
+      "depthKm": 5,
+      "place": null,
+      "province": "CATAMARCA",
       "intensityText": null
     }
   ]
