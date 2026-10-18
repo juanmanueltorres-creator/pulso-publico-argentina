@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-18T00:56:59.553Z",
-  "sourceCheckedAt": "2026-10-18T00:56:59.553Z",
+  "generatedAt": "2026-10-18T05:49:05.349Z",
+  "sourceCheckedAt": "2026-10-18T05:49:05.349Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-d4abec8037e6c953",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-10T21:59:28-03:00",
-      "latitude": -32.267,
-      "longitude": -70.002,
-      "magnitude": 2.7,
-      "depthKm": 117,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-41e202b9442fdd9f",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-11T02:03:28-03:00",
-      "latitude": -33.095,
-      "longitude": -68.973,
-      "magnitude": 3,
-      "depthKm": 21,
-      "place": null,
-      "province": "MENDOZA",
-      "intensityText": "II a III -Potrerillos, Mendoza. II a III -Cacheuta, Mendoza. II a III -Ciudad de Mendoza"
-    },
-    {
-      "id": "inpres-b43cc2291ce3fcef",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-11T02:10:09-03:00",
-      "latitude": -30.314,
-      "longitude": -69.39,
-      "magnitude": 2.6,
-      "depthKm": 111,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-112e21dd03172e78",
       "kind": "earthquake",
@@ -1077,6 +1041,54 @@
       "depthKm": 5,
       "place": null,
       "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-84666dd95281ea4c",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-17T22:34:58-03:00",
+      "latitude": -32.993,
+      "longitude": -66.206,
+      "magnitude": 2.4,
+      "depthKm": 8,
+      "place": null,
+      "province": "SAN LUIS",
+      "intensityText": "II a III -El Trapiche, San Luis"
+    },
+    {
+      "id": "inpres-25b46c014b91b993",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-17T23:33:14-03:00",
+      "latitude": -24.221,
+      "longitude": -67.047,
+      "magnitude": 3.8,
+      "depthKm": 193,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-7c1c3dbc63b721b5",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-17T23:40:08-03:00",
+      "latitude": -31.355,
+      "longitude": -64.76,
+      "magnitude": 2.6,
+      "depthKm": 10,
+      "place": null,
+      "province": "CORDOBA",
+      "intensityText": "II a III -Villa Carlos Paz, Córdoba. II a III -Tanti, Córdoba. II a III -Villa Icho Cruz, Córdoba"
+    },
+    {
+      "id": "inpres-e374f0168f132096",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-18T01:06:19-03:00",
+      "latitude": -31.64,
+      "longitude": -66.85,
+      "magnitude": 2.8,
+      "depthKm": 108,
+      "place": null,
+      "province": "LA RIOJA",
       "intensityText": null
     }
   ]
