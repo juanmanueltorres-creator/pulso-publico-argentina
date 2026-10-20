@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-20T00:16:44.680Z",
-  "sourceCheckedAt": "2026-10-20T00:16:44.680Z",
+  "generatedAt": "2026-10-20T05:57:51.612Z",
+  "sourceCheckedAt": "2026-10-20T05:57:51.612Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-5e9410e5ebc88164",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-12T23:30:20-03:00",
-      "latitude": -28.511,
-      "longitude": -69.176,
-      "magnitude": 2.7,
-      "depthKm": 112,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-1eaee951b886310e",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-13T00:04:11-03:00",
-      "latitude": -28.9,
-      "longitude": -67.146,
-      "magnitude": 4.2,
-      "depthKm": 134,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": "III -Chilecito, La Rioja. III -Aimogasta, La Rioja. III -Anillaco, La Rioja. II a III -Vinchina, La Rioja. II a III -Ciudad de La Rioja"
-    },
-    {
-      "id": "inpres-72eabd8d8ff322be",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-13T00:47:52-03:00",
-      "latitude": -25.955,
-      "longitude": -66.752,
-      "magnitude": 2.6,
-      "depthKm": 10,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
     {
       "id": "inpres-ffd9f52c5480769e",
       "kind": "earthquake",
@@ -909,6 +873,18 @@
       "depthKm": 29,
       "place": null,
       "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-4e0877444b8aa56c",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-20T01:24:20-03:00",
+      "latitude": -24.2,
+      "longitude": -67.24,
+      "magnitude": 2.5,
+      "depthKm": 206,
+      "place": null,
+      "province": "SALTA",
       "intensityText": null
     }
   ]
