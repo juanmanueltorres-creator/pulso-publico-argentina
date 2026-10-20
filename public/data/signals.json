@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-10-20T16:58:38.306Z",
+  "generatedAt": "2026-10-20T17:24:57.590Z",
   "signals": [
     {
       "schemaVersion": "1.0",
@@ -35,14 +35,14 @@
       "id": "openalex-argentina-works",
       "category": "science",
       "title": "Producción científica indexada",
-      "value": 29151,
+      "value": 29249,
       "unit": "works",
       "periodLabel": "2026 · afiliación institucional argentina",
       "status": "updated",
       "availability": "available",
-      "observedAt": "2026-10-20T05:05:53.304Z",
+      "observedAt": "2026-10-20T17:24:57.590Z",
       "publishedAt": null,
-      "fetchedAt": "2026-10-20T05:05:53.304Z",
+      "fetchedAt": "2026-10-20T17:24:57.590Z",
       "source": {
         "name": "OpenAlex",
         "url": "https://api.openalex.org/works?filter=institutions.country_code:AR,publication_year:2026",
