@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-21T04:35:28.147Z",
-  "sourceCheckedAt": "2026-10-21T04:35:28.147Z",
+  "generatedAt": "2026-10-21T10:03:25.472Z",
+  "sourceCheckedAt": "2026-10-21T10:03:25.472Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-ae597a09db7e6db0",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-14T02:33:51-03:00",
-      "latitude": -31.052,
-      "longitude": -67.642,
-      "magnitude": 2.7,
-      "depthKm": 18,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-a6c010d70af3c2f1",
       "kind": "earthquake",
