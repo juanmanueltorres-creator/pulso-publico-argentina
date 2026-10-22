@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-22T20:00:51.548Z",
-  "sourceCheckedAt": "2026-10-22T20:00:51.548Z",
+  "generatedAt": "2026-10-22T23:17:26.741Z",
+  "sourceCheckedAt": "2026-10-22T23:17:26.741Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-182bfb4cac37e1c5",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-15T19:41:48-03:00",
-      "latitude": -25.904,
-      "longitude": -67.068,
-      "magnitude": 2.6,
-      "depthKm": 30,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
     {
       "id": "inpres-6ef9924999c927c1",
       "kind": "earthquake",
