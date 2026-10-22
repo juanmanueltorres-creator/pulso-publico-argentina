@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-21T23:15:57.351Z",
-  "sourceCheckedAt": "2026-10-21T23:15:57.351Z",
+  "generatedAt": "2026-10-22T04:34:18.824Z",
+  "sourceCheckedAt": "2026-10-22T04:34:18.824Z",
   "window": {
     "hours": 168
   },
@@ -23,66 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-54ed684bc7fd8289",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-14T20:52:32-03:00",
-      "latitude": -30.412,
-      "longitude": -69.373,
-      "magnitude": 2.6,
-      "depthKm": 18,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-87f19c222a7d4afe",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-14T21:23:37-03:00",
-      "latitude": -23.07,
-      "longitude": -66.491,
-      "magnitude": 3.5,
-      "depthKm": 249,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-775f1ef06d60c632",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-14T21:50:11-03:00",
-      "latitude": -30.649,
-      "longitude": -69.228,
-      "magnitude": 3.5,
-      "depthKm": 10,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": "III -Villa Iglesia, San Juan. II a III -Rodeo, San Juan. II a III -Ciudad de San Juan"
-    },
-    {
-      "id": "inpres-f05a7932f34dde41",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-14T23:22:04-03:00",
-      "latitude": -24.318,
-      "longitude": -67.198,
-      "magnitude": 3.4,
-      "depthKm": 191,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-e334f52fbad71152",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-15T00:42:13-03:00",
-      "latitude": -24.242,
-      "longitude": -67.036,
-      "magnitude": 2.6,
-      "depthKm": 138,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-be6e6069f9e0b697",
       "kind": "earthquake",
@@ -468,13 +408,13 @@
       "intensityText": null
     },
     {
-      "id": "inpres-c8b79e6a92fe2e02",
+      "id": "inpres-148736bb002b6b2d",
       "kind": "earthquake",
-      "occurredAt": "2026-10-17T09:29:10-03:00",
-      "latitude": -25.514,
-      "longitude": -66.755,
+      "occurredAt": "2026-10-17T09:29:09-03:00",
+      "latitude": -25.422,
+      "longitude": -66.658,
       "magnitude": 2.6,
-      "depthKm": 115,
+      "depthKm": 145,
       "place": null,
       "province": "CATAMARCA",
       "intensityText": null
@@ -1162,6 +1102,42 @@
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
+    },
+    {
+      "id": "inpres-31fc817db1f37171",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-21T20:55:31-03:00",
+      "latitude": -28.144,
+      "longitude": -66.07,
+      "magnitude": 3.3,
+      "depthKm": 10,
+      "place": null,
+      "province": "CATAMARCA",
+      "intensityText": "II a III -Ciudad de San Fernando del Valle de Catamarca"
+    },
+    {
+      "id": "inpres-55fa5311f416a903",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-21T21:14:32-03:00",
+      "latitude": -24.198,
+      "longitude": -67.16,
+      "magnitude": 3.4,
+      "depthKm": 192,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-e1629f2490cf87a7",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-21T22:08:02-03:00",
+      "latitude": -31.255,
+      "longitude": -68.698,
+      "magnitude": 3.7,
+      "depthKm": 109,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": "II a III -Ciudad de San Juan"
     }
   ]
 }
