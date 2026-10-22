@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-10-22T09:21:46.576Z",
+  "generatedAt": "2026-10-22T17:07:00.541Z",
   "signals": [
     {
       "schemaVersion": "1.0",
@@ -100,7 +100,7 @@
       "availability": "stale",
       "observedAt": "2024-08-27T00:00:00.000Z",
       "publishedAt": null,
-      "fetchedAt": "2026-10-22T04:38:12.976Z",
+      "fetchedAt": "2026-10-22T17:07:00.541Z",
       "source": {
         "name": "Datos Argentina · GeoRef",
         "url": "https://www.datos.gob.ar/dataset/jgm_8/archivo/jgm_8.24",
