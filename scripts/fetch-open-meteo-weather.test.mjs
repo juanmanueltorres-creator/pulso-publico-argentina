@@ -213,7 +213,7 @@ describe('Open-Meteo ECMWF adapter', () => {
       fetchOpenMeteoWeather(points.slice(0, 1), fetcher, checkedAt, 1, {
         maxRetries: 1, retryDelayMs: 100, sleepImpl,
       }),
-    ).rejects.toThrow(/batch 1\\/1 failed after 2 attempt\\(s\\).*invalid JSON/i)
+    ).rejects.toThrow('Open-Meteo batch 1/1 failed after 2 attempt(s): Open-Meteo returned invalid JSON')
     expect(fetcher).toHaveBeenCalledTimes(2)
   })
 
