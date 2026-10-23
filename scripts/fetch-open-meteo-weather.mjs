@@ -172,7 +172,22 @@ export async function fetchOpenMeteoBatch(points, fetchImpl = fetch, checkedAt =
     throw requestError(response)
   }
 
-  const payload = await response.json()
+  // An upstream gateway can occasionally return a 200 response with plain text
+  // instead of JSON. Treat transport-format corruption as transient, but still
+  // reject every incomplete or semantically invalid JSON payload.
+  const raw = await response.text()
+  let payload
+  try {
+    payload = JSON.parse(raw)
+  } catch (cause) {
+    const preview = raw.slice(0, 120).replace(/\s+/g, ' ')
+    const error = new Error(
+      `Open-Meteo returned invalid JSON (HTTP ${response.status}, ${validatedPoints.length} points): ${preview}`,
+      { cause },
+    )
+    error.code = 'OPEN_METEO_INVALID_JSON'
+    throw error
+  }
   let locations
 
   if (validatedPoints.length === 1) {
@@ -221,11 +236,12 @@ function isTransientProviderError(error) {
     return true
   }
   if (status !== undefined && status !== null) return false
+  if (error?.code === 'OPEN_METEO_INVALID_JSON') return true
 
   return error instanceof TypeError || error?.name === 'AbortError' || error?.name === 'TimeoutError'
 }
 
-async function fetchBatchWithRetry(batch, fetchImpl, checkedAt, options) {
+async function fetchBatchWithRetry(batch, fetchImpl, checkedAt, options, batchNumber, batchCount) {
   let retryCount = 0
 
   while (true) {
@@ -233,7 +249,7 @@ async function fetchBatchWithRetry(batch, fetchImpl, checkedAt, options) {
       return await fetchOpenMeteoBatch(batch, fetchImpl, checkedAt)
     } catch (error) {
       if (!isTransientProviderError(error) || retryCount >= options.maxRetries) {
-        throw error
+        throw new Error(`Open-Meteo batch ${batchNumber}/${batchCount} failed after ${retryCount + 1} attempt(s): ${error.message}`, { cause: error })
       }
 
       const delay = error.retryAfterMs ?? options.retryDelayMs * (2 ** retryCount)
@@ -265,7 +281,7 @@ export async function fetchOpenMeteoWeather(
   const locations = []
   for (let start = 0; start < points.length; start += batchSize) {
     const batch = points.slice(start, start + batchSize)
-    const normalized = await fetchBatchWithRetry(batch, fetchImpl, checkedAt, fetchOptions)
+    const normalized = await fetchBatchWithRetry(batch, fetchImpl, checkedAt, fetchOptions, Math.floor(start / batchSize) + 1, Math.ceil(points.length / batchSize))
     locations.push(...normalized)
 
     const hasNextBatch = start + batchSize < points.length
