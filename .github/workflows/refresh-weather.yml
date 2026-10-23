@@ -16,7 +16,10 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # 12 sequential batches × (3 attempts × 45s + 10s/20s backoffs)
+    # + 11 × 12s inter-batch delays ≈ 35.2 min worst case.
+    # Keep GitHub's job budget above that bound without changing fetch semantics.
+    timeout-minutes: 40
 
     steps:
       - name: Checkout
