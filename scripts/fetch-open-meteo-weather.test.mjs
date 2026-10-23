@@ -187,6 +187,36 @@ describe('Open-Meteo ECMWF adapter', () => {
     },
   )
 
+  it('retries a transient HTTP 200 non-JSON upstream response without accepting partial data', async () => {
+    let calls = 0
+    const fetcher = vi.fn(async (url) => {
+      calls += 1
+      if (calls === 1) return new Response('Unexpected error from upstream', { status: 200 })
+      return responseForRequest(url)
+    })
+    const sleepImpl = vi.fn(async () => undefined)
+
+    const result = await fetchOpenMeteoWeather(points.slice(0, 1), fetcher, checkedAt, 1, {
+      maxRetries: 1, retryDelayMs: 100, sleepImpl,
+    })
+
+    expect(result).toHaveLength(1)
+    expect(fetcher).toHaveBeenCalledTimes(2)
+    expect(sleepImpl).toHaveBeenCalledWith(100)
+  })
+
+  it('fails closed and identifies the batch when repeated HTTP 200 responses contain invalid JSON', async () => {
+    const fetcher = vi.fn(async () => new Response('Unexpected error from upstream', { status: 200 }))
+    const sleepImpl = vi.fn(async () => undefined)
+
+    await expect(
+      fetchOpenMeteoWeather(points.slice(0, 1), fetcher, checkedAt, 1, {
+        maxRetries: 1, retryDelayMs: 100, sleepImpl,
+      }),
+    ).rejects.toThrow('Open-Meteo batch 1/1 failed after 2 attempt(s): Open-Meteo returned invalid JSON')
+    expect(fetcher).toHaveBeenCalledTimes(2)
+  })
+
   it('does not retry semantic response validation failures', async () => {
     const invalid = payloadFor(-31.49, -64.01)
     delete invalid.hourly.wind_gusts_10m
