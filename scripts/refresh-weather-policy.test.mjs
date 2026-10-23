@@ -10,5 +10,7 @@ describe('production weather refresh retry budget', () => {
     expect(source).toContain('batchDelayMs: 12_000')
     expect(source).toContain('maxRetries: 2')
     expect(source).toContain('retryDelayMs: 10_000')
+    const workflow = await readFile(resolve('.github/workflows/refresh-weather.yml'), 'utf8')
+    expect(workflow).toContain('timeout-minutes: 40')
   })
 })
