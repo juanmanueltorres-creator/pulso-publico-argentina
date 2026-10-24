@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-23T23:05:07.578Z",
-  "sourceCheckedAt": "2026-10-23T23:05:07.578Z",
+  "generatedAt": "2026-10-24T01:33:21.728Z",
+  "sourceCheckedAt": "2026-10-24T01:33:21.728Z",
   "window": {
     "hours": 168
   },
@@ -1075,6 +1075,30 @@
       "longitude": -68.762,
       "magnitude": 2.5,
       "depthKm": 106,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-cee8587517b16c34",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-23T20:51:57-03:00",
+      "latitude": -31.746,
+      "longitude": -69.576,
+      "magnitude": 2.7,
+      "depthKm": 113,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-9c17b04a400b5c86",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-23T22:06:44-03:00",
+      "latitude": -31.14,
+      "longitude": -68.08,
+      "magnitude": 2.5,
+      "depthKm": 90,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
