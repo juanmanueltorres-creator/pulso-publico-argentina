@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-24T19:27:18.908Z",
-  "sourceCheckedAt": "2026-10-24T19:27:18.908Z",
+  "generatedAt": "2026-10-24T22:25:38.754Z",
+  "sourceCheckedAt": "2026-10-24T22:25:38.754Z",
   "window": {
     "hours": 168
   },
@@ -23,66 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-3faebb7481638352",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-17T17:29:43-03:00",
-      "latitude": -22.985,
-      "longitude": -66.589,
-      "magnitude": 3.4,
-      "depthKm": 233,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-7d02ef63f6c019c5",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-17T17:37:44-03:00",
-      "latitude": -23.649,
-      "longitude": -63.938,
-      "magnitude": 2.7,
-      "depthKm": 10,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-f638ee0419b2c597",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-17T18:30:19-03:00",
-      "latitude": -25.917,
-      "longitude": -66.855,
-      "magnitude": 2.5,
-      "depthKm": 8,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-b2248278f8d7729e",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-17T18:54:55-03:00",
-      "latitude": -23.657,
-      "longitude": -66.604,
-      "magnitude": 3,
-      "depthKm": 230,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-f85db8674c643532",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-17T19:23:40-03:00",
-      "latitude": -25.93,
-      "longitude": -66.732,
-      "magnitude": 3.8,
-      "depthKm": 11,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-dfa43c8fead51c1b",
       "kind": "earthquake",
@@ -982,6 +922,18 @@
       "place": null,
       "province": "JUJUY",
       "intensityText": null
+    },
+    {
+      "id": "inpres-929ccaf9cd90b177",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-24T04:21:49-03:00",
+      "latitude": -23.905,
+      "longitude": -64.882,
+      "magnitude": 3.4,
+      "depthKm": 25,
+      "place": null,
+      "province": "JUJUY",
+      "intensityText": "III -Lib. Gral. San Martín, Jujuy. II a III -Fraile Pintado, Jujuy"
     }
   ]
 }
