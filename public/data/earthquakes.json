@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-25T01:04:01.231Z",
-  "sourceCheckedAt": "2026-10-25T01:04:01.231Z",
+  "generatedAt": "2026-10-25T06:02:12.699Z",
+  "sourceCheckedAt": "2026-10-25T06:02:12.699Z",
   "window": {
     "hours": 168
   },
@@ -23,78 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-84666dd95281ea4c",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-17T22:34:58-03:00",
-      "latitude": -32.993,
-      "longitude": -66.206,
-      "magnitude": 2.4,
-      "depthKm": 8,
-      "place": null,
-      "province": "SAN LUIS",
-      "intensityText": "II a III -El Trapiche, San Luis"
-    },
-    {
-      "id": "inpres-25b46c014b91b993",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-17T23:33:14-03:00",
-      "latitude": -24.221,
-      "longitude": -67.047,
-      "magnitude": 3.8,
-      "depthKm": 193,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-7c1c3dbc63b721b5",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-17T23:40:08-03:00",
-      "latitude": -31.355,
-      "longitude": -64.76,
-      "magnitude": 2.6,
-      "depthKm": 10,
-      "place": null,
-      "province": "CORDOBA",
-      "intensityText": "II a III -Villa Carlos Paz, Córdoba. II a III -Tanti, Córdoba. II a III -Villa Icho Cruz, Córdoba"
-    },
-    {
-      "id": "inpres-5b93b5cd493d6e51",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-17T23:59:20-03:00",
-      "latitude": -31.451,
-      "longitude": -68.548,
-      "magnitude": 2.9,
-      "depthKm": 105,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-df3299eeee12026d",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-18T01:06:16-03:00",
-      "latitude": -31.628,
-      "longitude": -66.845,
-      "magnitude": 2.5,
-      "depthKm": 126,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-c073dcca1f825dba",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-18T02:49:48-03:00",
-      "latitude": -35.182,
-      "longitude": -66.048,
-      "magnitude": 2.6,
-      "depthKm": 10,
-      "place": null,
-      "province": "SAN LUIS",
-      "intensityText": null
-    },
     {
       "id": "inpres-88f88e87b6d91a9f",
       "kind": "earthquake",
@@ -886,6 +814,42 @@
       "place": null,
       "province": "JUJUY",
       "intensityText": "III -Lib. Gral. San Martín, Jujuy. II a III -Fraile Pintado, Jujuy"
+    },
+    {
+      "id": "inpres-c0e41e34b2b188ed",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-24T22:18:18-03:00",
+      "latitude": -30.722,
+      "longitude": -64.512,
+      "magnitude": 2.7,
+      "depthKm": 23,
+      "place": null,
+      "province": "CORDOBA",
+      "intensityText": "II a III -La Falda, Córdoba. II a III -Valle Hermoso, Córdoba. II a III -Va. Giardino, Córdoba. II a III -Huerta grande, Córdoba. III -Cruz del eje, Córdoba. III -Capilla del Monte, Córdoba"
+    },
+    {
+      "id": "inpres-27fd4c28e5b4f5c4",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-24T22:58:07-03:00",
+      "latitude": -31.73,
+      "longitude": -69.42,
+      "magnitude": 2.5,
+      "depthKm": 105,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-3e85c640d49d9f7d",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-24T23:03:39-03:00",
+      "latitude": -29.54,
+      "longitude": -69.06,
+      "magnitude": 2.9,
+      "depthKm": 117,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
     }
   ]
 }
