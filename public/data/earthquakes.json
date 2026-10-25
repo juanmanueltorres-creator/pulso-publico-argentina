@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-25T06:02:12.699Z",
-  "sourceCheckedAt": "2026-10-25T06:02:12.699Z",
+  "generatedAt": "2026-10-25T11:16:32.909Z",
+  "sourceCheckedAt": "2026-10-25T11:16:32.909Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-88f88e87b6d91a9f",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-18T07:57:39-03:00",
-      "latitude": -23.653,
-      "longitude": -66.909,
-      "magnitude": 3.2,
-      "depthKm": 215,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
     {
       "id": "inpres-1e2eae225dfb1e88",
       "kind": "earthquake",
@@ -828,25 +816,25 @@
       "intensityText": "II a III -La Falda, Córdoba. II a III -Valle Hermoso, Córdoba. II a III -Va. Giardino, Córdoba. II a III -Huerta grande, Córdoba. III -Cruz del eje, Córdoba. III -Capilla del Monte, Córdoba"
     },
     {
-      "id": "inpres-27fd4c28e5b4f5c4",
+      "id": "inpres-7b91188809c215b9",
       "kind": "earthquake",
-      "occurredAt": "2026-10-24T22:58:07-03:00",
-      "latitude": -31.73,
-      "longitude": -69.42,
-      "magnitude": 2.5,
-      "depthKm": 105,
+      "occurredAt": "2026-10-24T22:58:05-03:00",
+      "latitude": -31.714,
+      "longitude": -69.422,
+      "magnitude": 2.6,
+      "depthKm": 114,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
     },
     {
-      "id": "inpres-3e85c640d49d9f7d",
+      "id": "inpres-ed9b78037e00c8a5",
       "kind": "earthquake",
-      "occurredAt": "2026-10-24T23:03:39-03:00",
-      "latitude": -29.54,
-      "longitude": -69.06,
-      "magnitude": 2.9,
-      "depthKm": 117,
+      "occurredAt": "2026-10-24T23:03:38-03:00",
+      "latitude": -29.566,
+      "longitude": -69.022,
+      "magnitude": 2.5,
+      "depthKm": 112,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
