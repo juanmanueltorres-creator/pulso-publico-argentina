@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-27T16:30:34.262Z",
-  "sourceCheckedAt": "2026-10-27T16:30:34.262Z",
+  "generatedAt": "2026-10-27T21:15:12.236Z",
+  "sourceCheckedAt": "2026-10-27T21:15:12.236Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-8d072012d1293484",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-20T14:20:39-03:00",
-      "latitude": -22.616,
-      "longitude": -66.265,
-      "magnitude": 3.1,
-      "depthKm": 258,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-a1f481d1fe28f3d2",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-20T15:10:51-03:00",
-      "latitude": -27.592,
-      "longitude": -67.607,
-      "magnitude": 3.4,
-      "depthKm": 149,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
     {
       "id": "inpres-3e3898b9ccf00957",
       "kind": "earthquake",
@@ -696,6 +672,18 @@
       "intensityText": null
     },
     {
+      "id": "inpres-167b097038452fab",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-26T20:23:12-03:00",
+      "latitude": -31.611,
+      "longitude": -70.172,
+      "magnitude": 2.6,
+      "depthKm": 105,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
       "id": "inpres-8cc10b99b187a07f",
       "kind": "earthquake",
       "occurredAt": "2026-10-26T20:23:54-03:00",
@@ -802,6 +790,18 @@
       "place": null,
       "province": "MENDOZA",
       "intensityText": "II a III -Agrelo, Mendoza. II a III -Cacheuta, Mendoza"
+    },
+    {
+      "id": "inpres-0f05bcb66d4fcd5a",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-27T13:34:18-03:00",
+      "latitude": -28.932,
+      "longitude": -67.461,
+      "magnitude": 2.6,
+      "depthKm": 129,
+      "place": null,
+      "province": "LA RIOJA",
+      "intensityText": null
     }
   ]
 }
