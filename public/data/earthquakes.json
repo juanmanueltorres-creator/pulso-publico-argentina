@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-26T23:48:33.024Z",
-  "sourceCheckedAt": "2026-10-26T23:48:33.024Z",
+  "generatedAt": "2026-10-27T04:55:12.322Z",
+  "sourceCheckedAt": "2026-10-27T04:55:12.322Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-6559d28005015445",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-19T21:56:15-03:00",
-      "latitude": -22.628,
-      "longitude": -66.283,
-      "magnitude": 3.1,
-      "depthKm": 271,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-45a4f00da7f596f2",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-20T00:05:01-03:00",
-      "latitude": -25.868,
-      "longitude": -67.176,
-      "magnitude": 2.6,
-      "depthKm": 119,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-1a89f3b0af1b4c55",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-20T01:24:20-03:00",
-      "latitude": -24.275,
-      "longitude": -67.264,
-      "magnitude": 3.3,
-      "depthKm": 194,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-391a76f510c2e90f",
       "kind": "earthquake",
@@ -780,15 +744,27 @@
       "intensityText": null
     },
     {
-      "id": "inpres-f87155f435d8d2f1",
+      "id": "inpres-62788cb9b8445813",
       "kind": "earthquake",
-      "occurredAt": "2026-10-26T20:36:21-03:00",
-      "latitude": -28.99,
-      "longitude": -67.18,
-      "magnitude": 2.9,
-      "depthKm": 125,
+      "occurredAt": "2026-10-26T20:36:20-03:00",
+      "latitude": -29.005,
+      "longitude": -67.179,
+      "magnitude": 3,
+      "depthKm": 129,
       "place": null,
       "province": "LA RIOJA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-ccf6ee0c68e37a15",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-26T21:04:23-03:00",
+      "latitude": -24.21,
+      "longitude": -67.04,
+      "magnitude": 2.8,
+      "depthKm": 202,
+      "place": null,
+      "province": "SALTA",
       "intensityText": null
     }
   ]
