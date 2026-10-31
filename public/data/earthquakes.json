@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-31T05:28:23.834Z",
-  "sourceCheckedAt": "2026-10-31T05:28:23.834Z",
+  "generatedAt": "2026-10-31T12:16:03.977Z",
+  "sourceCheckedAt": "2026-10-31T12:16:03.977Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-0ede244b4eb9cbcf",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-24T02:38:20-03:00",
-      "latitude": -22.803,
-      "longitude": -66.566,
-      "magnitude": 3.1,
-      "depthKm": 252,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-929ccaf9cd90b177",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-24T04:21:49-03:00",
-      "latitude": -23.905,
-      "longitude": -64.882,
-      "magnitude": 3.4,
-      "depthKm": 25,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": "III -Lib. Gral. San Martín, Jujuy. II a III -Fraile Pintado, Jujuy"
-    },
     {
       "id": "inpres-7bce52394e6e0de7",
       "kind": "earthquake",
@@ -838,6 +814,30 @@
       "place": null,
       "province": "CATAMARCA",
       "intensityText": "III -Ciudad de San Fernando del Valle de Catamarca"
+    },
+    {
+      "id": "inpres-bdf398f26a5a7ce6",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-31T05:18:12-03:00",
+      "latitude": -33.047,
+      "longitude": -68.985,
+      "magnitude": 2.6,
+      "depthKm": 13,
+      "place": null,
+      "province": "MENDOZA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-45a4498c8de6cd77",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-31T08:25:55-03:00",
+      "latitude": -31.24,
+      "longitude": -68.28,
+      "magnitude": 3.4,
+      "depthKm": 85,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
     }
   ]
 }
