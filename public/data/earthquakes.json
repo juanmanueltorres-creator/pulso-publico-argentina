@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-31T12:16:03.977Z",
-  "sourceCheckedAt": "2026-10-31T12:16:03.977Z",
+  "generatedAt": "2026-10-31T17:40:26.046Z",
+  "sourceCheckedAt": "2026-10-31T17:40:26.046Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-7bce52394e6e0de7",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-24T09:34:09-03:00",
-      "latitude": -31.529,
-      "longitude": -68.719,
-      "magnitude": 2.7,
-      "depthKm": 18,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": "II a III -Zonda, San Juan. II a III -Rivadavia, San Juan"
-    },
-    {
-      "id": "inpres-3c1cf4f29478948a",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-24T11:40:07-03:00",
-      "latitude": -23.097,
-      "longitude": -65.955,
-      "magnitude": 3.5,
-      "depthKm": 276,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
     {
       "id": "inpres-c0e41e34b2b188ed",
       "kind": "earthquake",
@@ -828,13 +804,25 @@
       "intensityText": null
     },
     {
-      "id": "inpres-45a4498c8de6cd77",
+      "id": "inpres-006606537332616e",
       "kind": "earthquake",
-      "occurredAt": "2026-10-31T08:25:55-03:00",
-      "latitude": -31.24,
-      "longitude": -68.28,
-      "magnitude": 3.4,
-      "depthKm": 85,
+      "occurredAt": "2026-10-31T08:25:52-03:00",
+      "latitude": -31.245,
+      "longitude": -68.356,
+      "magnitude": 2.5,
+      "depthKm": 106,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-e40754194f0871a1",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-31T14:33:27-03:00",
+      "latitude": -31.8,
+      "longitude": -69.66,
+      "magnitude": 2.7,
+      "depthKm": 132,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
