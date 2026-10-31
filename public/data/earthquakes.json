@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-10-30T23:40:48.119Z",
-  "sourceCheckedAt": "2026-10-30T23:40:48.119Z",
+  "generatedAt": "2026-10-31T05:28:23.834Z",
+  "sourceCheckedAt": "2026-10-31T05:28:23.834Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-cee8587517b16c34",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-23T20:51:57-03:00",
-      "latitude": -31.746,
-      "longitude": -69.576,
-      "magnitude": 2.7,
-      "depthKm": 113,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-986a9d4900d58bdc",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-23T22:06:42-03:00",
-      "latitude": -31.137,
-      "longitude": -68.082,
-      "magnitude": 2.8,
-      "depthKm": 104,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-0ede244b4eb9cbcf",
       "kind": "earthquake",
@@ -840,16 +816,28 @@
       "intensityText": null
     },
     {
-      "id": "inpres-b90fe86ac9faa37a",
+      "id": "inpres-acb216681db4b3ca",
       "kind": "earthquake",
       "occurredAt": "2026-10-30T20:09:55-03:00",
-      "latitude": -32.62,
-      "longitude": -69.88,
-      "magnitude": 2.9,
-      "depthKm": 140,
+      "latitude": -32.656,
+      "longitude": -70.028,
+      "magnitude": 2.6,
+      "depthKm": 144,
       "place": null,
       "province": "MENDOZA",
       "intensityText": null
+    },
+    {
+      "id": "inpres-3916fd837ecebf55",
+      "kind": "earthquake",
+      "occurredAt": "2026-10-30T21:59:04-03:00",
+      "latitude": -28.506,
+      "longitude": -65.992,
+      "magnitude": 3.1,
+      "depthKm": 12,
+      "place": null,
+      "province": "CATAMARCA",
+      "intensityText": "III -Ciudad de San Fernando del Valle de Catamarca"
     }
   ]
 }
