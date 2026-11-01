@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-01T01:03:52.320Z",
-  "sourceCheckedAt": "2026-11-01T01:03:52.320Z",
+  "generatedAt": "2026-11-01T07:28:31.397Z",
+  "sourceCheckedAt": "2026-11-01T07:28:31.397Z",
   "window": {
     "hours": 168
   },
@@ -23,54 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-c0e41e34b2b188ed",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-24T22:18:18-03:00",
-      "latitude": -30.722,
-      "longitude": -64.512,
-      "magnitude": 2.7,
-      "depthKm": 23,
-      "place": null,
-      "province": "CORDOBA",
-      "intensityText": "II a III -La Falda, Córdoba. II a III -Valle Hermoso, Córdoba. II a III -Va. Giardino, Córdoba. II a III -Huerta grande, Córdoba. III -Cruz del eje, Córdoba. III -Capilla del Monte, Córdoba"
-    },
-    {
-      "id": "inpres-7b91188809c215b9",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-24T22:58:05-03:00",
-      "latitude": -31.714,
-      "longitude": -69.422,
-      "magnitude": 2.6,
-      "depthKm": 114,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-ed9b78037e00c8a5",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-24T23:03:38-03:00",
-      "latitude": -29.566,
-      "longitude": -69.022,
-      "magnitude": 2.5,
-      "depthKm": 112,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-af68df04c3632d73",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-25T01:36:03-03:00",
-      "latitude": -24.188,
-      "longitude": -66.703,
-      "magnitude": 2.9,
-      "depthKm": 235,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
     {
       "id": "inpres-5650d707063f1a6d",
       "kind": "earthquake",
@@ -825,6 +777,54 @@
       "depthKm": 119,
       "place": null,
       "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-123c575508e780b0",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-01T00:59:13-03:00",
+      "latitude": -25.724,
+      "longitude": -64.887,
+      "magnitude": 3.9,
+      "depthKm": 17,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": "III a IV -San José de Metán, Salta. III a IV -Rosario de la Frontera, Salta. III -Ciudad de Salta. II a III -Ciudad de San Miguel de Tucumán"
+    },
+    {
+      "id": "inpres-0c42702ec32952cd",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-01T02:31:54-03:00",
+      "latitude": -23.54,
+      "longitude": -66.69,
+      "magnitude": 3.8,
+      "depthKm": 233,
+      "place": null,
+      "province": "JUJUY",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-1b7b10efe9022b3f",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-01T03:16:40-03:00",
+      "latitude": -31.15,
+      "longitude": -67.59,
+      "magnitude": 2.9,
+      "depthKm": 84,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-0c75845127849e31",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-01T03:22:06-03:00",
+      "latitude": -24,
+      "longitude": -66.77,
+      "magnitude": 3.5,
+      "depthKm": 223,
+      "place": null,
+      "province": "JUJUY",
       "intensityText": null
     }
   ]
