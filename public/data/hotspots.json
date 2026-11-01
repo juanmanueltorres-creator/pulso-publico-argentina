@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "thermal-hotspot",
-  "generatedAt": "2026-10-31T22:43:51.448Z",
-  "sourceCheckedAt": "2026-10-31T22:43:51.448Z",
+  "generatedAt": "2026-11-01T02:29:31.070Z",
+  "sourceCheckedAt": "2026-11-01T02:29:31.070Z",
   "window": {
     "hours": 24
   },
@@ -12410,6 +12410,72 @@
       "frpMw": null,
       "sensor": "VIIRS",
       "satellite": "SNPP"
+    },
+    {
+      "id": "conae-05df4f887f31f92c",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-10-31T19:19:00.000Z",
+      "latitude": -38.19737,
+      "longitude": -68.97919,
+      "confidence": "high",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-4f62300bdc3a0852",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-10-31T19:19:00.000Z",
+      "latitude": -38.14915,
+      "longitude": -64.08553,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-674ccb08b28438ca",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-10-31T19:19:00.000Z",
+      "latitude": -38.28575,
+      "longitude": -68.84628,
+      "confidence": "low",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-828cae2fe5f362a9",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-10-31T19:19:00.000Z",
+      "latitude": -38.14664,
+      "longitude": -64.0843,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-b072ff7db02f27ee",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-10-31T19:19:00.000Z",
+      "latitude": -38.74694,
+      "longitude": -68.83195,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
+    },
+    {
+      "id": "conae-dd0faceb29e82b10",
+      "kind": "thermal-hotspot",
+      "occurredAt": "2026-10-31T19:19:00.000Z",
+      "latitude": -38.70036,
+      "longitude": -68.69717,
+      "confidence": "nominal",
+      "frpMw": null,
+      "sensor": "VIIRS",
+      "satellite": "NOAA20"
     }
   ]
 }
