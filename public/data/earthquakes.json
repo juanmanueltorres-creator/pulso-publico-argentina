@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-01T19:35:29.504Z",
-  "sourceCheckedAt": "2026-11-01T19:35:29.504Z",
+  "generatedAt": "2026-11-01T23:31:38.441Z",
+  "sourceCheckedAt": "2026-11-01T23:31:38.441Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-c01575a2f4c4faac",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-25T16:39:30-03:00",
-      "latitude": -31.581,
-      "longitude": -68.693,
-      "magnitude": 2.5,
-      "depthKm": 108,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-94e0186a9b967741",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-25T16:59:09-03:00",
-      "latitude": -30.965,
-      "longitude": -69.124,
-      "magnitude": 2.8,
-      "depthKm": 105,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-b7c4e876545a3cf1",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-25T18:29:17-03:00",
-      "latitude": -23.946,
-      "longitude": -66.929,
-      "magnitude": 2.9,
-      "depthKm": 211,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
     {
       "id": "inpres-0cb3768ae36b5638",
       "kind": "earthquake",
@@ -775,6 +739,30 @@
       "longitude": -66.798,
       "magnitude": 3.1,
       "depthKm": 207,
+      "place": null,
+      "province": "JUJUY",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-c35f97af4dcc23bc",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-01T19:08:21-03:00",
+      "latitude": -31.5,
+      "longitude": -68.58,
+      "magnitude": 2.8,
+      "depthKm": 115,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-b9b2327eeea407af",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-01T20:18:06-03:00",
+      "latitude": -22.6,
+      "longitude": -66.59,
+      "magnitude": 3.1,
+      "depthKm": 256,
       "place": null,
       "province": "JUJUY",
       "intensityText": null
