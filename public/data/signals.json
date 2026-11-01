@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-11-01T06:35:12.177Z",
+  "generatedAt": "2026-11-01T10:44:36.325Z",
   "signals": [
     {
       "schemaVersion": "1.0",
@@ -66,12 +66,12 @@
       "title": "Solicitudes de patentes de invención ingresadas",
       "value": 338,
       "unit": "solicitudes",
-      "periodLabel": "Septiembre 2026 · último mes completo",
+      "periodLabel": "Octubre 2026 · último mes completo",
       "status": "updated",
       "availability": "available",
-      "observedAt": "2026-09-01T00:00:00.000Z",
+      "observedAt": "2026-10-01T00:00:00.000Z",
       "publishedAt": null,
-      "fetchedAt": "2026-10-31T09:53:57.090Z",
+      "fetchedAt": "2026-11-01T10:44:36.325Z",
       "source": {
         "name": "INPI Argentina",
         "url": "https://datos.inpi.gob.ar/Home/Ingresos_Patentes",
