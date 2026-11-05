@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-04T23:35:54.462Z",
-  "sourceCheckedAt": "2026-11-04T23:35:54.462Z",
+  "generatedAt": "2026-11-05T06:34:41.203Z",
+  "sourceCheckedAt": "2026-11-05T06:34:41.203Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-d5584e71d528209e",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-28T21:06:18-03:00",
-      "latitude": -27.729,
-      "longitude": -67.394,
-      "magnitude": 2.9,
-      "depthKm": 154,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-917f0e374985a8b0",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-28T21:23:16-03:00",
-      "latitude": -31.24,
-      "longitude": -68.405,
-      "magnitude": 3.4,
-      "depthKm": 111,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-88ebe0e1a7491349",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-28T23:44:09-03:00",
-      "latitude": -31.587,
-      "longitude": -64.822,
-      "magnitude": 2.6,
-      "depthKm": 24,
-      "place": null,
-      "province": "CORDOBA",
-      "intensityText": "II a III -Villa Carlos Paz, Córdoba. II a III -Alta Gracia, Córdoba. II a III -Los Reartes, Córdoba. II a III -Villa General Belgrano, Córdoba. II a III -La Cumbrecita, Córdoba. II a III -Los Hornillos, Córdoba. II a III -Mina Clavero, Córdoba. II a III -Arroyo Los Patos, Córdoba. II a III -Villa Cura Brochero, Córdoba"
-    },
     {
       "id": "inpres-35b1d05e82ba7197",
       "kind": "earthquake",
@@ -991,6 +955,18 @@
       "longitude": -66.757,
       "magnitude": 2.7,
       "depthKm": 15,
+      "place": null,
+      "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-fbabb187a20c3b09",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-04T20:39:37-03:00",
+      "latitude": -26.033,
+      "longitude": -66.784,
+      "magnitude": 2.6,
+      "depthKm": 19,
       "place": null,
       "province": "CATAMARCA",
       "intensityText": null
