@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-06T02:20:31.017Z",
-  "sourceCheckedAt": "2026-11-06T02:20:31.017Z",
+  "generatedAt": "2026-11-06T10:45:00.427Z",
+  "sourceCheckedAt": "2026-11-06T10:45:00.427Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-b8f16eb1f1ddaa2a",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-30T02:32:59-03:00",
-      "latitude": -31.509,
-      "longitude": -69.263,
-      "magnitude": 3.1,
-      "depthKm": 114,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-6e3ca8247281f8a7",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-30T05:45:32-03:00",
-      "latitude": -31.262,
-      "longitude": -68.234,
-      "magnitude": 3.2,
-      "depthKm": 108,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-b1c64bc2a17ab6cf",
       "kind": "earthquake",
@@ -948,15 +924,39 @@
       "intensityText": null
     },
     {
-      "id": "inpres-ccd2daf7a697418f",
+      "id": "inpres-461f483fd95f2e9a",
       "kind": "earthquake",
-      "occurredAt": "2026-11-05T22:29:41-03:00",
-      "latitude": -31.28,
-      "longitude": -68.92,
-      "magnitude": 2.7,
-      "depthKm": 106,
+      "occurredAt": "2026-11-05T22:29:39-03:00",
+      "latitude": -31.26,
+      "longitude": -68.935,
+      "magnitude": 3,
+      "depthKm": 117,
       "place": null,
       "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-77ce9c2ab22861a7",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-05T23:24:40-03:00",
+      "latitude": -24.109,
+      "longitude": -67.121,
+      "magnitude": 3.4,
+      "depthKm": 201,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-d313a1af56795d46",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-06T07:10:10-03:00",
+      "latitude": -27.936,
+      "longitude": -68.975,
+      "magnitude": 3.4,
+      "depthKm": 125,
+      "place": null,
+      "province": "LA RIOJA",
       "intensityText": null
     }
   ]
