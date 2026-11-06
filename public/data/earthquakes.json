@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-06T10:45:00.427Z",
-  "sourceCheckedAt": "2026-11-06T10:45:00.427Z",
+  "generatedAt": "2026-11-06T17:54:47.282Z",
+  "sourceCheckedAt": "2026-11-06T17:54:47.282Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-b1c64bc2a17ab6cf",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-30T07:56:43-03:00",
-      "latitude": -27.928,
-      "longitude": -66.867,
-      "magnitude": 2.8,
-      "depthKm": 179,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-65c014105adad15c",
-      "kind": "earthquake",
-      "occurredAt": "2026-10-30T12:09:04-03:00",
-      "latitude": -22.882,
-      "longitude": -66.339,
-      "magnitude": 3.3,
-      "depthKm": 251,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
     {
       "id": "inpres-efb138a544715954",
       "kind": "earthquake",
@@ -852,6 +828,18 @@
       "intensityText": null
     },
     {
+      "id": "inpres-60c820f82e461048",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-05T12:27:44-03:00",
+      "latitude": -37.62,
+      "longitude": -69.13,
+      "magnitude": 3.1,
+      "depthKm": 8,
+      "place": null,
+      "province": "NEUQUEN",
+      "intensityText": null
+    },
+    {
       "id": "inpres-0d3e0f689658c1a0",
       "kind": "earthquake",
       "occurredAt": "2026-11-05T12:31:51-03:00",
@@ -957,6 +945,54 @@
       "depthKm": 125,
       "place": null,
       "province": "LA RIOJA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-2275a6ea27637da8",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-06T08:01:42-03:00",
+      "latitude": -31.945,
+      "longitude": -68.109,
+      "magnitude": 2.5,
+      "depthKm": 119,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-6fd17ba56a35426c",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-06T12:08:32-03:00",
+      "latitude": -30.865,
+      "longitude": -64.534,
+      "magnitude": 2.7,
+      "depthKm": 20,
+      "place": null,
+      "province": "CORDOBA",
+      "intensityText": "II a III -Capilla del Monte, Córdoba. II a III -San Marcos Sierras, Córdoba. II a III -Los Cocos, Córdoba. II a III -Ascochinga, Córdoba"
+    },
+    {
+      "id": "inpres-0d7b30752ace5b09",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-06T13:44:28-03:00",
+      "latitude": -24.243,
+      "longitude": -67.382,
+      "magnitude": 3.2,
+      "depthKm": 170,
+      "place": null,
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-887ec4b92ed71b27",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-06T14:18:48-03:00",
+      "latitude": -31.846,
+      "longitude": -69.62,
+      "magnitude": 3,
+      "depthKm": 110,
+      "place": null,
+      "province": "SAN JUAN",
       "intensityText": null
     }
   ]
