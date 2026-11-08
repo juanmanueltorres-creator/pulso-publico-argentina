@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-08T00:29:49.693Z",
-  "sourceCheckedAt": "2026-11-08T00:29:49.693Z",
+  "generatedAt": "2026-11-08T07:14:14.265Z",
+  "sourceCheckedAt": "2026-11-08T07:14:14.265Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-123c575508e780b0",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-01T00:59:13-03:00",
-      "latitude": -25.724,
-      "longitude": -64.887,
-      "magnitude": 3.9,
-      "depthKm": 17,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": "III a IV -San José de Metán, Salta. III a IV -Rosario de la Frontera, Salta. III -Ciudad de Salta. II a III -Ciudad de San Miguel de Tucumán"
-    },
-    {
-      "id": "inpres-ca70b5a6039af336",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-01T02:31:54-03:00",
-      "latitude": -23.603,
-      "longitude": -66.693,
-      "magnitude": 4.4,
-      "depthKm": 220,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-4cc53d218ff4e507",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-01T03:22:06-03:00",
-      "latitude": -23.954,
-      "longitude": -66.798,
-      "magnitude": 3.1,
-      "depthKm": 207,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
     {
       "id": "inpres-057c3ccd156af30c",
       "kind": "earthquake",
@@ -1029,6 +993,30 @@
       "depthKm": 107,
       "place": null,
       "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-461d2dcaf549b501",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-08T03:04:51-03:00",
+      "latitude": -34,
+      "longitude": -67.4,
+      "magnitude": 2.8,
+      "depthKm": 173,
+      "place": null,
+      "province": "MENDOZA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-70990bf0150c7283",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-08T04:02:49-03:00",
+      "latitude": -23.93,
+      "longitude": -66.77,
+      "magnitude": 2.6,
+      "depthKm": 232,
+      "place": null,
+      "province": "JUJUY",
       "intensityText": null
     }
   ]
