@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-08T15:05:04.108Z",
-  "sourceCheckedAt": "2026-11-08T15:05:04.108Z",
+  "generatedAt": "2026-11-08T19:38:22.604Z",
+  "sourceCheckedAt": "2026-11-08T19:38:22.604Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-057c3ccd156af30c",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-01T13:00:00-03:00",
-      "latitude": -31.221,
-      "longitude": -68.383,
-      "magnitude": 2.8,
-      "depthKm": 104,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-1c5ddb4c6ed9d542",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-01T14:49:39-03:00",
-      "latitude": -24.154,
-      "longitude": -67.132,
-      "magnitude": 3.4,
-      "depthKm": 205,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-f59e5f71a27a3a37",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-01T16:28:43-03:00",
-      "latitude": -31.86,
-      "longitude": -68.941,
-      "magnitude": 2.6,
-      "depthKm": 103,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-e703b4e8b66ad674",
       "kind": "earthquake",
@@ -996,6 +960,18 @@
       "intensityText": null
     },
     {
+      "id": "inpres-2dbaafa803543de5",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-07T20:52:40-03:00",
+      "latitude": -30.879,
+      "longitude": -64.608,
+      "magnitude": 2.6,
+      "depthKm": 13,
+      "place": null,
+      "province": "CORDOBA",
+      "intensityText": "II a III -Capilla del Monte, Córdoba"
+    },
+    {
       "id": "inpres-c34cb8c76ed6d39c",
       "kind": "earthquake",
       "occurredAt": "2026-11-08T03:04:51-03:00",
@@ -1041,6 +1017,30 @@
       "depthKm": 10,
       "place": null,
       "province": "CATAMARCA",
+      "intensityText": "II a III -Belén, Catamarca"
+    },
+    {
+      "id": "inpres-12231c1b9299fe19",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-08T10:50:38-03:00",
+      "latitude": -31.358,
+      "longitude": -68.599,
+      "magnitude": 2.5,
+      "depthKm": 101,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-d4cd516318de4f54",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-08T16:23:32-03:00",
+      "latitude": -31.92,
+      "longitude": -69.49,
+      "magnitude": 3,
+      "depthKm": 109,
+      "place": null,
+      "province": "SAN JUAN",
       "intensityText": null
     }
   ]
