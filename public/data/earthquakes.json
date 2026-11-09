@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-08T23:39:48.745Z",
-  "sourceCheckedAt": "2026-11-08T23:39:48.745Z",
+  "generatedAt": "2026-11-09T06:10:52.394Z",
+  "sourceCheckedAt": "2026-11-09T06:10:52.394Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-a8274a9589eaa37c",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-01T20:48:30-03:00",
-      "latitude": -23.828,
-      "longitude": -67.195,
-      "magnitude": 3.3,
-      "depthKm": 196,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-4ee8a3b6243fa4f5",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-02T00:37:42-03:00",
-      "latitude": -24.001,
-      "longitude": -67.153,
-      "magnitude": 3.5,
-      "depthKm": 183,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-e493954b3852ad5a",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-02T01:10:40-03:00",
-      "latitude": -30.816,
-      "longitude": -64.729,
-      "magnitude": 2.5,
-      "depthKm": 6,
-      "place": null,
-      "province": "CORDOBA",
-      "intensityText": "II a III -Cruz del Eje, Córdoba"
-    },
     {
       "id": "inpres-19799ccba5659bd0",
       "kind": "earthquake",
@@ -1005,6 +969,30 @@
       "depthKm": 187,
       "place": null,
       "province": "MENDOZA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-80490728245029ed",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-08T20:42:44-03:00",
+      "latitude": -32.42,
+      "longitude": -69.817,
+      "magnitude": 3,
+      "depthKm": 108,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-69d33aaedefdcaa9",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-09T02:25:56-03:00",
+      "latitude": -31.82,
+      "longitude": -67.92,
+      "magnitude": 2.8,
+      "depthKm": 10,
+      "place": null,
+      "province": "SAN JUAN",
       "intensityText": null
     }
   ]
