@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-10T09:40:42.111Z",
-  "sourceCheckedAt": "2026-11-10T09:40:42.111Z",
+  "generatedAt": "2026-11-10T17:43:39.725Z",
+  "sourceCheckedAt": "2026-11-10T17:43:39.725Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-667c9aab46f0bd07",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-03T07:10:22-03:00",
-      "latitude": -24.189,
-      "longitude": -67.151,
-      "magnitude": 3.1,
-      "depthKm": 198,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-d8188485d0c9613a",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-03T11:49:29-03:00",
-      "latitude": -37.467,
-      "longitude": -69.341,
-      "magnitude": 2.5,
-      "depthKm": 6,
-      "place": null,
-      "province": "NEUQUEN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-234bbe87d632faf3",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-03T14:29:02-03:00",
-      "latitude": -31.394,
-      "longitude": -69.239,
-      "magnitude": 2.6,
-      "depthKm": 107,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-7c2a7b32137612fc",
       "kind": "earthquake",
@@ -636,6 +600,18 @@
       "intensityText": null
     },
     {
+      "id": "inpres-c687c3caf0528ed0",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-06T18:31:22-03:00",
+      "latitude": -37.476,
+      "longitude": -69.374,
+      "magnitude": 2.5,
+      "depthKm": 7,
+      "place": null,
+      "province": "NEUQUEN",
+      "intensityText": null
+    },
+    {
       "id": "inpres-21dd888b8b0dacc2",
       "kind": "earthquake",
       "occurredAt": "2026-11-06T23:34:24-03:00",
@@ -669,18 +645,6 @@
       "depthKm": 262,
       "place": null,
       "province": "JUJUY",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-d7a2c3043623a435",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-07T06:28:01-03:00",
-      "latitude": -38.284,
-      "longitude": -68.767,
-      "magnitude": 2.6,
-      "depthKm": 8,
-      "place": null,
-      "province": "NEUQUEN",
       "intensityText": null
     },
     {
@@ -1020,51 +984,111 @@
       "intensityText": null
     },
     {
-      "id": "inpres-b1282ba977de9e08",
+      "id": "inpres-434acd50115f16c3",
       "kind": "earthquake",
-      "occurredAt": "2026-11-10T00:11:04-03:00",
-      "latitude": -29.97,
-      "longitude": -67.34,
-      "magnitude": 2.8,
-      "depthKm": 10,
+      "occurredAt": "2026-11-09T23:29:59-03:00",
+      "latitude": -31.571,
+      "longitude": -69.378,
+      "magnitude": 2.6,
+      "depthKm": 128,
       "place": null,
-      "province": "LA RIOJA",
+      "province": "SAN JUAN",
       "intensityText": null
     },
     {
-      "id": "inpres-eaf07c0d0fb46bbb",
+      "id": "inpres-dc12a0d61b1155e5",
       "kind": "earthquake",
-      "occurredAt": "2026-11-10T02:39:07-03:00",
-      "latitude": -26.08,
-      "longitude": -66.57,
+      "occurredAt": "2026-11-10T00:03:27-03:00",
+      "latitude": -31.473,
+      "longitude": -68.006,
+      "magnitude": 2.5,
+      "depthKm": 15,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-bff5b142890430df",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-10T02:33:35-03:00",
+      "latitude": -31.338,
+      "longitude": -69.13,
+      "magnitude": 2.6,
+      "depthKm": 113,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-b61887129853dca0",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-10T02:39:03-03:00",
+      "latitude": -26.055,
+      "longitude": -66.777,
       "magnitude": 3.3,
-      "depthKm": 10,
+      "depthKm": 8,
+      "place": null,
+      "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-6074e1e362dab2f9",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-10T02:57:43-03:00",
+      "latitude": -26.002,
+      "longitude": -66.718,
+      "magnitude": 2.6,
+      "depthKm": 5,
+      "place": null,
+      "province": "CATAMARCA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-8245d3e9405cd2d5",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-10T04:48:33-03:00",
+      "latitude": -25.907,
+      "longitude": -66.62,
+      "magnitude": 2.5,
+      "depthKm": 8,
       "place": null,
       "province": "SALTA",
       "intensityText": null
     },
     {
-      "id": "inpres-9efb096c3bc5b972",
+      "id": "inpres-94c60d0ce222ece8",
       "kind": "earthquake",
-      "occurredAt": "2026-11-10T04:23:45-03:00",
-      "latitude": -29.96,
-      "longitude": -67.37,
-      "magnitude": 2.7,
-      "depthKm": 10,
+      "occurredAt": "2026-11-10T04:52:12-03:00",
+      "latitude": -31.653,
+      "longitude": -69.401,
+      "magnitude": 2.5,
+      "depthKm": 120,
       "place": null,
-      "province": "LA RIOJA",
+      "province": "SAN JUAN",
       "intensityText": null
     },
     {
-      "id": "inpres-80c145df60eea5d4",
+      "id": "inpres-6af0c7d3a3566b67",
       "kind": "earthquake",
-      "occurredAt": "2026-11-10T04:52:14-03:00",
-      "latitude": -31.65,
-      "longitude": -69.41,
-      "magnitude": 2.5,
-      "depthKm": 105,
+      "occurredAt": "2026-11-10T05:02:02-03:00",
+      "latitude": -25.899,
+      "longitude": -66.594,
+      "magnitude": 3.2,
+      "depthKm": 12,
       "place": null,
-      "province": "SAN JUAN",
+      "province": "SALTA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-7b9fc3d999422f04",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-10T07:32:06-03:00",
+      "latitude": -25.98,
+      "longitude": -66.705,
+      "magnitude": 2.7,
+      "depthKm": 9,
+      "place": null,
+      "province": "SALTA",
       "intensityText": null
     }
   ]
