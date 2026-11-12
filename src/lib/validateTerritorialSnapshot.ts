@@ -8,7 +8,7 @@ import type {
 } from '../types/territorial'
 
 const CONFIDENCE_VALUES: HotspotConfidence[] = ['low', 'nominal', 'high', 'unknown']
-const METHOD_TYPES = ['scrape', 'wfs'] as const
+const METHOD_TYPES = ['scrape', 'wfs', 'csv'] as const
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
