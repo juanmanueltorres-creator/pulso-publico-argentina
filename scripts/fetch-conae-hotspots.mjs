@@ -53,10 +53,13 @@ export function extractConaePublicMapToken(html) {
   }
 
   const match = html.match(
-    /formData\.append\(\s*["']p["']\s*,\s*["']([^"']+)["']\s*\)/,
+    /formData\.append\(\s*["']p["']\s*,\s*["']([^"']*)["']\s*\)/,
   )
   if (!match) {
     throw new Error('CONAE public map token was not found in catalog result')
+  }
+  if (!match[1].trim()) {
+    throw new Error('CONAE catalog returned an empty public map token; the result cannot be verified')
   }
   return match[1]
 }
