@@ -1,7 +1,14 @@
-name: Refresh CONAE Hotspots
+name: Refresh Thermal Hotspots (CONAE / NASA FIRMS)
 
 on:
   workflow_dispatch:
+  push:
+    branches: ['main']
+    paths:
+      - 'scripts/fetch-conae-hotspots.mjs'
+      - 'scripts/fetch-nasa-firms-hotspots.mjs'
+      - 'scripts/refresh-conae-hotspots-lib.mjs'
+      - '.github/workflows/refresh-conae-hotspots.yml'
   schedule:
     - cron: '37 * * * *'
 
@@ -30,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Refresh CONAE snapshot
+      - name: Refresh thermal hotspot snapshot
         run: npm run refresh:conae
 
       - name: Commit refreshed snapshot
@@ -46,7 +53,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add public/data/hotspots.json
-          git commit -m 'data: refresh CONAE hotspots'
+          git commit -m 'data: refresh thermal hotspots'
           git push origin "HEAD:${GITHUB_REF_NAME}"
           echo 'changed=true' >> "$GITHUB_OUTPUT"
 
