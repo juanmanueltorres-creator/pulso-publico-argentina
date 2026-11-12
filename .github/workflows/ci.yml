@@ -57,4 +57,29 @@ jobs:
             }
           })
           await Promise.all(checks)
+          const variants = [
+            {start:'2026-11-11',end:'2026-11-12',satellite:'NOAA20',bbox:'-21.7_-73.7_-55.2_-53.5'},
+            {start:'11/11/2026',end:'12/11/2026',satellite:'NOAA20',bbox:'-21.7_-73.7_-55.2_-53.5'},
+            {start:'2026-11-11',end:'2026-11-12',satellite:'SNPP',bbox:'-21.7_-73.7_-55.2_-53.5'},
+            {start:'11/11/2026',end:'12/11/2026',satellite:'SNPP',bbox:'-21.7_-73.7_-55.2_-53.5'},
+            {start:'2026-11-11',end:'2026-11-12',satellite:'NOAA20',bbox:''},
+            {start:'11/11/2026',end:'12/11/2026',satellite:'NOAA20',bbox:''},
+          ]
+          for (const variant of variants) {
+            const p = new URLSearchParams({
+              dateStart:variant.start,dateEnd:variant.end,satelite:variant.satellite,
+              Confianza:'0',Coordenadas:variant.bbox,tipoA:'dib',prov:'',dpto:'',
+              formato:'csv',tipoTot:'det',idTot:'',nAgrup:'agrupSin'
+            })
+            try {
+              const response = await fetch('https://catalogos5.conae.gov.ar/catalogofocos/search_date.aspx?'+p.toString(),{signal:AbortSignal.timeout(15000)})
+              const html=await response.text()
+              console.log('CATALOG_PROBE', JSON.stringify(variant),
+                'status',response.status,'length',html.length,
+                'hasToken',/formData\\.append\\(/.test(html),
+                'noResults',/No se encontraron Focos de Calor/i.test(html))
+            } catch(error) {
+              console.log('CATALOG_PROBE_FAIL',JSON.stringify(variant),error.message,error.cause?.code)
+            }
+          }
           NODE
