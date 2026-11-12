@@ -159,3 +159,39 @@ export async function fetchConaeHotspots(fetchImpl = fetch) {
 
   return parseConaeHotspots(featureCollection)
 }
+
+
+/**
+ * Prefer the catalog's detailed VIIRS detections, but use CONAE's published
+ * 24-hour VIIRS WFS layer if the catalog returns an error or changes its HTML.
+ * Each source is validated independently; never mix partial results or turn
+ * an unrecognized catalog page into an empty dataset.
+ */
+export async function fetchConaeHotspotsWithFallback(
+  fetchImpl = fetch,
+  checkedAt = new Date().toISOString(),
+) {
+  let catalogError
+  try {
+    return {
+      events: await fetchConaeCatalogHotspots(fetchImpl, checkedAt),
+      method: 'catalog',
+    }
+  } catch (error) {
+    catalogError = error
+  }
+
+  try {
+    const events = await fetchConaeHotspots(fetchImpl)
+    console.warn(
+      `CONAE catalog unavailable (${catalogError instanceof Error ? catalogError.message : String(catalogError)}); using official VIIRS WFS.`,
+    )
+    return { events, method: 'wfs' }
+  } catch (wfsError) {
+    const describe = (error) => error instanceof Error ? error.message : String(error)
+    throw new Error(
+      `CONAE sources unavailable: catalog (${describe(catalogError)}); WFS (${describe(wfsError)})`,
+      { cause: new AggregateError([catalogError, wfsError], 'All CONAE sources failed') },
+    )
+  }
+}
