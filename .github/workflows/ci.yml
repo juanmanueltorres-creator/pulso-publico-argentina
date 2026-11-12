@@ -39,4 +39,22 @@ jobs:
         if: github.event_name == 'pull_request' && github.head_ref == 'feat/fix-conae-hotspot-fallback-20261112'
         continue-on-error: true
         timeout-minutes: 4
-        run: npm run refresh:conae
+        run: |
+          npm run refresh:conae || true
+          node --input-type=module <<'NODE'
+          const endpoints = [
+            'https://geoservicios.conae.gov.ar/geoserver/GeoServiciosCONAE/wfs?service=WFS&version=2.0.0&request=GetCapabilities',
+            'https://geoservicios.conae.gov.ar/geoserver/GeoServiciosCONAE/ows?service=WFS&version=2.0.0&request=GetCapabilities',
+            'https://geoservicios2.conae.gov.ar/geoserver/GeoServiciosCONAE/wfs?service=WFS&version=2.0.0&request=GetCapabilities',
+            'https://catalogos5.conae.gov.ar/catalogofocos/default.aspx',
+          ]
+          const checks = endpoints.map(async (url) => {
+            try {
+              const response = await fetch(url, { signal: AbortSignal.timeout(15000) })
+              console.log('PROBE', url, response.status, response.headers.get('content-type'))
+            } catch (error) {
+              console.log('PROBE_FAIL', url, error.message, error.cause?.code, error.cause?.message)
+            }
+          })
+          await Promise.all(checks)
+          NODE
