@@ -78,6 +78,14 @@ jobs:
                 'status',response.status,'length',html.length,
                 'hasToken',html.includes('formData.append('),
                 'noResults',/No se encontraron Focos de Calor/i.test(html))
+              if (variant.start === '2026-11-11' && variant.satellite === 'NOAA20' && variant.bbox) {
+                const idx=html.indexOf('formData.append(')
+                const mask = (value, quote) => value.split(quote).map((piece, index) =>
+                  index % 2 && piece.length > 12 ? 'REDACTED' : piece).join(quote)
+                const redacted=mask(mask(html.slice(Math.max(0,idx-350),idx+700),'"'),"'")
+                console.log('FORMDATA_CONTEXT',JSON.stringify(redacted))
+                console.log('HTML_LAST',JSON.stringify(mask(mask(html.slice(-350),'"'),"'")))
+              }
             } catch(error) {
               console.log('CATALOG_PROBE_FAIL',JSON.stringify(variant),error.message,error.cause?.code)
             }
