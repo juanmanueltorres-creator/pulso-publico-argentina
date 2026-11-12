@@ -33,3 +33,10 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      # Temporary live probe for PR #24; remove after the results are inspected.
+      - name: Live CONAE smoke (diagnostic only)
+        if: github.event_name == 'pull_request' && github.head_ref == 'feat/fix-conae-hotspot-fallback-20261112'
+        continue-on-error: true
+        timeout-minutes: 4
+        run: npm run refresh:conae
