@@ -33,26 +33,3 @@ jobs:
 
       - name: Build
         run: npm run build
-
-
-      - name: Live thermal-hotspot refresh smoke (temporary)
-        if: github.event_name == 'pull_request' && github.head_ref == 'feat/fix-conae-hotspot-fallback-20261112'
-        timeout-minutes: 3
-        run: |
-          npm run refresh:conae
-          node --input-type=module <<'NODE'
-          import { readFile } from 'node:fs/promises'
-          const data=JSON.parse(await readFile('public/data/hotspots.json','utf8'))
-          const observed=(data.events||[]).map(e=>Date.parse(e.occurredAt))
-          console.log('HOTSPOT_SMOKE',JSON.stringify({
-            source:data.source?.name,
-            method:data.method?.type,
-            checkedAt:data.sourceCheckedAt,
-            records:data.events?.length,
-            min:observed.length?new Date(Math.min(...observed)).toISOString():null,
-            max:observed.length?new Date(Math.max(...observed)).toISOString():null,
-          }))
-          if(data.source?.name !== 'NASA FIRMS') throw new Error('Expected NASA fallback source')
-          if(data.method?.type !== 'csv') throw new Error('Expected CSV method')
-          if(!(data.events?.length>0)) throw new Error('No regional detections available: do not publish')
-          NODE
