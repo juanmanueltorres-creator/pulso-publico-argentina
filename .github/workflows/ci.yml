@@ -34,27 +34,25 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Probe NASA FIRMS 24h CSV sources (temporary)
+
+      - name: Live thermal-hotspot refresh smoke (temporary)
         if: github.event_name == 'pull_request' && github.head_ref == 'feat/fix-conae-hotspot-fallback-20261112'
-        continue-on-error: true
         timeout-minutes: 3
         run: |
+          npm run refresh:conae
           node --input-type=module <<'NODE'
-          const urls=[
-            'https://firms.modaps.eosdis.nasa.gov/data/active_fire/suomi-npp-viirs-c2/csv/SUOMI_VIIRS_C2_Global_24h.csv',
-            'https://firms.modaps.eosdis.nasa.gov/data/active_fire/noaa-20-viirs-c2/csv/J1_VIIRS_C2_Global_24h.csv',
-            'https://firms.modaps.eosdis.nasa.gov/data/active_fire/noaa-20-viirs-c2/csv/J1_VIIRS_C2_South_America_24h.csv',
-            'https://firms.modaps.eosdis.nasa.gov/data/active_fire/suomi-npp-viirs-c2/csv/SUOMI_VIIRS_C2_South_America_24h.csv',
-          ]
-          for(const url of urls) {
-            const controller=new AbortController()
-            const timer=setTimeout(()=>controller.abort(),20000)
-            try{
-              const r=await fetch(url,{signal:controller.signal,redirect:'follow'})
-              const chunk=await r.body?.getReader()?.read()
-              const first=new TextDecoder().decode(chunk?.value??new Uint8Array()).split('\\n').slice(0,2).join(' ').slice(0,350)
-              console.log('FIRMS_PROBE',url,'HTTP',r.status,'type',r.headers.get('content-type'),'length',r.headers.get('content-length'),'first',JSON.stringify(first))
-            }catch(e){console.log('FIRMS_PROBE_FAIL',url,e.message,e.cause?.code)}
-            finally{clearTimeout(timer)}
-          }
+          import { readFile } from 'node:fs/promises'
+          const data=JSON.parse(await readFile('public/data/hotspots.json','utf8'))
+          const observed=(data.events||[]).map(e=>Date.parse(e.occurredAt))
+          console.log('HOTSPOT_SMOKE',JSON.stringify({
+            source:data.source?.name,
+            method:data.method?.type,
+            checkedAt:data.sourceCheckedAt,
+            records:data.events?.length,
+            min:observed.length?new Date(Math.min(...observed)).toISOString():null,
+            max:observed.length?new Date(Math.max(...observed)).toISOString():null,
+          }))
+          if(data.source?.name !== 'NASA FIRMS') throw new Error('Expected NASA fallback source')
+          if(data.method?.type !== 'csv') throw new Error('Expected CSV method')
+          if(!(data.events?.length>0)) throw new Error('No regional detections available: do not publish')
           NODE
