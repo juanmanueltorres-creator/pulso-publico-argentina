@@ -160,6 +160,41 @@ describe('refreshConaeHotspotSnapshot', () => {
     ])
   })
 
+  it('uses a real-format NASA FIRMS NOAA-20 CSV when both CONAE routes fail', async () => {
+    const sampleCsv = [
+      'latitude,longitude,bright_ti4,scan,track,acq_date,acq_time,satellite,confidence,version,bright_ti5,frp,daynight',
+      '-30.10000,-62.20000,300,0.56,0.69,2026-08-28,0310,N20,nominal,2.0NRT,285,1.88,N',
+      '-20.00000,-62.20000,300,0.56,0.69,2026-08-28,0200,N20,high,2.0NRT,285,5.5,N',
+    ].join('\n')
+    const urls = []
+    const fetchImpl = async (url) => {
+      urls.push(String(url))
+      if (String(url).includes('firms.modaps.eosdis.nasa.gov')) {
+        return new Response(sampleCsv, { status: 200, headers: { 'content-type': 'text/csv' } })
+      }
+      if (String(url).includes('search_date.aspx')) {
+        return new Response('<script>formData.append("p", "")</script>', { status: 200 })
+      }
+      return new Response('CONAE WFS unavailable', { status: 503 })
+    }
+    const result = await refreshConaeHotspotSnapshot(
+      null, argentinaFixture, fetchImpl, '2026-08-28T05:00:00Z',
+    )
+    expect(result.publish).toBe(true)
+    expect(result.snapshot).toMatchObject({
+      source: { name: 'NASA FIRMS', kind: 'official' },
+      method: { type: 'csv' },
+    })
+    expect(result.snapshot.events).toHaveLength(1)
+    expect(result.snapshot.events[0]).toMatchObject({
+      satellite: 'NOAA20',
+      confidence: 'nominal',
+      frpMw: 1.88,
+    })
+    expect(result.snapshot.limitations.join(' ')).toContain('no equivale a cobertura')
+    expect(urls.some((url) => url.includes('South_America_24h.csv'))).toBe(true)
+  })
+
   it('fails closed if a catalog response has no token and the official WFS is unavailable', async () => {
     const fetchImpl = async (url) => (
       String(url).includes('search_date.aspx')
