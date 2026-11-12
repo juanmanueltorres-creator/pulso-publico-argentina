@@ -76,7 +76,7 @@ jobs:
               const html=await response.text()
               console.log('CATALOG_PROBE', JSON.stringify(variant),
                 'status',response.status,'length',html.length,
-                'hasToken',/formData\\.append\\(/.test(html),
+                'hasToken',html.includes('formData.append('),
                 'noResults',/No se encontraron Focos de Calor/i.test(html))
             } catch(error) {
               console.log('CATALOG_PROBE_FAIL',JSON.stringify(variant),error.message,error.cause?.code)
