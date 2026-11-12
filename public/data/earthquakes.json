@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-12T10:56:20.934Z",
-  "sourceCheckedAt": "2026-11-12T10:56:20.934Z",
+  "generatedAt": "2026-11-12T18:51:16.854Z",
+  "sourceCheckedAt": "2026-11-12T18:51:16.854Z",
   "window": {
     "hours": 168
   },
@@ -23,42 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-ebe593aae07a64d6",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-05T12:23:32-03:00",
-      "latitude": -25.92,
-      "longitude": -67.021,
-      "magnitude": 2.6,
-      "depthKm": 20,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-60c820f82e461048",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-05T12:27:44-03:00",
-      "latitude": -37.62,
-      "longitude": -69.13,
-      "magnitude": 3.1,
-      "depthKm": 8,
-      "place": null,
-      "province": "NEUQUEN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-0d3e0f689658c1a0",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-05T12:31:51-03:00",
-      "latitude": -23.436,
-      "longitude": -66.008,
-      "magnitude": 2.5,
-      "depthKm": 10,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
     {
       "id": "inpres-e68f4de2269d6d66",
       "kind": "earthquake",
@@ -442,6 +406,18 @@
       "place": null,
       "province": "CORDOBA",
       "intensityText": "II a III -Capilla del Monte, Córdoba"
+    },
+    {
+      "id": "inpres-5145869346e64b62",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-08T02:41:16-03:00",
+      "latitude": -31.27,
+      "longitude": -68.638,
+      "magnitude": 2.5,
+      "depthKm": 101,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
     },
     {
       "id": "inpres-c34cb8c76ed6d39c",
@@ -1188,13 +1164,73 @@
       "intensityText": null
     },
     {
-      "id": "inpres-b3717808e86ff326",
+      "id": "inpres-183a156f3f3d739e",
       "kind": "earthquake",
-      "occurredAt": "2026-11-12T03:45:23-03:00",
-      "latitude": -31.58,
-      "longitude": -69.37,
-      "magnitude": 3.8,
-      "depthKm": 112,
+      "occurredAt": "2026-11-12T02:27:13-03:00",
+      "latitude": -31.936,
+      "longitude": -69.195,
+      "magnitude": 2.5,
+      "depthKm": 121,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-11bc86b5cbd86c5d",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-12T02:55:11-03:00",
+      "latitude": -32.25,
+      "longitude": -65.29,
+      "magnitude": 2.3,
+      "depthKm": 10,
+      "place": null,
+      "province": "SAN LUIS",
+      "intensityText": "II a II -Santa Rosa de Conlra, San Luis"
+    },
+    {
+      "id": "inpres-c74aa3de4fb52d46",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-12T03:45:22-03:00",
+      "latitude": -31.589,
+      "longitude": -69.369,
+      "magnitude": 3.6,
+      "depthKm": 114,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-a5312d002079e387",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-12T09:07:55-03:00",
+      "latitude": -29.021,
+      "longitude": -69.609,
+      "magnitude": 2.6,
+      "depthKm": 109,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-8df8eb582df365ed",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-12T11:53:19-03:00",
+      "latitude": -32.044,
+      "longitude": -69.447,
+      "magnitude": 2.6,
+      "depthKm": 114,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-26431bbf53e60dc6",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-12T12:34:56-03:00",
+      "latitude": -31.89,
+      "longitude": -69.225,
+      "magnitude": 2.5,
+      "depthKm": 122,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
