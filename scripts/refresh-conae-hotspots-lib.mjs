@@ -1,4 +1,4 @@
-import { fetchConaeCatalogHotspots } from './fetch-conae-hotspots.mjs'
+import { CONAE_WFS_URL, fetchConaeHotspotsWithFallback } from './fetch-conae-hotspots.mjs'
 import { pointInFeatureCollection } from './lib/geo.mjs'
 import { prepareTerritorialPublication } from './lib/territorial-snapshot.mjs'
 
@@ -39,7 +39,7 @@ export async function refreshConaeHotspotSnapshot(
   fetchImpl = fetch,
   checkedAt = new Date().toISOString(),
 ) {
-  const events = await fetchConaeCatalogHotspots(fetchImpl, checkedAt)
+  const { events, method: sourceMethod } = await fetchConaeHotspotsWithFallback(fetchImpl, checkedAt)
   const selected = selectConaeHotspots(events, argentinaGeometry, checkedAt)
 
   const candidate = {
@@ -51,19 +51,31 @@ export async function refreshConaeHotspotSnapshot(
     freshness: { staleAfterMinutes: 240 },
     source: {
       name: 'CONAE',
-      url: CONAE_CATALOG_URL,
+      url: sourceMethod === 'catalog' ? CONAE_CATALOG_URL : CONAE_WFS_URL,
       kind: 'official',
     },
-    method: {
-      type: 'scrape',
-      note: 'Visor público oficial de focos de calor de CONAE: consulta detallada NOAA-20 y SNPP, prefiltrada por bbox y luego filtrada por la geometría argentina de IGN.',
-    },
-    limitations: [
-      'Un foco de calor es una anomalía térmica satelital y no implica un incendio confirmado.',
-      'La confianza de detección no equivale a probabilidad de incendio; las categorías visuales de Pulso siguen los cortes de confianza usados por el mapa público de CONAE.',
-      'La ruta pública usada para visualizar detecciones en el mapa público no expone FRP, por lo que frpMw se conserva como null en este snapshot.',
-      'El payload del mapa público no rotula explícitamente la zona horaria; Pulso interpreta esas marcas temporales como UTC para normalizarlas y declara esta limitación.',
-    ],
+    method: sourceMethod === 'catalog'
+      ? {
+          type: 'scrape',
+          note: 'Visor público oficial de focos de calor de CONAE: consulta detallada NOAA-20 y SNPP, prefiltrada por bbox y luego filtrada por la geometría argentina de IGN.',
+        }
+      : {
+          type: 'wfs',
+          note: 'Servicio WFS oficial de CONAE: capa VIIRS de las últimas 24 horas, filtrada por tiempo y geometría argentina de IGN.',
+        },
+    limitations: sourceMethod === 'catalog'
+      ? [
+          'Un foco de calor es una anomalía térmica satelital y no implica un incendio confirmado.',
+          'La confianza de detección no equivale a probabilidad de incendio; las categorías visuales de Pulso siguen los cortes de confianza usados por el mapa público de CONAE.',
+          'La ruta pública usada para visualizar detecciones en el mapa público no expone FRP, por lo que frpMw se conserva como null en este snapshot.',
+          'El payload del mapa público no rotula explícitamente la zona horaria; Pulso interpreta esas marcas temporales como UTC para normalizarlas y declara esta limitación.',
+        ]
+      : [
+          'Un foco de calor es una anomalía térmica satelital y no implica un incendio confirmado.',
+          'La confianza VIIRS de la capa WFS no equivale a probabilidad de incendio y puede utilizar categorías distintas a las del mapa público.',
+          'La potencia radiativa (FRP) se conserva como información contextual cuando la capa la proporciona; no es un índice de peligro.',
+          'Las fechas de la capa WFS sin zona horaria explícita se interpretan como UTC; esta convención debe verificarse con CONAE.',
+        ],
     events: selected,
   }
 
