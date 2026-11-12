@@ -7,6 +7,10 @@ import { refreshConaeHotspotSnapshot, selectConaeHotspots } from './refresh-cona
 const featureCollection = JSON.parse(
   await readFile(resolve(process.cwd(), 'scripts/fixtures/conae-viirs.geojson'), 'utf8'),
 )
+const wfsCapabilities = await readFile(
+  resolve(process.cwd(), 'scripts/fixtures/conae-capabilities.xml'),
+  'utf8',
+)
 const parsedEvents = parseConaeHotspots(featureCollection)
 
 const argentinaFixture = {
@@ -107,6 +111,100 @@ describe('refreshConaeHotspotSnapshot', () => {
     expect(limitations).toContain('frp')
     expect(limitations).toContain('mapa público')
     expect(limitations).toContain('zona horaria')
+  })
+
+  it('recovers from a catalog result without a map token using official CONAE VIIRS WFS', async () => {
+    const requested = []
+    const fetchImpl = async (url) => {
+      const requestUrl = new URL(url)
+      requested.push(requestUrl)
+
+      if (requestUrl.pathname.endsWith('/search_date.aspx')) {
+        return new Response(
+          '<html><body>No se encontraron Focos de Calor con el criterio de búsqueda solicitado.</body></html>',
+          { status: 200 },
+        )
+      }
+
+      if (requestUrl.searchParams.get('request') === 'GetCapabilities') {
+        return new Response(wfsCapabilities, { status: 200 })
+      }
+
+      if (requestUrl.searchParams.get('request') === 'GetFeature') {
+        return new Response(JSON.stringify(featureCollection), { status: 200 })
+      }
+
+      throw new Error(`Unexpected CONAE request: ${url}`)
+    }
+
+    const result = await refreshConaeHotspotSnapshot(
+      null,
+      argentinaFixture,
+      fetchImpl,
+      '2026-08-28T05:00:00Z',
+    )
+
+    expect(result.publish).toBe(true)
+    expect(result.snapshot.method.type).toBe('wfs')
+    expect(result.snapshot.source).toMatchObject({
+      name: 'CONAE',
+      url: 'https://geoservicios.conae.gov.ar/geoserver/GeoServiciosCONAE/wfs',
+      kind: 'official',
+    })
+    expect(result.snapshot.events).toHaveLength(1)
+    expect(result.snapshot.events[0]).toMatchObject({ id: 'viirs.1' })
+    expect(result.snapshot.limitations.join(' ')).toContain('capa WFS')
+    expect(requested.map((url) => url.searchParams.get('request')).filter(Boolean)).toEqual([
+      'GetCapabilities',
+      'GetFeature',
+    ])
+  })
+
+  it('uses a real-format NASA FIRMS NOAA-20 CSV when both CONAE routes fail', async () => {
+    const sampleCsv = [
+      'latitude,longitude,bright_ti4,scan,track,acq_date,acq_time,satellite,confidence,version,bright_ti5,frp,daynight',
+      '-30.10000,-62.20000,300,0.56,0.69,2026-08-28,0310,N20,nominal,2.0NRT,285,1.88,N',
+      '-20.00000,-62.20000,300,0.56,0.69,2026-08-28,0200,N20,high,2.0NRT,285,5.5,N',
+    ].join('\n')
+    const urls = []
+    const fetchImpl = async (url) => {
+      urls.push(String(url))
+      if (String(url).includes('firms.modaps.eosdis.nasa.gov')) {
+        return new Response(sampleCsv, { status: 200, headers: { 'content-type': 'text/csv' } })
+      }
+      if (String(url).includes('search_date.aspx')) {
+        return new Response('<script>formData.append("p", "")</script>', { status: 200 })
+      }
+      return new Response('CONAE WFS unavailable', { status: 503 })
+    }
+    const result = await refreshConaeHotspotSnapshot(
+      null, argentinaFixture, fetchImpl, '2026-08-28T05:00:00Z',
+    )
+    expect(result.publish).toBe(true)
+    expect(result.snapshot).toMatchObject({
+      source: { name: 'NASA FIRMS', kind: 'official' },
+      method: { type: 'csv' },
+    })
+    expect(result.snapshot.events).toHaveLength(1)
+    expect(result.snapshot.events[0]).toMatchObject({
+      satellite: 'NOAA20',
+      confidence: 'nominal',
+      frpMw: 1.88,
+    })
+    expect(result.snapshot.limitations.join(' ')).toContain('no equivale a cobertura')
+    expect(urls.some((url) => url.includes('South_America_24h.csv'))).toBe(true)
+  })
+
+  it('fails closed if a catalog response has no token and the official WFS is unavailable', async () => {
+    const fetchImpl = async (url) => (
+      String(url).includes('search_date.aspx')
+        ? new Response('<html><body>Unexpected CONAE HTML</body></html>', { status: 200 })
+        : new Response('Service Unavailable', { status: 503 })
+    )
+
+    await expect(
+      refreshConaeHotspotSnapshot(null, argentinaFixture, fetchImpl, '2026-08-28T05:00:00Z'),
+    ).rejects.toThrow(/catalog .*token was not found.*WFS .*503/)
   })
 
   it('does not publish a synthetic empty snapshot when the provider fails', async () => {

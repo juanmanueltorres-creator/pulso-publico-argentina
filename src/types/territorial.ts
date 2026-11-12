@@ -44,7 +44,7 @@ export interface TerritorialSnapshot<TEvent extends BaseTerritorialEvent> {
     kind: 'official'
   }
   method: {
-    type: 'scrape' | 'wfs'
+    type: 'scrape' | 'wfs' | 'csv'
     note: string
   }
   limitations: string[]

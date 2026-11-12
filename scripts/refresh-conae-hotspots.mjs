@@ -36,12 +36,12 @@ async function main() {
   )
 
   if (!result.publish) {
-    console.log(`CONAE checked: unchanged · ${result.snapshot.events.length} focos de calor en 24 h`)
+    console.log(`${result.snapshot.source.name} checked: unchanged · ${result.snapshot.events.length} focos de calor en 24 h`)
     return
   }
 
   await writeJsonAtomic(SNAPSHOT_PATH, result.snapshot)
-  console.log(`CONAE refreshed: ${result.snapshot.events.length} focos de calor en 24 h`)
+  console.log(`${result.snapshot.source.name} refreshed: ${result.snapshot.events.length} focos de calor en 24 h`)
 }
 
 main().catch((error) => {

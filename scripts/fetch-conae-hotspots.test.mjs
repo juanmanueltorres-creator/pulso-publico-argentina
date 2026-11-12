@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { describe, expect, it, vi } from 'vitest'
-import { CONAE_VIIRS_LAYER, fetchConaeHotspots } from './fetch-conae-hotspots.mjs'
+import { CONAE_VIIRS_LAYER, extractConaePublicMapToken, fetchConaeHotspots } from './fetch-conae-hotspots.mjs'
 
 const capabilities = await readFile(
   resolve(process.cwd(), 'scripts/fixtures/conae-capabilities.xml'),
@@ -56,5 +56,22 @@ describe('fetchConaeHotspots', () => {
     const fetchImpl = async () => new Response('down', { status: 503 })
 
     await expect(fetchConaeHotspots(fetchImpl)).rejects.toThrow(/503/)
+  })
+})
+
+describe('extractConaePublicMapToken', () => {
+  it('accepts a non-empty public map token', () => {
+    expect(extractConaePublicMapToken('<script>formData.append("p", "test-token")</script>'))
+      .toBe('test-token')
+  })
+
+  it('refuses an explicitly empty public map token instead of claiming zero hotspots', () => {
+    expect(() => extractConaePublicMapToken('<script>formData.append("p", "")</script>'))
+      .toThrow(/empty public map token/)
+  })
+
+  it('refuses unexpected upstream HTML', () => {
+    expect(() => extractConaePublicMapToken('<html>unexpected markup</html>'))
+      .toThrow(/token was not found/)
   })
 })
