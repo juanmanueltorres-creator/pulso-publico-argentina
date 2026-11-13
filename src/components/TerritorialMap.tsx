@@ -17,6 +17,7 @@ import type { HotspotWeatherContext } from '../lib/weatherContext'
 import {
   selectedHotspotToFeatureCollection,
   weatherFrameToFeatureCollection,
+  weatherTemperatureLabelsToFeatureCollection,
   weatherLinkToFeatureCollection,
   weatherNeighborsToFeatureCollection,
   weatherWindVectorsToFeatureCollection,
@@ -125,6 +126,7 @@ function syncSources(
 ) {
   const earthquakeSource = map.getSource('earthquakes') as GeoJSONSource | undefined
   const hotspotSource = map.getSource('hotspots') as GeoJSONSource | undefined
+  const weatherLabelsSource = map.getSource('weather-temperature-labels') as GeoJSONSource | undefined
   const weatherGridSource = map.getSource('weather-grid') as GeoJSONSource | undefined
   const weatherWindSource = map.getSource('weather-wind-vectors') as GeoJSONSource | undefined
   const weatherNeighborsSource = map.getSource('weather-neighbors') as GeoJSONSource | undefined
@@ -146,6 +148,9 @@ function syncSources(
         : EMPTY_FEATURE_COLLECTION,
     ),
   )
+  weatherLabelsSource?.setData(sourceData(hasUsableFrame
+    ? weatherTemperatureLabelsToFeatureCollection(weather, weatherFrameIndex)
+    : EMPTY_FEATURE_COLLECTION))
   weatherWindSource?.setData(
     sourceData(
       hasUsableFrame
@@ -189,6 +194,11 @@ function syncVisibility(
 
   map.setLayoutProperty(
     'weather-temperature-points',
+    'visibility',
+    weatherMode && weatherVariable === 'temperature' ? 'visible' : 'none',
+  )
+  map.setLayoutProperty(
+    'weather-temperature-labels',
     'visibility',
     weatherMode && weatherVariable === 'temperature' ? 'visible' : 'none',
   )
@@ -387,6 +397,10 @@ function createBlackMapStyle(): StyleSpecification {
         clusterProperties: {
           high_count: ['+', ['case', ['==', ['get', 'confidence'], 'high'], 1, 0]],
         },
+      },
+      'weather-temperature-labels': {
+        type: 'geojson',
+        data: EMPTY_FEATURE_COLLECTION,
       },
       'weather-grid': {
         type: 'geojson',
@@ -597,6 +611,28 @@ function createBlackMapStyle(): StyleSpecification {
           'circle-opacity': 0.9,
           'circle-stroke-color': '#080a09',
           'circle-stroke-width': 0.55,
+        },
+      },
+      {
+        id: 'weather-temperature-labels',
+        type: 'symbol',
+        source: 'weather-temperature-labels',
+        layout: {
+          visibility: 'none',
+          'text-field': ['get', 'label'],
+          'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
+          'text-size': 13,
+          'text-offset': [0, -1.15],
+          'text-anchor': 'bottom',
+          'text-allow-overlap': false,
+          'text-ignore-placement': false,
+          'text-padding': 12,
+        },
+        paint: {
+          'text-color': '#fff5e4',
+          'text-halo-color': '#0a0d0b',
+          'text-halo-width': 2.4,
+          'text-halo-blur': 0.5,
         },
       },
       {
@@ -849,6 +885,7 @@ export function TerritorialMap({
       onSelectWeatherRef.current(id)
     }
     map.on('click', 'weather-temperature-points', handleWeatherPointClick)
+    map.on('click', 'weather-temperature-labels', handleWeatherPointClick)
     map.on('click', 'weather-humidity-points', handleWeatherPointClick)
     map.on('click', 'weather-wind-origins', handleWeatherPointClick)
 
