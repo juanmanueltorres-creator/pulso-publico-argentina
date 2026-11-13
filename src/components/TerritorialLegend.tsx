@@ -193,11 +193,11 @@ export function TerritorialLegend({
 
         {weatherVariable === 'temperature' ? (
           <>
-            <span>Temperatura modelada para la hora activa. El color permite comparar zonas rápidamente.</span>
+            <span>Temperatura modelada para la hora activa. Los números sobre el mapa son puntos de referencia del modelo, no promedios provinciales; tocá un punto para el valor exacto.</span>
             <WeatherScale
               ariaLabel="Escala visual de temperatura"
               gradient="linear-gradient(90deg, #4f7cac 0%, #73bfb8 35%, #f2c14e 68%, #ef8a47 84%, #d95d39 100%)"
-              labels={['0 °C', '20 °C', '40 °C']}
+              labels={['0 °C', '10 °C', '20 °C', '30 °C', '40 °C']}
               direction="más frío ← temperatura → más cálido"
             />
           </>
