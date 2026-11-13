@@ -380,6 +380,8 @@ function createBlackMapStyle(): StyleSpecification {
 
   return {
     version: 8,
+    // MapLibre symbol labels require a glyph endpoint. The map remains usable if labels cannot load.
+    glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
     sources: {
       argentina: {
         type: 'geojson',
