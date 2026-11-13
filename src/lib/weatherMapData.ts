@@ -71,6 +71,41 @@ export function weatherFrameToFeatureCollection(
   return featureCollection(features)
 }
 
+/**
+ * Sparse numeric anchors sampled from existing model grid points.
+ * Pick a single valid value nearest each 4° geographical cell centre;
+ * never interpolate or fabricate a value.
+ */
+export function weatherTemperatureLabelsToFeatureCollection(
+  snapshot: WeatherSnapshot,
+  frameIndex: number,
+): object {
+  const buckets = new Map<string, { point: WeatherPoint; value: number; distance: number }>()
+  for (const point of snapshot.points) {
+    const value = finiteOrNull(point.values.temperatureC[frameIndex])
+    if (value === null) continue
+    const { longitude, latitude } = point.queryCoordinate
+    const x = Math.floor(longitude / 4)
+    const y = Math.floor(latitude / 4)
+    const centerLongitude = (x + 0.5) * 4
+    const centerLatitude = (y + 0.5) * 4
+    const distance = (latitude - centerLatitude) ** 2 + (longitude - centerLongitude) ** 2
+    const key = `${x}:${y}`
+    const previous = buckets.get(key)
+    if (!previous || distance < previous.distance) {
+      buckets.set(key, { point, value, distance })
+    }
+  }
+  return featureCollection([...buckets.values()].map(({ point, value }) => ({
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates: [point.queryCoordinate.longitude, point.queryCoordinate.latitude],
+    },
+    properties: { id: point.id, label: `${Math.round(value)}°`, temperatureC: value },
+  })))
+}
+
 function destinationCoordinate(
   latitude: number,
   longitude: number,
