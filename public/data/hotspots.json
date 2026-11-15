@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "thermal-hotspot",
-  "generatedAt": "2026-11-14T23:17:06.041Z",
-  "sourceCheckedAt": "2026-11-14T23:17:06.041Z",
+  "generatedAt": "2026-11-15T02:58:40.269Z",
+  "sourceCheckedAt": "2026-11-15T02:58:40.269Z",
   "window": {
     "hours": 24
   },
