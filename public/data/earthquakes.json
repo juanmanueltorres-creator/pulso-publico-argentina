@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-15T17:40:17.001Z",
-  "sourceCheckedAt": "2026-11-15T17:40:17.001Z",
+  "generatedAt": "2026-11-15T22:44:57.418Z",
+  "sourceCheckedAt": "2026-11-15T22:44:57.418Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-41cf77e169b27d9e",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-08T16:23:31-03:00",
-      "latitude": -31.893,
-      "longitude": -69.591,
-      "magnitude": 2.5,
-      "depthKm": 111,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-291fa2e65a1808b0",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-08T18:57:32-03:00",
-      "latitude": -33.133,
-      "longitude": -67.497,
-      "magnitude": 2.8,
-      "depthKm": 187,
-      "place": null,
-      "province": "MENDOZA",
-      "intensityText": null
-    },
     {
       "id": "inpres-80490728245029ed",
       "kind": "earthquake",
@@ -1200,28 +1176,28 @@
       "intensityText": null
     },
     {
-      "id": "inpres-a32ef4fd9e25b3f3",
+      "id": "inpres-227373e5558ae7ab",
       "kind": "earthquake",
-      "occurredAt": "2026-11-15T12:48:13-03:00",
-      "latitude": -29.31,
-      "longitude": -69.53,
-      "magnitude": 2.8,
+      "occurredAt": "2026-11-15T12:48:12-03:00",
+      "latitude": -29.316,
+      "longitude": -69.493,
+      "magnitude": 2.6,
       "depthKm": 131,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
     },
     {
-      "id": "inpres-a55d4f14e00f9be4",
+      "id": "inpres-31c9568aeadb9b45",
       "kind": "earthquake",
-      "occurredAt": "2026-11-15T13:36:05-03:00",
-      "latitude": -29.7,
-      "longitude": -67.09,
-      "magnitude": 3.4,
-      "depthKm": 10,
+      "occurredAt": "2026-11-15T13:36:04-03:00",
+      "latitude": -29.68,
+      "longitude": -67.148,
+      "magnitude": 3.2,
+      "depthKm": 36,
       "place": null,
       "province": "LA RIOJA",
-      "intensityText": null
+      "intensityText": "III -Ciudad de La Rioja"
     }
   ]
 }
