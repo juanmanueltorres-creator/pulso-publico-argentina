@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-16T02:41:47.376Z",
-  "sourceCheckedAt": "2026-11-16T02:41:47.376Z",
+  "generatedAt": "2026-11-16T11:01:15.468Z",
+  "sourceCheckedAt": "2026-11-16T11:01:15.468Z",
   "window": {
     "hours": 168
   },
@@ -23,102 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-3f716c075cc7d7e9",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-09T02:25:51-03:00",
-      "latitude": -31.801,
-      "longitude": -67.937,
-      "magnitude": 2.5,
-      "depthKm": 4,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-d1036308e30db4e8",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-09T03:20:39-03:00",
-      "latitude": -28.877,
-      "longitude": -68.875,
-      "magnitude": 3.2,
-      "depthKm": 123,
-      "place": null,
-      "province": "LA RIOJA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-0e145b570f957ca4",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-09T03:40:37-03:00",
-      "latitude": -31.694,
-      "longitude": -67.052,
-      "magnitude": 2.5,
-      "depthKm": 122,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-61f3ecbf0eaa1717",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-09T05:18:56-03:00",
-      "latitude": -31.452,
-      "longitude": -69.062,
-      "magnitude": 2.8,
-      "depthKm": 113,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-ecc6dbd183275d76",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-09T05:22:13-03:00",
-      "latitude": -27.931,
-      "longitude": -67.733,
-      "magnitude": 4.4,
-      "depthKm": 20,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": "III a IV -Tinogasta, Catamarca. III -Belén, Catamarca. II a III -San Fernando del Valle de Catamarca. II a III -Ciudad de La Rioja"
-    },
-    {
-      "id": "inpres-3968a9a05583e033",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-09T05:47:02-03:00",
-      "latitude": -31.568,
-      "longitude": -67.36,
-      "magnitude": 2.7,
-      "depthKm": 111,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-3e2630f53bf0fbf6",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-09T06:09:18-03:00",
-      "latitude": -26.781,
-      "longitude": -66.87,
-      "magnitude": 2.5,
-      "depthKm": 163,
-      "place": null,
-      "province": "CATAMARCA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-c355374a95d3000c",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-09T06:36:13-03:00",
-      "latitude": -30.928,
-      "longitude": -64.634,
-      "magnitude": 2.6,
-      "depthKm": 14,
-      "place": null,
-      "province": "CORDOBA",
-      "intensityText": "II a III -Capilla del Monte, Córdoba"
-    },
     {
       "id": "inpres-98c0eb83a41abec6",
       "kind": "earthquake",
@@ -1186,6 +1090,42 @@
       "place": null,
       "province": "LA RIOJA",
       "intensityText": "III -Ciudad de La Rioja"
+    },
+    {
+      "id": "inpres-eba11f36eb8fcdbe",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-16T00:41:37-03:00",
+      "latitude": -31.244,
+      "longitude": -68.447,
+      "magnitude": 2.6,
+      "depthKm": 104,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-bec1d43a26a7fb5e",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-16T03:38:22-03:00",
+      "latitude": -36.774,
+      "longitude": -70.504,
+      "magnitude": 2.7,
+      "depthKm": 166,
+      "place": null,
+      "province": "NEUQUEN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-f467711956fd4d7f",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-16T06:22:21-03:00",
+      "latitude": -30.797,
+      "longitude": -69.132,
+      "magnitude": 3.4,
+      "depthKm": 10,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
     }
   ]
 }
