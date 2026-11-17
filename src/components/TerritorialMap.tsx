@@ -935,6 +935,19 @@ export function TerritorialMap({
   const selectedIdRef = useRef(selectedId)
   const onSelectRef = useRef(onSelect)
   const onSelectWeatherRef = useRef(onSelectWeather)
+  // Cloud availability must refer to the active hourly frame, not to historical frames.
+  const cloudFrameValues = mode === 'weather' && weatherVariable === 'clouds' &&
+    weather && weatherFrameIndex >= 0 && weatherFrameIndex < weather.timestamps.length
+    ? weather.points.flatMap((point) => {
+        const value = point.values.cloudCoverPct?.[weatherFrameIndex]
+        return typeof value === 'number' && Number.isFinite(value) ? [value] : []
+      })
+    : []
+  const cloudStatus = cloudFrameValues.length === 0
+    ? 'missing'
+    : cloudFrameValues.every((value) => value < 20)
+      ? 'low'
+      : 'ready'
   const earthquakeDepthLayerStateRef = useRef<EarthquakeDepthLayerState>({
     layer: null,
     label: null,
@@ -1110,6 +1123,17 @@ export function TerritorialMap({
       data-selected-id={selectedId ?? selectedHotspot?.id ?? undefined}
       data-selected-weather-point-id={selectedWeatherPointId ?? undefined}
       data-earthquake-display-mode={earthquakeDisplayMode}
-    />
+    >
+      {mode === 'weather' && weatherVariable === 'clouds' && weather && cloudStatus !== 'ready' ? (
+        <div className="territorial-map__cloud-status" role="status" data-cloud-state={cloudStatus}>
+          <strong>{cloudStatus === 'missing' ? 'Nubosidad sin datos' : 'Cobertura nubosa baja'}</strong>
+          <span>
+            {cloudStatus === 'missing'
+              ? 'El registro publicado todavía no incluye cobertura nubosa para esta hora. No se muestran nubes estimadas a partir de humedad.'
+              : 'En los puntos modelados la cobertura es inferior al 20 %. No se dibujan nubes en este rango; seleccioná un punto para ver el valor.'}
+          </span>
+        </div>
+      ) : null}
+    </div>
   )
 }
