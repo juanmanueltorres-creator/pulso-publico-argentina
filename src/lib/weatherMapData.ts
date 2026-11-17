@@ -106,7 +106,9 @@ export function weatherNumericAnchorsToFeatureCollection(
       buckets.set(key, { point, value, distance })
     }
   }
-  const unit = variable === 'temperature' ? '°' : variable === 'wind' ? ' km/h' : '%'
+  // Wind values use short numbers exactly like temperature. The active wind
+  // legend explicitly supplies km/h; repeating it on the map hides adjacent labels.
+  const unit = variable === 'temperature' ? '°' : variable === 'wind' ? '' : '%'
   return featureCollection([...buckets.values()].map(({ point, value }) => ({
     type: 'Feature',
     id: point.id,
