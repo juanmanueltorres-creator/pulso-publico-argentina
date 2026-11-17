@@ -4,6 +4,8 @@
 
 Pulso Público Argentina reúne señales públicas dispersas entre APIs, planillas, catálogos y fuentes oficiales, conserva su procedencia y las publica en una interfaz común para leer **valor + tiempo + territorio + método + límites** sin convertir una señal en una conclusión automática.
 
+La idea es recorrer el país como una publicación: pasar de un tema a otro, encontrar preguntas detrás de los números y tener siempre a mano el camino hasta la fuente.
+
 > **Un dato nunca debe parecer más preciso, reciente o autoritativo que la fuente que lo sostiene.**
 
 👉 **[Ver aplicación](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/)**
