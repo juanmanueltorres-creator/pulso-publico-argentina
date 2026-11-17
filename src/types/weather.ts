@@ -1,6 +1,6 @@
 import type { TerritorialKind } from './territorial'
 
-export type TerritorialViewMode = TerritorialKind | 'weather'
+export type TerritorialViewMode = TerritorialKind | 'weather' | 'marine'
 export type WeatherVariable = 'temperature' | 'wind' | 'humidity' | 'clouds'
 
 export interface WeatherSnapshot {
