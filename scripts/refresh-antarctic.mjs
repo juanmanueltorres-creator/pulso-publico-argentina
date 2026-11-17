@@ -81,13 +81,35 @@ export function normalizeAntarcticResponse(bases, response, checkedAt) {
   }
 }
 
-export async function refreshAntarcticSnapshot(bases, fetchImpl = fetch, checkedAt = new Date().toISOString()) {
-  const response = await fetchImpl(antarcticRequestUrl(bases), {
-    headers: { accept: 'application/json' }, signal: AbortSignal.timeout(30_000),
-  })
-  if (!response?.ok) throw new Error(`Antarctic forecast HTTP ${response?.status ?? 'unknown'}`)
-  const payload = await response.json()
-  return normalizeAntarcticResponse(bases, Array.isArray(payload) ? payload : [payload], checkedAt)
+export async function refreshAntarcticSnapshot(
+  bases, fetchImpl = fetch, checkedAt = new Date().toISOString(), options = {},
+) {
+  const maxRetries = options.maxRetries ?? 2
+  const retryDelayMs = options.retryDelayMs ?? 4_000
+  const sleepImpl = options.sleepImpl ?? ((milliseconds) =>
+    new Promise((resolve) => setTimeout(resolve, milliseconds)))
+  if (!Number.isInteger(maxRetries) || maxRetries < 0 || !Number.isFinite(retryDelayMs) || retryDelayMs < 0) {
+    throw new Error('Invalid Antarctic retry configuration')
+  }
+  for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
+    try {
+      const response = await fetchImpl(antarcticRequestUrl(bases), {
+        headers: { accept: 'application/json' }, signal: AbortSignal.timeout(30_000),
+      })
+      if (!response?.ok) throw new Error(`Antarctic forecast HTTP ${response?.status ?? 'unknown'}`)
+      const payload = await response.json()
+      return normalizeAntarcticResponse(bases, Array.isArray(payload) ? payload : [payload], checkedAt)
+    } catch (error) {
+      const transientNetworkFailure = error instanceof TypeError ||
+        error?.name === 'AbortError' || error?.name === 'TimeoutError'
+      if (!transientNetworkFailure || attempt === maxRetries) {
+        const reason = error?.cause?.message ? `${error.message} (${error.cause.message})` : error.message
+        throw new Error(`Antarctic forecast failed after ${attempt + 1} attempt(s): ${reason}`, { cause: error })
+      }
+      await sleepImpl(retryDelayMs * (attempt + 1))
+    }
+  }
+  throw new Error('Antarctic forecast attempts exhausted')
 }
 
 export async function main() {
