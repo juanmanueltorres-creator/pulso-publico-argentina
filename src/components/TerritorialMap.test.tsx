@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { weatherSnapshotFixture } from '../test/weatherFixtures'
 import { marineSnapshotFixture } from '../test/marineFixtures'
+import { antarcticSnapshotFixture } from '../test/antarcticFixtures'
 import { earthquakeEvents, hotspotEvents } from '../test/territorialFixtures'
 import type { HotspotWeatherContext } from '../lib/weatherContext'
 import { TerritorialMap } from './TerritorialMap'
@@ -191,6 +192,39 @@ describe('TerritorialMap', () => {
     expect(windOrigins).toContain('#ef8354')
     expect(windVectors).toContain('#7aa6b8')
     expect(windVectors).toContain('#ef8354')
+  })
+
+  it('focuses the Antarctic region only when changing geographic context, and isolates its six bases', () => {
+    const antarctic = antarcticSnapshotFixture()
+    const onSelectAntarctic = vi.fn()
+    const { rerender } = render(<TerritorialMap {...weatherProps({ antarctic })} />)
+    expect(mapMocks.fitBounds).not.toHaveBeenCalled()
+    rerender(<TerritorialMap {...weatherProps({
+      mode: 'antarctic', antarctic, antarcticVariable: 'temperature', onSelectAntarctic,
+    })} />)
+    expect(mapMocks.fitBounds).toHaveBeenCalledWith([[-74, -79.4], [-29, -59.5]],
+      expect.objectContaining({ padding: 30 }))
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('antarctic-points', 'visibility', 'visible')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('marine-points', 'visibility', 'none')
+    expect(mapMocks.sourceSetData).toHaveBeenCalledWith('antarctic-points',
+      expect.objectContaining({ features: expect.arrayContaining([
+        expect.objectContaining({ properties: expect.objectContaining({
+          name: 'Orcadas', available: false, label: '',
+        }) }),
+      ]) }),
+    )
+    mapMocks.clickHandlers.get('antarctic-points')?.({
+      features: [{ properties: { id: 'orcadas' } }],
+    })
+    expect(onSelectAntarctic).toHaveBeenCalledWith('orcadas')
+    const before = mapMocks.fitBounds.mock.calls.length
+    rerender(<TerritorialMap {...weatherProps({ mode: 'antarctic', antarctic,
+      antarcticVariable: 'wind', onSelectAntarctic })} />)
+    expect(mapMocks.fitBounds).toHaveBeenCalledTimes(before)
+    rerender(<TerritorialMap {...weatherProps({ mode: 'marine', antarctic })} />)
+    expect(mapMocks.fitBounds).toHaveBeenCalledWith([[-73.7, -55.3], [-53.5, -21.7]],
+      expect.objectContaining({ padding: 30 }))
+    expect(mapMocks.construct).toHaveBeenCalledTimes(1)
   })
 
   it('renders ocean model points without inventing values, preserving one map across modes', () => {

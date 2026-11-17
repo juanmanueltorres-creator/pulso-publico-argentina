@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.0",
+  "sourceCheckedAt": null,
+  "source": {
+    "provider": "Open-Meteo",
+    "dataset": "ECMWF IFS 0.25° · pronóstico meteorológico global",
+    "url": "https://open-meteo.com/en/docs/ecmwf-api",
+    "kind": "numerical-weather-model"
+  },
+  "locationSource": {
+    "provider": "IGN / Dirección Nacional del Antártico",
+    "url": "https://www.ign.gob.ar/NuestrasActividades/Geografia/DatosArgentina/BasesAntartida"
+  },
+  "limitations": [
+    "Son pronósticos de un modelo global, no mediciones de estaciones instaladas en las bases.",
+    "La temperatura y el viento pueden diferir sustancialmente de la realidad local por relieve, elevación y resolución del modelo.",
+    "La vista cartográfica del mapa usa Mercator y distorsiona las distancias y superficies en latitudes polares.",
+    "La selección de bases no representa una malla continua ni una declaración cartográfica de límites o soberanía."
+  ],
+  "points": [
+    {
+      "id": "orcadas",
+      "name": "Orcadas",
+      "site": "Isla Laurie · Orcadas del Sur",
+      "queryCoordinate": {
+        "latitude": -60.7378,
+        "longitude": -44.74
+      },
+      "providerCoordinate": null,
+      "validAt": null,
+      "values": {
+        "temperatureC": null,
+        "windSpeedKmh": null,
+        "windDirectionDeg": null,
+        "cloudCoverPct": null
+      }
+    },
+    {
+      "id": "carlini",
+      "name": "Carlini",
+      "site": "Isla 25 de Mayo · Shetland del Sur",
+      "queryCoordinate": {
+        "latitude": -62.2383,
+        "longitude": -58.6669
+      },
+      "providerCoordinate": null,
+      "validAt": null,
+      "values": {
+        "temperatureC": null,
+        "windSpeedKmh": null,
+        "windDirectionDeg": null,
+        "cloudCoverPct": null
+      }
+    },
+    {
+      "id": "esperanza",
+      "name": "Esperanza",
+      "site": "Península Trinidad",
+      "queryCoordinate": {
+        "latitude": -63.3981,
+        "longitude": -56.9972
+      },
+      "providerCoordinate": null,
+      "validAt": null,
+      "values": {
+        "temperatureC": null,
+        "windSpeedKmh": null,
+        "windDirectionDeg": null,
+        "cloudCoverPct": null
+      }
+    },
+    {
+      "id": "marambio",
+      "name": "Marambio",
+      "site": "Isla Marambio · mar de Weddell",
+      "queryCoordinate": {
+        "latitude": -64.2411,
+        "longitude": -56.6253
+      },
+      "providerCoordinate": null,
+      "validAt": null,
+      "values": {
+        "temperatureC": null,
+        "windSpeedKmh": null,
+        "windDirectionDeg": null,
+        "cloudCoverPct": null
+      }
+    },
+    {
+      "id": "san-martin",
+      "name": "San Martín",
+      "site": "Islotes Debenham · bahía Margarita",
+      "queryCoordinate": {
+        "latitude": -68.13,
+        "longitude": -67.1008
+      },
+      "providerCoordinate": null,
+      "validAt": null,
+      "values": {
+        "temperatureC": null,
+        "windSpeedKmh": null,
+        "windDirectionDeg": null,
+        "cloudCoverPct": null
+      }
+    },
+    {
+      "id": "belgrano-ii",
+      "name": "Belgrano II",
+      "site": "Nunatak Bertrab · Tierra de Coats",
+      "queryCoordinate": {
+        "latitude": -77.8756,
+        "longitude": -34.6794
+      },
+      "providerCoordinate": null,
+      "validAt": null,
+      "values": {
+        "temperatureC": null,
+        "windSpeedKmh": null,
+        "windDirectionDeg": null,
+        "cloudCoverPct": null
+      }
+    }
+  ]
+}

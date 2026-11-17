@@ -15,6 +15,7 @@
     "refresh:conae": "node scripts/refresh-conae-hotspots.mjs",
     "refresh:weather": "node scripts/refresh-weather.mjs",
     "refresh:marine": "node scripts/refresh-marine.mjs",
+    "refresh:antarctic": "node scripts/refresh-antarctic.mjs",
     "data:argentina-boundary": "node scripts/fetch-argentina-geometry.mjs",
     "preview": "vite preview"
   },

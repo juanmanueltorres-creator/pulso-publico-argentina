@@ -11,6 +11,8 @@ import {
 import mapLibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import { EarthquakeDepth3DLayer } from '../lib/EarthquakeDepth3DLayer'
 import { marinePointsToFeatureCollection } from '../lib/marineMapData'
+import { antarcticPointsToFeatureCollection } from '../lib/antarcticMapData'
+import type { AntarcticSnapshot, AntarcticVariable } from '../types/antarctic'
 import type { MarineSnapshot, MarineVariable } from '../types/marine'
 import type { EarthquakeDisplayMode } from '../lib/earthquakeDepth3D'
 import { earthquakeDepthColorExpression } from '../lib/earthquakeDepthScale'
@@ -39,6 +41,11 @@ setWorkerUrl(mapLibreWorkerUrl)
 const ARGENTINA_VIEW_BOUNDS: [[number, number], [number, number]] = [
   [-73.7, -55.3],
   [-53.5, -21.7],
+]
+// Geographic reference framing only: Mercator is not an appropriate metric polar projection.
+const ANTARCTIC_VIEW_BOUNDS: [[number, number], [number, number]] = [
+  [-74, -79.4],
+  [-29, -59.5],
 ]
 
 const EARTHQUAKE_RADIUS_EXPRESSION = [
@@ -88,6 +95,10 @@ interface TerritorialMapProps {
   marineVariable?: MarineVariable
   selectedMarinePointId?: string | null
   onSelectMarine?: (pointId: string) => void
+  antarctic?: AntarcticSnapshot | null
+  antarcticVariable?: AntarcticVariable
+  selectedAntarcticPointId?: string | null
+  onSelectAntarctic?: (pointId: string) => void
   weatherFrameIndex?: number
   hotspotContext?: HotspotWeatherContext | null
   selectedHotspot?: ThermalHotspotEvent | null
@@ -112,6 +123,7 @@ const EMPTY_FEATURE_COLLECTION = {
 
 const noopSelectWeather = () => undefined
 const noopSelectMarine = () => undefined
+const noopSelectAntarctic = () => undefined
 
 function sourceData(value: object): Parameters<GeoJSONSource['setData']>[0] {
   return value as Parameters<GeoJSONSource['setData']>[0]
@@ -131,6 +143,9 @@ function syncSources(
   marine: MarineSnapshot | null,
   marineVariable: MarineVariable,
   selectedMarinePointId: string | null,
+  antarctic: AntarcticSnapshot | null,
+  antarcticVariable: AntarcticVariable,
+  selectedAntarcticPointId: string | null,
   hotspotContext: HotspotWeatherContext | null,
   selectedHotspot: ThermalHotspotEvent | null,
 ) {
@@ -139,6 +154,7 @@ function syncSources(
   const weatherLabelsSource = map.getSource('weather-temperature-labels') as GeoJSONSource | undefined
   const weatherAnchorsSource = map.getSource('weather-anchors') as GeoJSONSource | undefined
   const marineSource = map.getSource('marine-points') as GeoJSONSource | undefined
+  const antarcticSource = map.getSource('antarctic-points') as GeoJSONSource | undefined
   const weatherGridSource = map.getSource('weather-grid') as GeoJSONSource | undefined
   const weatherWindSource = map.getSource('weather-wind-vectors') as GeoJSONSource | undefined
   const weatherNeighborsSource = map.getSource('weather-neighbors') as GeoJSONSource | undefined
@@ -173,6 +189,7 @@ function syncSources(
       : EMPTY_FEATURE_COLLECTION,
   ))
   marineSource?.setData(sourceData(marinePointsToFeatureCollection(marine, marineVariable, selectedMarinePointId)))
+  antarcticSource?.setData(sourceData(antarcticPointsToFeatureCollection(antarctic, antarcticVariable, selectedAntarcticPointId)))
   weatherWindSource?.setData(
     sourceData(
       hasUsableFrame
@@ -208,6 +225,7 @@ function syncVisibility(
   const hotspotsVisible = mode === 'thermal-hotspot' ? 'visible' : 'none'
   const weatherMode = mode === 'weather'
   const marineMode = mode === 'marine'
+  const antarcticMode = mode === 'antarctic'
   const contextVisible = hasHotspotContext && mode !== 'earthquake' ? 'visible' : 'none'
 
   map.setLayoutProperty('earthquake-points', 'visibility', earthquakesVisible)
@@ -251,6 +269,9 @@ function syncVisibility(
 
   for (const layer of ['marine-points', 'marine-labels']) {
     map.setLayoutProperty(layer, 'visibility', marineMode ? 'visible' : 'none')
+  }
+  for (const layer of ['antarctic-points', 'antarctic-labels']) {
+    map.setLayoutProperty(layer, 'visibility', antarcticMode ? 'visible' : 'none')
   }
 
   for (const layer of WEATHER_CONTEXT_LAYERS) {
@@ -448,6 +469,10 @@ function createBlackMapStyle(): StyleSpecification {
         data: EMPTY_FEATURE_COLLECTION,
       },
       'marine-points': {
+        type: 'geojson',
+        data: EMPTY_FEATURE_COLLECTION,
+      },
+      'antarctic-points': {
         type: 'geojson',
         data: EMPTY_FEATURE_COLLECTION,
       },
@@ -890,6 +915,42 @@ function createBlackMapStyle(): StyleSpecification {
         },
       },
       {
+        id: 'antarctic-points',
+        type: 'circle',
+        source: 'antarctic-points',
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-color': ['case', ['get', 'available'], '#8ebfc5', '#716d64'],
+          'circle-opacity': ['case', ['get', 'available'], 0.97, 0.62],
+          'circle-radius': ['case', ['get', 'selected'], 8, 6],
+          'circle-stroke-color': ['case', ['get', 'selected'], '#fff5e4', '#060907'],
+          'circle-stroke-width': ['case', ['get', 'selected'], 2, 1.5],
+        },
+      },
+      {
+        id: 'antarctic-labels',
+        type: 'symbol',
+        source: 'antarctic-points',
+        layout: {
+          visibility: 'none',
+          'text-field': ['case', ['get', 'available'],
+            ['concat', ['get', 'name'], ' · ', ['get', 'label']],
+            ['get', 'name']],
+          'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
+          'text-size': 12,
+          'text-anchor': 'left',
+          'text-offset': [1.25, 0],
+          'text-allow-overlap': false,
+          'text-ignore-placement': false,
+          'text-padding': 9,
+        },
+        paint: {
+          'text-color': '#edf8f9',
+          'text-halo-color': '#080b0e',
+          'text-halo-width': 2.4,
+        },
+      },
+      {
         id: 'weather-neighbor-points',
         type: 'circle',
         source: 'weather-neighbors',
@@ -957,6 +1018,10 @@ export function TerritorialMap({
   marineVariable = 'waves',
   selectedMarinePointId = null,
   onSelectMarine = noopSelectMarine,
+  antarctic = null,
+  antarcticVariable = 'temperature',
+  selectedAntarcticPointId = null,
+  onSelectAntarctic = noopSelectAntarctic,
   weatherFrameIndex = -1,
   hotspotContext = null,
   selectedHotspot = null,
@@ -975,6 +1040,12 @@ export function TerritorialMap({
   const hotspotsRef = useRef(hotspots)
   const weatherRef = useRef(weather)
   const marineRef = useRef(marine)
+  const antarcticRef = useRef(antarctic)
+  const antarcticVariableRef = useRef(antarcticVariable)
+  const selectedAntarcticPointIdRef = useRef(selectedAntarcticPointId)
+  const onSelectAntarcticRef = useRef(onSelectAntarctic)
+  // Only switch camera when entering/leaving the polar region; ordinary layer changes keep the viewport.
+  const previousRegionRef = useRef(mode === 'antarctic' ? 'antarctic' : 'continental')
   const marineVariableRef = useRef(marineVariable)
   const selectedMarinePointIdRef = useRef(selectedMarinePointId)
   const onSelectMarineRef = useRef(onSelectMarine)
@@ -1011,6 +1082,10 @@ export function TerritorialMap({
   hotspotsRef.current = hotspots
   weatherRef.current = weather
   marineRef.current = marine
+  antarcticRef.current = antarctic
+  antarcticVariableRef.current = antarcticVariable
+  selectedAntarcticPointIdRef.current = selectedAntarcticPointId
+  onSelectAntarcticRef.current = onSelectAntarctic
   marineVariableRef.current = marineVariable
   selectedMarinePointIdRef.current = selectedMarinePointId
   onSelectMarineRef.current = onSelectMarine
@@ -1047,6 +1122,9 @@ export function TerritorialMap({
         marineRef.current,
         marineVariableRef.current,
         selectedMarinePointIdRef.current,
+        antarcticRef.current,
+        antarcticVariableRef.current,
+        selectedAntarcticPointIdRef.current,
         hotspotContextRef.current,
         selectedHotspotRef.current,
       )
@@ -1104,6 +1182,12 @@ export function TerritorialMap({
     }
     map.on('click', 'marine-points', handleMarineClick)
     map.on('click', 'marine-labels', handleMarineClick)
+    const handleAntarcticClick = (event: MapLayerMouseEvent) => {
+      const id = String(event.features?.[0]?.properties?.id ?? '')
+      if (antarcticRef.current?.points.some((point) => point.id === id)) onSelectAntarcticRef.current(id)
+    }
+    map.on('click', 'antarctic-points', handleAntarcticClick)
+    map.on('click', 'antarctic-labels', handleAntarcticClick)
 
     map.on('click', (event) => {
       if (modeRef.current !== 'thermal-hotspot') return
@@ -1138,6 +1222,9 @@ export function TerritorialMap({
       marine,
       marineVariable,
       selectedMarinePointId,
+      antarctic,
+      antarcticVariable,
+      selectedAntarcticPointId,
       hotspotContext,
       selectedHotspot,
     )
@@ -1151,6 +1238,9 @@ export function TerritorialMap({
     marine,
     marineVariable,
     selectedMarinePointId,
+    antarctic,
+    antarcticVariable,
+    selectedAntarcticPointId,
     hotspotContext,
     selectedHotspot,
     selectedId,
@@ -1167,6 +1257,18 @@ export function TerritorialMap({
       selectedHotspot !== null,
     )
   }, [mode, weatherVariable, hotspotContext, selectedHotspot])
+
+  useEffect(() => {
+    const nextRegion = mode === 'antarctic' ? 'antarctic' : 'continental'
+    if (previousRegionRef.current === nextRegion) return
+    previousRegionRef.current = nextRegion
+    const map = mapRef.current
+    if (!map || !loadedRef.current) return
+    map.fitBounds(nextRegion === 'antarctic' ? ANTARCTIC_VIEW_BOUNDS : ARGENTINA_VIEW_BOUNDS, {
+      padding: 30,
+      duration: 600,
+    })
+  }, [mode])
 
   useEffect(() => {
     const map = mapRef.current
@@ -1190,6 +1292,7 @@ export function TerritorialMap({
       data-selected-id={selectedId ?? selectedHotspot?.id ?? undefined}
       data-selected-weather-point-id={selectedWeatherPointId ?? undefined}
       data-selected-marine-point-id={selectedMarinePointId ?? undefined}
+      data-selected-antarctic-point-id={selectedAntarcticPointId ?? undefined}
       data-earthquake-display-mode={earthquakeDisplayMode}
     >
       {mode === 'weather' && weatherVariable === 'clouds' && weather && cloudStatus !== 'ready' ? (

@@ -3,6 +3,9 @@ import type { EarthquakeDisplayMode } from '../lib/earthquakeDepth3D'
 import { loadTerritorialSnapshot } from '../lib/loadTerritorialSnapshot'
 import { loadWeatherSnapshot } from '../lib/loadWeatherSnapshot'
 import { loadMarineSnapshot } from '../lib/loadMarineSnapshot'
+import { loadAntarcticSnapshot } from '../lib/loadAntarcticSnapshot'
+import type { AntarcticSnapshot, AntarcticVariable } from '../types/antarctic'
+import { AntarcticDetail } from './AntarcticDetail'
 import type { MarineSnapshot, MarineVariable } from '../types/marine'
 import { MarineDetail } from './MarineDetail'
 import { formatArgInstant } from '../lib/timeDisplay'
@@ -27,6 +30,7 @@ type EarthquakeLoader = () => Promise<TerritorialSnapshot<EarthquakeEvent>>
 type HotspotLoader = () => Promise<TerritorialSnapshot<ThermalHotspotEvent>>
 type WeatherLoader = () => Promise<WeatherSnapshot>
 type MarineLoader = () => Promise<MarineSnapshot>
+type AntarcticLoader = () => Promise<AntarcticSnapshot>
 
 type SnapshotFreshness = {
   sourceCheckedAt: string
@@ -40,6 +44,7 @@ interface TerritorialSectionProps {
   loadHotspots?: HotspotLoader
   loadWeather?: WeatherLoader
   loadMarine?: MarineLoader
+  loadAntarctic?: AntarcticLoader
   now?: Date
 }
 
@@ -47,6 +52,7 @@ const defaultEarthquakeLoader: EarthquakeLoader = () => loadTerritorialSnapshot(
 const defaultHotspotLoader: HotspotLoader = () => loadTerritorialSnapshot('thermal-hotspot')
 const defaultWeatherLoader: WeatherLoader = () => loadWeatherSnapshot()
 const defaultMarineLoader: MarineLoader = () => loadMarineSnapshot()
+const defaultAntarcticLoader: AntarcticLoader = () => loadAntarcticSnapshot()
 
 function periodLabel(hours: number): string {
   if (hours % 24 === 0 && hours >= 48) {
@@ -66,24 +72,29 @@ export function TerritorialSection({
   loadHotspots = defaultHotspotLoader,
   loadWeather = defaultWeatherLoader,
   loadMarine = defaultMarineLoader,
+  loadAntarctic = defaultAntarcticLoader,
   now,
 }: TerritorialSectionProps) {
   const [mode, setMode] = useState<TerritorialViewMode>('earthquake')
   const [earthquakeDisplayMode, setEarthquakeDisplayMode] = useState<EarthquakeDisplayMode>('2d')
   const [weatherVariable, setWeatherVariable] = useState<WeatherVariable>('temperature')
   const [marineVariable, setMarineVariable] = useState<MarineVariable>('waves')
+  const [antarcticVariable, setAntarcticVariable] = useState<AntarcticVariable>('temperature')
   const [earthquakes, setEarthquakes] = useState<TerritorialSnapshot<EarthquakeEvent> | null>(null)
   const [hotspots, setHotspots] = useState<TerritorialSnapshot<ThermalHotspotEvent> | null>(null)
   const [weather, setWeather] = useState<WeatherSnapshot | null>(null)
   const [marine, setMarine] = useState<MarineSnapshot | null>(null)
+  const [antarctic, setAntarctic] = useState<AntarcticSnapshot | null>(null)
   const [earthquakeError, setEarthquakeError] = useState(false)
   const [hotspotError, setHotspotError] = useState(false)
   const [weatherError, setWeatherError] = useState(false)
   const [marineError, setMarineError] = useState(false)
+  const [antarcticError, setAntarcticError] = useState(false)
   const [selectedEarthquakeId, setSelectedEarthquakeId] = useState<string | null>(null)
   const [selectedHotspotId, setSelectedHotspotId] = useState<string | null>(null)
   const [selectedWeatherPointId, setSelectedWeatherPointId] = useState<string | null>(null)
   const [selectedMarinePointId, setSelectedMarinePointId] = useState<string | null>(null)
+  const [selectedAntarcticPointId, setSelectedAntarcticPointId] = useState<string | null>(null)
   const currentTime = now ?? new Date()
 
   useEffect(() => {
@@ -158,6 +169,21 @@ export function TerritorialSection({
     return () => { active = false }
   }, [loadMarine])
 
+  useEffect(() => {
+    let active = true
+    loadAntarctic()
+      .then((snapshot) => {
+        if (!active) return
+        setAntarctic(snapshot)
+        setAntarcticError(false)
+      })
+      .catch(() => {
+        if (!active) return
+        setAntarcticError(true)
+      })
+    return () => { active = false }
+  }, [loadAntarctic])
+
   const selectedEarthquake = useMemo(
     () => earthquakes?.events.find((event) => event.id === selectedEarthquakeId) ?? null,
     [earthquakes, selectedEarthquakeId],
@@ -173,6 +199,10 @@ export function TerritorialSection({
   const selectedMarinePoint = useMemo(
     () => marine?.points.find((point) => point.id === selectedMarinePointId) ?? null,
     [marine, selectedMarinePointId],
+  )
+  const selectedAntarcticPoint = useMemo(
+    () => antarctic?.points.find((point) => point.id === selectedAntarcticPointId) ?? null,
+    [antarctic, selectedAntarcticPointId],
   )
   const hotspotContext = useMemo(
     () => (selectedHotspot && weather ? findWeatherContext(selectedHotspot, weather) : null),
@@ -242,6 +272,14 @@ export function TerritorialSection({
           onClick={() => setMode('marine')}
         >
           Mar Argentino
+        </button>
+        <button
+          type="button"
+          className="territorial-mode"
+          aria-pressed={mode === 'antarctic'}
+          onClick={() => setMode('antarctic')}
+        >
+          Antártida
         </button>
       </div>
 
@@ -317,6 +355,24 @@ export function TerritorialSection({
             </button>
           ))}
         </div>
+      ) : mode === 'antarctic' ? (
+        <div className="territorial-weather-variables" aria-label="Variable antártica">
+          {([
+            ['temperature', 'Temperatura'],
+            ['wind', 'Viento'],
+            ['clouds', 'Nubosidad'],
+          ] as const).map(([variable, label]) => (
+            <button
+              key={variable}
+              type="button"
+              className="territorial-weather-variable"
+              aria-pressed={antarcticVariable === variable}
+              onClick={() => setAntarcticVariable(variable)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       ) : null}
 
       <div className="territorial-summary" aria-live="polite">
@@ -352,6 +408,29 @@ export function TerritorialSection({
             </>
           ) : (
             <strong>Leyendo focos de calor…</strong>
+          )
+        ) : mode === 'antarctic' ? (
+          antarcticError ? (
+            <>
+              <strong>Contexto antártico temporalmente no disponible</strong>
+              <span>Los otros mapas siguen siendo fuentes independientes.</span>
+            </>
+          ) : antarctic ? (
+            <>
+              <strong>{antarctic.points.length} bases antárticas argentinas</strong>
+              <span>{antarctic.source.dataset}</span>
+              {antarctic.sourceCheckedAt ? (
+                <span>Consulta del modelo: {formatArgInstant(antarctic.sourceCheckedAt, 'fetch')}</span>
+              ) : (
+                <span>Esperando la primera consulta meteorológica para estas bases.</span>
+              )}
+              <span><a href={antarctic.locationSource.url} target="_blank" rel="noreferrer">Ubicaciones: IGN</a></span>
+              <span className="territorial-summary__caution">
+                Pronóstico global, no medición en las bases. Mercator distorsiona las regiones polares.
+              </span>
+            </>
+          ) : (
+            <strong>Leyendo contexto antártico…</strong>
           )
         ) : mode === 'marine' ? (
           marineError ? (
@@ -408,6 +487,7 @@ export function TerritorialSection({
         mode={mode}
         weatherVariable={weatherVariable}
         marineVariable={marineVariable}
+        antarcticVariable={antarcticVariable}
         earthquakeDisplayMode={earthquakeDisplayMode}
       />
 
@@ -423,6 +503,10 @@ export function TerritorialSection({
           marineVariable={marineVariable}
           selectedMarinePointId={selectedMarinePointId}
           onSelectMarine={setSelectedMarinePointId}
+          antarctic={antarctic}
+          antarcticVariable={antarcticVariable}
+          selectedAntarcticPointId={selectedAntarcticPointId}
+          onSelectAntarctic={setSelectedAntarcticPointId}
           weatherFrameIndex={weatherFrameIndex}
           hotspotContext={hotspotContext}
           selectedHotspot={selectedHotspot}
@@ -450,6 +534,15 @@ export function TerritorialSection({
             limitations={hotspots?.limitations ?? []}
             afterDetails={hotspotWeatherExtension}
           />
+        ) : mode === 'antarctic' ? (
+          antarctic && selectedAntarcticPoint ? (
+            <AntarcticDetail snapshot={antarctic} point={selectedAntarcticPoint} />
+          ) : (
+            <aside className="territorial-detail territorial-detail--empty" aria-live="polite">
+              <p className="territorial-detail__eyebrow">ANTÁRTIDA</p>
+              <p>Seleccioná una base para ver temperatura, viento y nubosidad del modelo. No son datos de las estaciones.</p>
+            </aside>
+          )
         ) : mode === 'marine' ? (
           marine && selectedMarinePoint ? (
             <MarineDetail snapshot={marine} point={selectedMarinePoint} />

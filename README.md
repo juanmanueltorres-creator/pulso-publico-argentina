@@ -41,6 +41,7 @@ Un mismo mapa permite alternar entre:
 - 🔥 **Focos de calor** — detecciones térmicas VIIRS publicadas por CONAE;
 - 🌬️ **Meteorología** — contexto horario modelado Open-Meteo / ECMWF IFS HRES sobre una malla propia de 0,5°; temperatura, humedad, viento y cobertura nubosa cuando el snapshot la incluya. Los íconos de nubes son símbolos de cobertura puntual, no imágenes satelitales ni una interpolación continua.
 - 🌊 **Mar Argentino** — seis lugares de referencia mar adentro para consultar altura de olas, corrientes y temperatura superficial modeladas. No son mediciones de puerto ni un servicio para navegación.
+- ❄️ **Antártida** — seis bases permanentes argentinas, con coordenadas oficiales y temperatura, viento y nubosidad de un modelo global. No son lecturas de las estaciones; el mapa polar tiene distorsión cartográfica.
 
 El límite nacional usado para filtrar y contextualizar eventos se deriva de geometría oficial de IGN y la pertenencia territorial se resuelve geométricamente, no sólo con un bounding box.
 
@@ -128,6 +129,7 @@ La interfaz no es la única salida del proyecto. Los snapshots pueden ser consum
 - [`hotspots.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/hotspots.json)
 - [`weather.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/weather.json)
 - [`marine.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/marine.json)
+- [`antarctic.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/antarctic.json)
 - [`argentina-provinces.geojson`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/argentina-provinces.geojson)
 
 ### Evidencia
@@ -172,6 +174,7 @@ npm run refresh:inpres
 npm run refresh:conae
 npm run refresh:weather
 npm run refresh:marine
+npm run refresh:antarctic
 ```
 
 La geometría oficial usada por el proyecto se actualiza mediante:
