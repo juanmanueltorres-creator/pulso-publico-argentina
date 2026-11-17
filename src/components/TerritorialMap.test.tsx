@@ -222,9 +222,24 @@ describe('TerritorialMap', () => {
       antarcticVariable: 'wind', onSelectAntarctic })} />)
     expect(mapMocks.fitBounds).toHaveBeenCalledTimes(before)
     rerender(<TerritorialMap {...weatherProps({ mode: 'marine', antarctic })} />)
-    expect(mapMocks.fitBounds).toHaveBeenCalledWith([[-73.7, -55.3], [-53.5, -21.7]],
+    expect(mapMocks.fitBounds).toHaveBeenCalledWith([[-70.5, -55.5], [-54, -37]],
       expect.objectContaining({ padding: 30 }))
     expect(mapMocks.construct).toHaveBeenCalledTimes(1)
+  })
+
+  it('frames marine sample points when entering sea mode without shifting for individual ocean variables', () => {
+    const marine = marineSnapshotFixture()
+    const { rerender } = render(<TerritorialMap {...weatherProps({ marine })} />)
+    expect(mapMocks.fitBounds).not.toHaveBeenCalled()
+    rerender(<TerritorialMap {...weatherProps({ marine, mode: 'marine', marineVariable: 'waves' })} />)
+    expect(mapMocks.fitBounds).toHaveBeenCalledWith([[-70.5, -55.5], [-54, -37]],
+      expect.objectContaining({ padding: 30 }))
+    const focused = mapMocks.fitBounds.mock.calls.length
+    rerender(<TerritorialMap {...weatherProps({ marine, mode: 'marine', marineVariable: 'currents' })} />)
+    expect(mapMocks.fitBounds).toHaveBeenCalledTimes(focused)
+    rerender(<TerritorialMap {...weatherProps({ marine, mode: 'weather' })} />)
+    expect(mapMocks.fitBounds).toHaveBeenCalledWith([[-73.7, -55.3], [-53.5, -21.7]],
+      expect.objectContaining({ padding: 30 }))
   })
 
   it('renders ocean model points without inventing values, preserving one map across modes', () => {

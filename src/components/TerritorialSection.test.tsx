@@ -227,6 +227,32 @@ describe('TerritorialSection', () => {
     expect(screen.getByRole('link', { name: /IGN.*Dirección Nacional/i })).toBeInTheDocument()
   })
 
+  it('offers accessible model location selection even when map markers cannot be reached', async () => {
+    const user = userEvent.setup()
+    render(<TerritorialSection
+      loadEarthquakes={async () => earthquakeSnapshot()}
+      loadHotspots={async () => hotspotSnapshot()}
+      loadWeather={async () => weatherSnapshot()}
+      loadMarine={async () => marineSnapshotFixture()}
+      loadAntarctic={async () => antarcticSnapshotFixture()}
+      now={availableNow}
+    />)
+    await screen.findByText('2 sismos registrados · últimos 7 días')
+    await user.click(screen.getByRole('button', { name: 'Mar Argentino' }))
+    const marinePicker = screen.getByRole('combobox', { name: 'Punto marino de referencia' })
+    expect(marinePicker).toHaveValue('mar-del-plata')
+    expect(screen.getByRole('heading', { name: 'Frente a Mar del Plata' })).toBeInTheDocument()
+    await user.selectOptions(marinePicker, 'valdes')
+    expect(screen.getByRole('heading', { name: 'Frente a Península Valdés' })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Antártida' }))
+    const polarPicker = screen.getByRole('combobox', { name: 'Base antártica de referencia' })
+    expect(polarPicker).toHaveValue('orcadas')
+    await user.selectOptions(polarPicker, 'marambio')
+    expect(screen.getByRole('heading', { name: 'Marambio' })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Mar Argentino' }))
+    expect(screen.getByRole('combobox', { name: 'Punto marino de referencia' })).toHaveValue('valdes')
+  })
+
   it('adds a Marine view inside Territorial with six points, three layers and null-safe detail', async () => {
     const user = userEvent.setup()
     const marine = marineSnapshotFixture()

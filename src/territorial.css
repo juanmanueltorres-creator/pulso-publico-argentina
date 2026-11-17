@@ -70,6 +70,50 @@
   color: var(--accent-strong);
 }
 
+.territorial-location-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+  color: var(--muted);
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.62rem;
+}
+
+.territorial-location-picker select {
+  max-width: min(100%, 15.5rem);
+  min-height: 2.05rem;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 0.28rem;
+  background: #101310;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.territorial-location-picker select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.territorial-location-picker select:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+@media (max-width: 650px) {
+  .territorial-location-picker {
+    flex-basis: 100%;
+    justify-content: space-between;
+    margin-left: 0;
+  }
+  .territorial-location-picker select {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
 .territorial-summary {
   display: flex;
   flex-wrap: wrap;
