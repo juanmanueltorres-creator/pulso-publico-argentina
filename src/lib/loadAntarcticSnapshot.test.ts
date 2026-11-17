@@ -35,6 +35,9 @@ describe('Antarctic public weather data', () => {
     empty.points[0].values.temperatureC = -12.3
     const enriched = antarcticPointsToFeatureCollection(empty, 'temperature', 'orcadas')
     expect(enriched.features[0].properties).toMatchObject({ available: true, label: '-12°', selected: true })
+    empty.points[0].values.windSpeedKmh = 13.7
+    const wind = antarcticPointsToFeatureCollection(empty, 'wind', null)
+    expect(wind.features[0].properties).toMatchObject({ available: true, label: '14 km/h' })
     const cloud = antarcticPointsToFeatureCollection(empty, 'clouds', null)
     expect(cloud.features[0].properties).toMatchObject({ available: false, label: '' })
   })

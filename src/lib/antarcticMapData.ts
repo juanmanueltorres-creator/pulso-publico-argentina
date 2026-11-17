@@ -12,7 +12,7 @@ export function antarcticPointsToFeatureCollection(
       const value = antarcticNumericValue(point, variable)
       const label = value === null ? '' : variable === 'temperature'
         ? `${Math.round(value)}°`
-        : variable === 'wind' ? `${Math.round(value)}`
+        : variable === 'wind' ? `${Math.round(value)} km/h`
           : `${Math.round(value)}%`
       return {
         type: 'Feature' as const,
