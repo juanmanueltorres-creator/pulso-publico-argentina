@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { weatherSnapshotFixture } from '../test/weatherFixtures'
+import emptyMarineSnapshot from '../../public/data/marine.json'
+import { validateMarineSnapshot } from '../lib/loadMarineSnapshot'
 import { earthquakeEvents, hotspotEvents } from '../test/territorialFixtures'
 import type { HotspotWeatherContext } from '../lib/weatherContext'
 import { TerritorialMap } from './TerritorialMap'
@@ -138,6 +140,7 @@ describe('TerritorialMap', () => {
     expect(options.style.sources).toEqual(
       expect.objectContaining({
         'weather-grid': expect.objectContaining({ type: 'geojson' }),
+        'marine-points': expect.objectContaining({ type: 'geojson' }),
         'weather-anchors': expect.objectContaining({ type: 'geojson' }),
         'weather-wind-vectors': expect.objectContaining({ type: 'geojson' }),
         'weather-neighbors': expect.objectContaining({ type: 'geojson' }),
@@ -148,6 +151,8 @@ describe('TerritorialMap', () => {
     expect(options.style.layers.map((layer: any) => layer.id)).toEqual(
       expect.arrayContaining([
         'weather-temperature-points',
+        'marine-points',
+        'marine-labels',
         'weather-humidity-points',
         'weather-cloud-top',
         'weather-cloud-base',
@@ -187,6 +192,30 @@ describe('TerritorialMap', () => {
     expect(windOrigins).toContain('#ef8354')
     expect(windVectors).toContain('#7aa6b8')
     expect(windVectors).toContain('#ef8354')
+  })
+
+  it('renders ocean model points without inventing values, preserving one map across modes', () => {
+    const marine = validateMarineSnapshot(structuredClone(emptyMarineSnapshot))
+    const onSelectMarine = vi.fn()
+    const { rerender } = render(<TerritorialMap {...weatherProps({
+      mode: 'marine',
+      marine,
+      marineVariable: 'waves',
+      onSelectMarine,
+    })} />)
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('marine-points', 'visibility', 'visible')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('marine-labels', 'visibility', 'visible')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-temperature-points', 'visibility', 'none')
+    expect(mapMocks.sourceSetData).toHaveBeenCalledWith('marine-points',
+      expect.objectContaining({ features: expect.arrayContaining([
+        expect.objectContaining({ properties: expect.objectContaining({ available: false, label: '' }) }),
+      ]) }),
+    )
+    mapMocks.clickHandlers.get('marine-points')?.({ features: [{ properties: { id: marine.points[0].id } }] })
+    expect(onSelectMarine).toHaveBeenCalledWith(marine.points[0].id)
+    rerender(<TerritorialMap {...weatherProps({ mode: 'weather', marine })} />)
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('marine-points', 'visibility', 'none')
+    expect(mapMocks.construct).toHaveBeenCalledTimes(1)
   })
 
   it('keeps one MapLibre instance across hotspot → weather → hotspot without moving the camera', () => {

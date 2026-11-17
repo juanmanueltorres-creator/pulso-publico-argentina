@@ -2,6 +2,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { weatherSnapshotFixture } from '../test/weatherFixtures'
+import emptyMarineSnapshot from '../../public/data/marine.json'
+import { validateMarineSnapshot } from '../lib/loadMarineSnapshot'
 import { earthquakeEvents, hotspotEvents } from '../test/territorialFixtures'
 import type { HotspotWeatherContext } from '../lib/weatherContext'
 import type {
@@ -26,12 +28,16 @@ vi.mock('./TerritorialMap', () => ({
     selectedHotspot,
     onSelect,
     onSelectWeather,
+    marine,
+    onSelectMarine,
   }: {
     mode: TerritorialViewMode
     weatherVariable?: WeatherVariable
     earthquakes: EarthquakeEvent[]
     hotspots: ThermalHotspotEvent[]
     weather?: WeatherSnapshot | null
+    marine?: ReturnType<typeof validateMarineSnapshot> | null
+    onSelectMarine?: (pointId: string) => void
     hotspotContext?: HotspotWeatherContext | null
     selectedHotspot?: ThermalHotspotEvent | null
     onSelect: (event: EarthquakeEvent | ThermalHotspotEvent) => void
@@ -53,6 +59,11 @@ vi.mock('./TerritorialMap', () => ({
         {mode === 'weather' && weather?.points[0] && onSelectWeather ? (
           <button type="button" onClick={() => onSelectWeather(weather.points[0].id)}>
             Seleccionar meteorología del mapa
+          </button>
+        ) : null}
+        {mode === 'marine' && marine?.points[0] && onSelectMarine ? (
+          <button type="button" onClick={() => onSelectMarine(marine.points[0].id)}>
+            Seleccionar mar del mapa
           </button>
         ) : null}
       </div>
@@ -180,6 +191,32 @@ describe('TerritorialSection', () => {
     await user.click(clouds)
     expect(clouds).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getByText(/las nubecitas muestran cobertura nubosa total/i)).toBeInTheDocument()
+  })
+
+  it('adds a Marine view inside Territorial with six points, three layers and null-safe detail', async () => {
+    const user = userEvent.setup()
+    const marine = validateMarineSnapshot(structuredClone(emptyMarineSnapshot))
+    render(<TerritorialSection
+      loadEarthquakes={async () => earthquakeSnapshot()}
+      loadHotspots={async () => hotspotSnapshot()}
+      loadWeather={async () => weatherSnapshot()}
+      loadMarine={async () => marine}
+      now={availableNow}
+    />)
+    await screen.findByText('2 sismos registrados · últimos 7 días')
+    await user.click(screen.getByRole('button', { name: 'Mar Argentino' }))
+    expect(screen.getByText('6 puntos marinos de referencia')).toBeInTheDocument()
+    expect(screen.getByText(/esperando la primera actualización de datos marinos/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Oleaje' })).toHaveAttribute('aria-pressed', 'true')
+    await user.click(screen.getByRole('button', { name: 'Corrientes' }))
+    expect(screen.getByRole('button', { name: 'Corrientes' })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByText(/velocidad de corrientes oceánicas/i)).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Temperatura del mar' }))
+    expect(screen.getByRole('button', { name: 'Temperatura del mar' })).toHaveAttribute('aria-pressed', 'true')
+    await user.click(screen.getByRole('button', { name: 'Seleccionar mar del mapa' }))
+    expect(screen.getByRole('heading', { name: 'Frente a Mar del Plata' })).toBeInTheDocument()
+    expect(screen.getAllByText('Sin dato').length).toBeGreaterThan(0)
+    expect(screen.getByText(/no usar para navegación/i)).toBeInTheDocument()
   })
 
   it('uses the weather snapshot freshness contract instead of a hardcoded threshold', async () => {

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "mar-del-plata",
+    "name": "Frente a Mar del Plata",
+    "latitude": -38.1,
+    "longitude": -56.5,
+    "region": "Buenos Aires"
+  },
+  {
+    "id": "bahia-blanca",
+    "name": "Frente a Bahía Blanca",
+    "latitude": -39.5,
+    "longitude": -61.2,
+    "region": "Buenos Aires"
+  },
+  {
+    "id": "valdes",
+    "name": "Frente a Península Valdés",
+    "latitude": -43.3,
+    "longitude": -63.3,
+    "region": "Chubut"
+  },
+  {
+    "id": "golfo-san-jorge",
+    "name": "Golfo San Jorge",
+    "latitude": -46.1,
+    "longitude": -65.7,
+    "region": "Chubut / Santa Cruz"
+  },
+  {
+    "id": "santa-cruz",
+    "name": "Frente a Santa Cruz",
+    "latitude": -50.8,
+    "longitude": -67.2,
+    "region": "Santa Cruz"
+  },
+  {
+    "id": "tierra-del-fuego",
+    "name": "Atlántico fueguino",
+    "latitude": -54.1,
+    "longitude": -63.8,
+    "region": "Tierra del Fuego"
+  }
+]

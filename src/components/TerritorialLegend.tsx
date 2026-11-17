@@ -5,10 +5,12 @@ import {
   earthquakeDepthLegendGradient,
 } from '../lib/earthquakeDepthScale'
 import type { TerritorialViewMode, WeatherVariable } from '../types/weather'
+import type { MarineVariable } from '../types/marine'
 
 interface TerritorialLegendProps {
   mode: TerritorialViewMode
   weatherVariable?: WeatherVariable
+  marineVariable?: MarineVariable
   earthquakeDisplayMode?: EarthquakeDisplayMode
 }
 
@@ -160,6 +162,7 @@ function WindArrowExample() {
 export function TerritorialLegend({
   mode,
   weatherVariable = 'temperature',
+  marineVariable = 'waves',
   earthquakeDisplayMode = '2d',
 }: TerritorialLegendProps) {
   if (mode === 'earthquake') {
@@ -180,6 +183,22 @@ export function TerritorialLegend({
         ) : null}
         <span>Escala visual reforzada desde M4+; el tamaño no representa daño previsto.</span>
         <span>La profundidad exacta y la intensidad aparecen en el detalle.</span>
+      </div>
+    )
+  }
+
+  if (mode === 'marine') {
+    return (
+      <div className="territorial-legend" aria-label="Leyenda marina" tabIndex={0}>
+        <strong>Cómo leer este mapa</strong>
+        <span>Seis puntos de consulta mar adentro · Marine API de Open-Meteo.</span>
+        <span>
+          {marineVariable === 'waves' ? 'Altura significativa de olas en metros (m).' :
+           marineVariable === 'currents' ? 'Velocidad de corrientes oceánicas en kilómetros por hora (km/h).' :
+             'Temperatura superficial del mar en grados Celsius (°C).'}
+        </span>
+        <span>Los puntos no son boyas ni mediciones de puerto. Seleccioná uno para leer todas las variables y su hora.</span>
+        <span>Datos modelados, con precisión costera limitada. No utilizar para navegación.</span>
       </div>
     )
   }

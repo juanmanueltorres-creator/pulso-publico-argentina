@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "1.0",
+  "sourceCheckedAt": null,
+  "source": {
+    "provider": "Open-Meteo",
+    "dataset": "Marine Weather API · modelos oceánicos",
+    "url": "https://open-meteo.com/en/docs/marine-weather-api",
+    "kind": "numerical-ocean-model"
+  },
+  "limitations": [
+    "Pronóstico oceánico modelado, no una medición de boya ni un registro de estación.",
+    "Precisión costera limitada. No sirve para navegación ni decisiones de seguridad en el mar.",
+    "Los puntos representan lugares de consulta mar adentro, no las condiciones exactas de los puertos."
+  ],
+  "points": [
+    {
+      "id": "mar-del-plata",
+      "name": "Frente a Mar del Plata",
+      "region": "Buenos Aires",
+      "queryCoordinate": {
+        "latitude": -38.1,
+        "longitude": -56.5
+      },
+      "providerCoordinate": null,
+      "validAt": null,
+      "values": {
+        "waveHeightM": null,
+        "waveDirectionDeg": null,
+        "wavePeriodS": null,
+        "currentVelocityKmh": null,
+        "currentDirectionDeg": null,
+        "seaSurfaceTemperatureC": null
+      }
+    },
+    {
+      "id": "bahia-blanca",
+      "name": "Frente a Bahía Blanca",
+      "region": "Buenos Aires",
+      "queryCoordinate": {
+        "latitude": -39.5,
+        "longitude": -61.2
+      },
+      "providerCoordinate": null,
+      "validAt": null,
+      "values": {
+        "waveHeightM": null,
+        "waveDirectionDeg": null,
+        "wavePeriodS": null,
+        "currentVelocityKmh": null,
+        "currentDirectionDeg": null,
+        "seaSurfaceTemperatureC": null
+      }
+    },
+    {
+      "id": "valdes",
+      "name": "Frente a Península Valdés",
+      "region": "Chubut",
+      "queryCoordinate": {
+        "latitude": -43.3,
+        "longitude": -63.3
+      },
+      "providerCoordinate": null,
+      "validAt": null,
+      "values": {
+        "waveHeightM": null,
+        "waveDirectionDeg": null,
+        "wavePeriodS": null,
+        "currentVelocityKmh": null,
+        "currentDirectionDeg": null,
+        "seaSurfaceTemperatureC": null
+      }
+    },
+    {
+      "id": "golfo-san-jorge",
+      "name": "Golfo San Jorge",
+      "region": "Chubut / Santa Cruz",
+      "queryCoordinate": {
+        "latitude": -46.1,
+        "longitude": -65.7
+      },
+      "providerCoordinate": null,
+      "validAt": null,
+      "values": {
+        "waveHeightM": null,
+        "waveDirectionDeg": null,
+        "wavePeriodS": null,
+        "currentVelocityKmh": null,
+        "currentDirectionDeg": null,
+        "seaSurfaceTemperatureC": null
+      }
+    },
+    {
+      "id": "santa-cruz",
+      "name": "Frente a Santa Cruz",
+      "region": "Santa Cruz",
+      "queryCoordinate": {
+        "latitude": -50.8,
+        "longitude": -67.2
+      },
+      "providerCoordinate": null,
+      "validAt": null,
+      "values": {
+        "waveHeightM": null,
+        "waveDirectionDeg": null,
+        "wavePeriodS": null,
+        "currentVelocityKmh": null,
+        "currentDirectionDeg": null,
+        "seaSurfaceTemperatureC": null
+      }
+    },
+    {
+      "id": "tierra-del-fuego",
+      "name": "Atlántico fueguino",
+      "region": "Tierra del Fuego",
+      "queryCoordinate": {
+        "latitude": -54.1,
+        "longitude": -63.8
+      },
+      "providerCoordinate": null,
+      "validAt": null,
+      "values": {
+        "waveHeightM": null,
+        "waveDirectionDeg": null,
+        "wavePeriodS": null,
+        "currentVelocityKmh": null,
+        "currentDirectionDeg": null,
+        "seaSurfaceTemperatureC": null
+      }
+    }
+  ]
+}

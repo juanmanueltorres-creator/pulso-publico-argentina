@@ -10,6 +10,8 @@ import {
 } from 'maplibre-gl'
 import mapLibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import { EarthquakeDepth3DLayer } from '../lib/EarthquakeDepth3DLayer'
+import { marinePointsToFeatureCollection } from '../lib/marineMapData'
+import type { MarineSnapshot, MarineVariable } from '../types/marine'
 import type { EarthquakeDisplayMode } from '../lib/earthquakeDepth3D'
 import { earthquakeDepthColorExpression } from '../lib/earthquakeDepthScale'
 import { eventsToFeatureCollection } from '../lib/territorialMapData'
@@ -82,6 +84,10 @@ interface TerritorialMapProps {
   earthquakes: EarthquakeEvent[]
   hotspots: ThermalHotspotEvent[]
   weather?: WeatherSnapshot | null
+  marine?: MarineSnapshot | null
+  marineVariable?: MarineVariable
+  selectedMarinePointId?: string | null
+  onSelectMarine?: (pointId: string) => void
   weatherFrameIndex?: number
   hotspotContext?: HotspotWeatherContext | null
   selectedHotspot?: ThermalHotspotEvent | null
@@ -105,6 +111,7 @@ const EMPTY_FEATURE_COLLECTION = {
 } as const
 
 const noopSelectWeather = () => undefined
+const noopSelectMarine = () => undefined
 
 function sourceData(value: object): Parameters<GeoJSONSource['setData']>[0] {
   return value as Parameters<GeoJSONSource['setData']>[0]
@@ -121,6 +128,9 @@ function syncSources(
   weather: WeatherSnapshot | null,
   weatherFrameIndex: number,
   weatherVariable: WeatherVariable,
+  marine: MarineSnapshot | null,
+  marineVariable: MarineVariable,
+  selectedMarinePointId: string | null,
   hotspotContext: HotspotWeatherContext | null,
   selectedHotspot: ThermalHotspotEvent | null,
 ) {
@@ -128,6 +138,7 @@ function syncSources(
   const hotspotSource = map.getSource('hotspots') as GeoJSONSource | undefined
   const weatherLabelsSource = map.getSource('weather-temperature-labels') as GeoJSONSource | undefined
   const weatherAnchorsSource = map.getSource('weather-anchors') as GeoJSONSource | undefined
+  const marineSource = map.getSource('marine-points') as GeoJSONSource | undefined
   const weatherGridSource = map.getSource('weather-grid') as GeoJSONSource | undefined
   const weatherWindSource = map.getSource('weather-wind-vectors') as GeoJSONSource | undefined
   const weatherNeighborsSource = map.getSource('weather-neighbors') as GeoJSONSource | undefined
@@ -161,6 +172,7 @@ function syncSources(
       ? weatherNumericAnchorsToFeatureCollection(weather, weatherFrameIndex, 'clouds')
       : EMPTY_FEATURE_COLLECTION,
   ))
+  marineSource?.setData(sourceData(marinePointsToFeatureCollection(marine, marineVariable, selectedMarinePointId)))
   weatherWindSource?.setData(
     sourceData(
       hasUsableFrame
@@ -195,6 +207,7 @@ function syncVisibility(
   const earthquakesVisible = mode === 'earthquake' ? 'visible' : 'none'
   const hotspotsVisible = mode === 'thermal-hotspot' ? 'visible' : 'none'
   const weatherMode = mode === 'weather'
+  const marineMode = mode === 'marine'
   const contextVisible = hasHotspotContext && mode !== 'earthquake' ? 'visible' : 'none'
 
   map.setLayoutProperty('earthquake-points', 'visibility', earthquakesVisible)
@@ -235,6 +248,10 @@ function syncVisibility(
     'visibility',
     weatherMode && weatherVariable === 'wind' ? 'visible' : 'none',
   )
+
+  for (const layer of ['marine-points', 'marine-labels']) {
+    map.setLayoutProperty(layer, 'visibility', marineMode ? 'visible' : 'none')
+  }
 
   for (const layer of WEATHER_CONTEXT_LAYERS) {
     map.setLayoutProperty(layer, 'visibility', contextVisible)
@@ -427,6 +444,10 @@ function createBlackMapStyle(): StyleSpecification {
         data: EMPTY_FEATURE_COLLECTION,
       },
       'weather-grid': {
+        type: 'geojson',
+        data: EMPTY_FEATURE_COLLECTION,
+      },
+      'marine-points': {
         type: 'geojson',
         data: EMPTY_FEATURE_COLLECTION,
       },
@@ -829,6 +850,46 @@ function createBlackMapStyle(): StyleSpecification {
         },
       },
       {
+        id: 'marine-points',
+        type: 'circle',
+        source: 'marine-points',
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-color': ['case', ['get', 'available'],
+            ['match', ['get', 'variable'],
+              'waves', '#7aa6b8',
+              'currents', '#64c7c0',
+              'temperature', '#f2c14e',
+              '#7aa6b8'],
+            '#716d64'],
+          'circle-opacity': ['case', ['get', 'available'], 0.94, 0.55],
+          'circle-radius': ['case', ['get', 'selected'], 8, 6.5],
+          'circle-stroke-color': ['case', ['get', 'selected'], '#fff5e4', '#050706'],
+          'circle-stroke-width': ['case', ['get', 'selected'], 2, 1.4],
+        },
+      },
+      {
+        id: 'marine-labels',
+        type: 'symbol',
+        source: 'marine-points',
+        layout: {
+          visibility: 'none',
+          'text-field': ['get', 'label'],
+          'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
+          'text-size': 12,
+          'text-offset': [0, -1.6],
+          'text-anchor': 'bottom',
+          'text-allow-overlap': false,
+          'text-ignore-placement': false,
+          'text-padding': 10,
+        },
+        paint: {
+          'text-color': '#f4f8fa',
+          'text-halo-color': '#080b0e',
+          'text-halo-width': 2.4,
+        },
+      },
+      {
         id: 'weather-neighbor-points',
         type: 'circle',
         source: 'weather-neighbors',
@@ -892,6 +953,10 @@ export function TerritorialMap({
   earthquakes,
   hotspots,
   weather = null,
+  marine = null,
+  marineVariable = 'waves',
+  selectedMarinePointId = null,
+  onSelectMarine = noopSelectMarine,
   weatherFrameIndex = -1,
   hotspotContext = null,
   selectedHotspot = null,
@@ -909,6 +974,10 @@ export function TerritorialMap({
   const earthquakesRef = useRef(earthquakes)
   const hotspotsRef = useRef(hotspots)
   const weatherRef = useRef(weather)
+  const marineRef = useRef(marine)
+  const marineVariableRef = useRef(marineVariable)
+  const selectedMarinePointIdRef = useRef(selectedMarinePointId)
+  const onSelectMarineRef = useRef(onSelectMarine)
   const weatherFrameIndexRef = useRef(weatherFrameIndex)
   const hotspotContextRef = useRef(hotspotContext)
   const selectedHotspotRef = useRef(selectedHotspot)
@@ -941,6 +1010,10 @@ export function TerritorialMap({
   earthquakesRef.current = earthquakes
   hotspotsRef.current = hotspots
   weatherRef.current = weather
+  marineRef.current = marine
+  marineVariableRef.current = marineVariable
+  selectedMarinePointIdRef.current = selectedMarinePointId
+  onSelectMarineRef.current = onSelectMarine
   weatherFrameIndexRef.current = weatherFrameIndex
   hotspotContextRef.current = hotspotContext
   selectedHotspotRef.current = selectedHotspot
@@ -971,6 +1044,9 @@ export function TerritorialMap({
         weatherRef.current,
         weatherFrameIndexRef.current,
         weatherVariableRef.current,
+        marineRef.current,
+        marineVariableRef.current,
+        selectedMarinePointIdRef.current,
         hotspotContextRef.current,
         selectedHotspotRef.current,
       )
@@ -1022,6 +1098,12 @@ export function TerritorialMap({
     map.on('click', 'weather-cloud-top', handleWeatherPointClick)
     map.on('click', 'weather-cloud-clear-points', handleWeatherPointClick)
     map.on('click', 'weather-wind-origins', handleWeatherPointClick)
+    const handleMarineClick = (event: MapLayerMouseEvent) => {
+      const id = String(event.features?.[0]?.properties?.id ?? '')
+      if (marineRef.current?.points.some((point) => point.id === id)) onSelectMarineRef.current(id)
+    }
+    map.on('click', 'marine-points', handleMarineClick)
+    map.on('click', 'marine-labels', handleMarineClick)
 
     map.on('click', (event) => {
       if (modeRef.current !== 'thermal-hotspot') return
@@ -1053,6 +1135,9 @@ export function TerritorialMap({
       weather,
       weatherFrameIndex,
       weatherVariable,
+      marine,
+      marineVariable,
+      selectedMarinePointId,
       hotspotContext,
       selectedHotspot,
     )
@@ -1063,6 +1148,9 @@ export function TerritorialMap({
     weather,
     weatherFrameIndex,
     weatherVariable,
+    marine,
+    marineVariable,
+    selectedMarinePointId,
     hotspotContext,
     selectedHotspot,
     selectedId,
@@ -1101,6 +1189,7 @@ export function TerritorialMap({
       aria-label="Mapa de señales territoriales de Argentina"
       data-selected-id={selectedId ?? selectedHotspot?.id ?? undefined}
       data-selected-weather-point-id={selectedWeatherPointId ?? undefined}
+      data-selected-marine-point-id={selectedMarinePointId ?? undefined}
       data-earthquake-display-mode={earthquakeDisplayMode}
     >
       {mode === 'weather' && weatherVariable === 'clouds' && weather && cloudStatus !== 'ready' ? (
