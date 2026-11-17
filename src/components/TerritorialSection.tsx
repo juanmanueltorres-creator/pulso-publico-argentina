@@ -160,6 +160,8 @@ export function TerritorialSection({
       .then((snapshot) => {
         if (!active) return
         setMarine(snapshot)
+        setSelectedMarinePointId((previous) =>
+          snapshot.points.some((point) => point.id === previous) ? previous : snapshot.points[0]?.id ?? null)
         setMarineError(false)
       })
       .catch(() => {
@@ -175,6 +177,8 @@ export function TerritorialSection({
       .then((snapshot) => {
         if (!active) return
         setAntarctic(snapshot)
+        setSelectedAntarcticPointId((previous) =>
+          snapshot.points.some((point) => point.id === previous) ? previous : snapshot.points[0]?.id ?? null)
         setAntarcticError(false)
       })
       .catch(() => {
@@ -354,6 +358,20 @@ export function TerritorialSection({
               {label}
             </button>
           ))}
+          <label className="territorial-location-picker">
+            <span>Punto de consulta</span>
+            <select
+              aria-label="Punto marino de referencia"
+              value={selectedMarinePointId ?? ''}
+              onChange={(event) => setSelectedMarinePointId(event.target.value || null)}
+              disabled={!marine?.points.length}
+            >
+              <option value="">Elegí un punto</option>
+              {marine?.points.map((point) => (
+                <option key={point.id} value={point.id}>{point.name}</option>
+              ))}
+            </select>
+          </label>
         </div>
       ) : mode === 'antarctic' ? (
         <div className="territorial-weather-variables" aria-label="Variable antártica">
@@ -372,6 +390,20 @@ export function TerritorialSection({
               {label}
             </button>
           ))}
+          <label className="territorial-location-picker">
+            <span>Base de referencia</span>
+            <select
+              aria-label="Base antártica de referencia"
+              value={selectedAntarcticPointId ?? ''}
+              onChange={(event) => setSelectedAntarcticPointId(event.target.value || null)}
+              disabled={!antarctic?.points.length}
+            >
+              <option value="">Elegí una base</option>
+              {antarctic?.points.map((point) => (
+                <option key={point.id} value={point.id}>{point.name}</option>
+              ))}
+            </select>
+          </label>
         </div>
       ) : null}
 
