@@ -168,13 +168,18 @@ describe('TerritorialSection', () => {
     const temperature = screen.getByRole('button', { name: 'Temperatura' })
     const wind = screen.getByRole('button', { name: 'Viento' })
     const humidity = screen.getByRole('button', { name: 'Humedad' })
+    const clouds = screen.getByRole('button', { name: 'Nubosidad' })
     expect(temperature).toHaveAttribute('aria-pressed', 'true')
     expect(wind).toHaveAttribute('aria-pressed', 'false')
     expect(humidity).toHaveAttribute('aria-pressed', 'false')
+    expect(clouds).toHaveAttribute('aria-pressed', 'false')
 
     await user.click(wind)
     expect(wind).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getByText(/dirección desde la que sopla el viento/i)).toBeInTheDocument()
+    await user.click(clouds)
+    expect(clouds).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByText(/las nubecitas muestran cobertura nubosa total/i)).toBeInTheDocument()
   })
 
   it('uses the weather snapshot freshness contract instead of a hardcoded threshold', async () => {
