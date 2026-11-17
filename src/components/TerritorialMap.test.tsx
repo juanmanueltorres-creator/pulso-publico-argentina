@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { weatherSnapshotFixture } from '../test/weatherFixtures'
-import emptyMarineSnapshot from '../../public/data/marine.json'
-import { validateMarineSnapshot } from '../lib/loadMarineSnapshot'
+import { marineSnapshotFixture } from '../test/marineFixtures'
 import { earthquakeEvents, hotspotEvents } from '../test/territorialFixtures'
 import type { HotspotWeatherContext } from '../lib/weatherContext'
 import { TerritorialMap } from './TerritorialMap'
@@ -195,7 +194,7 @@ describe('TerritorialMap', () => {
   })
 
   it('renders ocean model points without inventing values, preserving one map across modes', () => {
-    const marine = validateMarineSnapshot(structuredClone(emptyMarineSnapshot))
+    const marine = marineSnapshotFixture()
     const onSelectMarine = vi.fn()
     const { rerender } = render(<TerritorialMap {...weatherProps({
       mode: 'marine',
