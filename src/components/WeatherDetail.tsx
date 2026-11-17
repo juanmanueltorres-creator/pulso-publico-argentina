@@ -54,6 +54,7 @@ export function WeatherDetail({ snapshot, point, frameIndex }: WeatherDetailProp
   const frameTimestamp = snapshot.timestamps[frameIndex]
   const temperatureC = point.values.temperatureC[frameIndex]
   const relativeHumidityPct = point.values.relativeHumidityPct[frameIndex]
+  const cloudCoverPct = point.values.cloudCoverPct?.[frameIndex]
   const windSpeedKmh = point.values.windSpeedKmh[frameIndex]
   const windDirectionDeg = point.values.windDirectionDeg[frameIndex]
   const windGustKmh = point.values.windGustKmh[frameIndex]
@@ -77,6 +78,10 @@ export function WeatherDetail({ snapshot, point, frameIndex }: WeatherDetailProp
         <div>
           <dt>Humedad</dt>
           <dd>{formatNumber(relativeHumidityPct, '%')}</dd>
+        </div>
+        <div>
+          <dt>Nubosidad</dt>
+          <dd>{formatNumber(cloudCoverPct, '%')}</dd>
         </div>
         <div>
           <dt>Viento</dt>

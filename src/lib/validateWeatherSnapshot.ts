@@ -3,6 +3,7 @@ import type { WeatherPoint, WeatherSnapshot } from '../types/weather'
 const VALUE_KEYS = [
   'temperatureC',
   'relativeHumidityPct',
+  'cloudCoverPct',
   'windSpeedKmh',
   'windDirectionDeg',
   'windGustKmh',
@@ -98,8 +99,8 @@ function validateRange(series: Array<number | null>, key: WeatherValueKey) {
   for (const value of series) {
     if (value === null) continue
 
-    if (key === 'relativeHumidityPct' && (value < 0 || value > 100)) {
-      throw new Error('relativeHumidityPct values must be between 0 and 100')
+    if ((key === 'relativeHumidityPct' || key === 'cloudCoverPct') && (value < 0 || value > 100)) {
+      throw new Error(`${key} values must be between 0 and 100`)
     }
     if ((key === 'windSpeedKmh' || key === 'windGustKmh') && value < 0) {
       throw new Error(`${key} values must be non-negative`)
@@ -127,6 +128,9 @@ function validateWeatherPoint(input: unknown, frameCount: number): WeatherPoint 
   const normalizedValues = {} as WeatherPoint['values']
 
   for (const key of VALUE_KEYS) {
+    // Historical weather.json artifacts contain no cloudCoverPct. Keep them readable
+    // without inventing clear skies (0%) when the source did not supply the variable.
+    if (key === 'cloudCoverPct' && values[key] === undefined) continue
     const series = nullableFiniteSeries(values[key], key, frameCount)
     validateRange(series, key)
     normalizedValues[key] = series

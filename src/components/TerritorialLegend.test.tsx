@@ -60,6 +60,13 @@ describe('TerritorialLegend weather mode', () => {
     expect(screen.queryByText(/peligro|riesgo/i)).not.toBeInTheDocument()
   })
 
+  it('explains point-model cloud cover rather than deriving clouds from humidity', () => {
+    render(<TerritorialLegend mode="weather" weatherVariable="clouds" />)
+    expect(screen.getByRole('img', { name: /escala visual de cobertura nubosa/i })).toBeInTheDocument()
+    expect(screen.getByText(/no es un promedio regional ni una imagen satelital/i)).toBeInTheDocument()
+    expect(screen.getByText(/la humedad no determina la cobertura nubosa/i)).toBeInTheDocument()
+  })
+
   it('explains wind arrow head, tail, speed colors and constant length without risk language', () => {
     render(<TerritorialLegend mode="weather" weatherVariable="wind" />)
 

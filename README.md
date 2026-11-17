@@ -37,7 +37,7 @@ Un mismo mapa permite alternar entre:
 
 - 🌎 **Sismos** — eventos recientes publicados por INPRES;
 - 🔥 **Focos de calor** — detecciones térmicas VIIRS publicadas por CONAE;
-- 🌬️ **Meteorología** — contexto horario modelado Open-Meteo / ECMWF IFS HRES sobre una malla propia de 0,5°.
+- 🌬️ **Meteorología** — contexto horario modelado Open-Meteo / ECMWF IFS HRES sobre una malla propia de 0,5°; temperatura, humedad, viento y cobertura nubosa cuando el snapshot la incluya. Los íconos de nubes son símbolos de cobertura puntual, no imágenes satelitales ni una interpolación continua.
 
 El límite nacional usado para filtrar y contextualizar eventos se deriva de geometría oficial de IGN y la pertenencia territorial se resuelve geométricamente, no sólo con un bounding box.
 

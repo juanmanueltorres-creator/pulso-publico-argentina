@@ -252,6 +252,14 @@ export function TerritorialSection({
           >
             Humedad
           </button>
+          <button
+            type="button"
+            className="territorial-weather-variable"
+            aria-pressed={weatherVariable === 'clouds'}
+            onClick={() => setWeatherVariable('clouds')}
+          >
+            Nubosidad
+          </button>
         </div>
       ) : null}
 
@@ -299,6 +307,9 @@ export function TerritorialSection({
             <strong>{weather.grid.pointCount} puntos modelados · últimas 24 h</strong>
             <span>{weather.source.dataset}</span>
             <span>Hora representada {formatArgInstant(weather.dataThrough, 'model-frame')}</span>
+            {weatherVariable === 'clouds' && !weather.points.some((point) => point.values.cloudCoverPct?.some((value) => value !== null && Number.isFinite(value))) ? (
+              <span>El snapshot publicado todavía no incluye cobertura nubosa; se habilitará con la próxima actualización de datos.</span>
+            ) : null}
             <span>
               <a href={weather.source.url} target="_blank" rel="noreferrer">
                 {weather.source.provider}

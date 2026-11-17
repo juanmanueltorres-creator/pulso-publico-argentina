@@ -5,6 +5,7 @@ import { generateWeatherGrid } from './lib/weather-grid.mjs'
 const WEATHER_VALUE_KEYS = [
   'temperatureC',
   'relativeHumidityPct',
+  'cloudCoverPct',
   'windSpeedKmh',
   'windDirectionDeg',
   'windGustKmh',

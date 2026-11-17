@@ -38,6 +38,7 @@ export function weatherSnapshotFixture() {
         values: {
           temperatureC: series(18, 0.25),
           relativeHumidityPct: series(60, -1),
+          cloudCoverPct: series(42, 1),
           windSpeedKmh: series(10, 0.5),
           windDirectionDeg: series(180, 2),
           windGustKmh: series(15, 0.6),
@@ -51,6 +52,7 @@ export function weatherSnapshotFixture() {
         values: {
           temperatureC: series(17, 0.2),
           relativeHumidityPct: series(65, -1),
+          cloudCoverPct: series(72, -1),
           windSpeedKmh: series(8, 0.4),
           windDirectionDeg: series(160, 2),
           windGustKmh: series(13, 0.5),

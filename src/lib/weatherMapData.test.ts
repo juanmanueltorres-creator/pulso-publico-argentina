@@ -6,6 +6,7 @@ import type { HotspotWeatherContext } from './weatherContext'
 import {
   selectedHotspotToFeatureCollection,
   weatherFrameToFeatureCollection,
+  weatherNumericAnchorsToFeatureCollection,
   weatherLinkToFeatureCollection,
   weatherNeighborsToFeatureCollection,
   weatherWindVectorsToFeatureCollection,
@@ -86,6 +87,46 @@ describe('weatherFrameToFeatureCollection', () => {
     expect(humidity.features[0].properties.weatherValue).toBe(value.points[0].values.relativeHumidityPct[4])
     expect(wind.features[0].properties.weatherValue).toBe(value.points[0].values.windSpeedKmh[4])
     expect(wind.features[0].properties.windDirectionDeg).toBe(value.points[0].values.windDirectionDeg[4])
+  })
+})
+
+describe('weather cloud coverage and geographic numeric labels', () => {
+  it('renders cloud coverage from the cloud series, never from humidity', () => {
+    const value = snapshot()
+    value.points[0].values.relativeHumidityPct[2] = 100
+    value.points[0].values.cloudCoverPct![2] = 28
+    const layer = weatherFrameToFeatureCollection(value, 2, 'clouds') as any
+    expect(layer.features[0].properties.weatherValue).toBe(28)
+    expect(layer.features[0].properties.cloudCoverPct).toBe(28)
+  })
+
+  it('does not synthesize clouds for a legacy snapshot without coverage', () => {
+    const value = snapshot()
+    value.points.forEach((point) => { delete point.values.cloudCoverPct })
+    const layer = weatherFrameToFeatureCollection(value, 2, 'clouds') as any
+    const anchors = weatherNumericAnchorsToFeatureCollection(value, 2, 'clouds') as any
+    expect(layer.features).toEqual([])
+    expect(anchors.features).toEqual([])
+  })
+
+  it('keeps a sparse 3° cloud sample with a true source point and skips low cover', () => {
+    const value = snapshot()
+    value.points[0].values.cloudCoverPct![5] = 78
+    value.points[1].values.cloudCoverPct![5] = 15
+    const layer = weatherNumericAnchorsToFeatureCollection(value, 5, 'clouds') as any
+    expect(layer.features).toHaveLength(1)
+    expect(layer.features[0].properties).toMatchObject({
+      id: value.points[0].id, cloudCoverPct: 78, label: '78%',
+    })
+  })
+
+  it('labels wind in km/h and humidity in percentages at original model points', () => {
+    const value = snapshot()
+    const wind = weatherNumericAnchorsToFeatureCollection(value, 5, 'wind') as any
+    const humidity = weatherNumericAnchorsToFeatureCollection(value, 5, 'humidity') as any
+    expect(wind.features[0].properties.label).toMatch(/km\/h$/)
+    expect(humidity.features[0].properties.label).toMatch(/%$/)
+    expect(wind.features[0].geometry.type).toBe('Point')
   })
 })
 
