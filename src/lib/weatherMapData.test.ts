@@ -139,14 +139,14 @@ describe('weather cloud coverage and geographic numeric labels', () => {
     expect(temp.features.length).toBeGreaterThan(humidity.features.length)
     expect(humidity.features.length).toBeGreaterThan(wind.features.length)
     expect(wind.features.length).toBeLessThanOrEqual(12)
-    expect(wind.features.every((feature: any) => feature.properties.label.endsWith('km/h'))).toBe(true)
+    expect(wind.features.every((feature: any) => /^\d+$/.test(feature.properties.label))).toBe(true)
   })
 
-  it('labels wind in km/h and humidity in percentages at original model points', () => {
+  it('labels wind with compact digits and humidity with percentages at original model points', () => {
     const value = snapshot()
     const wind = weatherNumericAnchorsToFeatureCollection(value, 5, 'wind') as any
     const humidity = weatherNumericAnchorsToFeatureCollection(value, 5, 'humidity') as any
-    expect(wind.features[0].properties.label).toMatch(/km\/h$/)
+    expect(wind.features[0].properties.label).toMatch(/^\d+$/)
     expect(humidity.features[0].properties.label).toMatch(/%$/)
     expect(wind.features[0].geometry.type).toBe('Point')
   })
