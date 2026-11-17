@@ -18,7 +18,6 @@ import {
   selectedHotspotToFeatureCollection,
   weatherFrameToFeatureCollection,
   weatherNumericAnchorsToFeatureCollection,
-  weatherTemperatureLabelsToFeatureCollection,
   weatherLinkToFeatureCollection,
   weatherNeighborsToFeatureCollection,
   weatherWindVectorsToFeatureCollection,
@@ -150,12 +149,16 @@ function syncSources(
         : EMPTY_FEATURE_COLLECTION,
     ),
   )
-  weatherLabelsSource?.setData(sourceData(hasUsableFrame
-    ? weatherTemperatureLabelsToFeatureCollection(weather, weatherFrameIndex)
-    : EMPTY_FEATURE_COLLECTION))
-  weatherAnchorsSource?.setData(sourceData(
-    hasUsableFrame && weatherVariable !== 'temperature'
+  // Use the exact same MapLibre symbol renderer for temperature, humidity and wind.
+  // Never render a second numeric layer or let a later circle layer cover the labels.
+  weatherLabelsSource?.setData(sourceData(
+    hasUsableFrame && weatherVariable !== 'clouds'
       ? weatherNumericAnchorsToFeatureCollection(weather, weatherFrameIndex, weatherVariable)
+      : EMPTY_FEATURE_COLLECTION,
+  ))
+  weatherAnchorsSource?.setData(sourceData(
+    hasUsableFrame && weatherVariable === 'clouds'
+      ? weatherNumericAnchorsToFeatureCollection(weather, weatherFrameIndex, 'clouds')
       : EMPTY_FEATURE_COLLECTION,
   ))
   weatherWindSource?.setData(
@@ -207,12 +210,7 @@ function syncVisibility(
   map.setLayoutProperty(
     'weather-temperature-labels',
     'visibility',
-    weatherMode && weatherVariable === 'temperature' ? 'visible' : 'none',
-  )
-  map.setLayoutProperty(
-    'weather-variable-labels',
-    'visibility',
-    weatherMode && (weatherVariable === 'humidity' || weatherVariable === 'wind') ? 'visible' : 'none',
+    weatherMode && weatherVariable !== 'clouds' ? 'visible' : 'none',
   )
   for (const layer of ['weather-cloud-shadow', 'weather-cloud-left', 'weather-cloud-top', 'weather-cloud-right', 'weather-cloud-base', 'weather-cloud-labels']) {
     map.setLayoutProperty(layer, 'visibility', weatherMode && weatherVariable === 'clouds' ? 'visible' : 'none')
@@ -640,48 +638,6 @@ function createBlackMapStyle(): StyleSpecification {
         },
       },
       {
-        id: 'weather-temperature-labels',
-        type: 'symbol',
-        source: 'weather-temperature-labels',
-        layout: {
-          visibility: 'none',
-          'text-field': ['get', 'label'],
-          'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
-          'text-size': 13,
-          'text-offset': [0, -1.15],
-          'text-anchor': 'bottom',
-          'text-allow-overlap': false,
-          'text-ignore-placement': false,
-          'text-padding': 12,
-        },
-        paint: {
-          'text-color': '#fff5e4',
-          'text-halo-color': '#0a0d0b',
-          'text-halo-width': 2.4,
-          'text-halo-blur': 0.5,
-        },
-      },
-      {
-        id: 'weather-variable-labels',
-        type: 'symbol',
-        source: 'weather-anchors',
-        layout: {
-          visibility: 'none',
-          'text-field': ['get', 'label'],
-          'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
-          'text-size': 12,
-          'text-offset': [0, -1.4],
-          'text-anchor': 'bottom',
-          'text-allow-overlap': false,
-          'text-padding': 8,
-        },
-        paint: {
-          'text-color': '#f4f8fa',
-          'text-halo-color': '#080b0e',
-          'text-halo-width': 2.5,
-        },
-      },
-      {
         id: 'weather-cloud-clear-points',
         type: 'circle',
         source: 'weather-grid',
@@ -846,6 +802,30 @@ function createBlackMapStyle(): StyleSpecification {
           ],
           'line-width': 1.35,
           'line-opacity': 0.9,
+        },
+      },
+      // Labels must be after EVERY weather circle and wind-vector layer so their
+      // halo and digits cannot be painted over by the 0.5° point grid.
+      {
+        id: 'weather-temperature-labels',
+        type: 'symbol',
+        source: 'weather-temperature-labels',
+        layout: {
+          visibility: 'none',
+          'text-field': ['get', 'label'],
+          'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
+          'text-size': 13,
+          'text-offset': [0, -1.15],
+          'text-anchor': 'bottom',
+          'text-allow-overlap': false,
+          'text-ignore-placement': false,
+          'text-padding': 12,
+        },
+        paint: {
+          'text-color': '#fff5e4',
+          'text-halo-color': '#0a0d0b',
+          'text-halo-width': 2.4,
+          'text-halo-blur': 0.5,
         },
       },
       {
@@ -1038,7 +1018,6 @@ export function TerritorialMap({
     map.on('click', 'weather-temperature-points', handleWeatherPointClick)
     map.on('click', 'weather-temperature-labels', handleWeatherPointClick)
     map.on('click', 'weather-humidity-points', handleWeatherPointClick)
-    map.on('click', 'weather-variable-labels', handleWeatherPointClick)
     map.on('click', 'weather-cloud-base', handleWeatherPointClick)
     map.on('click', 'weather-cloud-top', handleWeatherPointClick)
     map.on('click', 'weather-cloud-clear-points', handleWeatherPointClick)
