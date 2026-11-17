@@ -203,13 +203,24 @@ export function TerritorialLegend({
           </>
         ) : weatherVariable === 'humidity' ? (
           <>
-            <span>Humedad relativa modelada para la hora activa. La paleta es distinta de temperatura.</span>
+            <span>Humedad relativa modelada para la hora activa. Los porcentajes indican puntos de referencia del modelo, no nubosidad ni promedios provinciales.</span>
             <WeatherScale
               ariaLabel="Escala visual de humedad"
               gradient="linear-gradient(90deg, #6b5547 0%, #b59b5b 30%, #5f9d87 60%, #4f9fbf 82%, #8bd3dd 100%)"
               labels={['0 %', '50 %', '100 %']}
               direction="más seco ← humedad relativa → más húmedo"
             />
+          </>
+        ) : weatherVariable === 'clouds' ? (
+          <>
+            <span>Las nubecitas muestran cobertura nubosa total modelada para la hora indicada. El porcentaje se toma de un punto real de la malla, no es un promedio regional ni una imagen satelital.</span>
+            <WeatherScale
+              ariaLabel="Escala visual de cobertura nubosa"
+              gradient="linear-gradient(90deg, #506777 0%, #8ca5b5 40%, #e1ebf3 75%, #f4f8fa 100%)"
+              labels={['0 % despejado', '50 %', '100 % cubierto']}
+              direction="menos nubes ← cobertura → más nubes"
+            />
+            <span>No se dibujan nubecitas por debajo de 20 %; los puntos tenues siguen siendo consultables. La humedad no determina la cobertura nubosa.</span>
           </>
         ) : (
           <>
@@ -221,7 +232,7 @@ export function TerritorialLegend({
               labels={['0 km/h', '30 km/h', '60 km/h']}
               direction="menor ← velocidad del viento → mayor"
             />
-            <span>La longitud visual de cada vector es constante y no representa velocidad.</span>
+            <span>La longitud visual de cada vector es constante y no representa velocidad. Los valores en km/h sobre el mapa corresponden a puntos seleccionados de la malla.</span>
             <span>El color representa velocidad modelada; velocidad y ráfagas exactas se leen en el detalle.</span>
           </>
         )}
