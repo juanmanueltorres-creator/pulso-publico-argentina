@@ -47,6 +47,7 @@ function location(id, latitude, longitude, options = {}) {
     values: {
       temperatureC: values(10),
       relativeHumidityPct: Array.from({ length }, (_, index) => Math.max(20, 70 - index)),
+      cloudCoverPct: Array.from({ length }, (_, index) => Math.min(100, 30 + index)), 
       windSpeedKmh: values(5),
       windDirectionDeg: Array.from({ length }, (_, index) => (180 + index) % 360),
       windGustKmh: values(8),
@@ -66,6 +67,7 @@ function responsePayload(latitude, longitude) {
       time: times,
       temperature_2m: Array.from({ length }, (_, index) => 10 + index),
       relative_humidity_2m: Array.from({ length }, (_, index) => Math.max(20, 70 - index)),
+      cloud_cover: Array.from({ length }, (_, index) => Math.min(100, 30 + index)),
       wind_speed_10m: Array.from({ length }, (_, index) => 5 + index),
       wind_direction_10m: Array.from({ length }, (_, index) => (180 + index) % 360),
       wind_gusts_10m: Array.from({ length }, (_, index) => 8 + index),
@@ -135,6 +137,7 @@ describe('buildWeatherSnapshot', () => {
     })
     expect(snapshot.timestamps).toHaveLength(24)
     expect(snapshot.points[0].values.temperatureC).toHaveLength(24)
+    expect(snapshot.points[0].values.cloudCoverPct).toHaveLength(24)
     expect(snapshot.points[0].values.temperatureC.at(-1)).toBeNull()
     expect(snapshot.limitations.join(' ')).toMatch(/no demuestra causalidad/i)
   })
