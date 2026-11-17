@@ -17,6 +17,7 @@ import type { HotspotWeatherContext } from '../lib/weatherContext'
 import {
   selectedHotspotToFeatureCollection,
   weatherFrameToFeatureCollection,
+  weatherNumericAnchorsToFeatureCollection,
   weatherTemperatureLabelsToFeatureCollection,
   weatherLinkToFeatureCollection,
   weatherNeighborsToFeatureCollection,
@@ -127,6 +128,7 @@ function syncSources(
   const earthquakeSource = map.getSource('earthquakes') as GeoJSONSource | undefined
   const hotspotSource = map.getSource('hotspots') as GeoJSONSource | undefined
   const weatherLabelsSource = map.getSource('weather-temperature-labels') as GeoJSONSource | undefined
+  const weatherAnchorsSource = map.getSource('weather-anchors') as GeoJSONSource | undefined
   const weatherGridSource = map.getSource('weather-grid') as GeoJSONSource | undefined
   const weatherWindSource = map.getSource('weather-wind-vectors') as GeoJSONSource | undefined
   const weatherNeighborsSource = map.getSource('weather-neighbors') as GeoJSONSource | undefined
@@ -151,6 +153,11 @@ function syncSources(
   weatherLabelsSource?.setData(sourceData(hasUsableFrame
     ? weatherTemperatureLabelsToFeatureCollection(weather, weatherFrameIndex)
     : EMPTY_FEATURE_COLLECTION))
+  weatherAnchorsSource?.setData(sourceData(
+    hasUsableFrame && weatherVariable !== 'temperature'
+      ? weatherNumericAnchorsToFeatureCollection(weather, weatherFrameIndex, weatherVariable)
+      : EMPTY_FEATURE_COLLECTION,
+  ))
   weatherWindSource?.setData(
     sourceData(
       hasUsableFrame
@@ -201,6 +208,19 @@ function syncVisibility(
     'weather-temperature-labels',
     'visibility',
     weatherMode && weatherVariable === 'temperature' ? 'visible' : 'none',
+  )
+  map.setLayoutProperty(
+    'weather-variable-labels',
+    'visibility',
+    weatherMode && (weatherVariable === 'humidity' || weatherVariable === 'wind') ? 'visible' : 'none',
+  )
+  for (const layer of ['weather-cloud-shadow', 'weather-cloud-left', 'weather-cloud-top', 'weather-cloud-right', 'weather-cloud-base', 'weather-cloud-labels']) {
+    map.setLayoutProperty(layer, 'visibility', weatherMode && weatherVariable === 'clouds' ? 'visible' : 'none')
+  }
+  map.setLayoutProperty(
+    'weather-cloud-clear-points',
+    'visibility',
+    weatherMode && weatherVariable === 'clouds' ? 'visible' : 'none',
   )
   map.setLayoutProperty(
     'weather-humidity-points',
@@ -401,6 +421,10 @@ function createBlackMapStyle(): StyleSpecification {
         },
       },
       'weather-temperature-labels': {
+        type: 'geojson',
+        data: EMPTY_FEATURE_COLLECTION,
+      },
+      'weather-anchors': {
         type: 'geojson',
         data: EMPTY_FEATURE_COLLECTION,
       },
@@ -635,6 +659,118 @@ function createBlackMapStyle(): StyleSpecification {
           'text-halo-color': '#0a0d0b',
           'text-halo-width': 2.4,
           'text-halo-blur': 0.5,
+        },
+      },
+      {
+        id: 'weather-variable-labels',
+        type: 'symbol',
+        source: 'weather-anchors',
+        layout: {
+          visibility: 'none',
+          'text-field': ['get', 'label'],
+          'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
+          'text-size': 12,
+          'text-offset': [0, -1.4],
+          'text-anchor': 'bottom',
+          'text-allow-overlap': false,
+          'text-padding': 8,
+        },
+        paint: {
+          'text-color': '#f4f8fa',
+          'text-halo-color': '#080b0e',
+          'text-halo-width': 2.5,
+        },
+      },
+      {
+        id: 'weather-cloud-clear-points',
+        type: 'circle',
+        source: 'weather-grid',
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-color': '#718fa0',
+          'circle-radius': 1.4,
+          'circle-opacity': 0.3,
+        },
+      },
+      {
+        id: 'weather-cloud-shadow',
+        type: 'circle',
+        source: 'weather-anchors',
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-color': '#3b5163',
+          'circle-radius': 16,
+          'circle-translate': [0, 3],
+          'circle-blur': 0.8,
+          'circle-opacity': ['interpolate', ['linear'], ['get', 'cloudCoverPct'], 20, 0.15, 100, 0.5],
+        },
+      },
+      {
+        id: 'weather-cloud-left',
+        type: 'circle',
+        source: 'weather-anchors',
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-color': '#d8e6f0',
+          'circle-radius': 8.5,
+          'circle-translate': [-8, 0],
+          'circle-opacity': ['interpolate', ['linear'], ['get', 'cloudCoverPct'], 20, 0.35, 100, 0.95],
+        },
+      },
+      {
+        id: 'weather-cloud-top',
+        type: 'circle',
+        source: 'weather-anchors',
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-color': '#eef5fa',
+          'circle-radius': 11.5,
+          'circle-translate': [0, -5],
+          'circle-opacity': ['interpolate', ['linear'], ['get', 'cloudCoverPct'], 20, 0.35, 100, 0.96],
+        },
+      },
+      {
+        id: 'weather-cloud-right',
+        type: 'circle',
+        source: 'weather-anchors',
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-color': '#cedeea',
+          'circle-radius': 9,
+          'circle-translate': [8, 0],
+          'circle-opacity': ['interpolate', ['linear'], ['get', 'cloudCoverPct'], 20, 0.35, 100, 0.95],
+        },
+      },
+      {
+        id: 'weather-cloud-base',
+        type: 'circle',
+        source: 'weather-anchors',
+        layout: { visibility: 'none' },
+        paint: {
+          'circle-color': '#e1ebf3',
+          'circle-radius': 10.5,
+          'circle-translate': [0, 3],
+          'circle-opacity': ['interpolate', ['linear'], ['get', 'cloudCoverPct'], 20, 0.35, 100, 0.94],
+        },
+      },
+      {
+        id: 'weather-cloud-labels',
+        type: 'symbol',
+        source: 'weather-anchors',
+        layout: {
+          visibility: 'none',
+          'text-field': ['get', 'label'],
+          'text-size': 11,
+          'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
+          'text-offset': [0, 2.1],
+          'text-anchor': 'top',
+          'text-allow-overlap': false,
+          'text-padding': 6,
+        },
+        paint: {
+          'text-color': '#f4f8fa',
+          'text-halo-color': '#080b0e',
+          'text-halo-width': 2.5,
         },
       },
       {
@@ -889,6 +1025,10 @@ export function TerritorialMap({
     map.on('click', 'weather-temperature-points', handleWeatherPointClick)
     map.on('click', 'weather-temperature-labels', handleWeatherPointClick)
     map.on('click', 'weather-humidity-points', handleWeatherPointClick)
+    map.on('click', 'weather-variable-labels', handleWeatherPointClick)
+    map.on('click', 'weather-cloud-base', handleWeatherPointClick)
+    map.on('click', 'weather-cloud-top', handleWeatherPointClick)
+    map.on('click', 'weather-cloud-clear-points', handleWeatherPointClick)
     map.on('click', 'weather-wind-origins', handleWeatherPointClick)
 
     map.on('click', (event) => {
