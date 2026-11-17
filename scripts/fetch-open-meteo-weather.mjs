@@ -3,6 +3,7 @@ const OPEN_METEO_URL = 'https://historical-forecast-api.open-meteo.com/v1/foreca
 const HOURLY_VARIABLES = [
   'temperature_2m',
   'relative_humidity_2m',
+  'cloud_cover',
   'wind_speed_10m',
   'wind_direction_10m',
   'wind_gusts_10m',
@@ -12,6 +13,7 @@ const HOURLY_VARIABLES = [
 const VALUE_MAPPING = {
   temperature_2m: 'temperatureC',
   relative_humidity_2m: 'relativeHumidityPct',
+  cloud_cover: 'cloudCoverPct',
   wind_speed_10m: 'windSpeedKmh',
   wind_direction_10m: 'windDirectionDeg',
   wind_gusts_10m: 'windGustKmh',
