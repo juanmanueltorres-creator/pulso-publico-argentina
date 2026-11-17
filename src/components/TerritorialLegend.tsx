@@ -232,7 +232,7 @@ export function TerritorialLegend({
               labels={['0 km/h', '30 km/h', '60 km/h']}
               direction="menor ← velocidad del viento → mayor"
             />
-            <span>La longitud visual de cada vector es constante y no representa velocidad. Los valores en km/h sobre el mapa corresponden a puntos seleccionados de la malla.</span>
+            <span>La longitud visual de cada vector es constante y no representa velocidad. Los números sobre el mapa expresan km/h en puntos seleccionados de la malla; se omite la unidad junto a cada número para evitar superposiciones.</span>
             <span>El color representa velocidad modelada; velocidad y ráfagas exactas se leen en el detalle.</span>
           </>
         )}
