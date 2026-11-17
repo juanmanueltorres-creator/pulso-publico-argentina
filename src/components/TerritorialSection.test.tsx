@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { weatherSnapshotFixture } from '../test/weatherFixtures'
 import { marineSnapshotFixture } from '../test/marineFixtures'
+import { antarcticSnapshotFixture } from '../test/antarcticFixtures'
 import { earthquakeEvents, hotspotEvents } from '../test/territorialFixtures'
 import type { HotspotWeatherContext } from '../lib/weatherContext'
 import type {
@@ -29,6 +30,8 @@ vi.mock('./TerritorialMap', () => ({
     onSelectWeather,
     marine,
     onSelectMarine,
+    antarctic,
+    onSelectAntarctic,
   }: {
     mode: TerritorialViewMode
     weatherVariable?: WeatherVariable
@@ -37,6 +40,8 @@ vi.mock('./TerritorialMap', () => ({
     weather?: WeatherSnapshot | null
     marine?: ReturnType<typeof marineSnapshotFixture> | null
     onSelectMarine?: (pointId: string) => void
+    antarctic?: ReturnType<typeof antarcticSnapshotFixture> | null
+    onSelectAntarctic?: (pointId: string) => void
     hotspotContext?: HotspotWeatherContext | null
     selectedHotspot?: ThermalHotspotEvent | null
     onSelect: (event: EarthquakeEvent | ThermalHotspotEvent) => void
@@ -63,6 +68,11 @@ vi.mock('./TerritorialMap', () => ({
         {mode === 'marine' && marine?.points[0] && onSelectMarine ? (
           <button type="button" onClick={() => onSelectMarine(marine.points[0].id)}>
             Seleccionar mar del mapa
+          </button>
+        ) : null}
+        {mode === 'antarctic' && antarctic?.points[0] && onSelectAntarctic ? (
+          <button type="button" onClick={() => onSelectAntarctic(antarctic.points[0].id)}>
+            Seleccionar base antártica
           </button>
         ) : null}
       </div>
@@ -190,6 +200,31 @@ describe('TerritorialSection', () => {
     await user.click(clouds)
     expect(clouds).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getByText(/las nubecitas muestran cobertura nubosa total/i)).toBeInTheDocument()
+  })
+
+  it('reads six Antarctic bases with polar variable controls and verified station context', async () => {
+    const user = userEvent.setup()
+    render(<TerritorialSection
+      loadEarthquakes={async () => earthquakeSnapshot()}
+      loadHotspots={async () => hotspotSnapshot()}
+      loadWeather={async () => weatherSnapshot()}
+      loadMarine={async () => marineSnapshotFixture()}
+      loadAntarctic={async () => antarcticSnapshotFixture()}
+      now={availableNow}
+    />)
+    await screen.findByText('2 sismos registrados · últimos 7 días')
+    await user.click(screen.getByRole('button', { name: 'Antártida' }))
+    expect(screen.getByText('6 bases antárticas argentinas')).toBeInTheDocument()
+    expect(screen.getByText(/esperando la primera consulta meteorológica/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Temperatura' })).toHaveAttribute('aria-pressed', 'true')
+    await user.click(screen.getByRole('button', { name: 'Viento' }))
+    expect(screen.getByRole('button', { name: 'Viento' })).toHaveAttribute('aria-pressed', 'true')
+    await user.click(screen.getByRole('button', { name: 'Nubosidad' }))
+    expect(screen.getByText(/cobertura nubosa total modelada/i)).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Seleccionar base antártica' }))
+    expect(screen.getByRole('heading', { name: 'Orcadas' })).toBeInTheDocument()
+    expect(screen.getAllByText('Sin dato').length).toBeGreaterThan(0)
+    expect(screen.getByRole('link', { name: /IGN.*Dirección Nacional/i })).toBeInTheDocument()
   })
 
   it('adds a Marine view inside Territorial with six points, three layers and null-safe detail', async () => {
