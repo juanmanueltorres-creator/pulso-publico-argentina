@@ -1,0 +1,44 @@
+[
+  {
+    "id": "orcadas",
+    "name": "Orcadas",
+    "latitude": -60.7378,
+    "longitude": -44.74,
+    "site": "Isla Laurie · Orcadas del Sur"
+  },
+  {
+    "id": "carlini",
+    "name": "Carlini",
+    "latitude": -62.2383,
+    "longitude": -58.6669,
+    "site": "Isla 25 de Mayo · Shetland del Sur"
+  },
+  {
+    "id": "esperanza",
+    "name": "Esperanza",
+    "latitude": -63.3981,
+    "longitude": -56.9972,
+    "site": "Península Trinidad"
+  },
+  {
+    "id": "marambio",
+    "name": "Marambio",
+    "latitude": -64.2411,
+    "longitude": -56.6253,
+    "site": "Isla Marambio · mar de Weddell"
+  },
+  {
+    "id": "san-martin",
+    "name": "San Martín",
+    "latitude": -68.13,
+    "longitude": -67.1008,
+    "site": "Islotes Debenham · bahía Margarita"
+  },
+  {
+    "id": "belgrano-ii",
+    "name": "Belgrano II",
+    "latitude": -77.8756,
+    "longitude": -34.6794,
+    "site": "Nunatak Bertrab · Tierra de Coats"
+  }
+]
