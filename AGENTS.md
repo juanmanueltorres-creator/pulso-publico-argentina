@@ -54,7 +54,7 @@ Para proponer un nuevo contenido, respondé primero:
 4. **¿Dónde se lee mejor?** Una cifra, un mapa o una pieza de Evidencia; no todo necesita una capa.
 5. **¿Cómo se mantiene?** Indicá actualización, fallos posibles y costo operativo.
 
-**Mar Argentino y Antártida son líneas posibles de investigación, no funciones ya implementadas.** Una propuesta no se presenta como disponibilidad real hasta tener datos y pruebas.
+**Mar Argentino ya tiene una primera lectura de seis puntos oceánicos modelados; no es una cobertura continua.** La Antártida y otras ampliaciones siguen siendo investigaciones pendientes. No presentes una propuesta como disponible hasta tener datos y pruebas.
 
 ## Cómo trabajar en este repositorio
 
