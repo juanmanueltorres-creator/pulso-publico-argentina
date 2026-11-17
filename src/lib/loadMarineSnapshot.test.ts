@@ -1,11 +1,15 @@
 import { describe, expect, it, vi } from 'vitest'
-import emptyMarineSnapshot from '../../public/data/marine.json'
+import publishedMarineSnapshot from '../../public/data/marine.json'
+import { marineSnapshotFixture } from '../test/marineFixtures'
 import { loadMarineSnapshot, validateMarineSnapshot } from './loadMarineSnapshot'
 import { marinePointsToFeatureCollection } from './marineMapData'
 
-const valid = () => structuredClone(emptyMarineSnapshot)
+const valid = () => marineSnapshotFixture()
 
 describe('Pulso Marino public contract', () => {
+  it('validates the latest published snapshot whether it is empty or already refreshed', () => {
+    expect(validateMarineSnapshot(publishedMarineSnapshot).points).toHaveLength(6)
+  })
   it('keeps a complete six-point null-only initial snapshot without inventing readings', () => {
     const snapshot = validateMarineSnapshot(valid())
     expect(snapshot.points).toHaveLength(6)
