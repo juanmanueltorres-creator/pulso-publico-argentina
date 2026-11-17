@@ -152,7 +152,7 @@ describe('TerritorialMap', () => {
         'weather-cloud-top',
         'weather-cloud-base',
         'weather-cloud-labels',
-        'weather-variable-labels',
+        'weather-temperature-labels',
         'weather-wind-origins',
         'weather-wind-vectors',
         'weather-neighbor-points',
@@ -288,7 +288,49 @@ describe('TerritorialMap', () => {
     )
     rerender(<TerritorialMap {...weatherProps({ weatherVariable: 'humidity' })} />)
     expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-cloud-base', 'visibility', 'none')
-    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-variable-labels', 'visibility', 'visible')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-temperature-labels', 'visibility', 'visible')
+  })
+
+  it('renders all numeric weather values through the temperature symbol layer above every weather dot/vector', () => {
+    const { rerender } = render(<TerritorialMap {...weatherProps({ weatherVariable: 'temperature' })} />)
+    const options = mapMocks.construct.mock.calls[0]?.[0] as any
+    const ids = options.style.layers.map((layer: any) => layer.id)
+    const labels = layerById('weather-temperature-labels')
+    expect(labels.type).toBe('symbol')
+    expect(labels.layout).toMatchObject({
+      'text-field': ['get', 'label'],
+      'text-size': 13,
+      'text-offset': [0, -1.15],
+      'text-anchor': 'bottom',
+      'text-allow-overlap': false,
+      'text-ignore-placement': false,
+      'text-padding': 12,
+    })
+    expect(labels.paint['text-halo-width']).toBe(2.4)
+    expect(ids).not.toContain('weather-variable-labels')
+    for (const id of ['weather-temperature-points', 'weather-humidity-points', 'weather-wind-origins', 'weather-wind-vectors']) {
+      expect(ids.indexOf('weather-temperature-labels')).toBeGreaterThan(ids.indexOf(id))
+    }
+
+    mapMocks.sourceSetData.mockClear()
+    rerender(<TerritorialMap {...weatherProps({ weatherVariable: 'humidity' })} />)
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-temperature-labels', 'visibility', 'visible')
+    expect(mapMocks.sourceSetData).toHaveBeenCalledWith('weather-temperature-labels',
+      expect.objectContaining({ features: expect.arrayContaining([
+        expect.objectContaining({ properties: expect.objectContaining({ variable: 'humidity', label: expect.stringMatching(/%$/) }) }),
+      ]) }),
+    )
+
+    mapMocks.sourceSetData.mockClear()
+    rerender(<TerritorialMap {...weatherProps({ weatherVariable: 'wind' })} />)
+    expect(mapMocks.sourceSetData).toHaveBeenCalledWith('weather-temperature-labels',
+      expect.objectContaining({ features: expect.arrayContaining([
+        expect.objectContaining({ properties: expect.objectContaining({ variable: 'wind', label: expect.stringMatching(/^\\d+$/) }) }),
+      ]) }),
+    )
+    expect(mapMocks.sourceSetData).toHaveBeenCalledWith('weather-anchors',
+      expect.objectContaining({ features: [] }),
+    )
   })
 
   it('shows a clear on-map status when the active cloud frame is missing', () => {
