@@ -138,6 +138,7 @@ describe('TerritorialMap', () => {
     expect(options.style.sources).toEqual(
       expect.objectContaining({
         'weather-grid': expect.objectContaining({ type: 'geojson' }),
+        'weather-anchors': expect.objectContaining({ type: 'geojson' }),
         'weather-wind-vectors': expect.objectContaining({ type: 'geojson' }),
         'weather-neighbors': expect.objectContaining({ type: 'geojson' }),
         'weather-link': expect.objectContaining({ type: 'geojson' }),
@@ -148,6 +149,10 @@ describe('TerritorialMap', () => {
       expect.arrayContaining([
         'weather-temperature-points',
         'weather-humidity-points',
+        'weather-cloud-top',
+        'weather-cloud-base',
+        'weather-cloud-labels',
+        'weather-variable-labels',
         'weather-wind-origins',
         'weather-wind-vectors',
         'weather-neighbor-points',
@@ -269,6 +274,21 @@ describe('TerritorialMap', () => {
     expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-temperature-points', 'visibility', 'none')
     expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-wind-origins', 'visibility', 'visible')
     expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-wind-vectors', 'visibility', 'visible')
+  })
+
+  it('shows cloud glyphs only in the cloud mode and reads real cover samples', () => {
+    const { rerender } = render(<TerritorialMap {...weatherProps({ weatherVariable: 'clouds' })} />)
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-cloud-base', 'visibility', 'visible')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-wind-vectors', 'visibility', 'none')
+    expect(mapMocks.sourceSetData).toHaveBeenCalledWith(
+      'weather-anchors',
+      expect.objectContaining({ features: expect.arrayContaining([
+        expect.objectContaining({ properties: expect.objectContaining({ variable: 'clouds' }) }),
+      ]) }),
+    )
+    rerender(<TerritorialMap {...weatherProps({ weatherVariable: 'humidity' })} />)
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-cloud-base', 'visibility', 'none')
+    expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-variable-labels', 'visibility', 'visible')
   })
 
   it('syncs only the active weather frame plus bounded context sources', () => {
