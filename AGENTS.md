@@ -54,7 +54,7 @@ Para proponer un nuevo contenido, respondé primero:
 4. **¿Dónde se lee mejor?** Una cifra, un mapa o una pieza de Evidencia; no todo necesita una capa.
 5. **¿Cómo se mantiene?** Indicá actualización, fallos posibles y costo operativo.
 
-**Mar Argentino ya tiene una primera lectura de seis puntos oceánicos modelados; no es una cobertura continua.** La Antártida y otras ampliaciones siguen siendo investigaciones pendientes. No presentes una propuesta como disponible hasta tener datos y pruebas.
+**Mar Argentino ya tiene seis puntos oceánicos modelados, y la Antártida una primera lectura de seis bases de referencia.** No son coberturas continuas ni observaciones de estaciones. Cualquier ampliación requiere fuentes, límites y pruebas; no la presentes como disponible sin verificarlos.
 
 ## Cómo trabajar en este repositorio
 
