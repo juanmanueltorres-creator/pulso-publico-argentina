@@ -1,7 +1,7 @@
 import type { TerritorialKind } from './territorial'
 
 export type TerritorialViewMode = TerritorialKind | 'weather'
-export type WeatherVariable = 'temperature' | 'wind' | 'humidity'
+export type WeatherVariable = 'temperature' | 'wind' | 'humidity' | 'clouds'
 
 export interface WeatherSnapshot {
   schemaVersion: '1.0'
@@ -49,6 +49,8 @@ export interface WeatherPoint {
   values: {
     temperatureC: Array<number | null>
     relativeHumidityPct: Array<number | null>
+    /** Optional for backward compatibility with snapshots published before cloud coverage was collected. */
+    cloudCoverPct?: Array<number | null>
     windSpeedKmh: Array<number | null>
     windDirectionDeg: Array<number | null>
     windGustKmh: Array<number | null>
