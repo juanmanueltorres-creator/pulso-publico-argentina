@@ -2,8 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import { weatherSnapshotFixture } from '../test/weatherFixtures'
-import emptyMarineSnapshot from '../../public/data/marine.json'
-import { validateMarineSnapshot } from '../lib/loadMarineSnapshot'
+import { marineSnapshotFixture } from '../test/marineFixtures'
 import { earthquakeEvents, hotspotEvents } from '../test/territorialFixtures'
 import type { HotspotWeatherContext } from '../lib/weatherContext'
 import type {
@@ -36,7 +35,7 @@ vi.mock('./TerritorialMap', () => ({
     earthquakes: EarthquakeEvent[]
     hotspots: ThermalHotspotEvent[]
     weather?: WeatherSnapshot | null
-    marine?: ReturnType<typeof validateMarineSnapshot> | null
+    marine?: ReturnType<typeof marineSnapshotFixture> | null
     onSelectMarine?: (pointId: string) => void
     hotspotContext?: HotspotWeatherContext | null
     selectedHotspot?: ThermalHotspotEvent | null
@@ -195,7 +194,7 @@ describe('TerritorialSection', () => {
 
   it('adds a Marine view inside Territorial with six points, three layers and null-safe detail', async () => {
     const user = userEvent.setup()
-    const marine = validateMarineSnapshot(structuredClone(emptyMarineSnapshot))
+    const marine = marineSnapshotFixture()
     render(<TerritorialSection
       loadEarthquakes={async () => earthquakeSnapshot()}
       loadHotspots={async () => hotspotSnapshot()}
