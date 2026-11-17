@@ -402,7 +402,7 @@ describe('TerritorialMap', () => {
     rerender(<TerritorialMap {...weatherProps({ weatherVariable: 'wind' })} />)
     expect(mapMocks.sourceSetData).toHaveBeenCalledWith('weather-temperature-labels',
       expect.objectContaining({ features: expect.arrayContaining([
-        expect.objectContaining({ properties: expect.objectContaining({ variable: 'wind', label: expect.stringMatching(/^\d+$/) }) }),
+        expect.objectContaining({ properties: expect.objectContaining({ variable: 'wind', label: expect.stringMatching(/^\d+ km\/h$/) }) }),
       ]) }),
     )
     expect(mapMocks.sourceSetData).toHaveBeenCalledWith('weather-anchors',
