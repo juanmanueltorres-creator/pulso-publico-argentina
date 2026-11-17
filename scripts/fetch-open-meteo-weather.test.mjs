@@ -21,6 +21,7 @@ function payloadFor(latitude, longitude, offset = 0) {
       time: ['2026-08-27T18:00', '2026-08-27T19:00', '2026-08-27T20:00'],
       temperature_2m: [20 + offset, null, 22 + offset],
       relative_humidity_2m: [40 + offset, 42 + offset, 44 + offset],
+      cloud_cover: [25 + offset, 40 + offset, 80 + offset],
       wind_speed_10m: [10 + offset, 12 + offset, 14 + offset],
       wind_direction_10m: [180, 190, 200],
       wind_gusts_10m: [20 + offset, 22 + offset, 24 + offset],
@@ -47,7 +48,7 @@ describe('Open-Meteo ECMWF adapter', () => {
     expect(url.pathname).toBe('/v1/forecast')
     expect(url.searchParams.get('models')).toBe('ecmwf_ifs')
     expect(url.searchParams.get('hourly')).toBe(
-      'temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation',
+      'temperature_2m,relative_humidity_2m,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m,precipitation',
     )
     expect(url.searchParams.get('timezone')).toBe('UTC')
     expect(url.searchParams.get('wind_speed_unit')).toBe('kmh')
@@ -78,6 +79,7 @@ describe('Open-Meteo ECMWF adapter', () => {
     })
     expect(result[0].values.temperatureC).toEqual([20, null, 22])
     expect(result[0].values.relativeHumidityPct).toEqual([40, 42, 44])
+    expect(result[0].values.cloudCoverPct).toEqual([25, 40, 80])
     expect(result[0].values.windSpeedKmh).toEqual([10, 12, 14])
     expect(result[0].values.windDirectionDeg).toEqual([180, 190, 200])
     expect(result[0].values.windGustKmh).toEqual([20, 22, 24])
