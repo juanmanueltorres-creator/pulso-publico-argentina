@@ -6,11 +6,13 @@ import {
 } from '../lib/earthquakeDepthScale'
 import type { TerritorialViewMode, WeatherVariable } from '../types/weather'
 import type { MarineVariable } from '../types/marine'
+import type { AntarcticVariable } from '../types/antarctic'
 
 interface TerritorialLegendProps {
   mode: TerritorialViewMode
   weatherVariable?: WeatherVariable
   marineVariable?: MarineVariable
+  antarcticVariable?: AntarcticVariable
   earthquakeDisplayMode?: EarthquakeDisplayMode
 }
 
@@ -163,6 +165,7 @@ export function TerritorialLegend({
   mode,
   weatherVariable = 'temperature',
   marineVariable = 'waves',
+  antarcticVariable = 'temperature',
   earthquakeDisplayMode = '2d',
 }: TerritorialLegendProps) {
   if (mode === 'earthquake') {
@@ -183,6 +186,21 @@ export function TerritorialLegend({
         ) : null}
         <span>Escala visual reforzada desde M4+; el tamaño no representa daño previsto.</span>
         <span>La profundidad exacta y la intensidad aparecen en el detalle.</span>
+      </div>
+    )
+  }
+
+  if (mode === 'antarctic') {
+    return (
+      <div className="territorial-legend" aria-label="Leyenda antártica" tabIndex={0}>
+        <strong>Cómo leer este mapa</strong>
+        <span>Seis bases permanentes argentinas · coordenadas publicadas por el IGN.</span>
+        <span>{antarcticVariable === 'temperature' ? 'Temperatura modelada en °C.' :
+          antarcticVariable === 'wind' ? 'Velocidad del viento modelada en km/h.' :
+            'Cobertura nubosa total modelada en porcentaje.'}</span>
+        <span>Seleccioná una base para conocer su ubicación, hora, modelo y variables.</span>
+        <span>No son lecturas de las estaciones ni una malla continua del territorio antártico.</span>
+        <span>Mercator distorsiona las superficies polares. No usar para navegación ni operaciones.</span>
       </div>
     )
   }
