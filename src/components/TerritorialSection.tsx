@@ -2,6 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 import type { EarthquakeDisplayMode } from '../lib/earthquakeDepth3D'
 import { loadTerritorialSnapshot } from '../lib/loadTerritorialSnapshot'
 import { loadWeatherSnapshot } from '../lib/loadWeatherSnapshot'
+import { loadMarineSnapshot } from '../lib/loadMarineSnapshot'
+import type { MarineSnapshot, MarineVariable } from '../types/marine'
+import { MarineDetail } from './MarineDetail'
 import { formatArgInstant } from '../lib/timeDisplay'
 import { findWeatherContext } from '../lib/weatherContext'
 import type {
@@ -23,6 +26,7 @@ import { WeatherDetail } from './WeatherDetail'
 type EarthquakeLoader = () => Promise<TerritorialSnapshot<EarthquakeEvent>>
 type HotspotLoader = () => Promise<TerritorialSnapshot<ThermalHotspotEvent>>
 type WeatherLoader = () => Promise<WeatherSnapshot>
+type MarineLoader = () => Promise<MarineSnapshot>
 
 type SnapshotFreshness = {
   sourceCheckedAt: string
@@ -35,12 +39,14 @@ interface TerritorialSectionProps {
   loadEarthquakes?: EarthquakeLoader
   loadHotspots?: HotspotLoader
   loadWeather?: WeatherLoader
+  loadMarine?: MarineLoader
   now?: Date
 }
 
 const defaultEarthquakeLoader: EarthquakeLoader = () => loadTerritorialSnapshot('earthquake')
 const defaultHotspotLoader: HotspotLoader = () => loadTerritorialSnapshot('thermal-hotspot')
 const defaultWeatherLoader: WeatherLoader = () => loadWeatherSnapshot()
+const defaultMarineLoader: MarineLoader = () => loadMarineSnapshot()
 
 function periodLabel(hours: number): string {
   if (hours % 24 === 0 && hours >= 48) {
@@ -59,20 +65,25 @@ export function TerritorialSection({
   loadEarthquakes = defaultEarthquakeLoader,
   loadHotspots = defaultHotspotLoader,
   loadWeather = defaultWeatherLoader,
+  loadMarine = defaultMarineLoader,
   now,
 }: TerritorialSectionProps) {
   const [mode, setMode] = useState<TerritorialViewMode>('earthquake')
   const [earthquakeDisplayMode, setEarthquakeDisplayMode] = useState<EarthquakeDisplayMode>('2d')
   const [weatherVariable, setWeatherVariable] = useState<WeatherVariable>('temperature')
+  const [marineVariable, setMarineVariable] = useState<MarineVariable>('waves')
   const [earthquakes, setEarthquakes] = useState<TerritorialSnapshot<EarthquakeEvent> | null>(null)
   const [hotspots, setHotspots] = useState<TerritorialSnapshot<ThermalHotspotEvent> | null>(null)
   const [weather, setWeather] = useState<WeatherSnapshot | null>(null)
+  const [marine, setMarine] = useState<MarineSnapshot | null>(null)
   const [earthquakeError, setEarthquakeError] = useState(false)
   const [hotspotError, setHotspotError] = useState(false)
   const [weatherError, setWeatherError] = useState(false)
+  const [marineError, setMarineError] = useState(false)
   const [selectedEarthquakeId, setSelectedEarthquakeId] = useState<string | null>(null)
   const [selectedHotspotId, setSelectedHotspotId] = useState<string | null>(null)
   const [selectedWeatherPointId, setSelectedWeatherPointId] = useState<string | null>(null)
+  const [selectedMarinePointId, setSelectedMarinePointId] = useState<string | null>(null)
   const currentTime = now ?? new Date()
 
   useEffect(() => {
@@ -132,6 +143,21 @@ export function TerritorialSection({
     }
   }, [loadWeather])
 
+  useEffect(() => {
+    let active = true
+    loadMarine()
+      .then((snapshot) => {
+        if (!active) return
+        setMarine(snapshot)
+        setMarineError(false)
+      })
+      .catch(() => {
+        if (!active) return
+        setMarineError(true)
+      })
+    return () => { active = false }
+  }, [loadMarine])
+
   const selectedEarthquake = useMemo(
     () => earthquakes?.events.find((event) => event.id === selectedEarthquakeId) ?? null,
     [earthquakes, selectedEarthquakeId],
@@ -143,6 +169,10 @@ export function TerritorialSection({
   const selectedWeatherPoint = useMemo(
     () => weather?.points.find((point) => point.id === selectedWeatherPointId) ?? null,
     [weather, selectedWeatherPointId],
+  )
+  const selectedMarinePoint = useMemo(
+    () => marine?.points.find((point) => point.id === selectedMarinePointId) ?? null,
+    [marine, selectedMarinePointId],
   )
   const hotspotContext = useMemo(
     () => (selectedHotspot && weather ? findWeatherContext(selectedHotspot, weather) : null),
@@ -205,6 +235,14 @@ export function TerritorialSection({
         >
           Meteorología
         </button>
+        <button
+          type="button"
+          className="territorial-mode"
+          aria-pressed={mode === 'marine'}
+          onClick={() => setMode('marine')}
+        >
+          Mar Argentino
+        </button>
       </div>
 
       {mode === 'earthquake' ? (
@@ -261,6 +299,24 @@ export function TerritorialSection({
             Nubosidad
           </button>
         </div>
+      ) : mode === 'marine' ? (
+        <div className="territorial-weather-variables" aria-label="Variable oceánica">
+          {([
+            ['waves', 'Oleaje'],
+            ['currents', 'Corrientes'],
+            ['temperature', 'Temperatura del mar'],
+          ] as const).map(([variable, label]) => (
+            <button
+              key={variable}
+              type="button"
+              className="territorial-weather-variable"
+              aria-pressed={marineVariable === variable}
+              onClick={() => setMarineVariable(variable)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       ) : null}
 
       <div className="territorial-summary" aria-live="polite">
@@ -297,6 +353,29 @@ export function TerritorialSection({
           ) : (
             <strong>Leyendo focos de calor…</strong>
           )
+        ) : mode === 'marine' ? (
+          marineError ? (
+            <>
+              <strong>Contexto marino temporalmente no disponible</strong>
+              <span>La meteorología continental y las demás señales siguen disponibles.</span>
+            </>
+          ) : marine ? (
+            <>
+              <strong>{marine.points.length} puntos marinos de referencia</strong>
+              <span>{marine.source.dataset}</span>
+              {marine.sourceCheckedAt ? (
+                <span>Consulta del modelo: {formatArgInstant(marine.sourceCheckedAt, 'fetch')}</span>
+              ) : (
+                <span>Esperando la primera actualización de datos marinos. Los puntos no son estaciones.</span>
+              )}
+              <span><a href={marine.source.url} target="_blank" rel="noreferrer">Fuente: Open-Meteo Marine API</a></span>
+              <span className="territorial-summary__caution">
+                Pronóstico modelado · precisión costera limitada · no apto para navegación.
+              </span>
+            </>
+          ) : (
+            <strong>Leyendo contexto marino…</strong>
+          )
         ) : weatherError ? (
           <>
             <strong>Contexto meteorológico temporalmente no disponible</strong>
@@ -328,6 +407,7 @@ export function TerritorialSection({
       <TerritorialLegend
         mode={mode}
         weatherVariable={weatherVariable}
+        marineVariable={marineVariable}
         earthquakeDisplayMode={earthquakeDisplayMode}
       />
 
@@ -339,6 +419,10 @@ export function TerritorialSection({
           earthquakes={earthquakes?.events ?? []}
           hotspots={hotspots?.events ?? []}
           weather={weather}
+          marine={marine}
+          marineVariable={marineVariable}
+          selectedMarinePointId={selectedMarinePointId}
+          onSelectMarine={setSelectedMarinePointId}
           weatherFrameIndex={weatherFrameIndex}
           hotspotContext={hotspotContext}
           selectedHotspot={selectedHotspot}
@@ -366,6 +450,15 @@ export function TerritorialSection({
             limitations={hotspots?.limitations ?? []}
             afterDetails={hotspotWeatherExtension}
           />
+        ) : mode === 'marine' ? (
+          marine && selectedMarinePoint ? (
+            <MarineDetail snapshot={marine} point={selectedMarinePoint} />
+          ) : (
+            <aside className="territorial-detail territorial-detail--empty" aria-live="polite">
+              <p className="territorial-detail__eyebrow">MAR ARGENTINO</p>
+              <p>Seleccioná un punto en el mar para consultar oleaje, corrientes y temperatura superficial modelados.</p>
+            </aside>
+          )
         ) : weatherError ? (
           <aside className="territorial-detail territorial-detail--empty" aria-live="polite">
             <p className="territorial-detail__eyebrow">METEOROLOGÍA</p>
