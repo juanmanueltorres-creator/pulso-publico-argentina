@@ -185,6 +185,38 @@
     #050706;
 }
 
+.territorial-map__cloud-status {
+  position: absolute;
+  z-index: 4;
+  top: 48%;
+  left: 50%;
+  width: min(86%, 22rem);
+  transform: translate(-50%, -50%);
+  padding: 1.05rem 1.25rem;
+  border: 1px solid rgba(211, 164, 98, 0.35);
+  border-radius: 0.45rem;
+  background: rgba(10, 13, 14, 0.95);
+  box-shadow: 0 0.8rem 2.5rem rgba(0, 0, 0, 0.36);
+  pointer-events: none;
+  text-align: center;
+}
+
+.territorial-map__cloud-status strong {
+  display: block;
+  color: #f1dfc0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.territorial-map__cloud-status span {
+  display: block;
+  margin-top: 0.55rem;
+  color: #bab9b3;
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+
 .territorial-map .maplibregl-map,
 .territorial-map .maplibregl-canvas-container,
 .territorial-map .maplibregl-canvas {
