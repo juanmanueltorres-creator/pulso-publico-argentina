@@ -14,6 +14,7 @@
     "refresh:inpres": "node scripts/refresh-inpres.mjs",
     "refresh:conae": "node scripts/refresh-conae-hotspots.mjs",
     "refresh:weather": "node scripts/refresh-weather.mjs",
+    "refresh:marine": "node scripts/refresh-marine.mjs",
     "data:argentina-boundary": "node scripts/fetch-argentina-geometry.mjs",
     "preview": "vite preview"
   },
