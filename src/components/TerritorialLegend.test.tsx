@@ -33,6 +33,16 @@ describe('TerritorialLegend earthquake mode', () => {
   })
 })
 
+describe('TerritorialLegend Antarctic mode', () => {
+  it('marks polar modelled readings as model data, not base measurements', () => {
+    render(<TerritorialLegend mode="antarctic" antarcticVariable="wind" />)
+    expect(screen.getByText(/seis bases permanentes argentinas/i)).toBeInTheDocument()
+    expect(screen.getByText(/velocidad del viento modelada en km\/h/i)).toBeInTheDocument()
+    expect(screen.getByText(/no son lecturas de las estaciones/i)).toBeInTheDocument()
+    expect(screen.getByText(/Mercator distorsiona las superficies polares/i)).toBeInTheDocument()
+  })
+})
+
 describe('TerritorialLegend weather mode', () => {
   it('explains temperature colors with an explicit visual scale', () => {
     render(<TerritorialLegend mode="weather" weatherVariable="temperature" />)
