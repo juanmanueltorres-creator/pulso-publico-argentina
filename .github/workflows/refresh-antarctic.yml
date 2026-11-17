@@ -1,0 +1,51 @@
+name: Refresh Antarctic
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ['main']
+    paths:
+      - '.github/workflows/refresh-antarctic.yml'
+      - 'scripts/refresh-antarctic.mjs'
+      - 'src/data/antarcticBases.json'
+  schedule:
+    - cron: '51 4,16 * * *'
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: refresh-antarctic
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Consult global model at six Antarctic bases
+        run: npm run refresh:antarctic
+      - name: Commit if Antarctic data changed
+        id: commit
+        shell: bash
+        run: |
+          if [ -z "$(git status --porcelain -- public/data/antarctic.json)" ]; then
+            echo 'changed=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/data/antarctic.json
+          git commit -m 'data: refresh antarctic model'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+          echo 'changed=true' >> "$GITHUB_OUTPUT"
+      - name: Publish refreshed snapshot
+        if: steps.commit.outputs.changed == 'true' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy-pages-preview.yml --ref main
