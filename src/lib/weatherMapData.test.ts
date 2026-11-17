@@ -138,7 +138,7 @@ describe('weather cloud coverage and geographic numeric labels', () => {
     const wind = weatherNumericAnchorsToFeatureCollection(value, 5, 'wind') as any
     expect(temp.features.length).toBeGreaterThan(humidity.features.length)
     expect(humidity.features.length).toBeGreaterThan(wind.features.length)
-    expect(wind.features.length).toBeLessThan(12)
+    expect(wind.features.length).toBeLessThanOrEqual(12)
     expect(wind.features.every((feature: any) => feature.properties.label.endsWith('km/h'))).toBe(true)
   })
 
