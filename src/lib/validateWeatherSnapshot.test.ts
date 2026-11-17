@@ -13,6 +13,22 @@ describe('validateWeatherSnapshot', () => {
     expect(validateWeatherSnapshot(fixture)).toEqual(fixture)
   })
 
+  it('preserves cloud coverage percentages and rejects out-of-range values', () => {
+    const fixture = weatherSnapshotFixture()
+    fixture.points[0].values.cloudCoverPct[0] = 100
+    expect(validateWeatherSnapshot(fixture).points[0].values.cloudCoverPct?.[0]).toBe(100)
+    fixture.points[0].values.cloudCoverPct[0] = 101
+    expect(() => validateWeatherSnapshot(fixture)).toThrow(/cloudCoverPct/)
+  })
+
+  it('accepts previous snapshots without clouds without treating missing as 0%', () => {
+    const fixture = weatherSnapshotFixture()
+    const legacy = structuredClone(fixture) as any
+    delete legacy.points[0].values.cloudCoverPct
+    const checked = validateWeatherSnapshot(legacy)
+    expect(checked.points[0].values.cloudCoverPct).toBeUndefined()
+  })
+
   it('validates the published national weather artifact', () => {
     const snapshot = validateWeatherSnapshot(weatherSnapshotArtifact)
 
