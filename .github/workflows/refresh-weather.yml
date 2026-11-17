@@ -2,6 +2,14 @@ name: Refresh Weather
 
 on:
   workflow_dispatch:
+  # Refresh immediately when the weather adapter or this workflow changes on main.
+  # The snapshot write does not retrigger this workflow (weather.json is excluded).
+  push:
+    branches: ['main']
+    paths:
+      - '.github/workflows/refresh-weather.yml'
+      - 'scripts/fetch-open-meteo-weather.mjs'
+      - 'scripts/refresh-weather-lib.mjs'
   schedule:
     - cron: '17 */6 * * *'
 

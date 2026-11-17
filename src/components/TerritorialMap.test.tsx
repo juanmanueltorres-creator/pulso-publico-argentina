@@ -291,6 +291,32 @@ describe('TerritorialMap', () => {
     expect(mapMocks.setLayoutProperty).toHaveBeenCalledWith('weather-variable-labels', 'visibility', 'visible')
   })
 
+  it('shows a clear on-map status when the active cloud frame is missing', () => {
+    const weather = structuredClone(weatherSnapshotFixture())
+    const legacyWeather = structuredClone(weather) as any
+    for (const point of legacyWeather.points) delete point.values.cloudCoverPct
+
+    const { rerender } = render(
+      <TerritorialMap {...weatherProps({ weatherVariable: 'clouds', weather: legacyWeather })} />,
+    )
+
+    expect(screen.getByRole('status')).toHaveTextContent('Nubosidad sin datos')
+    expect(screen.getByRole('status')).toHaveTextContent(/no se muestran nubes estimadas a partir de humedad/i)
+
+    rerender(<TerritorialMap {...weatherProps({ weatherVariable: 'clouds', weather })} />)
+    expect(screen.queryByRole('status')).not.toBeInTheDocument()
+  })
+
+  it('distinguishes low valid cloud cover from missing coverage data', () => {
+    const weather = structuredClone(weatherSnapshotFixture())
+    for (const point of weather.points) {
+      point.values.cloudCoverPct[23] = 8
+    }
+    render(<TerritorialMap {...weatherProps({ weatherVariable: 'clouds', weather })} />)
+    expect(screen.getByRole('status')).toHaveTextContent('Cobertura nubosa baja')
+    expect(screen.getByRole('status')).not.toHaveTextContent('Nubosidad sin datos')
+  })
+
   it('syncs only the active weather frame plus bounded context sources', () => {
     render(<TerritorialMap {...weatherProps()} />)
 

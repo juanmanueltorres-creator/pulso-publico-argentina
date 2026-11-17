@@ -76,14 +76,20 @@ export function weatherFrameToFeatureCollection(
 /**
  * Sparse, truthful point references from the original model grid.
  * Label values are never interpolated or represented as provincial averages.
- * Cloud anchors use 3° cells; other variables retain the 4° spacing.
+ * Keep national-view labels deliberately sparse so they do not overlap the grid.
+ * Temperature retains 4°; humidity uses 8°; wind 10°; cloud glyphs 5°.
  */
 export function weatherNumericAnchorsToFeatureCollection(
   snapshot: WeatherSnapshot,
   frameIndex: number,
   variable: WeatherVariable,
 ): object {
-  const step = variable === 'clouds' ? 3 : 4
+  const step = {
+    temperature: 4,
+    humidity: 8,
+    wind: 10,
+    clouds: 5,
+  }[variable]
   const buckets = new Map<string, { point: WeatherPoint; value: number; distance: number }>()
   for (const point of snapshot.points) {
     const value = selectedWeatherValue(point, frameIndex, variable)

@@ -120,6 +120,28 @@ describe('weather cloud coverage and geographic numeric labels', () => {
     })
   })
 
+  it('samples national labels more sparsely for wind than humidity and temperature', () => {
+    const value = snapshot()
+    const prototype = value.points[0]
+    value.points = []
+    for (let latitude = -52; latitude <= -24; latitude += 2) {
+      for (let longitude = -72; longitude <= -54; longitude += 2) {
+        value.points.push({
+          ...structuredClone(prototype),
+          id: `grid:${latitude}:${longitude}`,
+          queryCoordinate: { latitude, longitude },
+        })
+      }
+    }
+    const temp = weatherNumericAnchorsToFeatureCollection(value, 5, 'temperature') as any
+    const humidity = weatherNumericAnchorsToFeatureCollection(value, 5, 'humidity') as any
+    const wind = weatherNumericAnchorsToFeatureCollection(value, 5, 'wind') as any
+    expect(temp.features.length).toBeGreaterThan(humidity.features.length)
+    expect(humidity.features.length).toBeGreaterThan(wind.features.length)
+    expect(wind.features.length).toBeLessThanOrEqual(12)
+    expect(wind.features.every((feature: any) => feature.properties.label.endsWith('km/h'))).toBe(true)
+  })
+
   it('labels wind in km/h and humidity in percentages at original model points', () => {
     const value = snapshot()
     const wind = weatherNumericAnchorsToFeatureCollection(value, 5, 'wind') as any
