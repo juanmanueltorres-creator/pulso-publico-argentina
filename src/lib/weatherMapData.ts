@@ -23,6 +23,7 @@ function selectedWeatherValue(
 ): number | null {
   if (variable === 'temperature') return finiteOrNull(point.values.temperatureC[frameIndex])
   if (variable === 'humidity') return finiteOrNull(point.values.relativeHumidityPct[frameIndex])
+  if (variable === 'clouds') return finiteOrNull(point.values.cloudCoverPct?.[frameIndex])
   return finiteOrNull(point.values.windSpeedKmh[frameIndex])
 }
 
@@ -33,6 +34,7 @@ function frameProperties(point: WeatherPoint, frameIndex: number, frameTimestamp
     frameTimestamp: frameTimestamp ?? null,
     temperatureC: finiteOrNull(point.values.temperatureC[frameIndex]),
     relativeHumidityPct: finiteOrNull(point.values.relativeHumidityPct[frameIndex]),
+    cloudCoverPct: finiteOrNull(point.values.cloudCoverPct?.[frameIndex]),
     windSpeedKmh: finiteOrNull(point.values.windSpeedKmh[frameIndex]),
     windDirectionDeg: finiteOrNull(point.values.windDirectionDeg[frameIndex]),
     windGustKmh: finiteOrNull(point.values.windGustKmh[frameIndex]),
@@ -72,23 +74,25 @@ export function weatherFrameToFeatureCollection(
 }
 
 /**
- * Sparse numeric anchors sampled from existing model grid points.
- * Pick a single valid value nearest each 4° geographical cell centre;
- * never interpolate or fabricate a value.
+ * Sparse, truthful point references from the original model grid.
+ * Label values are never interpolated or represented as provincial averages.
+ * Cloud anchors use 3° cells; other variables retain the 4° spacing.
  */
-export function weatherTemperatureLabelsToFeatureCollection(
+export function weatherNumericAnchorsToFeatureCollection(
   snapshot: WeatherSnapshot,
   frameIndex: number,
+  variable: WeatherVariable,
 ): object {
+  const step = variable === 'clouds' ? 3 : 4
   const buckets = new Map<string, { point: WeatherPoint; value: number; distance: number }>()
   for (const point of snapshot.points) {
-    const value = finiteOrNull(point.values.temperatureC[frameIndex])
-    if (value === null) continue
+    const value = selectedWeatherValue(point, frameIndex, variable)
+    if (value === null || (variable === 'clouds' && value < 20)) continue
     const { longitude, latitude } = point.queryCoordinate
-    const x = Math.floor(longitude / 4)
-    const y = Math.floor(latitude / 4)
-    const centerLongitude = (x + 0.5) * 4
-    const centerLatitude = (y + 0.5) * 4
+    const x = Math.floor(longitude / step)
+    const y = Math.floor(latitude / step)
+    const centerLongitude = (x + 0.5) * step
+    const centerLatitude = (y + 0.5) * step
     const distance = (latitude - centerLatitude) ** 2 + (longitude - centerLongitude) ** 2
     const key = `${x}:${y}`
     const previous = buckets.get(key)
@@ -96,14 +100,29 @@ export function weatherTemperatureLabelsToFeatureCollection(
       buckets.set(key, { point, value, distance })
     }
   }
+  const unit = variable === 'temperature' ? '°' : variable === 'wind' ? ' km/h' : '%'
   return featureCollection([...buckets.values()].map(({ point, value }) => ({
     type: 'Feature',
+    id: point.id,
     geometry: {
       type: 'Point',
       coordinates: [point.queryCoordinate.longitude, point.queryCoordinate.latitude],
     },
-    properties: { id: point.id, label: `${Math.round(value)}°`, temperatureC: value },
+    properties: {
+      id: point.id,
+      label: `${Math.round(value)}${unit}`,
+      weatherValue: value,
+      variable,
+      cloudCoverPct: variable === 'clouds' ? value : null,
+    },
   })))
+}
+
+export function weatherTemperatureLabelsToFeatureCollection(
+  snapshot: WeatherSnapshot,
+  frameIndex: number,
+): object {
+  return weatherNumericAnchorsToFeatureCollection(snapshot, frameIndex, 'temperature')
 }
 
 function destinationCoordinate(
