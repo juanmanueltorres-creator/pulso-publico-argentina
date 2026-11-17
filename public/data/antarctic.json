@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceCheckedAt": null,
+  "sourceCheckedAt": "2026-11-17T01:25:28.957Z",
   "source": {
     "provider": "Open-Meteo",
     "dataset": "ECMWF IFS 0.25° · pronóstico meteorológico global",
@@ -13,9 +13,9 @@
   },
   "limitations": [
     "Son pronósticos de un modelo global, no mediciones de estaciones instaladas en las bases.",
-    "La temperatura y el viento pueden diferir sustancialmente de la realidad local por relieve, elevación y resolución del modelo.",
-    "La vista cartográfica del mapa usa Mercator y distorsiona las distancias y superficies en latitudes polares.",
-    "La selección de bases no representa una malla continua ni una declaración cartográfica de límites o soberanía."
+    "La temperatura y el viento pueden diferir de la realidad local por relieve, elevación y resolución del modelo.",
+    "El mapa utiliza Mercator y distorsiona distancias y superficies en latitudes polares.",
+    "Las seis ubicaciones no constituyen una malla continua ni definen fronteras o soberanía."
   ],
   "points": [
     {
@@ -26,13 +26,16 @@
         "latitude": -60.7378,
         "longitude": -44.74
       },
-      "providerCoordinate": null,
-      "validAt": null,
+      "providerCoordinate": {
+        "latitude": -60.75,
+        "longitude": -44.75
+      },
+      "validAt": "2026-11-17T01:15:00.000Z",
       "values": {
-        "temperatureC": null,
-        "windSpeedKmh": null,
-        "windDirectionDeg": null,
-        "cloudCoverPct": null
+        "temperatureC": -4.6,
+        "windSpeedKmh": 9.7,
+        "windDirectionDeg": 231,
+        "cloudCoverPct": 100
       }
     },
     {
@@ -43,13 +46,16 @@
         "latitude": -62.2383,
         "longitude": -58.6669
       },
-      "providerCoordinate": null,
-      "validAt": null,
+      "providerCoordinate": {
+        "latitude": -62.25,
+        "longitude": -58.75
+      },
+      "validAt": "2026-11-17T01:15:00.000Z",
       "values": {
-        "temperatureC": null,
-        "windSpeedKmh": null,
-        "windDirectionDeg": null,
-        "cloudCoverPct": null
+        "temperatureC": 0.2,
+        "windSpeedKmh": 9,
+        "windDirectionDeg": 323,
+        "cloudCoverPct": 100
       }
     },
     {
@@ -60,13 +66,16 @@
         "latitude": -63.3981,
         "longitude": -56.9972
       },
-      "providerCoordinate": null,
-      "validAt": null,
+      "providerCoordinate": {
+        "latitude": -63.5,
+        "longitude": -57
+      },
+      "validAt": "2026-11-17T01:15:00.000Z",
       "values": {
-        "temperatureC": null,
-        "windSpeedKmh": null,
-        "windDirectionDeg": null,
-        "cloudCoverPct": null
+        "temperatureC": -2,
+        "windSpeedKmh": 18.1,
+        "windDirectionDeg": 13,
+        "cloudCoverPct": 100
       }
     },
     {
@@ -77,13 +86,16 @@
         "latitude": -64.2411,
         "longitude": -56.6253
       },
-      "providerCoordinate": null,
-      "validAt": null,
+      "providerCoordinate": {
+        "latitude": -64.25,
+        "longitude": -56.75
+      },
+      "validAt": "2026-11-17T01:15:00.000Z",
       "values": {
-        "temperatureC": null,
-        "windSpeedKmh": null,
-        "windDirectionDeg": null,
-        "cloudCoverPct": null
+        "temperatureC": -2.9,
+        "windSpeedKmh": 37.6,
+        "windDirectionDeg": 20,
+        "cloudCoverPct": 54
       }
     },
     {
@@ -94,13 +106,16 @@
         "latitude": -68.13,
         "longitude": -67.1008
       },
-      "providerCoordinate": null,
-      "validAt": null,
+      "providerCoordinate": {
+        "latitude": -68,
+        "longitude": -67
+      },
+      "validAt": "2026-11-17T01:15:00.000Z",
       "values": {
-        "temperatureC": null,
-        "windSpeedKmh": null,
-        "windDirectionDeg": null,
-        "cloudCoverPct": null
+        "temperatureC": 1.2,
+        "windSpeedKmh": 5.4,
+        "windDirectionDeg": 37,
+        "cloudCoverPct": 98
       }
     },
     {
@@ -111,13 +126,16 @@
         "latitude": -77.8756,
         "longitude": -34.6794
       },
-      "providerCoordinate": null,
-      "validAt": null,
+      "providerCoordinate": {
+        "latitude": -78,
+        "longitude": -34.75
+      },
+      "validAt": "2026-11-17T01:15:00.000Z",
       "values": {
-        "temperatureC": null,
-        "windSpeedKmh": null,
-        "windDirectionDeg": null,
-        "cloudCoverPct": null
+        "temperatureC": -9.8,
+        "windSpeedKmh": 14.2,
+        "windDirectionDeg": 120,
+        "cloudCoverPct": 0
       }
     }
   ]
