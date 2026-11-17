@@ -47,6 +47,11 @@ const ANTARCTIC_VIEW_BOUNDS: [[number, number], [number, number]] = [
   [-74, -79.4],
   [-29, -59.5],
 ]
+// Contains all six open-water reference locations with the Argentine coast for context.
+const MARINE_VIEW_BOUNDS: [[number, number], [number, number]] = [
+  [-70.5, -55.5],
+  [-54, -37],
+]
 
 const EARTHQUAKE_RADIUS_EXPRESSION = [
   'interpolate',
@@ -1044,8 +1049,10 @@ export function TerritorialMap({
   const antarcticVariableRef = useRef(antarcticVariable)
   const selectedAntarcticPointIdRef = useRef(selectedAntarcticPointId)
   const onSelectAntarcticRef = useRef(onSelectAntarctic)
-  // Only switch camera when entering/leaving the polar region; ordinary layer changes keep the viewport.
-  const previousRegionRef = useRef(mode === 'antarctic' ? 'antarctic' : 'continental')
+  // Camera changes only across geographic regions. Changing variables preserves the viewport.
+  const previousRegionRef = useRef(
+    mode === 'antarctic' ? 'antarctic' : mode === 'marine' ? 'marine' : 'continental',
+  )
   const marineVariableRef = useRef(marineVariable)
   const selectedMarinePointIdRef = useRef(selectedMarinePointId)
   const onSelectMarineRef = useRef(onSelectMarine)
@@ -1259,15 +1266,14 @@ export function TerritorialMap({
   }, [mode, weatherVariable, hotspotContext, selectedHotspot])
 
   useEffect(() => {
-    const nextRegion = mode === 'antarctic' ? 'antarctic' : 'continental'
+    const nextRegion = mode === 'antarctic' ? 'antarctic' : mode === 'marine' ? 'marine' : 'continental'
     if (previousRegionRef.current === nextRegion) return
     previousRegionRef.current = nextRegion
     const map = mapRef.current
     if (!map || !loadedRef.current) return
-    map.fitBounds(nextRegion === 'antarctic' ? ANTARCTIC_VIEW_BOUNDS : ARGENTINA_VIEW_BOUNDS, {
-      padding: 30,
-      duration: 600,
-    })
+    const bounds = nextRegion === 'antarctic' ? ANTARCTIC_VIEW_BOUNDS
+      : nextRegion === 'marine' ? MARINE_VIEW_BOUNDS : ARGENTINA_VIEW_BOUNDS
+    map.fitBounds(bounds, { padding: 30, duration: 600 })
   }, [mode])
 
   useEffect(() => {
