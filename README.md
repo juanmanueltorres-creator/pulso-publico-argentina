@@ -40,6 +40,7 @@ Un mismo mapa permite alternar entre:
 - 🌎 **Sismos** — eventos recientes publicados por INPRES;
 - 🔥 **Focos de calor** — detecciones térmicas VIIRS publicadas por CONAE;
 - 🌬️ **Meteorología** — contexto horario modelado Open-Meteo / ECMWF IFS HRES sobre una malla propia de 0,5°; temperatura, humedad, viento y cobertura nubosa cuando el snapshot la incluya. Los íconos de nubes son símbolos de cobertura puntual, no imágenes satelitales ni una interpolación continua.
+- 🌊 **Mar Argentino** — seis lugares de referencia mar adentro para consultar altura de olas, corrientes y temperatura superficial modeladas. No son mediciones de puerto ni un servicio para navegación.
 
 El límite nacional usado para filtrar y contextualizar eventos se deriva de geometría oficial de IGN y la pertenencia territorial se resuelve geométricamente, no sólo con un bounding box.
 
@@ -126,6 +127,7 @@ La interfaz no es la única salida del proyecto. Los snapshots pueden ser consum
 - [`earthquakes.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/earthquakes.json)
 - [`hotspots.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/hotspots.json)
 - [`weather.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/weather.json)
+- [`marine.json`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/marine.json)
 - [`argentina-provinces.geojson`](https://juanmanueltorres-creator.github.io/pulso-publico-argentina/data/argentina-provinces.geojson)
 
 ### Evidencia
@@ -169,6 +171,7 @@ npm run refresh:inpi
 npm run refresh:inpres
 npm run refresh:conae
 npm run refresh:weather
+npm run refresh:marine
 ```
 
 La geometría oficial usada por el proyecto se actualiza mediante:
@@ -181,7 +184,7 @@ npm run data:argentina-boundary
 
 ## Fuentes y límites
 
-Las familias de fuentes actuales incluyen **CAMMESA, OpenAlex, INPI, Datos Argentina / GeoRef, INPRES, CONAE, IGN, Open-Meteo / ECMWF IFS HRES, AgroENSO, MAGyP y NOAA CPC / ONI**.
+Las familias de fuentes actuales incluyen **CAMMESA, OpenAlex, INPI, Datos Argentina / GeoRef, INPRES, CONAE, IGN, Open-Meteo / ECMWF IFS HRES y Marine API, AgroENSO, MAGyP y NOAA CPC / ONI**.
 
 Pulso no reemplaza a las fuentes originales y no convierte señales públicas, modelos meteorológicos o asociaciones históricas en diagnósticos automáticos.
 
