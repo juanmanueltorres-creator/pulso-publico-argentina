@@ -55,6 +55,27 @@ describe('Antarctic global forecast', () => {
     await expect(refreshAntarcticSnapshot(bases, fail, checkedAt)).rejects.toThrow('503')
   })
 
+  it('retries transient connection errors and preserves model data on recovery', async () => {
+    const mockFetch = vi.fn()
+      .mockRejectedValueOnce(new TypeError('fetch failed'))
+      .mockResolvedValueOnce(new Response(JSON.stringify(fixtures()), { status: 200 }))
+    const sleepImpl = vi.fn(async () => undefined)
+    const snapshot = await refreshAntarcticSnapshot(bases, mockFetch, checkedAt, {
+      maxRetries: 2, retryDelayMs: 0, sleepImpl,
+    })
+    expect(snapshot.points).toHaveLength(6)
+    expect(mockFetch).toHaveBeenCalledTimes(2)
+    expect(sleepImpl).toHaveBeenCalledOnce()
+  })
+
+  it('fails closed after bounded network retries rather than overwriting a valid snapshot', async () => {
+    const failure = vi.fn(async () => { throw new TypeError('DNS temporarily unreachable') })
+    await expect(refreshAntarcticSnapshot(bases, failure, checkedAt, {
+      maxRetries: 2, retryDelayMs: 0, sleepImpl: async () => undefined,
+    })).rejects.toThrow(/after 3 attempt.*DNS temporarily unreachable/)
+    expect(failure).toHaveBeenCalledTimes(3)
+  })
+
   it('queries a single six-location batch', async () => {
     const mockFetch = vi.fn(async () => new Response(JSON.stringify(fixtures()), { status: 200 }))
     const snapshot = await refreshAntarcticSnapshot(bases, mockFetch, checkedAt)
