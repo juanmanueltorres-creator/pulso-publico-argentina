@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceCheckedAt": "2026-11-17T23:09:53.366Z",
+  "sourceCheckedAt": "2026-11-18T12:14:50.680Z",
   "source": {
     "provider": "Open-Meteo",
     "dataset": "Marine Weather API · selección automática de modelos oceánicos",
@@ -26,14 +26,14 @@
         "latitude": -38.125,
         "longitude": -56.541656
       },
-      "validAt": "2026-11-17T23:00:00.000Z",
+      "validAt": "2026-11-18T12:00:00.000Z",
       "values": {
-        "waveHeightM": 1.66,
-        "waveDirectionDeg": 120,
-        "wavePeriodS": 6.75,
-        "currentVelocityKmh": 1.9,
+        "waveHeightM": 1.88,
+        "waveDirectionDeg": 184,
+        "wavePeriodS": 7.1,
+        "currentVelocityKmh": 1,
         "currentDirectionDeg": 22,
-        "seaSurfaceTemperatureC": 17.2
+        "seaSurfaceTemperatureC": 16.1
       }
     },
     {
@@ -48,14 +48,14 @@
         "latitude": -39.458336,
         "longitude": -61.20833
       },
-      "validAt": "2026-11-17T23:00:00.000Z",
+      "validAt": "2026-11-18T12:00:00.000Z",
       "values": {
-        "waveHeightM": 0.8,
-        "waveDirectionDeg": 180,
-        "wavePeriodS": 6.1,
-        "currentVelocityKmh": 1.9,
-        "currentDirectionDeg": 331,
-        "seaSurfaceTemperatureC": 16.7
+        "waveHeightM": 1.5,
+        "waveDirectionDeg": 211,
+        "wavePeriodS": 5.45,
+        "currentVelocityKmh": 1.8,
+        "currentDirectionDeg": 6,
+        "seaSurfaceTemperatureC": 15.9
       }
     },
     {
@@ -70,14 +70,14 @@
         "latitude": -43.291668,
         "longitude": -63.291656
       },
-      "validAt": "2026-11-17T23:00:00.000Z",
+      "validAt": "2026-11-18T12:00:00.000Z",
       "values": {
-        "waveHeightM": 2.48,
-        "waveDirectionDeg": 160,
-        "wavePeriodS": 6.5,
-        "currentVelocityKmh": 1.1,
-        "currentDirectionDeg": 261,
-        "seaSurfaceTemperatureC": 13.2
+        "waveHeightM": 2.6,
+        "waveDirectionDeg": 135,
+        "wavePeriodS": 7.05,
+        "currentVelocityKmh": 1.4,
+        "currentDirectionDeg": 247,
+        "seaSurfaceTemperatureC": 12.9
       }
     },
     {
@@ -92,14 +92,14 @@
         "latitude": -46.125,
         "longitude": -65.70833
       },
-      "validAt": "2026-11-17T23:00:00.000Z",
+      "validAt": "2026-11-18T12:00:00.000Z",
       "values": {
-        "waveHeightM": 1.52,
-        "waveDirectionDeg": 111,
-        "wavePeriodS": 6.05,
-        "currentVelocityKmh": 0.9,
-        "currentDirectionDeg": 307,
-        "seaSurfaceTemperatureC": 12.8
+        "waveHeightM": 1.62,
+        "waveDirectionDeg": 101,
+        "wavePeriodS": 6.95,
+        "currentVelocityKmh": 0.8,
+        "currentDirectionDeg": 243,
+        "seaSurfaceTemperatureC": 12.7
       }
     },
     {
@@ -114,14 +114,14 @@
         "latitude": -50.791668,
         "longitude": -67.20833
       },
-      "validAt": "2026-11-17T23:00:00.000Z",
+      "validAt": "2026-11-18T12:00:00.000Z",
       "values": {
-        "waveHeightM": 1.54,
-        "waveDirectionDeg": 38,
-        "wavePeriodS": 5.25,
-        "currentVelocityKmh": 1.2,
-        "currentDirectionDeg": 153,
-        "seaSurfaceTemperatureC": 10.9
+        "waveHeightM": 1.94,
+        "waveDirectionDeg": 29,
+        "wavePeriodS": 6.05,
+        "currentVelocityKmh": 0.6,
+        "currentDirectionDeg": 108,
+        "seaSurfaceTemperatureC": 10.5
       }
     },
     {
@@ -136,14 +136,14 @@
         "latitude": -54.125,
         "longitude": -63.791656
       },
-      "validAt": "2026-11-17T23:00:00.000Z",
+      "validAt": "2026-11-18T12:00:00.000Z",
       "values": {
-        "waveHeightM": 1.4,
-        "waveDirectionDeg": 327,
-        "wavePeriodS": 5.5,
-        "currentVelocityKmh": 0.2,
+        "waveHeightM": 1.44,
+        "waveDirectionDeg": 340,
+        "wavePeriodS": 5.6,
+        "currentVelocityKmh": 0.9,
         "currentDirectionDeg": 90,
-        "seaSurfaceTemperatureC": 7.9
+        "seaSurfaceTemperatureC": 7.8
       }
     }
   ]
