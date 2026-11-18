@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-17T22:15:11.693Z",
-  "sourceCheckedAt": "2026-11-17T22:15:11.693Z",
+  "generatedAt": "2026-11-18T04:12:03.474Z",
+  "sourceCheckedAt": "2026-11-18T04:12:03.474Z",
   "window": {
     "hours": 168
   },
@@ -23,30 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-e4952def170e2adc",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-10T21:00:12-03:00",
-      "latitude": -31.469,
-      "longitude": -68.561,
-      "magnitude": 2.6,
-      "depthKm": 110,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-7b32248766b45648",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-10T21:25:32-03:00",
-      "latitude": -31.553,
-      "longitude": -69.681,
-      "magnitude": 2.5,
-      "depthKm": 116,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-4ad1358b183fc52d",
       "kind": "earthquake",
@@ -874,6 +850,18 @@
       "place": null,
       "province": "LA RIOJA",
       "intensityText": "III -Ciudad de La Rioja"
+    },
+    {
+      "id": "inpres-cd14f2048eb6f64d",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-15T17:51:57-03:00",
+      "latitude": -31.409,
+      "longitude": -68.591,
+      "magnitude": 2.5,
+      "depthKm": 105,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
     },
     {
       "id": "inpres-f4a31406d2619dbd",
