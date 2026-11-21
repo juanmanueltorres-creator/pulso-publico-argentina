@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceCheckedAt": "2026-11-21T11:46:36.668Z",
+  "sourceCheckedAt": "2026-11-21T21:08:28.961Z",
   "source": {
     "provider": "Open-Meteo",
     "dataset": "Marine Weather API · selección automática de modelos oceánicos",
@@ -26,14 +26,14 @@
         "latitude": -38.125,
         "longitude": -56.541656
       },
-      "validAt": "2026-11-21T11:45:00.000Z",
+      "validAt": "2026-11-21T21:00:00.000Z",
       "values": {
-        "waveHeightM": 1.24,
-        "waveDirectionDeg": 156,
-        "wavePeriodS": 7.9,
-        "currentVelocityKmh": 0.9,
-        "currentDirectionDeg": 0,
-        "seaSurfaceTemperatureC": 15.9
+        "waveHeightM": 1.04,
+        "waveDirectionDeg": 146,
+        "wavePeriodS": 7.85,
+        "currentVelocityKmh": 1.3,
+        "currentDirectionDeg": 82,
+        "seaSurfaceTemperatureC": 16.8
       }
     },
     {
@@ -48,14 +48,14 @@
         "latitude": -39.458336,
         "longitude": -61.20833
       },
-      "validAt": "2026-11-21T11:45:00.000Z",
+      "validAt": "2026-11-21T21:00:00.000Z",
       "values": {
-        "waveHeightM": 1,
-        "waveDirectionDeg": 143,
-        "wavePeriodS": 7.7,
-        "currentVelocityKmh": 0.2,
-        "currentDirectionDeg": 0,
-        "seaSurfaceTemperatureC": 16.2
+        "waveHeightM": 0.94,
+        "waveDirectionDeg": 153,
+        "wavePeriodS": 6.8,
+        "currentVelocityKmh": 1,
+        "currentDirectionDeg": 121,
+        "seaSurfaceTemperatureC": 16.7
       }
     },
     {
@@ -70,14 +70,14 @@
         "latitude": -43.291668,
         "longitude": -63.291656
       },
-      "validAt": "2026-11-21T11:45:00.000Z",
+      "validAt": "2026-11-21T21:00:00.000Z",
       "values": {
-        "waveHeightM": 1.48,
-        "waveDirectionDeg": 119,
-        "wavePeriodS": 8.45,
-        "currentVelocityKmh": 0.8,
-        "currentDirectionDeg": 243,
-        "seaSurfaceTemperatureC": 13.1
+        "waveHeightM": 1.26,
+        "waveDirectionDeg": 122,
+        "wavePeriodS": 8.3,
+        "currentVelocityKmh": 1,
+        "currentDirectionDeg": 31,
+        "seaSurfaceTemperatureC": 14
       }
     },
     {
@@ -92,14 +92,14 @@
         "latitude": -46.125,
         "longitude": -65.70833
       },
-      "validAt": "2026-11-21T11:45:00.000Z",
+      "validAt": "2026-11-21T21:00:00.000Z",
       "values": {
-        "waveHeightM": 1.82,
-        "waveDirectionDeg": 100,
-        "wavePeriodS": 8.15,
-        "currentVelocityKmh": 0.9,
-        "currentDirectionDeg": 0,
-        "seaSurfaceTemperatureC": 12.8
+        "waveHeightM": 1.46,
+        "waveDirectionDeg": 102,
+        "wavePeriodS": 8.5,
+        "currentVelocityKmh": 1.1,
+        "currentDirectionDeg": 189,
+        "seaSurfaceTemperatureC": 13.5
       }
     },
     {
@@ -114,14 +114,14 @@
         "latitude": -50.791668,
         "longitude": -67.20833
       },
-      "validAt": "2026-11-21T11:45:00.000Z",
+      "validAt": "2026-11-21T21:00:00.000Z",
       "values": {
-        "waveHeightM": 1.66,
-        "waveDirectionDeg": 73,
-        "wavePeriodS": 8.85,
-        "currentVelocityKmh": 1.3,
-        "currentDirectionDeg": 56,
-        "seaSurfaceTemperatureC": 10.5
+        "waveHeightM": 1.46,
+        "waveDirectionDeg": 79,
+        "wavePeriodS": 8.65,
+        "currentVelocityKmh": 1.5,
+        "currentDirectionDeg": 284,
+        "seaSurfaceTemperatureC": 10.6
       }
     },
     {
@@ -136,14 +136,14 @@
         "latitude": -54.125,
         "longitude": -63.791656
       },
-      "validAt": "2026-11-21T11:45:00.000Z",
+      "validAt": "2026-11-21T21:00:00.000Z",
       "values": {
-        "waveHeightM": 1.28,
-        "waveDirectionDeg": 33,
-        "wavePeriodS": 8.05,
-        "currentVelocityKmh": 2,
-        "currentDirectionDeg": 117,
-        "seaSurfaceTemperatureC": 8.1
+        "waveHeightM": 1.36,
+        "waveDirectionDeg": 57,
+        "wavePeriodS": 8.3,
+        "currentVelocityKmh": 0.9,
+        "currentDirectionDeg": 180,
+        "seaSurfaceTemperatureC": 8.4
       }
     }
   ]
