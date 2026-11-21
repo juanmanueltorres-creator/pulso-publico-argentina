@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-21T09:40:14.859Z",
-  "sourceCheckedAt": "2026-11-21T09:40:14.859Z",
+  "generatedAt": "2026-11-21T17:24:40.843Z",
+  "sourceCheckedAt": "2026-11-21T17:24:40.843Z",
   "window": {
     "hours": 168
   },
@@ -23,54 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-5ca360b3a9ee1042",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-14T07:32:25-03:00",
-      "latitude": -31.309,
-      "longitude": -68.215,
-      "magnitude": 2.5,
-      "depthKm": 122,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-c6e4daca14a8ac8e",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-14T11:52:58-03:00",
-      "latitude": -30.401,
-      "longitude": -69.377,
-      "magnitude": 3.1,
-      "depthKm": 20,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-f6c767e651b91115",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-14T13:36:19-03:00",
-      "latitude": -23.97,
-      "longitude": -66.908,
-      "magnitude": 3.9,
-      "depthKm": 211,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-4c7f66dbf4e3ae0f",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-14T14:06:49-03:00",
-      "latitude": -31.547,
-      "longitude": -69.411,
-      "magnitude": 2.5,
-      "depthKm": 117,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-94a69d492cd05262",
       "kind": "earthquake",
@@ -813,6 +765,18 @@
       "depthKm": 107,
       "place": null,
       "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-e55a9941bf2d49aa",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-21T11:38:38-03:00",
+      "latitude": -27.93,
+      "longitude": -66.53,
+      "magnitude": 3.1,
+      "depthKm": 170,
+      "place": null,
+      "province": "CATAMARCA",
       "intensityText": null
     }
   ]
