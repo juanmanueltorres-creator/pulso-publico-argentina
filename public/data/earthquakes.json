@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-21T23:07:26.116Z",
-  "sourceCheckedAt": "2026-11-21T23:07:26.116Z",
+  "generatedAt": "2026-11-22T06:35:42.866Z",
+  "sourceCheckedAt": "2026-11-22T06:35:42.866Z",
   "window": {
     "hours": 168
   },
@@ -23,66 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-0eaa69da25f7bbaa",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-14T20:25:12-03:00",
-      "latitude": -31.27,
-      "longitude": -68.949,
-      "magnitude": 2.5,
-      "depthKm": 100,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-a796c645d06327ce",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-14T20:44:12-03:00",
-      "latitude": -25.778,
-      "longitude": -66.444,
-      "magnitude": 3,
-      "depthKm": 15,
-      "place": null,
-      "province": "SALTA",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-da70f1c8e0c0e645",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-15T00:59:59-03:00",
-      "latitude": -31.285,
-      "longitude": -68.686,
-      "magnitude": 4.4,
-      "depthKm": 109,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": "III -Ciudad de San Juan. III -Caucete, San Juan. III -Albardón, San Juan. III -Pocito, San Juan. III -Zonda, San Juan"
-    },
-    {
-      "id": "inpres-a1638733be70fa60",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-15T01:23:47-03:00",
-      "latitude": -23.328,
-      "longitude": -66.694,
-      "magnitude": 3.8,
-      "depthKm": 222,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
-    {
-      "id": "inpres-a6d4be14efb04184",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-15T02:08:46-03:00",
-      "latitude": -31.922,
-      "longitude": -69.037,
-      "magnitude": 3.2,
-      "depthKm": 122,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-a1b5e4ce4074580e",
       "kind": "earthquake",
@@ -744,13 +684,49 @@
       "intensityText": "II a III -San Miguel de Tucumán"
     },
     {
-      "id": "inpres-50b31c90cd02af85",
+      "id": "inpres-b96da2680399b1e2",
       "kind": "earthquake",
-      "occurredAt": "2026-11-21T18:54:21-03:00",
-      "latitude": -31.24,
-      "longitude": -68.57,
+      "occurredAt": "2026-11-21T18:54:18-03:00",
+      "latitude": -31.243,
+      "longitude": -68.597,
+      "magnitude": 2.7,
+      "depthKm": 106,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-acd7bd276596e5a6",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-22T00:30:13-03:00",
+      "latitude": -31.785,
+      "longitude": -68.023,
       "magnitude": 2.6,
-      "depthKm": 90,
+      "depthKm": 15,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-ca6bd3f211ed48b4",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-22T01:43:22-03:00",
+      "latitude": -30.88,
+      "longitude": -68.82,
+      "magnitude": 2.5,
+      "depthKm": 95,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-6d1a088e856b8678",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-22T02:07:55-03:00",
+      "latitude": -31.38,
+      "longitude": -68.51,
+      "magnitude": 2.7,
+      "depthKm": 86,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
