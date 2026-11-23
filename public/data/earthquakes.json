@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-22T21:43:13.991Z",
-  "sourceCheckedAt": "2026-11-22T21:43:13.991Z",
+  "generatedAt": "2026-11-23T02:38:19.954Z",
+  "sourceCheckedAt": "2026-11-23T02:38:19.954Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-f4a31406d2619dbd",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-15T20:04:22-03:00",
-      "latitude": -22.565,
-      "longitude": -66.406,
-      "magnitude": 3.8,
-      "depthKm": 245,
-      "place": null,
-      "province": "JUJUY",
-      "intensityText": null
-    },
     {
       "id": "inpres-eba11f36eb8fcdbe",
       "kind": "earthquake",
@@ -670,6 +658,18 @@
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
+    },
+    {
+      "id": "inpres-3e6d4ba17abb568a",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-22T20:37:38-03:00",
+      "latitude": -34.973,
+      "longitude": -66,
+      "magnitude": 3.6,
+      "depthKm": 20,
+      "place": null,
+      "province": "SAN LUIS",
+      "intensityText": "II a III -Unión, San Luis. II a III -Buena Esperanza, San Luis"
     }
   ]
 }
