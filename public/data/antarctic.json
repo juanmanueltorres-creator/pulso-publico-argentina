@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "sourceCheckedAt": "2026-11-25T01:08:08.748Z",
+  "sourceCheckedAt": "2026-11-25T15:02:12.008Z",
   "source": {
     "provider": "Open-Meteo",
     "dataset": "ECMWF IFS 0.25° · pronóstico meteorológico global",
@@ -30,12 +30,12 @@
         "latitude": -60.75,
         "longitude": -44.75
       },
-      "validAt": "2026-11-25T01:00:00.000Z",
+      "validAt": "2026-11-25T15:00:00.000Z",
       "values": {
-        "temperatureC": -1.4,
-        "windSpeedKmh": 7.9,
-        "windDirectionDeg": 344,
-        "cloudCoverPct": 100
+        "temperatureC": -1.2,
+        "windSpeedKmh": 17.1,
+        "windDirectionDeg": 345,
+        "cloudCoverPct": 86
       }
     },
     {
@@ -50,12 +50,12 @@
         "latitude": -62.25,
         "longitude": -58.75
       },
-      "validAt": "2026-11-25T01:00:00.000Z",
+      "validAt": "2026-11-25T15:00:00.000Z",
       "values": {
-        "temperatureC": 0.3,
-        "windSpeedKmh": 3,
-        "windDirectionDeg": 14,
-        "cloudCoverPct": 100
+        "temperatureC": -0.5,
+        "windSpeedKmh": 21.3,
+        "windDirectionDeg": 118,
+        "cloudCoverPct": 95
       }
     },
     {
@@ -70,12 +70,12 @@
         "latitude": -63.5,
         "longitude": -57
       },
-      "validAt": "2026-11-25T01:00:00.000Z",
+      "validAt": "2026-11-25T15:00:00.000Z",
       "values": {
-        "temperatureC": -0.2,
-        "windSpeedKmh": 7.4,
-        "windDirectionDeg": 231,
-        "cloudCoverPct": 100
+        "temperatureC": -0.6,
+        "windSpeedKmh": 6.1,
+        "windDirectionDeg": 230,
+        "cloudCoverPct": 50
       }
     },
     {
@@ -90,12 +90,12 @@
         "latitude": -64.25,
         "longitude": -56.75
       },
-      "validAt": "2026-11-25T01:00:00.000Z",
+      "validAt": "2026-11-25T15:00:00.000Z",
       "values": {
-        "temperatureC": -2.4,
-        "windSpeedKmh": 23.2,
-        "windDirectionDeg": 204,
-        "cloudCoverPct": 68
+        "temperatureC": -2,
+        "windSpeedKmh": 14.7,
+        "windDirectionDeg": 211,
+        "cloudCoverPct": 0
       }
     },
     {
@@ -110,12 +110,12 @@
         "latitude": -68,
         "longitude": -67
       },
-      "validAt": "2026-11-25T01:00:00.000Z",
+      "validAt": "2026-11-25T15:00:00.000Z",
       "values": {
-        "temperatureC": -3.9,
-        "windSpeedKmh": 2.3,
-        "windDirectionDeg": 252,
-        "cloudCoverPct": 91
+        "temperatureC": -2.8,
+        "windSpeedKmh": 3.1,
+        "windDirectionDeg": 324,
+        "cloudCoverPct": 98
       }
     },
     {
@@ -130,11 +130,11 @@
         "latitude": -78,
         "longitude": -34.75
       },
-      "validAt": "2026-11-25T01:00:00.000Z",
+      "validAt": "2026-11-25T15:00:00.000Z",
       "values": {
         "temperatureC": -4.3,
-        "windSpeedKmh": 16.7,
-        "windDirectionDeg": 65,
+        "windSpeedKmh": 1.9,
+        "windDirectionDeg": 248,
         "cloudCoverPct": 100
       }
     }
