@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "thermal-hotspot",
-  "generatedAt": "2026-11-25T22:40:39.741Z",
-  "sourceCheckedAt": "2026-11-25T22:40:39.741Z",
+  "generatedAt": "2026-11-26T05:21:01.246Z",
+  "sourceCheckedAt": "2026-11-26T05:21:01.246Z",
   "window": {
     "hours": 24
   },
@@ -27,72 +27,6 @@
     "Fechas y horas NASA FIRMS se interpretan en UTC según su especificación."
   ],
   "events": [
-    {
-      "id": "nasa-firms-16fd86ccf95a80a7",
-      "kind": "thermal-hotspot",
-      "occurredAt": "2026-11-25T04:10:00.000Z",
-      "latitude": -34.86932,
-      "longitude": -57.92855,
-      "confidence": "nominal",
-      "frpMw": 0.57,
-      "sensor": "VIIRS",
-      "satellite": "NOAA20"
-    },
-    {
-      "id": "nasa-firms-204aa0b822622d77",
-      "kind": "thermal-hotspot",
-      "occurredAt": "2026-11-25T04:10:00.000Z",
-      "latitude": -34.8705,
-      "longitude": -57.92405,
-      "confidence": "nominal",
-      "frpMw": 0.63,
-      "sensor": "VIIRS",
-      "satellite": "NOAA20"
-    },
-    {
-      "id": "nasa-firms-3c50f9013cf8e41f",
-      "kind": "thermal-hotspot",
-      "occurredAt": "2026-11-25T04:10:00.000Z",
-      "latitude": -34.85677,
-      "longitude": -57.89733,
-      "confidence": "nominal",
-      "frpMw": 2.43,
-      "sensor": "VIIRS",
-      "satellite": "NOAA20"
-    },
-    {
-      "id": "nasa-firms-3eb610d0c8c86f2f",
-      "kind": "thermal-hotspot",
-      "occurredAt": "2026-11-25T04:10:00.000Z",
-      "latitude": -31.02648,
-      "longitude": -59.59665,
-      "confidence": "nominal",
-      "frpMw": 4.36,
-      "sensor": "VIIRS",
-      "satellite": "NOAA20"
-    },
-    {
-      "id": "nasa-firms-8eb1dbe8b9d82acd",
-      "kind": "thermal-hotspot",
-      "occurredAt": "2026-11-25T04:10:00.000Z",
-      "latitude": -33.25296,
-      "longitude": -60.28749,
-      "confidence": "nominal",
-      "frpMw": 4.07,
-      "sensor": "VIIRS",
-      "satellite": "NOAA20"
-    },
-    {
-      "id": "nasa-firms-ad7707fe98544a42",
-      "kind": "thermal-hotspot",
-      "occurredAt": "2026-11-25T04:10:00.000Z",
-      "latitude": -34.85347,
-      "longitude": -57.89738,
-      "confidence": "nominal",
-      "frpMw": 2.44,
-      "sensor": "VIIRS",
-      "satellite": "NOAA20"
-    },
     {
       "id": "nasa-firms-37f9ff0d6382cd37",
       "kind": "thermal-hotspot",
