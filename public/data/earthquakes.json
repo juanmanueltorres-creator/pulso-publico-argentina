@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-27T12:03:41.100Z",
-  "sourceCheckedAt": "2026-11-27T12:03:41.100Z",
+  "generatedAt": "2026-11-27T21:08:52.383Z",
+  "sourceCheckedAt": "2026-11-27T21:08:52.383Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-478f135965b62865",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-20T10:21:31-03:00",
-      "latitude": -31.358,
-      "longitude": -68.503,
-      "magnitude": 3.2,
-      "depthKm": 106,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-38aa1e73395dcc10",
       "kind": "earthquake",
@@ -84,13 +72,13 @@
       "intensityText": null
     },
     {
-      "id": "inpres-125de7de3317deb0",
+      "id": "inpres-d2c159c19d4ab665",
       "kind": "earthquake",
       "occurredAt": "2026-11-21T15:04:49-03:00",
       "latitude": -23.434,
       "longitude": -66.84,
       "magnitude": 3.3,
-      "depthKm": 240,
+      "depthKm": 220,
       "place": null,
       "province": "JUJUY",
       "intensityText": null
@@ -751,6 +739,42 @@
       "longitude": -69.644,
       "magnitude": 2.9,
       "depthKm": 111,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-91d87a9aafc825b2",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-27T07:15:42-03:00",
+      "latitude": -32.885,
+      "longitude": -69.067,
+      "magnitude": 2.5,
+      "depthKm": 23,
+      "place": null,
+      "province": "MENDOZA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-56518e254142d2a0",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-27T14:05:41-03:00",
+      "latitude": -31.648,
+      "longitude": -68.806,
+      "magnitude": 3,
+      "depthKm": 114,
+      "place": null,
+      "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-cf95724dbecf315a",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-27T15:48:50-03:00",
+      "latitude": -31.762,
+      "longitude": -69.593,
+      "magnitude": 3.6,
+      "depthKm": 114,
       "place": null,
       "province": "SAN JUAN",
       "intensityText": null
