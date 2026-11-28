@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
   "kind": "earthquake",
-  "generatedAt": "2026-11-27T21:08:52.383Z",
-  "sourceCheckedAt": "2026-11-27T21:08:52.383Z",
+  "generatedAt": "2026-11-28T03:50:56.813Z",
+  "sourceCheckedAt": "2026-11-28T03:50:56.813Z",
   "window": {
     "hours": 168
   },
@@ -23,18 +23,6 @@
     "La ventana visible cubre las últimas 168 horas respecto del último chequeo exitoso."
   ],
   "events": [
-    {
-      "id": "inpres-38aa1e73395dcc10",
-      "kind": "earthquake",
-      "occurredAt": "2026-11-20T20:50:16-03:00",
-      "latitude": -31.913,
-      "longitude": -69.944,
-      "magnitude": 2.6,
-      "depthKm": 107,
-      "place": null,
-      "province": "SAN JUAN",
-      "intensityText": null
-    },
     {
       "id": "inpres-eebf8de7e04c49dd",
       "kind": "earthquake",
@@ -777,6 +765,30 @@
       "depthKm": 114,
       "place": null,
       "province": "SAN JUAN",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-fcc9711366cbd76d",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-27T18:33:43-03:00",
+      "latitude": -32.693,
+      "longitude": -69.618,
+      "magnitude": 2.7,
+      "depthKm": 125,
+      "place": null,
+      "province": "MENDOZA",
+      "intensityText": null
+    },
+    {
+      "id": "inpres-f546c893a04a6995",
+      "kind": "earthquake",
+      "occurredAt": "2026-11-27T23:25:06-03:00",
+      "latitude": -24.23,
+      "longitude": -67.26,
+      "magnitude": 4.8,
+      "depthKm": 202,
+      "place": null,
+      "province": "SALTA",
       "intensityText": null
     }
   ]
